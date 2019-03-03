@@ -38,7 +38,7 @@ describe('GraphList', () => {
     expect(dialog.props.open).toBeFalsy();
   });
 
-  it('sets the dialog `open` prop to `true` if `isOpen` flag is set to `false`', () => {
+  it('sets the dialog `open` prop to `true` if `isOpen` flag is set to `true`', () => {
     const component = shallow(<GraphList graphNames={[]} isOpen={true} />);
     const dialog = component.find(Dialog).getElement();
     expect(dialog.props.open).toBeTruthy();

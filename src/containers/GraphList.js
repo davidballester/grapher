@@ -1,14 +1,28 @@
 import { connect } from 'react-redux';
 
 import GraphList from '../components/GraphList';
-import { getIsOpen } from '../modules/graph-list';
+import { getIsOpen, closeGraphList } from '../modules/graph-list';
 import { getGraphNames } from '../modules/graph-names';
+import { openNewGraph } from '../modules/new-graph';
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
     isOpen: getIsOpen(state),
     graphNames: getGraphNames(state),
   };
 }
 
-export default connect(mapStateToProps)(GraphList);
+function mapDispatchToProps(dispatch) {
+  return {
+    openNewGraph: () => {
+      dispatch(openNewGraph());
+      dispatch(closeGraphList());
+    },
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GraphList);

@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
-export default function GraphList({ graphNames, isOpen }) {
+export default function GraphList({ graphNames, isOpen, openNewGraph }) {
   const listItems = graphNames.map((graphName) => (
     <ListItem key={graphName} button>
       <ListItemText primary={graphName} />
@@ -17,7 +17,7 @@ export default function GraphList({ graphNames, isOpen }) {
   ));
 
   const addGraph = (
-    <ListItem button>
+    <ListItem button onClick={openNewGraph}>
       <ListItemAvatar>
         <Avatar>
           <AddIcon />
