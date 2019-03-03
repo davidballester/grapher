@@ -1,25 +1,25 @@
-import { GRAPHS_LIST_OPEN, GRAPHS_LIST_CLOSE, openGraphList, closeGraphList, getIsOpen } from './graph-list';
+import { GRAPH_LIST_OPEN, GRAPH_LIST_CLOSE, openGraphList, closeGraphList, getIsOpen } from './graph-list';
 import reducer from './graph-list';
 
 describe('graph-list', () => {
   describe('actions', () => {
     describe('openGraphList', () => {
-      it('creates the action with the `GRAPHS_LIST_OPEN` type', () => {
+      it('creates the action with the `GRAPH_LIST_OPEN` type', () => {
         const action = openGraphList();
-        expect(action.type).toEqual(GRAPHS_LIST_OPEN);
+        expect(action.type).toEqual(GRAPH_LIST_OPEN);
       });
     });
 
     describe('closeGraphList', () => {
-      it('creates the action with the `GRAPHS_LIST_CLOSE` type', () => {
+      it('creates the action with the `GRAPH_LIST_CLOSE` type', () => {
         const action = closeGraphList();
-        expect(action.type).toEqual(GRAPHS_LIST_CLOSE);
+        expect(action.type).toEqual(GRAPH_LIST_CLOSE);
       });
     });
   });
 
   describe('reducer', () => {
-    describe('GRAPHS_LIST_OPEN', () => {
+    describe('GRAPH_LIST_OPEN', () => {
       it('sets the `isOpen` flag to `true` ', () => {
         const initialState = {
           isOpen: false,
@@ -30,7 +30,7 @@ describe('graph-list', () => {
       });
     });
 
-    describe('GRAPHS_LIST_CLOSE', () => {
+    describe('GRAPH_LIST_CLOSE', () => {
       it('sets the `isOpen` flag to `false` ', () => {
         const initialState = {
           isOpen: true,

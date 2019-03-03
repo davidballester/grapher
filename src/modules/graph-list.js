@@ -1,5 +1,5 @@
-export const GRAPHS_LIST_OPEN = 'grapher/GraphList/OPEN';
-export const GRAPHS_LIST_CLOSE = 'grapher/GraphList/CLOSE';
+export const GRAPH_LIST_OPEN = 'grapher/GraphList/OPEN';
+export const GRAPH_LIST_CLOSE = 'grapher/GraphList/CLOSE';
 
 const initialState = {
   isOpen: true,
@@ -7,13 +7,13 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GRAPHS_LIST_OPEN: {
+    case GRAPH_LIST_OPEN: {
       return {
         ...state,
         isOpen: true,
       };
     }
-    case GRAPHS_LIST_CLOSE: {
+    case GRAPH_LIST_CLOSE: {
       return {
         ...state,
         isOpen: false,
@@ -27,13 +27,13 @@ export default function reducer(state = initialState, action) {
 
 export function openGraphList() {
   return {
-    type: GRAPHS_LIST_OPEN,
+    type: GRAPH_LIST_OPEN,
   };
 }
 
 export function closeGraphList() {
   return {
-    type: GRAPHS_LIST_CLOSE,
+    type: GRAPH_LIST_CLOSE,
   };
 }
 
