@@ -8,6 +8,10 @@ describe('GraphNamesService', () => {
       getItemSpy = jest.spyOn(localStorage, 'getItem').mockReturnValue('[]');
     });
 
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+
     it('reads the GRAPHS_NAMES_STORAGE_KEY key from the local storage', () => {
       graphNamesService.getGraphNames();
       expect(getItemSpy).toHaveBeenCalledWith(GRAPHS_NAMES_STORAGE_KEY);
