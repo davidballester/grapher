@@ -6,7 +6,6 @@ import { getGraphNames } from '../modules/graph-names';
 import { openNewGraph } from '../modules/new-graph';
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     isOpen: getIsOpen(state),
     graphNames: getGraphNames(state),
