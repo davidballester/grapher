@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from '../modules/store';
 import GraphList from '../containers/GraphList';
 import NewGraph from '../containers/NewGraph';
+import Canvas from '../containers/Canvas';
 
 export class App extends Component {
   render() {
@@ -11,6 +12,7 @@ export class App extends Component {
       <Provider store={store}>
         <GraphList />
         <NewGraph />
+        <Canvas />
       </Provider>
     );
   }
