@@ -5,6 +5,7 @@ import graphNamesReducer from './graph-names';
 import graphListReducer from './graph-list';
 import graphReducer from './graph';
 import newGraphReducer from './new-graph';
+import newNodeReducer from './new-node';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
@@ -12,6 +13,7 @@ const reducer = combineReducers({
   graphList: graphListReducer,
   graph: graphReducer,
   newGraph: newGraphReducer,
+  newNode: newNodeReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
