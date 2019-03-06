@@ -1,5 +1,5 @@
-export const ADD_NODE_OPEN = 'grapher/AddNode/OPEN';
-export const ADD_NODE_CLOSE = 'grapher/AddNode/CLOSE';
+export const NEW_NODE_OPEN = 'grapher/NewNode/OPEN';
+export const NEW_NODE_CLOSE = 'grapher/NewNode/CLOSE';
 
 const initialState = {
   isOpen: true,
@@ -7,13 +7,13 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_NODE_OPEN: {
+    case NEW_NODE_OPEN: {
       return {
         ...state,
         isOpen: true,
       };
     }
-    case ADD_NODE_CLOSE: {
+    case NEW_NODE_CLOSE: {
       return {
         ...state,
         isOpen: false,
@@ -25,22 +25,22 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export function openAddNode() {
+export function openNewNode() {
   return {
-    type: ADD_NODE_OPEN,
+    type: NEW_NODE_OPEN,
   };
 }
 
-export function closeAddNode() {
+export function closeNewNode() {
   return {
-    type: ADD_NODE_CLOSE,
+    type: NEW_NODE_CLOSE,
   };
 }
 
-function addNodeSelector(state) {
-  return state.addNode;
+function newNodeSelector(state) {
+  return state.newNode;
 }
 
 export function getIsOpen(state) {
-  return addNodeSelector(state).isOpen;
+  return newNodeSelector(state).isOpen;
 }
