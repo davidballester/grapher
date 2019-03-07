@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import EditGraphName from '../components/EditGraphName';
 import { getIsOpen, closeNewGraph } from '../modules/new-graph';
-import { setNameGraph } from '../modules/graph';
+import { createGraph } from '../modules/graph';
 import { openGraphList } from '../modules/graph-list';
 
 function mapStateToProps(state) {
@@ -15,7 +15,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     saveNewGraph: (graphName) => {
-      dispatch(setNameGraph(graphName));
+      dispatch(createGraph(graphName));
       dispatch(closeNewGraph());
     },
     cancelNewGraph: () => {
