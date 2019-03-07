@@ -69,6 +69,29 @@ describe('graph', () => {
       });
     });
 
+    describe('GRAPH_CREATE', () => {
+      it('sets the `name` in the state to the payload of the given action and empties nodes and links', () => {
+        const graphName = 'baz';
+        const initialState = {
+          name: undefined,
+          nodes: {
+            foo: 'bar',
+          },
+          links: {
+            foo: 'bar',
+          },
+        };
+        const expectedState = {
+          name: graphName,
+          nodes: {},
+          links: {},
+        };
+        const action = createGraph(graphName);
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
+      });
+    });
+
     describe('GRAPH_CREATE_NODE', () => {
       it('adds the `node` in the payload to the state', () => {
         const node = {
