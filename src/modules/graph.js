@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 export const GRAPH_SET_NAME = 'grapher/Graph/SET_NAME';
 export const GRAPH_CREATE = 'grapher/Graph/CREATE';
+export const GRAPH_CREATE_NODE = 'grapher/Graph/CREATE_NODE';
 
 const initialState = {
   name: '',
@@ -43,6 +44,16 @@ export default function reducer(state = initialState, action) {
         links: {},
       };
     }
+    case GRAPH_CREATE_NODE: {
+      const node = action.payload;
+      return {
+        ...state,
+        nodes: {
+          ...state.nodes,
+          [node.id]: node,
+        },
+      };
+    }
     default: {
       return state;
     }
@@ -60,6 +71,13 @@ export function createGraph(graphName) {
   return {
     type: GRAPH_CREATE,
     payload: graphName,
+  };
+}
+
+export function createNode(node) {
+  return {
+    type: GRAPH_CREATE_NODE,
+    payload: node,
   };
 }
 

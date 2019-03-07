@@ -1,4 +1,14 @@
-import { getName, setNameGraph, GRAPH_SET_NAME, getNodesAsArray, getLinksAsArray, createGraph, GRAPH_CREATE } from './graph';
+import {
+  getName,
+  setNameGraph,
+  GRAPH_SET_NAME,
+  getNodesAsArray,
+  getLinksAsArray,
+  createGraph,
+  GRAPH_CREATE,
+  createNode,
+  GRAPH_CREATE_NODE,
+} from './graph';
 import reducer from './graph';
 
 describe('graph', () => {
@@ -16,6 +26,7 @@ describe('graph', () => {
         expect(payload).toEqual(expectedPayload);
       });
     });
+
     describe('createGraph', () => {
       it('creates the action with the `GRAPH_CREATE` type', () => {
         const action = createGraph();
@@ -25,6 +36,20 @@ describe('graph', () => {
       it('creates the payload provided', () => {
         const expectedPayload = 'foo';
         const action = createGraph(expectedPayload);
+        const payload = action.payload;
+        expect(payload).toEqual(expectedPayload);
+      });
+    });
+
+    describe('createNode', () => {
+      it('creates the action with the `GRAPH_CREATE_NODE` type', () => {
+        const action = createNode();
+        expect(action.type).toEqual(GRAPH_CREATE_NODE);
+      });
+
+      it('creates the payload provided', () => {
+        const expectedPayload = 'foo';
+        const action = createNode(expectedPayload);
         const payload = action.payload;
         expect(payload).toEqual(expectedPayload);
       });
@@ -41,6 +66,26 @@ describe('graph', () => {
         const action = setNameGraph(expectedName);
         const state = reducer(initialState, action);
         expect(state.name).toEqual(expectedName);
+      });
+    });
+
+    describe('GRAPH_CREATE_NODE', () => {
+      it('adds the `node` in the payload to the state', () => {
+        const node = {
+          id: 'foo',
+          foo: 'bar',
+        };
+        const initialState = {
+          nodes: {},
+        };
+        const expectedState = {
+          nodes: {
+            foo: node,
+          },
+        };
+        const action = createNode(node);
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
       });
     });
   });
