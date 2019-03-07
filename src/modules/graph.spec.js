@@ -1,4 +1,4 @@
-import { getName, setNameGraph, GRAPH_SET_NAME, getNodesAsArray, getLinksAsArray } from './graph';
+import { getName, setNameGraph, GRAPH_SET_NAME, getNodesAsArray, getLinksAsArray, createGraph, GRAPH_CREATE } from './graph';
 import reducer from './graph';
 
 describe('graph', () => {
@@ -12,6 +12,19 @@ describe('graph', () => {
       it('creates the payload provided', () => {
         const expectedPayload = 'foo';
         const action = setNameGraph(expectedPayload);
+        const payload = action.payload;
+        expect(payload).toEqual(expectedPayload);
+      });
+    });
+    describe('createGraph', () => {
+      it('creates the action with the `GRAPH_CREATE` type', () => {
+        const action = createGraph();
+        expect(action.type).toEqual(GRAPH_CREATE);
+      });
+
+      it('creates the payload provided', () => {
+        const expectedPayload = 'foo';
+        const action = createGraph(expectedPayload);
         const payload = action.payload;
         expect(payload).toEqual(expectedPayload);
       });

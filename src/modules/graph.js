@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 
 export const GRAPH_SET_NAME = 'grapher/Graph/SET_NAME';
+export const GRAPH_CREATE = 'grapher/Graph/CREATE';
 
 const initialState = {
   name: '',
@@ -34,6 +35,14 @@ export default function reducer(state = initialState, action) {
         name: action.payload,
       };
     }
+    case GRAPH_CREATE: {
+      return {
+        ...state,
+        name: action.payload,
+        nodes: {},
+        links: {},
+      };
+    }
     default: {
       return state;
     }
@@ -43,6 +52,13 @@ export default function reducer(state = initialState, action) {
 export function setNameGraph(graphName) {
   return {
     type: GRAPH_SET_NAME,
+    payload: graphName,
+  };
+}
+
+export function createGraph(graphName) {
+  return {
+    type: GRAPH_CREATE,
     payload: graphName,
   };
 }
