@@ -18,6 +18,7 @@ export default class Canvas extends React.PureComponent {
     ),
     className: PropTypes.string,
     openNewNode: PropTypes.func,
+    selectNode: PropTypes.func,
   };
 
   componentDidUpdate() {
@@ -28,17 +29,19 @@ export default class Canvas extends React.PureComponent {
   }
 
   render() {
-    const { className, nodes = [], links = [], openNewNode } = this.props;
+    const { className, nodes = [], links = [], openNewNode, selectNode } = this.props;
+    const nodesCloned = nodes.map((node) => ({ ...node }));
     return (
       <div className={className} onDoubleClick={openNewNode}>
         <ForceGraph2D
           ref={(canvas) => (this.canvas = canvas)}
-          graphData={{ nodes, links }}
+          graphData={{ nodes: nodesCloned, links }}
           nodeRelSize={8}
           linkDirectionalArrowLength={5}
           linkDirectionalArrowRelPos={1}
           enableNodeDrag={true}
           nodeCanvasObject={renderNode}
+          onNodeClick={(node) => selectNode(nodes.find((n) => n.id === node.id))}
           zoom={100}
         />
       </div>
