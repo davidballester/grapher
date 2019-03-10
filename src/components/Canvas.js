@@ -3,36 +3,48 @@ import PropTypes from 'prop-types';
 import ForceGraph2D from 'react-force-graph-2d';
 import blue from '@material-ui/core/colors/blue';
 
-export default function Canvas({ className, nodes = [], links = [], openNewNode }) {
-  return (
-    <div className={className} onDoubleClick={openNewNode}>
-      <ForceGraph2D
-        graphData={{ nodes, links }}
-        nodeRelSize={8}
-        linkDirectionalArrowLength={5}
-        linkDirectionalArrowRelPos={1}
-        enableNodeDrag={true}
-        nodeCanvasObject={renderNode}
-      />
-    </div>
-  );
-}
+export default class Canvas extends React.PureComponent {
+  static propTypes = {
+    nodes: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      })
+    ),
+    links: PropTypes.arrayOf(
+      PropTypes.shape({
+        source: PropTypes.string.isRequired,
+        target: PropTypes.string.isRequired,
+      })
+    ),
+    className: PropTypes.string,
+    openNewNode: PropTypes.func,
+  };
 
-Canvas.propTypes = {
-  nodes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-    })
-  ),
-  links: PropTypes.arrayOf(
-    PropTypes.shape({
-      source: PropTypes.string.isRequired,
-      target: PropTypes.string.isRequired,
-    })
-  ),
-  className: PropTypes.string,
-  openNewNode: PropTypes.func,
-};
+  componentDidUpdate() {
+    if (!this.originalZoom) {
+      this.originalZoom = this.canvas.zoom();
+    }
+    this.canvas.zoom(this.originalZoom * 0.8);
+  }
+
+  render() {
+    const { className, nodes = [], links = [], openNewNode } = this.props;
+    return (
+      <div className={className} onDoubleClick={openNewNode}>
+        <ForceGraph2D
+          ref={(canvas) => (this.canvas = canvas)}
+          graphData={{ nodes, links }}
+          nodeRelSize={8}
+          linkDirectionalArrowLength={5}
+          linkDirectionalArrowRelPos={1}
+          enableNodeDrag={true}
+          nodeCanvasObject={renderNode}
+          zoom={100}
+        />
+      </div>
+    );
+  }
+}
 
 function renderCircle(node, ctx) {
   ctx.strokeStyle = blue['A200'];
