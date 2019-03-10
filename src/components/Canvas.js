@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import ForceGraph2D from 'react-force-graph-2d';
 import blue from '@material-ui/core/colors/blue';
 
-export default function Canvas({ className, nodes = [], links = [] }) {
+export default function Canvas({ className, nodes = [], links = [], openNewNode }) {
   return (
-    <div className={className}>
+    <div className={className} onDoubleClick={openNewNode}>
       <ForceGraph2D
         graphData={{ nodes, links }}
         nodeRelSize={8}
@@ -31,6 +31,7 @@ Canvas.propTypes = {
     })
   ),
   className: PropTypes.string,
+  openNewNode: PropTypes.func,
 };
 
 function renderCircle(node, ctx) {
