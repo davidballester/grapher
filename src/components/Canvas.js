@@ -48,7 +48,6 @@ export default class Canvas extends React.PureComponent {
           enableNodeDrag={true}
           nodeCanvasObject={renderNode}
           onNodeClick={(node) => selectNode(nodes.find((n) => n.id === node.id))}
-          zoom={100}
         />
       </div>
     );
