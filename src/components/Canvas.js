@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ForceGraph2D from 'react-force-graph-2d';
 import blue from '@material-ui/core/colors/blue';
+import orange from '@material-ui/core/colors/orange';
 
 export default class Canvas extends React.PureComponent {
   static propTypes = {
@@ -19,6 +20,7 @@ export default class Canvas extends React.PureComponent {
     className: PropTypes.string,
     openNewNode: PropTypes.func,
     selectNode: PropTypes.func,
+    selectedNode: PropTypes.any,
   };
 
   componentDidUpdate() {
@@ -29,13 +31,17 @@ export default class Canvas extends React.PureComponent {
   }
 
   render() {
-    const { className, nodes = [], links = [], openNewNode, selectNode } = this.props;
-    const nodesCloned = nodes.map((node) => ({ ...node }));
+    const { className, nodes = [], links = [], openNewNode, selectNode, selectedNode = {} } = this.props;
+    const linksCloned = links.map((link) => ({ ...link }));
+    const nodesCloned = nodes.map((node) => ({
+      ...node,
+      selected: selectedNode.id === node.id,
+    }));
     return (
       <div className={className} onDoubleClick={openNewNode}>
         <ForceGraph2D
           ref={(canvas) => (this.canvas = canvas)}
-          graphData={{ nodes: nodesCloned, links }}
+          graphData={{ nodes: nodesCloned, links: linksCloned }}
           nodeRelSize={8}
           linkDirectionalArrowLength={5}
           linkDirectionalArrowRelPos={1}
@@ -50,8 +56,9 @@ export default class Canvas extends React.PureComponent {
 }
 
 function renderCircle(node, ctx) {
-  ctx.strokeStyle = blue['A200'];
-  ctx.fillStyle = blue['A200'];
+  const color = node.selected ? orange['A200'] : blue['A200'];
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
   ctx.beginPath();
   ctx.arc(node.x, node.y, 8, 0, 2 * Math.PI);
   ctx.fill();
