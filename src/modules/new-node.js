@@ -2,7 +2,7 @@ export const NEW_NODE_OPEN = 'grapher/NewNode/OPEN';
 export const NEW_NODE_CLOSE = 'grapher/NewNode/CLOSE';
 
 const initialState = {
-  isOpen: true,
+  isOpen: false,
 };
 
 export default function reducer(state = initialState, action) {
