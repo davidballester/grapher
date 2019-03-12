@@ -5,6 +5,12 @@ import ForceGraph2D from 'react-force-graph-2d';
 import Canvas from './Canvas';
 
 describe('Canvas', () => {
+  let nodes;
+
+  beforeEach(() => {
+    nodes = [{ id: 'foo' }, { id: 'bar' }];
+  });
+
   it('renders without crashing', () => {
     const component = shallow(<Canvas />);
     expect(component).toBeDefined();
@@ -19,12 +25,28 @@ describe('Canvas', () => {
     expect(openNewNode).toHaveBeenCalled();
   });
 
+  it('passes the nodes to the force graph', () => {
+    const component = shallow(<Canvas nodes={nodes} />);
+    const graph = component.find(ForceGraph2D);
+    const nodesProps = graph.props().graphData.nodes;
+    expect(nodesProps).toEqual(nodes);
+  });
+
   it('marks the selected node as selected in the array provided to the graph', () => {
-    const nodes = [{ id: 'foo' }, { id: 'bar' }];
     const selectedNode = nodes[0];
     const component = shallow(<Canvas nodes={nodes} selectedNode={selectedNode} />);
     const graph = component.find(ForceGraph2D);
     const nodesProps = graph.props().graphData.nodes;
-    expect(nodesProps).toEqual([{ id: 'foo', selected: true }, { id: 'bar', selected: false }]);
+    expect(nodesProps).toEqual([{ id: 'foo', selected: true }, { id: 'bar' }]);
+  });
+
+  describe('update', () => {
+    it('unmarks the selected node if undefined is passed as prop', () => {
+      const component = shallow(<Canvas nodes={nodes} selectedNode={nodes[0]} />);
+      component.setProps({ selectedNode: undefined });
+      const graph = component.find(ForceGraph2D);
+      const nodesProps = graph.props().graphData.nodes;
+      expect(nodesProps[0].selected).toBeFalsy();
+    });
   });
 });
