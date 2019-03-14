@@ -28,6 +28,7 @@ export default class Canvas extends React.Component {
     super(props);
     this.nodes = [];
     this.links = [];
+    this.originalZoom = undefined;
   }
 
   shouldComponentUpdate(nextProps) {
