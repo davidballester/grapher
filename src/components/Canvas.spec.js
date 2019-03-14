@@ -49,4 +49,24 @@ describe('Canvas', () => {
       expect(nodesProps[0].selected).toBeFalsy();
     });
   });
+
+  describe('select', () => {
+    it('invokes the `selectNode` function with the selected node when a not selected node is clicked', () => {
+      const selectNode = jest.fn();
+      const component = shallow(<Canvas nodes={nodes} selectNode={selectNode} />);
+      const graph = component.find(ForceGraph2D);
+      graph.props().onNodeClick(nodes[0]);
+      expect(selectNode).toHaveBeenCalledWith(nodes[0]);
+    });
+  });
+
+  describe('deselect', () => {
+    it('invokes the `deselectNode` function when the selected node is clicked', () => {
+      const deselectNode = jest.fn();
+      const component = shallow(<Canvas nodes={nodes} selectedNode={nodes[0]} deselectNode={deselectNode} />);
+      const graph = component.find(ForceGraph2D);
+      graph.props().onNodeClick(nodes[0]);
+      expect(deselectNode).toHaveBeenCalled();
+    });
+  });
 });

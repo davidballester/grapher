@@ -46,7 +46,7 @@ export default class Canvas extends React.Component {
   }
 
   render() {
-    const { className, nodes = [], links = [], openNewNode, selectNode } = this.props;
+    const { className, nodes = [], links = [], openNewNode } = this.props;
     this.links = links.map((link) => ({ ...link }));
     this.nodes = nodes.map((node) => ({ ...node }));
     this.selectNode(this.props.selectedNode);
@@ -60,7 +60,7 @@ export default class Canvas extends React.Component {
           linkDirectionalArrowRelPos={1}
           enableNodeDrag={true}
           nodeCanvasObject={renderNode}
-          onNodeClick={(node) => selectNode(nodes.find((n) => n.id === node.id))}
+          onNodeClick={(node) => this.toggleNodeSelection(node)}
         />
       </div>
     );
@@ -92,6 +92,16 @@ export default class Canvas extends React.Component {
     if (!!selectedNode) {
       const node = this.nodes.find((n) => n.id === selectedNode.id);
       node.selected = true;
+    }
+  };
+
+  toggleNodeSelection = (node) => {
+    const { selectedNode = {}, selectNode, deselectNode } = this.props;
+    if (node.id === selectedNode.id) {
+      deselectNode();
+    } else {
+      const actualNode = this.props.nodes.find((n) => n.id === node.id);
+      selectNode(actualNode);
     }
   };
 }
