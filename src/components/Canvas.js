@@ -73,14 +73,6 @@ export default class Canvas extends React.Component {
     this.canvas.zoom(this.originalZoom * 0.8);
   };
 
-  updateCanvasData = (nodes, links, selectedNode) => {
-    this.nodes = nodes.map((node) => ({
-      ...node,
-      selected: selectedNode.id === node.id,
-    }));
-    this.links = links.map((link) => ({ ...link }));
-  };
-
   deselectNode = (selectedNode) => {
     if (!!selectedNode) {
       const node = this.nodes.find((n) => n.id === selectedNode.id);
