@@ -66,13 +66,28 @@ export default class Canvas extends React.Component {
           linkDirectionalArrowLength={5}
           linkDirectionalArrowRelPos={1}
           enableNodeDrag={true}
-          nodeCanvasObject={renderNode}
-          linkCanvasObject={renderLink}
+          nodeCanvasObject={(node, ctx, globalScale) => this.renderNode(node, ctx, globalScale)}
+          linkCanvasObject={(link, ctx, globalScale) => this.renderLink(link, ctx, globalScale)}
           onNodeClick={(node) => this.toggleNodeSelection(node)}
         />
       </div>
     );
   }
+
+  renderNode = (node, ctx, globalScale) => {
+    renderCircle(node, ctx);
+    renderLabel(node, ctx, globalScale);
+  };
+
+  renderLink = (link, ctx, globalScale) => {
+    const { source, target } = link;
+    ctx.strokeStyle = grey['300'];
+    ctx.strokeWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(source.x, source.y);
+    ctx.lineTo(target.x, target.y);
+    ctx.stroke();
+  };
 
   setZoom = () => {
     if (!this.originalZoom) {
@@ -130,19 +145,4 @@ function renderLabel(node, ctx, globalScale) {
   ctx.fillStyle = '#000';
   ctx.font = `${fontSize}px Sans-Serif`;
   ctx.fillText(node.id, node.x, node.y + 12);
-}
-
-function renderNode(node, ctx, globalScale) {
-  renderCircle(node, ctx);
-  renderLabel(node, ctx, globalScale);
-}
-
-function renderLink(link, ctx, globalScale) {
-  const { source, target } = link;
-  ctx.strokeStyle = grey['300'];
-  ctx.strokeWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(source.x, source.y);
-  ctx.lineTo(target.x, target.y);
-  ctx.stroke();
 }
