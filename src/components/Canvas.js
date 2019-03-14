@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ForceGraph2D from 'react-force-graph-2d';
 import blue from '@material-ui/core/colors/blue';
 import orange from '@material-ui/core/colors/orange';
+import grey from '@material-ui/core/colors/grey';
 import isEqual from 'lodash/isEqual';
 
 export default class Canvas extends React.Component {
@@ -66,6 +67,7 @@ export default class Canvas extends React.Component {
           linkDirectionalArrowRelPos={1}
           enableNodeDrag={true}
           nodeCanvasObject={renderNode}
+          linkCanvasObject={renderLink}
           onNodeClick={(node) => this.toggleNodeSelection(node)}
         />
       </div>
@@ -133,4 +135,14 @@ function renderLabel(node, ctx, globalScale) {
 function renderNode(node, ctx, globalScale) {
   renderCircle(node, ctx);
   renderLabel(node, ctx, globalScale);
+}
+
+function renderLink(link, ctx, globalScale) {
+  const { source, target } = link;
+  ctx.strokeStyle = grey['300'];
+  ctx.strokeWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(source.x, source.y);
+  ctx.lineTo(target.x, target.y);
+  ctx.stroke();
 }
