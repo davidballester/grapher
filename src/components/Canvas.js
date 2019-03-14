@@ -21,7 +21,7 @@ export default class Canvas extends React.Component {
     className: PropTypes.string,
     openNewNode: PropTypes.func,
     selectNode: PropTypes.func,
-    selectedNode: PropTypes.any,
+    selectedNodes: PropTypes.arrayOf(PropTypes.any),
   };
 
   constructor(props) {
@@ -31,17 +31,22 @@ export default class Canvas extends React.Component {
     this.originalZoom = undefined;
   }
 
+  componentDidMount() {
+    const { selectedNodes = [] } = this.props;
+    selectedNodes.forEach((node) => this.selectNode(node));
+  }
+
   shouldComponentUpdate(nextProps) {
-    const { nodes: nextNodes, links: nextLinks, selectedNode: nextSelectedNode } = nextProps;
-    const { nodes, links, selectedNode } = this.props;
+    const { nodes: nextNodes, links: nextLinks, selectedNodes: nextSelectedNodes = [] } = nextProps;
+    const { nodes, links, selectedNodes = [] } = this.props;
     const shouldUpdate = !isEqual(nodes, nextNodes) || !isEqual(links, nextLinks);
     if (shouldUpdate) {
       this.setZoom();
       return true;
     }
-    if (nextSelectedNode !== selectedNode) {
-      this.deselectNode(selectedNode);
-      this.selectNode(nextSelectedNode);
+    if (!isEqual(selectedNodes, nextSelectedNodes)) {
+      selectedNodes.forEach((node) => this.deselectNode(node));
+      nextSelectedNodes.forEach((node) => this.selectNode(node));
     }
     return false;
   }
@@ -89,11 +94,12 @@ export default class Canvas extends React.Component {
   };
 
   toggleNodeSelection = (node) => {
-    const { selectedNode = {}, selectNode, deselectNode } = this.props;
-    if (node.id === selectedNode.id) {
-      deselectNode();
+    const { selectedNodes = [], selectNode, deselectNode, nodes } = this.props;
+    const isSelected = !!selectedNodes.find((n) => n.id === node.id);
+    if (isSelected) {
+      deselectNode(node.id);
     } else {
-      const actualNode = this.props.nodes.find((n) => n.id === node.id);
+      const actualNode = nodes.find((n) => n.id === node.id);
       selectNode(actualNode);
     }
   };

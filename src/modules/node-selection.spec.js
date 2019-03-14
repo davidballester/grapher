@@ -1,4 +1,4 @@
-import { NODE_SELECTION_SELECT, NODE_SELECTION_DESELECT, selectNode, deselectNode, getSelectedNode } from './node-selection';
+import { NODE_SELECTION_SELECT, NODE_SELECTION_DESELECT, selectNode, deselectNode, getSelectedNodes } from './node-selection';
 import reducer from './node-selection';
 
 describe('node-selection', () => {
@@ -21,45 +21,61 @@ describe('node-selection', () => {
         const action = deselectNode();
         expect(action.type).toEqual(NODE_SELECTION_DESELECT);
       });
+
+      it('contains the given node ID as payload', () => {
+        const nodeId = 'bar';
+        const action = deselectNode(nodeId);
+        expect(action.payload).toEqual(nodeId);
+      });
     });
   });
 
   describe(reducer.name, () => {
     describe('NODE_SELECTION_SELECT', () => {
-      it("sets the `selectedNode` to the action's payload", () => {
+      it("adds the action's payload to the selected nodes array", () => {
         const node = { foo: 'bar' };
         const initialState = {
-          selectedNode: undefined,
+          selectedNodes: [],
         };
         const action = selectNode(node);
         const state = reducer(initialState, action);
-        expect(state.selectedNode).toEqual(node);
+        expect(state.selectedNodes).toEqual([node]);
+      });
+
+      it('deletes the first item of the `selectedNodes` array when a third node is added', () => {
+        const node = { foo: 'bar' };
+        const initialState = {
+          selectedNodes: [{ bar: 'baz' }, { baz: 'qux' }],
+        };
+        const action = selectNode(node);
+        const state = reducer(initialState, action);
+        expect(state.selectedNodes).toEqual([{ baz: 'qux' }, { foo: 'bar' }]);
       });
     });
 
     describe('NODE_SELECTION_DESELECT', () => {
-      it('sets the `selectedNode` to undefined', () => {
+      it("deletes the node specified by the action's payload from the selected nodes array", () => {
         const initialState = {
-          selectedNode: { foo: 'bar' },
+          selectedNodes: [{ id: 'foo' }, { id: 'bar' }],
         };
-        const action = deselectNode();
+        const action = deselectNode('foo');
         const state = reducer(initialState, action);
-        expect(state.selectedNode).toBeUndefined();
+        expect(state.selectedNodes).toEqual([{ id: 'bar' }]);
       });
     });
   });
 
   describe('selectors', () => {
-    describe(getSelectedNode.name, () => {
-      it('extracts the `selectedNode` from nodeSelection the substate', () => {
+    describe(getSelectedNodes.name, () => {
+      it('extracts the `selectedNodes` from nodeSelection the substate', () => {
         const node = { foo: 'bar' };
         const appState = {
           nodeSelection: {
-            selectedNode: node,
+            selectedNodes: [node],
           },
         };
-        const selectedNode = getSelectedNode(appState);
-        expect(selectedNode).toEqual(node);
+        const selectedNodes = getSelectedNodes(appState);
+        expect(selectedNodes).toEqual([node]);
       });
     });
   });

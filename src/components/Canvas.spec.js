@@ -8,7 +8,7 @@ describe('Canvas', () => {
   let nodes;
 
   beforeEach(() => {
-    nodes = [{ id: 'foo' }, { id: 'bar' }];
+    nodes = [{ id: 'foo' }, { id: 'bar' }, { id: 'baz' }, { id: 'qux' }];
   });
 
   it('renders without crashing', () => {
@@ -32,21 +32,30 @@ describe('Canvas', () => {
     expect(nodesProps).toEqual(nodes);
   });
 
-  it('marks the selected node as selected in the array provided to the graph', () => {
-    const selectedNode = nodes[0];
-    const component = shallow(<Canvas nodes={nodes} selectedNode={selectedNode} />);
+  it('marks the selected nodes as selected in the array provided to the graph', () => {
+    const selectedNodes = [nodes[0], nodes[2]];
+    const component = shallow(<Canvas nodes={nodes} selectedNodes={selectedNodes} />);
     const graph = component.find(ForceGraph2D);
     const nodesProps = graph.props().graphData.nodes;
-    expect(nodesProps).toEqual([{ id: 'foo', selected: true }, { id: 'bar' }]);
+    expect(nodesProps).toEqual([{ id: 'foo', selected: true }, { id: 'bar' }, { id: 'baz', selected: true }, { id: 'qux' }]);
   });
 
   describe('update', () => {
-    it('unmarks the selected node if undefined is passed as prop', () => {
-      const component = shallow(<Canvas nodes={nodes} selectedNode={nodes[0]} />);
-      component.setProps({ selectedNode: undefined });
+    it('unmarks the selected nodes if undefined is passed as prop', () => {
+      const selectedNodes = [nodes[0], nodes[2]];
+      const component = shallow(<Canvas nodes={nodes} selectedNodes={selectedNodes} />);
+      component.setProps({ selectedNodes: undefined });
       const graph = component.find(ForceGraph2D);
       const nodesProps = graph.props().graphData.nodes;
-      expect(nodesProps[0].selected).toBeFalsy();
+      expect(nodesProps.find((node) => node.selected)).toBeFalsy();
+    });
+
+    it('swaps selected nodes if new ones are passed', () => {
+      const component = shallow(<Canvas nodes={nodes} selectedNodes={[nodes[0], nodes[2]]} />);
+      component.setProps({ selectedNodes: [nodes[1]] });
+      const graph = component.find(ForceGraph2D);
+      const nodesProps = graph.props().graphData.nodes;
+      expect(nodesProps.find((node) => node.selected).id).toEqual(nodes[1].id);
     });
   });
 
@@ -63,7 +72,7 @@ describe('Canvas', () => {
   describe('deselect', () => {
     it('invokes the `deselectNode` function when the selected node is clicked', () => {
       const deselectNode = jest.fn();
-      const component = shallow(<Canvas nodes={nodes} selectedNode={nodes[0]} deselectNode={deselectNode} />);
+      const component = shallow(<Canvas nodes={nodes} selectedNodes={[nodes[0]]} deselectNode={deselectNode} />);
       const graph = component.find(ForceGraph2D);
       graph.props().onNodeClick(nodes[0]);
       expect(deselectNode).toHaveBeenCalled();
