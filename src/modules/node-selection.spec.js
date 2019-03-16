@@ -1,7 +1,22 @@
-import { NODE_SELECTION_SELECT, NODE_SELECTION_DESELECT, selectNode, deselectNode, getSelectedNodes } from './node-selection';
+import {
+  NODE_SELECTION_SELECT,
+  NODE_SELECTION_DESELECT,
+  selectNode,
+  deselectNode,
+  getSelectedNodes,
+  getNonExistentLinkBetweenSelectedNodes,
+} from './node-selection';
 import reducer from './node-selection';
+import linksService from '../services/links-service';
+import { getLinks } from './graph';
+
+jest.mock('./graph');
 
 describe('node-selection', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   describe('actions', () => {
     describe(selectNode.name, () => {
       it('creates the action with the `NODE_SELECTION_SELECT` type', () => {
@@ -76,6 +91,65 @@ describe('node-selection', () => {
         };
         const selectedNodes = getSelectedNodes(appState);
         expect(selectedNodes).toEqual([node]);
+      });
+    });
+  });
+
+  describe(getNonExistentLinkBetweenSelectedNodes.name, () => {
+    let getIdSpy;
+
+    beforeEach(() => {
+      getIdSpy = jest.spyOn(linksService, 'getId');
+    });
+
+    it('returns `undefined` if there are no selected nodes', () => {
+      const response = getNonExistentLinkBetweenSelectedNodes({
+        nodeSelection: {
+          selectedNodes: undefined,
+        },
+      });
+      expect(response).toBeUndefined();
+    });
+
+    it('returns `undefined` if there is fewer than 2 selected nodes', () => {
+      const response = getNonExistentLinkBetweenSelectedNodes({
+        nodeSelection: {
+          selectedNodes: [{}],
+        },
+      });
+      expect(response).toBeUndefined();
+    });
+
+    it('returns `undefined` if there is more than 2 selected nodes', () => {
+      const response = getNonExistentLinkBetweenSelectedNodes({
+        nodeSelection: {
+          selectedNodes: [{}, {}, {}],
+        },
+      });
+      expect(response).toBeUndefined();
+    });
+
+    it('returns `undefined` if there are 2 selected nodes and a link between the two', () => {
+      getLinks.mockReturnValue({ foo: {} });
+      getIdSpy.mockReturnValue('foo');
+      const response = getNonExistentLinkBetweenSelectedNodes({
+        nodeSelection: {
+          selectedNodes: [{}, {}],
+        },
+      });
+      expect(response).toBeUndefined();
+    });
+
+    it('returns a link from the first selected node to the second if there are no links between them', () => {
+      getIdSpy.mockReturnValue('foo');
+      const response = getNonExistentLinkBetweenSelectedNodes({
+        nodeSelection: {
+          selectedNodes: [{ id: 'baz' }, { id: 'qux' }],
+        },
+      });
+      expect(response).toEqual({
+        source: { id: 'baz' },
+        target: { id: 'qux' },
       });
     });
   });

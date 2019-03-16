@@ -1,4 +1,8 @@
+import { createSelector } from 'reselect';
+
 import { MAX_SELECTED_NODES } from '../constants';
+import { getLinks } from './graph';
+import linksService from '../services/links-service';
 
 export const NODE_SELECTION_SELECT = 'grapher/NodeSelection/SELECT';
 export const NODE_SELECTION_DESELECT = 'grapher/NodeSelection/DESELECT';
@@ -53,3 +57,18 @@ function nodeSelectionSelector(state) {
 export function getSelectedNodes(state) {
   return nodeSelectionSelector(state).selectedNodes;
 }
+
+export const getNonExistentLinkBetweenSelectedNodes = createSelector(
+  getSelectedNodes,
+  getLinks,
+  (selectedNodes = [], links = {}) => {
+    if (selectedNodes.length === 2) {
+      const [source, target] = selectedNodes;
+      const linkId = linksService.getId({ source, target });
+      const link = links[linkId];
+      if (!link) {
+        return { source, target };
+      }
+    }
+  }
+);

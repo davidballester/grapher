@@ -93,7 +93,7 @@ function getNodes(state) {
   return graphSelector(state).nodes;
 }
 
-function getLinks(state) {
+export function getLinks(state) {
   return graphSelector(state).links;
 }
 
