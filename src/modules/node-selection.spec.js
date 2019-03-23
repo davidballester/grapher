@@ -148,8 +148,8 @@ describe('node-selection', () => {
         },
       });
       expect(response).toEqual({
-        source: { id: 'baz' },
-        target: { id: 'qux' },
+        source: 'baz',
+        target: 'qux',
       });
     });
   });
