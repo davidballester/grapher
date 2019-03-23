@@ -1,8 +1,11 @@
 import { createSelector } from 'reselect';
 
+import linksService from '../services/links-service';
+
 export const GRAPH_SET_NAME = 'grapher/Graph/SET_NAME';
 export const GRAPH_CREATE = 'grapher/Graph/CREATE';
 export const GRAPH_CREATE_NODE = 'grapher/Graph/CREATE_NODE';
+export const GRAPH_CREATE_LINK = 'grapher/Graph/CREATE_LINK';
 
 const initialState = {
   name: '',
@@ -54,6 +57,17 @@ export default function reducer(state = initialState, action) {
         },
       };
     }
+    case GRAPH_CREATE_LINK: {
+      const link = action.payload;
+      const linkId = linksService.getId(link);
+      return {
+        ...state,
+        links: {
+          ...state.links,
+          [linkId]: link,
+        },
+      };
+    }
     default: {
       return state;
     }
@@ -78,6 +92,13 @@ export function createNode(node) {
   return {
     type: GRAPH_CREATE_NODE,
     payload: node,
+  };
+}
+
+export function createLink(link) {
+  return {
+    type: GRAPH_CREATE_LINK,
+    payload: link,
   };
 }
 

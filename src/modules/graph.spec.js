@@ -8,8 +8,19 @@ import {
   GRAPH_CREATE,
   createNode,
   GRAPH_CREATE_NODE,
+  createLink,
+  GRAPH_CREATE_LINK,
 } from './graph';
 import reducer from './graph';
+jest.mock('../services/links-service', () => ({
+  __esModule: true,
+  default: {
+    getId: jest.fn(),
+  },
+}));
+
+// eslint-disable-next-line import/first
+import linksService from '../services/links-service';
 
 describe('graph', () => {
   describe('actions', () => {
@@ -45,6 +56,20 @@ describe('graph', () => {
       it('creates the action with the `GRAPH_CREATE_NODE` type', () => {
         const action = createNode();
         expect(action.type).toEqual(GRAPH_CREATE_NODE);
+      });
+
+      it('creates the payload provided', () => {
+        const expectedPayload = 'foo';
+        const action = createNode(expectedPayload);
+        const payload = action.payload;
+        expect(payload).toEqual(expectedPayload);
+      });
+    });
+
+    describe('createLink', () => {
+      it('creates the action with the `GRAPH_CREATE_LINK` type', () => {
+        const action = createLink();
+        expect(action.type).toEqual(GRAPH_CREATE_LINK);
       });
 
       it('creates the payload provided', () => {
@@ -107,6 +132,32 @@ describe('graph', () => {
           },
         };
         const action = createNode(node);
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
+      });
+    });
+
+    describe('GRAPH_CREATE_LINK', () => {
+      const linkId = 'corge';
+
+      beforeEach(() => {
+        linksService.getId.mockReturnValue(linkId);
+      });
+
+      it('adds the `link` in the payload to the state', () => {
+        const link = {
+          source: 'foo',
+          target: 'bar',
+        };
+        const initialState = {
+          links: {},
+        };
+        const expectedState = {
+          links: {
+            [linkId]: link,
+          },
+        };
+        const action = createLink(link);
         const state = reducer(initialState, action);
         expect(state).toEqual(expectedState);
       });
