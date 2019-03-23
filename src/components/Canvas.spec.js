@@ -3,12 +3,37 @@ import { shallow } from 'enzyme';
 import ForceGraph2D from 'react-force-graph-2d';
 
 import Canvas from './Canvas';
+jest.mock('../services/links-service', () => ({
+  __esModule: true,
+  default: {
+    getId: jest.fn(),
+  },
+}));
+
+// eslint-disable-next-line import/first
+import linksService from '../services/links-service';
 
 describe('Canvas', () => {
   let nodes;
+  let links;
 
   beforeEach(() => {
     nodes = [{ id: 'foo' }, { id: 'bar' }, { id: 'baz' }, { id: 'qux' }];
+    links = [
+      {
+        source: 'foo',
+        target: 'bar',
+      },
+      {
+        source: 'bar',
+        target: 'baz',
+      },
+      {
+        source: 'baz',
+        target: 'qux',
+      },
+    ];
+    linksService.getId.mockImplementation((link) => 'linkId');
   });
 
   it('renders without crashing', () => {
@@ -30,6 +55,13 @@ describe('Canvas', () => {
     const graph = component.find(ForceGraph2D);
     const nodesProps = graph.props().graphData.nodes;
     expect(nodesProps.map((n) => n.id).sort()).toEqual(nodes.map((n) => n.id).sort());
+  });
+
+  it('passes the links to the force graph', () => {
+    const component = shallow(<Canvas links={links} />);
+    const graph = component.find(ForceGraph2D);
+    const linksProps = graph.props().graphData.links;
+    expect(linksProps.map(({ source, target }) => ({ source, target }))).toEqual(links);
   });
 
   it('marks the selected nodes as selected in the array provided to the graph', () => {
@@ -77,6 +109,21 @@ describe('Canvas', () => {
       const graph = component.find(ForceGraph2D);
       graph.props().onNodeClick(nodes[0]);
       expect(deselectNode).toHaveBeenCalled();
+    });
+  });
+
+  describe('virtual links', () => {
+    let virtualLink;
+
+    beforeEach(() => {
+      virtualLink = { source: 'foo', target: 'qux' };
+    });
+
+    it('adds a link to the props passed to the force graph with `virtual` set to `true` when `virtualLink` is provided', () => {
+      const component = shallow(<Canvas links={links} virtualLink={virtualLink} />);
+      const graph = component.find(ForceGraph2D);
+      const linksProps = graph.props().graphData.links;
+      expect(linksProps).toContainEqual({ id: 'linkId', ...virtualLink, virtual: true });
     });
   });
 });

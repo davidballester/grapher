@@ -36,8 +36,8 @@ export default class Canvas extends React.Component {
   }
 
   render() {
-    const { className, openNewNode, nodes, links, selectedNodes } = this.props;
-    this.synchronizeGraphData(nodes, links, selectedNodes);
+    const { className, openNewNode, nodes, links, selectedNodes, virtualLink } = this.props;
+    this.synchronizeGraphData(nodes, links, selectedNodes, virtualLink);
     if (!!this.canvas) {
       this.setZoom();
     }
@@ -59,7 +59,7 @@ export default class Canvas extends React.Component {
     );
   }
 
-  synchronizeGraphData = (nodes = [], links = [], selectedNodes) => {
+  synchronizeGraphData = (nodes = [], links = [], selectedNodes, virtualLink) => {
     this.graphNodesData = [
       ...this.graphNodesData.filter((node) => !!nodes.find((n) => n.id === node.id)),
       ...nodes.filter((node) => !this.graphNodesData.find((n) => n.id === node.id)).map(({ id }) => ({ id })),
@@ -68,12 +68,11 @@ export default class Canvas extends React.Component {
       ...this.graphLinksData.filter((link) => !!links.find((l) => linksService.getId(l) === linksService.getId(link))),
       ...links
         .filter((link) => !this.graphLinksData.find((l) => linksService.getId(l) === linksService.getId(link)))
-        .map((link) => ({
-          id: linksService.getId(link),
-          source: link.source,
-          target: link.target,
-        })),
+        .map((link) => this.toGraphLink(link)),
     ];
+    if (!!virtualLink) {
+      this.addVirtualLink(virtualLink);
+    }
     this.markAllNodesAsDeselected();
     this.markNodesAsSelected(selectedNodes);
   };
@@ -105,6 +104,24 @@ export default class Canvas extends React.Component {
       const actualNode = nodes.find((n) => n.id === node.id);
       selectNode(actualNode);
     }
+  };
+
+  toGraphLink = (link) => {
+    return {
+      id: linksService.getId(link),
+      source: link.source,
+      target: link.target,
+    };
+  };
+
+  addVirtualLink = (virtualLink) => {
+    this.graphLinksData = [
+      ...this.graphLinksData,
+      {
+        ...this.toGraphLink(virtualLink),
+        virtual: true,
+      },
+    ];
   };
 
   renderNode = (node, ctx, globalScale) => {
