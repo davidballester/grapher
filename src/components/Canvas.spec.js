@@ -29,7 +29,7 @@ describe('Canvas', () => {
     const component = shallow(<Canvas nodes={nodes} />);
     const graph = component.find(ForceGraph2D);
     const nodesProps = graph.props().graphData.nodes;
-    expect(nodesProps).toEqual(nodes);
+    expect(nodesProps.map((n) => n.id).sort()).toEqual(nodes.map((n) => n.id).sort());
   });
 
   it('marks the selected nodes as selected in the array provided to the graph', () => {
@@ -37,7 +37,8 @@ describe('Canvas', () => {
     const component = shallow(<Canvas nodes={nodes} selectedNodes={selectedNodes} />);
     const graph = component.find(ForceGraph2D);
     const nodesProps = graph.props().graphData.nodes;
-    expect(nodesProps).toEqual([{ id: 'foo', selected: true }, { id: 'bar' }, { id: 'baz', selected: true }, { id: 'qux' }]);
+    const selectedNodesIds = nodesProps.filter((n) => n.selected).map((n) => n.id);
+    expect(selectedNodesIds).toEqual(selectedNodes.map((n) => n.id));
   });
 
   describe('update', () => {

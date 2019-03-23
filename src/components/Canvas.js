@@ -4,7 +4,8 @@ import ForceGraph2D from 'react-force-graph-2d';
 import blue from '@material-ui/core/colors/blue';
 import orange from '@material-ui/core/colors/orange';
 import grey from '@material-ui/core/colors/grey';
-import isEqual from 'lodash/isEqual';
+
+import linksService from '../services/links-service';
 
 export default class Canvas extends React.Component {
   static propTypes = {
@@ -23,45 +24,29 @@ export default class Canvas extends React.Component {
     openNewNode: PropTypes.func,
     selectNode: PropTypes.func,
     selectedNodes: PropTypes.arrayOf(PropTypes.any),
+    virtualLink: PropTypes.any,
   };
 
   constructor(props) {
     super(props);
-    this.nodes = [];
-    this.links = [];
+    this.canvas = undefined;
+    this.graphNodesData = [];
+    this.graphLinksData = [];
     this.originalZoom = undefined;
   }
 
-  componentDidMount() {
-    const { selectedNodes = [] } = this.props;
-    selectedNodes.forEach((node) => this.selectNode(node));
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const { nodes: nextNodes, links: nextLinks, selectedNodes: nextSelectedNodes = [] } = nextProps;
-    const { nodes, links, selectedNodes = [] } = this.props;
-    const shouldUpdate = !isEqual(nodes, nextNodes) || !isEqual(links, nextLinks);
-    if (shouldUpdate) {
-      this.setZoom();
-      return true;
-    }
-    if (!isEqual(selectedNodes, nextSelectedNodes)) {
-      selectedNodes.forEach((node) => this.deselectNode(node));
-      nextSelectedNodes.forEach((node) => this.selectNode(node));
-    }
-    return false;
-  }
-
   render() {
-    const { className, nodes = [], links = [], openNewNode } = this.props;
-    this.links = links.map((link) => ({ ...link }));
-    this.nodes = nodes.map((node) => ({ ...node }));
-    this.selectNode(this.props.selectedNode);
+    const { className, openNewNode, nodes, links, selectedNodes } = this.props;
+    this.synchronizeGraphData(nodes, links, selectedNodes);
+    if (!!this.canvas) {
+      this.setZoom();
+    }
+
     return (
       <div className={className} onDoubleClick={openNewNode}>
         <ForceGraph2D
           ref={(canvas) => (this.canvas = canvas)}
-          graphData={{ nodes: this.nodes, links: this.links }}
+          graphData={{ nodes: this.graphNodesData, links: this.graphLinksData }}
           nodeRelSize={8}
           linkDirectionalArrowLength={5}
           linkDirectionalArrowRelPos={1}
@@ -74,19 +59,34 @@ export default class Canvas extends React.Component {
     );
   }
 
-  renderNode = (node, ctx, globalScale) => {
-    renderCircle(node, ctx);
-    renderLabel(node, ctx, globalScale);
+  synchronizeGraphData = (nodes = [], links = [], selectedNodes) => {
+    this.graphNodesData = [
+      ...this.graphNodesData.filter((node) => !!nodes.find((n) => n.id === node.id)),
+      ...nodes.filter((node) => !this.graphNodesData.find((n) => n.id === node.id)).map(({ id }) => ({ id })),
+    ];
+    this.graphLinksData = [
+      ...this.graphLinksData.filter((link) => !!links.find((l) => linksService.getId(l) === linksService.getId(link))),
+      ...links
+        .filter((link) => !this.graphLinksData.find((l) => linksService.getId(l) === linksService.getId(link)))
+        .map((link) => ({
+          id: linksService.getId(link),
+          source: link.source,
+          target: link.target,
+        })),
+    ];
+    this.markAllNodesAsDeselected();
+    this.markNodesAsSelected(selectedNodes);
   };
 
-  renderLink = (link, ctx, globalScale) => {
-    const { source, target } = link;
-    ctx.strokeStyle = grey['300'];
-    ctx.strokeWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(source.x, source.y);
-    ctx.lineTo(target.x, target.y);
-    ctx.stroke();
+  markNodesAsSelected = (selectedNodes = []) => {
+    selectedNodes.forEach((selectedNode) => {
+      const node = this.graphNodesData.find((n) => n.id === selectedNode.id);
+      node.selected = true;
+    });
+  };
+
+  markAllNodesAsDeselected = () => {
+    this.graphNodesData = this.graphNodesData.map((node) => ({ ...node, selected: false }));
   };
 
   setZoom = () => {
@@ -94,20 +94,6 @@ export default class Canvas extends React.Component {
       this.originalZoom = this.canvas.zoom();
     }
     this.canvas.zoom(this.originalZoom * 0.8);
-  };
-
-  deselectNode = (selectedNode) => {
-    if (!!selectedNode) {
-      const node = this.nodes.find((n) => n.id === selectedNode.id);
-      node.selected = false;
-    }
-  };
-
-  selectNode = (selectedNode) => {
-    if (!!selectedNode) {
-      const node = this.nodes.find((n) => n.id === selectedNode.id);
-      node.selected = true;
-    }
   };
 
   toggleNodeSelection = (node) => {
@@ -120,29 +106,44 @@ export default class Canvas extends React.Component {
       selectNode(actualNode);
     }
   };
-}
 
-function renderCircle(node, ctx) {
-  const color = node.selected ? orange['A200'] : blue['A200'];
-  ctx.strokeStyle = color;
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.arc(node.x, node.y, 8, 0, 2 * Math.PI);
-  ctx.fill();
-}
+  renderNode = (node, ctx, globalScale) => {
+    this.renderCircle(node, ctx);
+    this.renderLabel(node, ctx, globalScale);
+  };
 
-function renderLabel(node, ctx, globalScale) {
-  const label = node.id;
-  const fontSize = 16 / globalScale;
+  renderLink = (link, ctx, globalScale) => {
+    const { source, target, virtual = false } = link;
+    ctx.strokeStyle = virtual ? orange['A700'] : grey['300'];
+    ctx.strokeWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(source.x, source.y);
+    ctx.lineTo(target.x, target.y);
+    ctx.stroke();
+  };
 
-  const textWidth = ctx.measureText(label).width;
-  const bckgDimensions = [textWidth + fontSize * 0.2, fontSize * 1.2];
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-  ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y + 14 - bckgDimensions[1] / 2, ...bckgDimensions);
+  renderCircle = (node, ctx) => {
+    const color = node.selected ? orange['A200'] : blue['A200'];
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, 8, 0, 2 * Math.PI);
+    ctx.fill();
+  };
 
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#000';
-  ctx.font = `${fontSize}px Sans-Serif`;
-  ctx.fillText(node.id, node.x, node.y + 12);
+  renderLabel = (node, ctx, globalScale) => {
+    const label = node.id;
+    const fontSize = 16 / globalScale;
+
+    const textWidth = ctx.measureText(label).width;
+    const bckgDimensions = [textWidth + fontSize * 0.2, fontSize * 1.2];
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y + 14 - bckgDimensions[1] / 2, ...bckgDimensions);
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#000';
+    ctx.font = `${fontSize}px Sans-Serif`;
+    ctx.fillText(node.id, node.x, node.y + 12);
+  };
 }
