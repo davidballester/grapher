@@ -144,6 +144,10 @@ describe('graph', () => {
         linksService.getId.mockReturnValue(linkId);
       });
 
+      afterEach(() => {
+        jest.resetAllMocks();
+      });
+
       it('adds the `link` in the payload to the state', () => {
         const link = {
           source: 'foo',
