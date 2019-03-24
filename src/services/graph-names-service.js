@@ -26,4 +26,4 @@ class GraphNamesService {
   }
 }
 
-export const graphNamesService = new GraphNamesService();
+export default new GraphNamesService();

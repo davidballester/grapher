@@ -1,4 +1,4 @@
-import { graphNamesService, GRAPHS_NAMES_STORAGE_KEY } from './graph-names-service';
+import graphNamesService, { GRAPHS_NAMES_STORAGE_KEY } from './graph-names-service';
 
 describe('GraphNamesService', () => {
   afterEach(() => {
