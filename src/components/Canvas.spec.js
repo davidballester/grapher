@@ -16,6 +16,7 @@ import linksService from '../services/links-service';
 describe('Canvas', () => {
   let nodes;
   let links;
+  let virtualLink;
 
   beforeEach(() => {
     nodes = [{ id: 'foo' }, { id: 'bar' }, { id: 'baz' }, { id: 'qux' }];
@@ -33,7 +34,12 @@ describe('Canvas', () => {
         target: 'qux',
       },
     ];
+    virtualLink = { source: 'foo', target: 'qux' };
     linksService.getId.mockImplementation((link) => 'linkId');
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it('renders without crashing', () => {
@@ -113,17 +119,38 @@ describe('Canvas', () => {
   });
 
   describe('virtual links', () => {
-    let virtualLink;
-
-    beforeEach(() => {
-      virtualLink = { source: 'foo', target: 'qux' };
-    });
-
     it('adds a link to the props passed to the force graph with `virtual` set to `true` when `virtualLink` is provided', () => {
       const component = shallow(<Canvas links={links} virtualLink={virtualLink} />);
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
       expect(linksProps).toContainEqual({ id: 'linkId', ...virtualLink, virtual: true });
+    });
+  });
+
+  describe('create link', () => {
+    let createLink;
+
+    beforeEach(() => {
+      createLink = jest.fn();
+    });
+
+    it('invokes the create link if a virtual link is clicked', () => {
+      const component = shallow(<Canvas virtualLink={virtualLink} createLink={createLink} />);
+      const graph = component.find(ForceGraph2D);
+      graph.props().onLinkClick({
+        source: nodes.find((n) => n.id === virtualLink.source),
+        target: nodes.find((n) => n.id === virtualLink.target),
+        virtual: true,
+      });
+      expect(createLink).toHaveBeenCalledWith(virtualLink);
+    });
+
+    it('does not invoke the create link if a not-virtual link is clicked', () => {
+      const component = shallow(<Canvas links={links} createLink={createLink} />);
+      const graph = component.find(ForceGraph2D);
+      const link = graph.props().graphData.links[0];
+      graph.props().onLinkClick(link);
+      expect(createLink).not.toHaveBeenCalled();
     });
   });
 });

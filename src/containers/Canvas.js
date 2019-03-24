@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { getNodesAsArray, getLinksAsArray } from '../modules/graph';
+import { getNodesAsArray, getLinksAsArray, createLink } from '../modules/graph';
 import Canvas from '../components/Canvas';
 import { openNewNode } from '../modules/new-node';
 import { selectNode, deselectNode, getSelectedNodes, getNonExistentLinkBetweenSelectedNodes } from '../modules/node-selection';
@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch) {
     openNewNode: () => dispatch(openNewNode()),
     selectNode: (node) => dispatch(selectNode(node)),
     deselectNode: (nodeId) => dispatch(deselectNode(nodeId)),
+    createLink: (link) => dispatch(createLink(link)),
   };
 }
 

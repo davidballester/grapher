@@ -24,6 +24,7 @@ export default class Canvas extends React.Component {
     openNewNode: PropTypes.func,
     selectNode: PropTypes.func,
     selectedNodes: PropTypes.arrayOf(PropTypes.any),
+    createLink: PropTypes.func,
     virtualLink: PropTypes.any,
   };
 
@@ -54,6 +55,7 @@ export default class Canvas extends React.Component {
           nodeCanvasObject={(node, ctx, globalScale) => this.renderNode(node, ctx, globalScale)}
           linkCanvasObject={(link, ctx, globalScale) => this.renderLink(link, ctx, globalScale)}
           onNodeClick={(node) => this.toggleNodeSelection(node)}
+          onLinkClick={(link) => this.createLink(link)}
         />
       </div>
     );
@@ -114,6 +116,13 @@ export default class Canvas extends React.Component {
     };
   };
 
+  fromGraphLink = (link) => {
+    return {
+      source: link.source.id,
+      target: link.target.id,
+    };
+  };
+
   addVirtualLink = (virtualLink) => {
     this.graphLinksData = [
       ...this.graphLinksData,
@@ -122,6 +131,12 @@ export default class Canvas extends React.Component {
         virtual: true,
       },
     ];
+  };
+
+  createLink = (link) => {
+    if (link.virtual) {
+      this.props.createLink(this.fromGraphLink(link));
+    }
   };
 
   renderNode = (node, ctx, globalScale) => {
