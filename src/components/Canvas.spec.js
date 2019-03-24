@@ -56,30 +56,71 @@ describe('Canvas', () => {
     expect(openNewNode).toHaveBeenCalled();
   });
 
-  it('passes the nodes to the force graph', () => {
-    const component = shallow(<Canvas nodes={nodes} />);
-    const graph = component.find(ForceGraph2D);
-    const nodesProps = graph.props().graphData.nodes;
-    expect(nodesProps.map((n) => n.id).sort()).toEqual(nodes.map((n) => n.id).sort());
+  describe('nodes', () => {
+    it('passes the nodes to the force graph', () => {
+      const component = shallow(<Canvas nodes={nodes} />);
+      const graph = component.find(ForceGraph2D);
+      const nodesProps = graph.props().graphData.nodes;
+      expect(nodesProps.map((n) => n.id).sort()).toEqual(nodes.map((n) => n.id).sort());
+    });
+
+    it('updates the nodes', () => {
+      const component = shallow(<Canvas nodes={nodes} />);
+      component.setProps({
+        nodes: [
+          nodes[0],
+          {
+            id: 'quux',
+          },
+        ],
+      });
+      const graph = component.find(ForceGraph2D);
+      const nodesProps = graph.props().graphData.nodes;
+      expect(nodesProps.map((n) => n.id).sort()).toEqual([nodes[0].id, 'quux'].sort());
+    });
   });
 
-  it('passes the links to the force graph', () => {
-    const component = shallow(<Canvas links={links} />);
-    const graph = component.find(ForceGraph2D);
-    const linksProps = graph.props().graphData.links;
-    expect(linksProps.map(({ source, target }) => ({ source, target }))).toEqual(links);
+  describe('links', () => {
+    it('passes the links to the force graph', () => {
+      const component = shallow(<Canvas links={links} />);
+      const graph = component.find(ForceGraph2D);
+      const linksProps = graph.props().graphData.links;
+      expect(linksProps.map(({ source, target }) => ({ source, target }))).toEqual(links);
+    });
+
+    it('updates the links', () => {
+      const component = shallow(<Canvas links={links} />);
+      component.setProps({
+        links: [
+          links[0],
+          {
+            source: 'foo',
+            target: 'qux',
+          },
+        ],
+      });
+      const graph = component.find(ForceGraph2D);
+      const linksProps = graph.props().graphData.links;
+      expect(linksProps.map(({ source, target }) => ({ source, target }))).toEqual([
+        links[0],
+        {
+          source: 'foo',
+          target: 'qux',
+        },
+      ]);
+    });
   });
 
-  it('marks the selected nodes as selected in the array provided to the graph', () => {
-    const selectedNodes = [nodes[0], nodes[2]];
-    const component = shallow(<Canvas nodes={nodes} selectedNodes={selectedNodes} />);
-    const graph = component.find(ForceGraph2D);
-    const nodesProps = graph.props().graphData.nodes;
-    const selectedNodesIds = nodesProps.filter((n) => n.selected).map((n) => n.id);
-    expect(selectedNodesIds).toEqual(selectedNodes.map((n) => n.id));
-  });
+  describe('selected nodes', () => {
+    it('marks the selected nodes as selected in the array provided to the graph', () => {
+      const selectedNodes = [nodes[0], nodes[2]];
+      const component = shallow(<Canvas nodes={nodes} selectedNodes={selectedNodes} />);
+      const graph = component.find(ForceGraph2D);
+      const nodesProps = graph.props().graphData.nodes;
+      const selectedNodesIds = nodesProps.filter((n) => n.selected).map((n) => n.id);
+      expect(selectedNodesIds).toEqual(selectedNodes.map((n) => n.id));
+    });
 
-  describe('update', () => {
     it('unmarks the selected nodes if undefined is passed as prop', () => {
       const selectedNodes = [nodes[0], nodes[2]];
       const component = shallow(<Canvas nodes={nodes} selectedNodes={selectedNodes} />);

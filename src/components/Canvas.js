@@ -61,22 +61,24 @@ export default class Canvas extends React.Component {
     );
   }
 
-  synchronizeGraphData = (nodes = [], links = [], selectedNodes, virtualLink) => {
-    this.graphNodesData = [
-      ...this.graphNodesData.filter((node) => !!nodes.find((n) => n.id === node.id)),
-      ...nodes.filter((node) => !this.graphNodesData.find((n) => n.id === node.id)).map(({ id }) => ({ id })),
-    ];
-    this.graphLinksData = [
-      ...this.graphLinksData.filter((link) => !!links.find((l) => linksService.getId(l) === linksService.getId(link))),
-      ...links
-        .filter((link) => !this.graphLinksData.find((l) => linksService.getId(l) === linksService.getId(link)))
-        .map((link) => this.toGraphLink(link)),
-    ];
+  synchronizeGraphData = (nodes, links, selectedNodes, virtualLink) => {
+    this.synchronizeNodes(nodes);
+    this.synchronizeLinks(links);
     if (!!virtualLink) {
       this.addVirtualLink(virtualLink);
     }
     this.markAllNodesAsDeselected();
     this.markNodesAsSelected(selectedNodes);
+  };
+
+  synchronizeNodes = (nodes = []) => {
+    const preservedNodes = this.graphNodesData.filter((graphNode) => !!nodes.find((n) => n.id === graphNode.id));
+    const newNodes = nodes.filter((node) => !this.graphNodesData.find((graphNode) => graphNode.id === node.id)).map(({ id }) => ({ id }));
+    this.graphNodesData = [...preservedNodes, ...newNodes];
+  };
+
+  synchronizeLinks = (links = []) => {
+    this.graphLinksData = links.map((link) => this.toGraphLink(link));
   };
 
   markNodesAsSelected = (selectedNodes = []) => {
