@@ -1,3 +1,7 @@
+import { select, takeLatest, call } from 'redux-saga/effects';
+import { cloneableGenerator } from '@redux-saga/testing-utils';
+
+// eslint-disable-next-line import/first
 import {
   getName,
   setNameGraph,
@@ -10,7 +14,12 @@ import {
   GRAPH_CREATE_NODE,
   createLink,
   GRAPH_CREATE_LINK,
+  saveGraphSaga,
+  saveGraph,
+  graphSelector,
 } from './graph';
+
+// eslint-disable-next-line import/first
 import reducer from './graph';
 jest.mock('../services/links-service', () => ({
   __esModule: true,
@@ -19,10 +28,34 @@ jest.mock('../services/links-service', () => ({
   },
 }));
 
+jest.mock('../services/graph-service', () => ({
+  __esModule: true,
+  default: {
+    saveGraph: jest.fn(),
+    removeGraph: jest.fn(),
+  },
+}));
+
+jest.mock('../services/graph-names-service', () => ({
+  __esModule: true,
+  default: {
+    saveGraphName: jest.fn(),
+    removeGraphName: jest.fn(),
+  },
+}));
+
 // eslint-disable-next-line import/first
 import linksService from '../services/links-service';
+// eslint-disable-next-line import/first
+import graphService from '../services/graph-service';
+// eslint-disable-next-line import/first
+import graphNamesService from '../services/graph-names-service';
 
 describe('graph', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   describe('actions', () => {
     describe('setNameGraph', () => {
       it('creates the action with the `GRAPH_SET_NAME` type', () => {
@@ -237,6 +270,68 @@ describe('graph', () => {
         };
         const links = getLinksAsArray(appState);
         expect(links).toEqual([link1, link2, link3]);
+      });
+    });
+  });
+
+  describe('sagas', () => {
+    describe('saveGraphSaga', () => {
+      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`', async () => {
+        const action = setNameGraph('bar');
+        const gen = cloneableGenerator(saveGraphSaga)(action);
+        expect(gen.next().value).toEqual(takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK], saveGraph));
+      });
+    });
+
+    describe('saveGraph', () => {
+      it('selects using `graphSelector`', () => {
+        const action = saveGraph('bar');
+        let gen = cloneableGenerator(saveGraph)(action);
+        expect(gen.next().value).toEqual(select(graphSelector));
+      });
+
+      it('calls `graphService.removeGraph`', () => {
+        const action = saveGraph('bar');
+        let gen = cloneableGenerator(saveGraph)(action);
+        gen.next(); // select
+        gen.next({ name: 'foo' }); // reduce
+        expect(gen.next().value).toEqual(call([graphService, 'removeGraph'], 'foo'));
+      });
+
+      it('calls `graphService.saveGraph`', () => {
+        const graph = { name: 'foo', nodes: { foo: 'bar' }, links: { bar: 'baz' } };
+        const updatedGraph = { ...graph, name: 'bar' };
+        const action = saveGraph('bar');
+        let gen = cloneableGenerator(saveGraph)(action);
+        gen.next(); // select
+        gen.next(graph); // reduce
+        gen.next(updatedGraph); // remove graph
+        expect(gen.next().value).toEqual(call([graphService, 'saveGraph'], updatedGraph));
+      });
+
+      it('calls `graphnamesService.removeGraphName`', () => {
+        const graph = { name: 'foo', nodes: { foo: 'bar' }, links: { bar: 'baz' } };
+        const updatedGraph = { ...graph, name: 'bar' };
+        const action = saveGraph('bar');
+        let gen = cloneableGenerator(saveGraph)(action);
+        gen.next(); // select
+        gen.next(graph); // reduce
+        gen.next(updatedGraph); // remove graph
+        gen.next(); // save graph
+        expect(gen.next().value).toEqual(call([graphNamesService, 'removeGraphName'], 'foo'));
+      });
+
+      it('calls `graphnamesService.saveGraphName`', () => {
+        const graph = { name: 'foo', nodes: { foo: 'bar' }, links: { bar: 'baz' } };
+        const updatedGraph = { ...graph, name: 'bar' };
+        const action = saveGraph('bar');
+        let gen = cloneableGenerator(saveGraph)(action);
+        gen.next(); // select
+        gen.next(graph); // reduce
+        gen.next(updatedGraph); // remove graph
+        gen.next(); // save graph
+        gen.next(); // remove graph name
+        expect(gen.next().value).toEqual(call([graphNamesService, 'saveGraphName'], 'bar'));
       });
     });
   });

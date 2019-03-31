@@ -1,6 +1,9 @@
 import { createSelector } from 'reselect';
+import { select, takeLatest, call } from 'redux-saga/effects';
 
 import linksService from '../services/links-service';
+import graphService from '../services/graph-service';
+import graphNamesService from '../services/graph-names-service';
 
 export const GRAPH_SET_NAME = 'grapher/Graph/SET_NAME';
 export const GRAPH_CREATE = 'grapher/Graph/CREATE';
@@ -102,7 +105,7 @@ export function createLink(link) {
   };
 }
 
-function graphSelector(state) {
+export function graphSelector(state) {
   return state.graph;
 }
 
@@ -127,3 +130,16 @@ export const getLinksAsArray = createSelector(
   getLinks,
   (links) => Object.values(links)
 );
+
+export function* saveGraph(action) {
+  const graph = yield select(graphSelector);
+  const updatedGraph = yield call(reducer, graph, action);
+  yield call([graphService, 'removeGraph'], graph.name);
+  yield call([graphService, 'saveGraph'], updatedGraph);
+  yield call([graphNamesService, 'removeGraphName'], graph.name);
+  yield call([graphNamesService, 'saveGraphName'], updatedGraph.name);
+}
+
+export function* saveGraphSaga() {
+  yield takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK], saveGraph);
+}
