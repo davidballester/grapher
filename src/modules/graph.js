@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { select, takeLatest, call } from 'redux-saga/effects';
+import { select, takeLatest, call, put } from 'redux-saga/effects';
 
 import linksService from '../services/links-service';
 import graphService from '../services/graph-service';
@@ -7,6 +7,8 @@ import graphNamesService from '../services/graph-names-service';
 
 export const GRAPH_SET_NAME = 'grapher/Graph/SET_NAME';
 export const GRAPH_CREATE = 'grapher/Graph/CREATE';
+export const GRAPH_LOAD = 'grapher/Graph/LOAD';
+export const GRAPH_LOAD_SUCCESS = 'grapher/Graph/LOAD_SUCCESS';
 export const GRAPH_CREATE_NODE = 'grapher/Graph/CREATE_NODE';
 export const GRAPH_CREATE_LINK = 'grapher/Graph/CREATE_LINK';
 
@@ -50,6 +52,12 @@ export default function reducer(state = initialState, action) {
         links: {},
       };
     }
+    case GRAPH_LOAD_SUCCESS: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
     case GRAPH_CREATE_NODE: {
       const node = action.payload;
       return {
@@ -88,6 +96,20 @@ export function createGraph(graphName) {
   return {
     type: GRAPH_CREATE,
     payload: graphName,
+  };
+}
+
+export function loadGraph(graphName) {
+  return {
+    type: GRAPH_LOAD,
+    payload: graphName,
+  };
+}
+
+export function loadGraphSuccess(graph) {
+  return {
+    type: GRAPH_LOAD_SUCCESS,
+    payload: graph,
   };
 }
 
@@ -142,4 +164,14 @@ export function* saveGraph(action) {
 
 export function* saveGraphSaga() {
   yield takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK], saveGraph);
+}
+
+export function* doLoadGraph(action) {
+  const graphName = action.payload;
+  const graph = yield call([graphService, 'readGraph'], graphName);
+  yield put(loadGraphSuccess(graph));
+}
+
+export function* loadGraphSaga() {
+  yield takeLatest([GRAPH_LOAD], doLoadGraph);
 }

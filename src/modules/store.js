@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import graphNamesReducer from './graph-names';
 import graphListReducer from './graph-list';
-import graphReducer, { saveGraphSaga } from './graph';
+import graphReducer, { saveGraphSaga, loadGraphSaga } from './graph';
 import newGraphReducer from './new-graph';
 import newNodeReducer from './new-node';
 import nodeSelectionReducer from './node-selection';
@@ -20,3 +20,4 @@ const reducer = combineReducers({
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
 sagaMiddleware.run(saveGraphSaga);
+sagaMiddleware.run(loadGraphSaga);

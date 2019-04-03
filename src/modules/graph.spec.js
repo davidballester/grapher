@@ -1,4 +1,4 @@
-import { select, takeLatest, call } from 'redux-saga/effects';
+import { select, takeLatest, call, put } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
 // eslint-disable-next-line import/first
@@ -17,6 +17,12 @@ import {
   saveGraphSaga,
   saveGraph,
   graphSelector,
+  GRAPH_LOAD,
+  loadGraph,
+  GRAPH_LOAD_SUCCESS,
+  loadGraphSuccess,
+  loadGraphSaga,
+  doLoadGraph,
 } from './graph';
 
 // eslint-disable-next-line import/first
@@ -33,6 +39,7 @@ jest.mock('../services/graph-service', () => ({
   default: {
     saveGraph: jest.fn(),
     removeGraph: jest.fn(),
+    readGraph: jest.fn(),
   },
 }));
 
@@ -80,6 +87,34 @@ describe('graph', () => {
       it('creates the payload provided', () => {
         const expectedPayload = 'foo';
         const action = createGraph(expectedPayload);
+        const payload = action.payload;
+        expect(payload).toEqual(expectedPayload);
+      });
+    });
+
+    describe(loadGraph.name, () => {
+      it('creates the action with the `GRAPH_LOAD` type', () => {
+        const action = loadGraph();
+        expect(action.type).toEqual(GRAPH_LOAD);
+      });
+
+      it('creates the payload provided', () => {
+        const expectedPayload = 'foo';
+        const action = loadGraph(expectedPayload);
+        const payload = action.payload;
+        expect(payload).toEqual(expectedPayload);
+      });
+    });
+
+    describe(loadGraphSuccess.name, () => {
+      it('creates the action with the `GRAPH_LOAD_SUCCESS` type', () => {
+        const action = loadGraphSuccess();
+        expect(action.type).toEqual(GRAPH_LOAD_SUCCESS);
+      });
+
+      it('creates the payload provided', () => {
+        const expectedPayload = 'foo';
+        const action = loadGraphSuccess(expectedPayload);
         const payload = action.payload;
         expect(payload).toEqual(expectedPayload);
       });
@@ -147,6 +182,25 @@ describe('graph', () => {
         const action = createGraph(graphName);
         const state = reducer(initialState, action);
         expect(state).toEqual(expectedState);
+      });
+    });
+
+    describe('GRAPH_LOAD_SUCCESS', () => {
+      it('sets the payload in the state', () => {
+        const initialState = {
+          foo: 'bar',
+        };
+        const graph = {
+          name: 'foo',
+          nodes: {},
+          links: {},
+        };
+        const action = loadGraphSuccess(graph);
+        const state = reducer(initialState, action);
+        expect(state).toEqual({
+          ...initialState,
+          ...graph,
+        });
       });
     });
 
@@ -309,7 +363,7 @@ describe('graph', () => {
         expect(gen.next().value).toEqual(call([graphService, 'saveGraph'], updatedGraph));
       });
 
-      it('calls `graphnamesService.removeGraphName`', () => {
+      it('calls `graphNamesService.removeGraphName`', () => {
         const graph = { name: 'foo', nodes: { foo: 'bar' }, links: { bar: 'baz' } };
         const updatedGraph = { ...graph, name: 'bar' };
         const action = saveGraph('bar');
@@ -321,7 +375,7 @@ describe('graph', () => {
         expect(gen.next().value).toEqual(call([graphNamesService, 'removeGraphName'], 'foo'));
       });
 
-      it('calls `graphnamesService.saveGraphName`', () => {
+      it('calls `graphNamesService.saveGraphName`', () => {
         const graph = { name: 'foo', nodes: { foo: 'bar' }, links: { bar: 'baz' } };
         const updatedGraph = { ...graph, name: 'bar' };
         const action = saveGraph('bar');
@@ -332,6 +386,34 @@ describe('graph', () => {
         gen.next(); // save graph
         gen.next(); // remove graph name
         expect(gen.next().value).toEqual(call([graphNamesService, 'saveGraphName'], 'bar'));
+      });
+    });
+
+    describe(loadGraphSaga.name, () => {
+      it('invokes take latest with `GRAPH_LOAD`', () => {
+        const action = loadGraph('bar');
+        const gen = cloneableGenerator(loadGraphSaga)(action);
+        expect(gen.next().value).toEqual(takeLatest([GRAPH_LOAD], doLoadGraph));
+      });
+    });
+
+    describe(doLoadGraph.name, () => {
+      let action;
+
+      beforeEach(() => {
+        action = loadGraph('foo');
+      });
+
+      it('calls `graphService.readGraph` with the graph name provided in the action', () => {
+        const gen = cloneableGenerator(doLoadGraph)(action);
+        expect(gen.next().value).toEqual(call([graphService, 'readGraph'], action.payload));
+      });
+
+      it('puts a `loadGraphSuccess` action with the graph returned by `readGraph`', () => {
+        const graph = { foo: 'bar' };
+        const gen = cloneableGenerator(doLoadGraph)(action);
+        gen.next();
+        expect(gen.next(graph).value).toEqual(put(loadGraphSuccess(graph)));
       });
     });
   });
