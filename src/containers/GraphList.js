@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import GraphList from '../components/GraphList';
 import { getIsOpen, closeGraphList } from '../modules/graph-list';
+import { loadGraph } from '../modules/graph';
 import { getGraphNames } from '../modules/graph-names';
 import { openNewGraph } from '../modules/new-graph';
 
@@ -16,6 +17,10 @@ function mapDispatchToProps(dispatch) {
   return {
     openNewGraph: () => {
       dispatch(openNewGraph());
+      dispatch(closeGraphList());
+    },
+    loadGraph: (graphName) => {
+      dispatch(loadGraph(graphName));
       dispatch(closeGraphList());
     },
   };

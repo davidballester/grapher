@@ -43,4 +43,25 @@ describe('GraphList', () => {
     const dialog = component.find(Dialog).getElement();
     expect(dialog.props.open).toBeTruthy();
   });
+
+  it('calls the `openNewGraph` prop when the only list item rendered if no graph names are provided is clicked', () => {
+    const openNewGraph = jest.fn();
+    const component = shallow(<GraphList graphNames={[]} openNewGraph={openNewGraph} isOpen={true} />);
+    component
+      .find(ListItem)
+      .first()
+      .simulate('click');
+    expect(openNewGraph).toHaveBeenCalled();
+  });
+
+  it('calls the `loadGraph` prop when a list item is clicked', () => {
+    const loadGraph = jest.fn();
+    const graphName = 'foo';
+    const component = shallow(<GraphList graphNames={[graphName]} loadGraph={loadGraph} isOpen={true} />);
+    component
+      .find(ListItem)
+      .first()
+      .simulate('click');
+    expect(loadGraph).toHaveBeenCalledWith(graphName);
+  });
 });
