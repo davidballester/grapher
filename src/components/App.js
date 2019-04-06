@@ -6,6 +6,7 @@ import GraphList from '../containers/GraphList';
 import NewGraph from '../containers/NewGraph';
 import Canvas from '../containers/Canvas';
 import NewNode from '../containers/NewNode';
+import SelectedNodes from '../containers/SelectedNodes';
 
 export class App extends Component {
   render() {
@@ -15,6 +16,7 @@ export class App extends Component {
         <NewGraph />
         <Canvas />
         <NewNode />
+        <SelectedNodes />
       </Provider>
     );
   }
