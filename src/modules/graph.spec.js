@@ -23,6 +23,8 @@ import {
   loadGraphSuccess,
   loadGraphSaga,
   doLoadGraph,
+  deleteNode,
+  GRAPH_DELETE_NODE,
 } from './graph';
 
 // eslint-disable-next-line import/first
@@ -147,6 +149,20 @@ describe('graph', () => {
         expect(payload).toEqual(expectedPayload);
       });
     });
+
+    describe(deleteNode.name, () => {
+      it('creates the action with the `GRAPH_DELETE_NODE` type', () => {
+        const action = deleteNode();
+        expect(action.type).toEqual(GRAPH_DELETE_NODE);
+      });
+
+      it('creates the payload provided', () => {
+        const expectedPayload = 'foo';
+        const action = deleteNode(expectedPayload);
+        const payload = action.payload;
+        expect(payload).toEqual(expectedPayload);
+      });
+    });
   });
 
   describe('reducer', () => {
@@ -253,6 +269,27 @@ describe('graph', () => {
         expect(state).toEqual(expectedState);
       });
     });
+
+    describe('GRAPH_DELETE_NODE', () => {
+      it('sets the node identified by the payload to undefined', () => {
+        const nodeId = 'foo';
+        const initialState = {
+          nodes: {
+            [nodeId]: {
+              id: 'foo',
+            },
+          },
+        };
+        const expectedState = {
+          nodes: {
+            [nodeId]: undefined,
+          },
+        };
+        const action = deleteNode(nodeId);
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
+      });
+    });
   });
 
   describe('selectors', () => {
@@ -329,11 +366,13 @@ describe('graph', () => {
   });
 
   describe('sagas', () => {
-    describe('saveGraphSaga', () => {
-      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`', async () => {
+    describe(saveGraphSaga.name, () => {
+      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`, `GRAPH_DELETE_NODE`', async () => {
         const action = setNameGraph('bar');
         const gen = cloneableGenerator(saveGraphSaga)(action);
-        expect(gen.next().value).toEqual(takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK], saveGraph));
+        expect(gen.next().value).toEqual(
+          takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE], saveGraph)
+        );
       });
     });
 
