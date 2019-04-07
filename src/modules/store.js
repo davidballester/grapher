@@ -7,6 +7,7 @@ import graphReducer, { saveGraphSaga, loadGraphSaga } from './graph';
 import newGraphReducer from './new-graph';
 import newNodeReducer from './new-node';
 import nodeSelectionReducer from './node-selection';
+import confirmDeleteNodeReducer from './confirm-delete-node';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   newGraph: newGraphReducer,
   newNode: newNodeReducer,
   nodeSelection: nodeSelectionReducer,
+  confirmDeleteNode: confirmDeleteNodeReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
