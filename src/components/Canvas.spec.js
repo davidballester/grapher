@@ -194,4 +194,40 @@ describe('Canvas', () => {
       expect(createLink).not.toHaveBeenCalled();
     });
   });
+
+  describe('delete node', () => {
+    let deleteNode;
+
+    beforeEach(() => {
+      deleteNode = jest.fn();
+    });
+
+    ['Backspace', 'Delete'].forEach((key) => {
+      describe(key, () => {
+        it('does nothing if no nodes are selected', () => {
+          const component = shallow(<Canvas nodes={nodes} deleteNode={deleteNode} />);
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          expect(deleteNode).not.toHaveBeenCalled();
+        });
+
+        it('invokes `deleteNode` with each selected node', () => {
+          const component = shallow(<Canvas nodes={nodes} selectedNodes={nodes} deleteNode={deleteNode} />);
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          nodes.forEach(({ id }, index) => {
+            expect(deleteNode).not.toHaveBeenNthCalledWith(index, id);
+          });
+        });
+      });
+    });
+  });
 });

@@ -26,6 +26,7 @@ export default class Canvas extends React.Component {
     selectedNodes: PropTypes.arrayOf(PropTypes.any),
     createLink: PropTypes.func,
     virtualLink: PropTypes.any,
+    deleteNode: PropTypes.func,
   };
 
   constructor(props) {
@@ -44,7 +45,7 @@ export default class Canvas extends React.Component {
     }
 
     return (
-      <div className={className} onDoubleClick={openNewNode}>
+      <div className={className} onDoubleClick={openNewNode} tabIndex="0" onKeyUp={(evt) => this.handleKey(evt.key)}>
         <ForceGraph2D
           ref={(canvas) => (this.canvas = canvas)}
           graphData={{ nodes: this.graphNodesData, links: this.graphLinksData }}
@@ -60,6 +61,18 @@ export default class Canvas extends React.Component {
       </div>
     );
   }
+
+  handleKey = (key) => {
+    switch (key) {
+      case 'Backspace':
+      case 'Delete':
+        const selectedNodes = this.props.selectedNodes || [];
+        selectedNodes.forEach(({ id }) => this.props.deleteNode(id));
+        break;
+      default:
+        break;
+    }
+  };
 
   synchronizeGraphData = (nodes, links, selectedNodes, virtualLink) => {
     this.synchronizeNodes(nodes);
