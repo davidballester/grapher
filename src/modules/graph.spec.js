@@ -274,6 +274,7 @@ describe('graph', () => {
       it('sets the node identified by the payload to undefined', () => {
         const nodeId = 'foo';
         const initialState = {
+          links: {},
           nodes: {
             [nodeId]: {
               id: 'foo',
@@ -281,13 +282,65 @@ describe('graph', () => {
           },
         };
         const expectedState = {
-          nodes: {
-            [nodeId]: undefined,
+          nodes: {},
+        };
+        const action = deleteNode(nodeId);
+        const state = reducer(initialState, action);
+        expect(state).toMatchObject(expectedState);
+      });
+
+      it("deletes all links which source is the action's payload", () => {
+        const nodeId = 'foo';
+        const initialState = {
+          links: {
+            'foo-bar': {
+              source: 'foo',
+              target: 'bar',
+            },
+            'bar-baz': {
+              source: 'bar',
+              target: 'baz',
+            },
+          },
+        };
+        const expectedState = {
+          links: {
+            'bar-baz': {
+              source: 'bar',
+              target: 'baz',
+            },
           },
         };
         const action = deleteNode(nodeId);
         const state = reducer(initialState, action);
-        expect(state).toEqual(expectedState);
+        expect(state).toMatchObject(expectedState);
+      });
+
+      it("deletes all links which target is the action's payload", () => {
+        const nodeId = 'foo';
+        const initialState = {
+          links: {
+            'bar-foo': {
+              source: 'bar',
+              target: 'foo',
+            },
+            'bar-baz': {
+              source: 'bar',
+              target: 'baz',
+            },
+          },
+        };
+        const expectedState = {
+          links: {
+            'bar-baz': {
+              source: 'bar',
+              target: 'baz',
+            },
+          },
+        };
+        const action = deleteNode(nodeId);
+        const state = reducer(initialState, action);
+        expect(state).toMatchObject(expectedState);
       });
     });
   });

@@ -71,12 +71,15 @@ export default function reducer(state = initialState, action) {
     }
     case GRAPH_DELETE_NODE: {
       const nodeId = action.payload;
+      const links = Object.keys(state.links)
+        .filter((linkId) => state.links[linkId].source !== nodeId && state.links[linkId].target !== nodeId)
+        .reduce((newLinks, linkId) => ({ ...newLinks, [linkId]: state.links[linkId] }), {});
+      const nodes = { ...state.nodes };
+      delete nodes[nodeId];
       return {
         ...state,
-        nodes: {
-          ...state.nodes,
-          [nodeId]: undefined,
-        },
+        nodes,
+        links,
       };
     }
     case GRAPH_CREATE_LINK: {
