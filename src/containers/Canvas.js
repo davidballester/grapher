@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import { getNodesAsArray, getLinksAsArray, createLink } from '../modules/graph';
 import Canvas from '../components/Canvas';
@@ -15,12 +16,15 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    openNewNode: () => dispatch(openNewNode()),
-    selectNode: (node) => dispatch(selectNode(node)),
-    deselectNode: (nodeId) => dispatch(deselectNode(nodeId)),
-    createLink: (link) => dispatch(createLink(link)),
-  };
+  return bindActionCreators(
+    {
+      openNewNode,
+      selectNode,
+      deselectNode,
+      createLink,
+    },
+    dispatch
+  );
 }
 
 export default connect(
