@@ -7,6 +7,7 @@ import NewGraph from '../containers/NewGraph';
 import Canvas from '../containers/Canvas';
 import NewNode from '../containers/NewNode';
 import SelectedNodes from '../containers/SelectedNodes';
+import ConfirmDeleteNode from '../containers/ConfirmDeleteNode';
 
 export class App extends Component {
   render() {
@@ -17,6 +18,7 @@ export class App extends Component {
         <Canvas />
         <NewNode />
         <SelectedNodes />
+        <ConfirmDeleteNode />
       </Provider>
     );
   }
