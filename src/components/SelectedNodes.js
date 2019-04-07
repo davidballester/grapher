@@ -14,8 +14,8 @@ export const SelectedNodesContainer = styled.div`
   bottom: 0;
 `;
 
-function SelectedNodes({ nodes = [], deleteNode }) {
-  const selectedNodes = nodes.map((node) => <StyledSelectedNode key={node.id} node={node} deleteNode={deleteNode} />);
+function SelectedNodes({ nodes = [], openConfirmDeleteNode }) {
+  const selectedNodes = nodes.map((node) => <StyledSelectedNode key={node.id} node={node} openConfirmDeleteNode={openConfirmDeleteNode} />);
   return <SelectedNodesContainer>{selectedNodes}</SelectedNodesContainer>;
 }
 
@@ -25,7 +25,7 @@ SelectedNodes.propTypes = {
       id: PropTypes.string.isRequired,
     })
   ).isRequired,
-  deleteNode: PropTypes.func.isRequired,
+  openConfirmDeleteNode: PropTypes.func.isRequired,
 };
 
 export default SelectedNodes;

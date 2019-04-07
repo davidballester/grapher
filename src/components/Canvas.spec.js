@@ -196,36 +196,34 @@ describe('Canvas', () => {
   });
 
   describe('delete node', () => {
-    let deleteNode;
+    let openConfirmDeleteNode;
 
     beforeEach(() => {
-      deleteNode = jest.fn();
+      openConfirmDeleteNode = jest.fn();
     });
 
     ['Backspace', 'Delete'].forEach((key) => {
       describe(key, () => {
         it('does nothing if no nodes are selected', () => {
-          const component = shallow(<Canvas nodes={nodes} deleteNode={deleteNode} />);
+          const component = shallow(<Canvas nodes={nodes} openConfirmDeleteNode={openConfirmDeleteNode} />);
           component
             .find('div')
             .first()
             .simulate('keyup', {
               key,
             });
-          expect(deleteNode).not.toHaveBeenCalled();
+          expect(openConfirmDeleteNode).not.toHaveBeenCalled();
         });
 
-        it('invokes `deleteNode` with each selected node', () => {
-          const component = shallow(<Canvas nodes={nodes} selectedNodes={nodes} deleteNode={deleteNode} />);
+        it('invokes `openConfirmDeleteNode` with each selected node', () => {
+          const component = shallow(<Canvas nodes={nodes} selectedNodes={nodes} openConfirmDeleteNode={openConfirmDeleteNode} />);
           component
             .find('div')
             .first()
             .simulate('keyup', {
               key,
             });
-          nodes.forEach(({ id }, index) => {
-            expect(deleteNode).not.toHaveBeenNthCalledWith(index, id);
-          });
+          expect(openConfirmDeleteNode).toHaveBeenCalledWith(nodes.map((node) => node.id));
         });
       });
     });

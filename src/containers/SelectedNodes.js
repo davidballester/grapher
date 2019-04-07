@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 
 import SelectedNodes from '../components/SelectedNodes';
 import { getSelectedNodes } from '../modules/node-selection';
-import { deleteNode } from '../modules/graph';
+import { openConfirmDeleteNode } from '../modules/confirm-delete-node';
 
 function mapStateToProps(state) {
   return {
@@ -12,7 +12,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ deleteNode }, dispatch);
+  return bindActionCreators({ openConfirmDeleteNode }, dispatch);
 }
 
 export default connect(
