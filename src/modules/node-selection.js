@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { MAX_SELECTED_NODES } from '../constants';
-import { getLinks } from './graph';
+import { getLinks, GRAPH_DELETE_NODE } from './graph';
 import linksService from '../services/links-service';
 
 export const NODE_SELECTION_SELECT = 'grapher/NodeSelection/SELECT';
@@ -25,6 +25,12 @@ export default function reducer(state = initialState, action) {
       };
     }
     case NODE_SELECTION_DESELECT: {
+      return {
+        ...state,
+        selectedNodes: state.selectedNodes.filter((node) => node.id !== action.payload),
+      };
+    }
+    case GRAPH_DELETE_NODE: {
       return {
         ...state,
         selectedNodes: state.selectedNodes.filter((node) => node.id !== action.payload),

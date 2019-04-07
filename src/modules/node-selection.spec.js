@@ -8,7 +8,7 @@ import {
 } from './node-selection';
 import reducer from './node-selection';
 import linksService from '../services/links-service';
-import { getLinks } from './graph';
+import { getLinks, GRAPH_DELETE_NODE } from './graph';
 
 jest.mock('./graph');
 
@@ -74,6 +74,17 @@ describe('node-selection', () => {
           selectedNodes: [{ id: 'foo' }, { id: 'bar' }],
         };
         const action = deselectNode('foo');
+        const state = reducer(initialState, action);
+        expect(state.selectedNodes).toEqual([{ id: 'bar' }]);
+      });
+    });
+
+    describe('GRAPH_DELETE_NODE', () => {
+      it("deletes the node specified by the action's payload from the selected nodes array", () => {
+        const initialState = {
+          selectedNodes: [{ id: 'foo' }, { id: 'bar' }],
+        };
+        const action = { type: GRAPH_DELETE_NODE, payload: 'foo' };
         const state = reducer(initialState, action);
         expect(state.selectedNodes).toEqual([{ id: 'bar' }]);
       });
