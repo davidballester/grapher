@@ -25,6 +25,8 @@ import {
   doLoadGraph,
   deleteNode,
   GRAPH_DELETE_NODE,
+  deleteLink,
+  GRAPH_DELETE_LINK,
 } from './graph';
 
 // eslint-disable-next-line import/first
@@ -159,6 +161,20 @@ describe('graph', () => {
       it('creates the payload provided', () => {
         const expectedPayload = 'foo';
         const action = deleteNode(expectedPayload);
+        const payload = action.payload;
+        expect(payload).toEqual(expectedPayload);
+      });
+    });
+
+    describe(deleteLink.name, () => {
+      it('creates the action with the `GRAPH_DELETE_LINK` type', () => {
+        const action = deleteLink();
+        expect(action.type).toEqual(GRAPH_DELETE_LINK);
+      });
+
+      it('creates the payload provided', () => {
+        const expectedPayload = 'foo';
+        const action = deleteLink(expectedPayload);
         const payload = action.payload;
         expect(payload).toEqual(expectedPayload);
       });
@@ -343,6 +359,25 @@ describe('graph', () => {
         expect(state).toMatchObject(expectedState);
       });
     });
+
+    describe('GRAPH_DELETE_LINK', () => {
+      it('deletes the link identified by the payload', () => {
+        const linkId = 'foo';
+        const initialState = {
+          links: {
+            [linkId]: {
+              id: linkId,
+            },
+          },
+        };
+        const expectedState = {
+          links: {},
+        };
+        const action = deleteLink(linkId);
+        const state = reducer(initialState, action);
+        expect(state).toMatchObject(expectedState);
+      });
+    });
   });
 
   describe('selectors', () => {
@@ -420,11 +455,11 @@ describe('graph', () => {
 
   describe('sagas', () => {
     describe(saveGraphSaga.name, () => {
-      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`, `GRAPH_DELETE_NODE`', async () => {
+      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`, `GRAPH_DELETE_NODE`, `GRAPH_DELETE_LINK`', async () => {
         const action = setNameGraph('bar');
         const gen = cloneableGenerator(saveGraphSaga)(action);
         expect(gen.next().value).toEqual(
-          takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE], saveGraph)
+          takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK], saveGraph)
         );
       });
     });

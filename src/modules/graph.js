@@ -12,6 +12,7 @@ export const GRAPH_LOAD_SUCCESS = 'grapher/Graph/LOAD_SUCCESS';
 export const GRAPH_CREATE_NODE = 'grapher/Graph/CREATE_NODE';
 export const GRAPH_CREATE_LINK = 'grapher/Graph/CREATE_LINK';
 export const GRAPH_DELETE_NODE = 'grapher/Graph/DELETE_NODE';
+export const GRAPH_DELETE_LINK = 'grapher/Graph/DELETE_LINK';
 
 const initialState = {
   name: '',
@@ -93,6 +94,15 @@ export default function reducer(state = initialState, action) {
         },
       };
     }
+    case GRAPH_DELETE_LINK: {
+      const linkId = action.payload;
+      const links = { ...state.links };
+      delete links[linkId];
+      return {
+        ...state,
+        links,
+      };
+    }
     default: {
       return state;
     }
@@ -148,6 +158,13 @@ export function deleteNode(nodeId) {
   };
 }
 
+export function deleteLink(linkId) {
+  return {
+    type: GRAPH_DELETE_LINK,
+    payload: linkId,
+  };
+}
+
 export function graphSelector(state) {
   return state.graph;
 }
@@ -184,7 +201,7 @@ export function* saveGraph(action) {
 }
 
 export function* saveGraphSaga() {
-  yield takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE], saveGraph);
+  yield takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK], saveGraph);
 }
 
 export function* doLoadGraph(action) {
