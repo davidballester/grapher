@@ -5,15 +5,16 @@ import blue from '@material-ui/core/colors/blue';
 import orange from '@material-ui/core/colors/orange';
 import grey from '@material-ui/core/colors/grey';
 
+const nodeProp = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+});
+
 export default class Canvas extends React.Component {
   static propTypes = {
-    nodes: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      })
-    ),
+    nodes: PropTypes.arrayOf(nodeProp),
     links: PropTypes.arrayOf(
       PropTypes.shape({
+        id: PropTypes.string.isRequired,
         source: PropTypes.string.isRequired,
         target: PropTypes.string.isRequired,
       })
@@ -25,6 +26,13 @@ export default class Canvas extends React.Component {
     createLink: PropTypes.func,
     virtualLink: PropTypes.any,
     openConfirmDeleteNode: PropTypes.func,
+    selectedLink: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      source: nodeProp,
+      target: nodeProp,
+    }),
+    selectLink: PropTypes.func,
+    deselectLink: PropTypes.func,
   };
 
   constructor(props) {
@@ -36,8 +44,8 @@ export default class Canvas extends React.Component {
   }
 
   render() {
-    const { className, openNewNode, nodes, links, selectedNodes, virtualLink } = this.props;
-    this.synchronizeGraphData(nodes, links, selectedNodes, virtualLink);
+    const { className, openNewNode, nodes, links, selectedNodes, virtualLink, selectedLink } = this.props;
+    this.synchronizeGraphData(nodes, links, selectedNodes, virtualLink, selectedLink);
     if (!!this.canvas) {
       this.setZoom();
     }
@@ -54,7 +62,7 @@ export default class Canvas extends React.Component {
           nodeCanvasObject={(node, ctx, globalScale) => this.renderNode(node, ctx, globalScale)}
           linkCanvasObject={(link, ctx, globalScale) => this.renderLink(link, ctx, globalScale)}
           onNodeClick={(node) => this.toggleNodeSelection(node)}
-          onLinkClick={(link) => this.createLink(link)}
+          onLinkClick={(link) => this.linkClick(link)}
         />
       </div>
     );
@@ -74,7 +82,7 @@ export default class Canvas extends React.Component {
     }
   };
 
-  synchronizeGraphData = (nodes, links, selectedNodes, virtualLink) => {
+  synchronizeGraphData = (nodes, links, selectedNodes, virtualLink, selectedLink) => {
     this.synchronizeNodes(nodes);
     this.synchronizeLinks(links);
     if (!!virtualLink) {
@@ -82,6 +90,7 @@ export default class Canvas extends React.Component {
     }
     this.markAllNodesAsDeselected();
     this.markNodesAsSelected(selectedNodes);
+    this.markLinkAsSelected(selectedLink);
   };
 
   synchronizeNodes = (nodes = []) => {
@@ -99,6 +108,13 @@ export default class Canvas extends React.Component {
       const node = this.graphNodesData.find((n) => n.id === selectedNode.id);
       node.selected = true;
     });
+  };
+
+  markLinkAsSelected = (link) => {
+    if (!!link) {
+      const graphLink = this.graphLinksData.find((l) => l.id === link.id);
+      graphLink.selected = true;
+    }
   };
 
   markAllNodesAsDeselected = () => {
@@ -147,9 +163,13 @@ export default class Canvas extends React.Component {
     ];
   };
 
-  createLink = (link) => {
+  linkClick = (link) => {
     if (link.virtual) {
       this.props.createLink(this.fromGraphLink(link));
+    } else if (link.selected) {
+      this.props.deselectLink(link);
+    } else {
+      this.props.selectLink(link);
     }
   };
 
@@ -159,8 +179,16 @@ export default class Canvas extends React.Component {
   };
 
   renderLink = (link, ctx, globalScale) => {
-    const { source, target, virtual = false } = link;
-    ctx.strokeStyle = virtual ? orange['A700'] : grey['300'];
+    const { source, target, virtual = false, selected = false } = link;
+    let strokeStyle;
+    if (virtual) {
+      strokeStyle = blue['A200'];
+    } else if (selected) {
+      strokeStyle = orange['A700'];
+    } else {
+      strokeStyle = grey['300'];
+    }
+    ctx.strokeStyle = strokeStyle;
     ctx.strokeWidth = 2;
     ctx.beginPath();
     ctx.moveTo(source.x, source.y);

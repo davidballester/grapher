@@ -138,7 +138,7 @@ describe('Canvas', () => {
     });
   });
 
-  describe('select', () => {
+  describe('select node', () => {
     it('invokes the `selectNode` function with the selected node when a not selected node is clicked', () => {
       const selectNode = jest.fn();
       const component = shallow(<Canvas nodes={nodes} selectNode={selectNode} />);
@@ -148,7 +148,7 @@ describe('Canvas', () => {
     });
   });
 
-  describe('deselect', () => {
+  describe('deselect node', () => {
     it('invokes the `deselectNode` function when the selected node is clicked', () => {
       const deselectNode = jest.fn();
       const component = shallow(<Canvas nodes={nodes} selectedNodes={[nodes[0]]} deselectNode={deselectNode} />);
@@ -187,7 +187,7 @@ describe('Canvas', () => {
     });
 
     it('does not invoke the create link if a not-virtual link is clicked', () => {
-      const component = shallow(<Canvas links={links} createLink={createLink} />);
+      const component = shallow(<Canvas links={links} createLink={createLink} selectLink={jest.fn()} />);
       const graph = component.find(ForceGraph2D);
       const link = graph.props().graphData.links[0];
       graph.props().onLinkClick(link);
@@ -226,6 +226,82 @@ describe('Canvas', () => {
           expect(openConfirmDeleteNode).toHaveBeenCalledWith(nodes.map((node) => node.id));
         });
       });
+    });
+  });
+
+  describe('selected link', () => {
+    let selectedLink;
+
+    beforeEach(() => {
+      selectedLink = {
+        id: links[1].id,
+        source: nodes.find((n) => n.id === links[1].source),
+        target: nodes.find((n) => n.id === links[1].target),
+      };
+    });
+
+    it('marks the selected link as selected in the array provided to the graph', () => {
+      const component = shallow(<Canvas links={links} selectedLink={selectedLink} />);
+      const graph = component.find(ForceGraph2D);
+      const linksProps = graph.props().graphData.links;
+      expect(linksProps.find((link) => link.id === selectedLink.id)).toEqual({
+        id: selectedLink.id,
+        source: selectedLink.source.id,
+        target: selectedLink.target.id,
+        selected: true,
+      });
+    });
+
+    it('unmarks the selected link if undefined is passed as prop', () => {
+      const component = shallow(<Canvas links={links} selectedLink={selectedLink} />);
+      component.setProps({ selectedLink: undefined });
+      const graph = component.find(ForceGraph2D);
+      const linksProps = graph.props().graphData.links;
+      expect(linksProps.find((l) => l.selected)).toBeFalsy();
+    });
+
+    it('swaps selected links if a new one is passed', () => {
+      const component = shallow(<Canvas links={links} selectedLink={selectedLink} />);
+      selectedLink = {
+        id: links[0].id,
+        source: nodes.find((n) => n.id === links[0].source),
+        target: nodes.find((n) => n.id === links[0].target),
+      };
+      component.setProps({ selectedLink });
+      const graph = component.find(ForceGraph2D);
+      const linksProps = graph.props().graphData.links;
+      expect(linksProps.find((l) => l.selected).id).toEqual(links[0].id);
+    });
+  });
+
+  describe('select link', () => {
+    it('invokes the `selectLink` function with the selected link when a not selected link is clicked', () => {
+      const selectLink = jest.fn();
+      const component = shallow(<Canvas links={links} selectLink={selectLink} />);
+      const graph = component.find(ForceGraph2D);
+      graph.props().onLinkClick(links[0]);
+      expect(selectLink).toHaveBeenCalledWith(links[0]);
+    });
+  });
+
+  describe('deselect link', () => {
+    let selectedLink;
+
+    beforeEach(() => {
+      selectedLink = {
+        id: links[1].id,
+        source: nodes.find((n) => n.id === links[1].source),
+        target: nodes.find((n) => n.id === links[1].target),
+      };
+    });
+
+    it('invokes the `deselectLink` function when the selected link is clicked', () => {
+      const deselectLink = jest.fn();
+      const component = shallow(<Canvas links={links} selectedLink={selectedLink} deselectLink={deselectLink} />);
+      const graph = component.find(ForceGraph2D);
+      const graphLinks = graph.props().graphData.links;
+      graph.props().onLinkClick(graphLinks[1]);
+      expect(deselectLink).toHaveBeenCalled();
     });
   });
 });

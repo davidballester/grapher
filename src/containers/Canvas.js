@@ -6,6 +6,7 @@ import { openConfirmDeleteNode } from '../modules/confirm-delete-node';
 import Canvas from '../components/Canvas';
 import { openNewNode } from '../modules/new-node';
 import { selectNode, deselectNode, getSelectedNodes, getNonExistentLinkBetweenSelectedNodes } from '../modules/node-selection';
+import { getSelectedLink, selectLink, deselectLink } from '../modules/link-selection';
 
 function mapStateToProps(state) {
   return {
@@ -13,6 +14,7 @@ function mapStateToProps(state) {
     links: getLinksAsArray(state),
     selectedNodes: getSelectedNodes(state),
     virtualLink: getNonExistentLinkBetweenSelectedNodes(state),
+    selectedLink: getSelectedLink(state),
   };
 }
 
@@ -24,6 +26,8 @@ function mapDispatchToProps(dispatch) {
       deselectNode,
       createLink,
       openConfirmDeleteNode,
+      selectLink,
+      deselectLink,
     },
     dispatch
   );
