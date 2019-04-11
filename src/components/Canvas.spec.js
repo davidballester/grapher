@@ -3,15 +3,6 @@ import { shallow } from 'enzyme';
 import ForceGraph2D from 'react-force-graph-2d';
 
 import Canvas from './Canvas';
-jest.mock('../services/links-service', () => ({
-  __esModule: true,
-  default: {
-    getId: jest.fn(),
-  },
-}));
-
-// eslint-disable-next-line import/first
-import linksService from '../services/links-service';
 
 describe('Canvas', () => {
   let nodes;
@@ -22,20 +13,26 @@ describe('Canvas', () => {
     nodes = [{ id: 'foo' }, { id: 'bar' }, { id: 'baz' }, { id: 'qux' }];
     links = [
       {
+        id: 'foo-bar',
         source: 'foo',
         target: 'bar',
       },
       {
+        id: 'bar-baz',
         source: 'bar',
         target: 'baz',
       },
       {
+        id: 'baz-qux',
         source: 'baz',
         target: 'qux',
       },
     ];
-    virtualLink = { source: 'foo', target: 'qux' };
-    linksService.getId.mockImplementation((link) => 'linkId');
+    virtualLink = {
+      id: 'source-qux',
+      source: 'foo',
+      target: 'qux',
+    };
   });
 
   afterEach(() => {
@@ -85,7 +82,7 @@ describe('Canvas', () => {
       const component = shallow(<Canvas links={links} />);
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
-      expect(linksProps.map(({ source, target }) => ({ source, target }))).toEqual(links);
+      expect(linksProps).toEqual(links);
     });
 
     it('updates the links', () => {
@@ -94,6 +91,7 @@ describe('Canvas', () => {
         links: [
           links[0],
           {
+            id: 'foo-qux',
             source: 'foo',
             target: 'qux',
           },
@@ -101,9 +99,10 @@ describe('Canvas', () => {
       });
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
-      expect(linksProps.map(({ source, target }) => ({ source, target }))).toEqual([
+      expect(linksProps).toEqual([
         links[0],
         {
+          id: 'foo-qux',
           source: 'foo',
           target: 'qux',
         },
@@ -179,6 +178,7 @@ describe('Canvas', () => {
       const component = shallow(<Canvas virtualLink={virtualLink} createLink={createLink} />);
       const graph = component.find(ForceGraph2D);
       graph.props().onLinkClick({
+        id: virtualLink.id,
         source: nodes.find((n) => n.id === virtualLink.source),
         target: nodes.find((n) => n.id === virtualLink.target),
         virtual: true,

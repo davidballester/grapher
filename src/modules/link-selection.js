@@ -23,7 +23,7 @@ export default function reducer(state = initialState, action) {
       };
     }
     case GRAPH_DELETE_LINK: {
-      const selectedLinkId = !!state.selectedLink ? state.selectedLink.id : undefined;
+      const { id: selectedLinkId } = state.selectedLink || {};
       return {
         ...state,
         selectedLink: selectedLinkId === action.payload ? undefined : state.selectedLink,

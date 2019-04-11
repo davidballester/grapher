@@ -27,14 +27,46 @@ const initialState = {
     sirmordred: { id: 'sirmordred' },
   },
   links: {
-    'kingarthur-sirmordred': { source: 'kingarthur', target: 'sirmordred' },
-    'kingarthur-ladyguinevere': { source: 'kingarthur', target: 'ladyguinevere' },
-    'kingarthur-merlin': { source: 'kingarthur', target: 'merlin' },
-    'kingarthur-sirlancelot': { source: 'kingarthur', target: 'sirlancelot' },
-    'sirlancelot-sirgalahad': { source: 'sirlancelot', target: 'sirgalahad' },
-    'sirlancelot-ladyguinevere': { source: 'sirlancelot', target: 'ladyguinevere' },
-    'sirlancelot-sirbors': { source: 'sirlancelot', target: 'sirbors' },
-    'sirgalahad-sirlamorak': { source: 'sirgalahad', target: 'sirlamorak' },
+    'kingarthur-sirmordred': {
+      id: 'kingarthur-sirmordred',
+      source: 'kingarthur',
+      target: 'sirmordred',
+    },
+    'kingarthur-ladyguinevere': {
+      id: 'kingarthur-ladyguinevere',
+      source: 'kingarthur',
+      target: 'ladyguinevere',
+    },
+    'kingarthur-merlin': {
+      id: 'kingarthur-merlin',
+      source: 'kingarthur',
+      target: 'merlin',
+    },
+    'kingarthur-sirlancelot': {
+      id: 'kingarthur-sirlancelot',
+      source: 'kingarthur',
+      target: 'sirlancelot',
+    },
+    'sirlancelot-sirgalahad': {
+      id: 'sirlancelot-sirgalahad',
+      source: 'sirlancelot',
+      target: 'sirgalahad',
+    },
+    'sirlancelot-ladyguinevere': {
+      id: 'sirlancelot-ladyguinevere',
+      source: 'sirlancelot',
+      target: 'ladyguinevere',
+    },
+    'sirlancelot-sirbors': {
+      id: 'sirlancelot-sirbors',
+      source: 'sirlancelot',
+      target: 'sirbors',
+    },
+    'sirgalahad-sirlamorak': {
+      id: 'sirgalahad-sirlamorak',
+      source: 'sirgalahad',
+      target: 'sirlamorak',
+    },
   },
 };
 
@@ -90,7 +122,10 @@ export default function reducer(state = initialState, action) {
         ...state,
         links: {
           ...state.links,
-          [linkId]: link,
+          [linkId]: {
+            id: linkId,
+            ...link,
+          },
         },
       };
     }

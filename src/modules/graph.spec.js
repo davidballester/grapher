@@ -277,7 +277,10 @@ describe('graph', () => {
         };
         const expectedState = {
           links: {
-            [linkId]: link,
+            [linkId]: {
+              id: linkId,
+              ...link,
+            },
           },
         };
         const action = createLink(link);

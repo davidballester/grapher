@@ -5,8 +5,6 @@ import blue from '@material-ui/core/colors/blue';
 import orange from '@material-ui/core/colors/orange';
 import grey from '@material-ui/core/colors/grey';
 
-import linksService from '../services/links-service';
-
 export default class Canvas extends React.Component {
   static propTypes = {
     nodes: PropTypes.arrayOf(
@@ -127,14 +125,13 @@ export default class Canvas extends React.Component {
 
   toGraphLink = (link) => {
     return {
-      id: linksService.getId(link),
-      source: link.source,
-      target: link.target,
+      ...link,
     };
   };
 
   fromGraphLink = (link) => {
     return {
+      id: link.id,
       source: link.source.id,
       target: link.target.id,
     };
