@@ -3,39 +3,42 @@ import { shallow } from 'enzyme';
 import ForceGraph2D from 'react-force-graph-2d';
 
 import Canvas from './Canvas';
-jest.mock('../services/links-service', () => ({
-  __esModule: true,
-  default: {
-    getId: jest.fn(),
-  },
-}));
-
-// eslint-disable-next-line import/first
-import linksService from '../services/links-service';
 
 describe('Canvas', () => {
   let nodes;
   let links;
   let virtualLink;
+  let selectedLink;
 
   beforeEach(() => {
     nodes = [{ id: 'foo' }, { id: 'bar' }, { id: 'baz' }, { id: 'qux' }];
     links = [
       {
+        id: 'foo-bar',
         source: 'foo',
         target: 'bar',
       },
       {
+        id: 'bar-baz',
         source: 'bar',
         target: 'baz',
       },
       {
+        id: 'baz-qux',
         source: 'baz',
         target: 'qux',
       },
     ];
-    virtualLink = { source: 'foo', target: 'qux' };
-    linksService.getId.mockImplementation((link) => 'linkId');
+    virtualLink = {
+      id: 'source-qux',
+      source: 'foo',
+      target: 'qux',
+    };
+    selectedLink = {
+      id: links[1].id,
+      source: nodes.find((n) => n.id === links[1].source),
+      target: nodes.find((n) => n.id === links[1].target),
+    };
   });
 
   afterEach(() => {
@@ -85,7 +88,7 @@ describe('Canvas', () => {
       const component = shallow(<Canvas links={links} />);
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
-      expect(linksProps.map(({ source, target }) => ({ source, target }))).toEqual(links);
+      expect(linksProps).toEqual(links);
     });
 
     it('updates the links', () => {
@@ -94,6 +97,7 @@ describe('Canvas', () => {
         links: [
           links[0],
           {
+            id: 'foo-qux',
             source: 'foo',
             target: 'qux',
           },
@@ -101,9 +105,10 @@ describe('Canvas', () => {
       });
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
-      expect(linksProps.map(({ source, target }) => ({ source, target }))).toEqual([
+      expect(linksProps).toEqual([
         links[0],
         {
+          id: 'foo-qux',
           source: 'foo',
           target: 'qux',
         },
@@ -139,7 +144,7 @@ describe('Canvas', () => {
     });
   });
 
-  describe('select', () => {
+  describe('select node', () => {
     it('invokes the `selectNode` function with the selected node when a not selected node is clicked', () => {
       const selectNode = jest.fn();
       const component = shallow(<Canvas nodes={nodes} selectNode={selectNode} />);
@@ -149,7 +154,7 @@ describe('Canvas', () => {
     });
   });
 
-  describe('deselect', () => {
+  describe('deselect node', () => {
     it('invokes the `deselectNode` function when the selected node is clicked', () => {
       const deselectNode = jest.fn();
       const component = shallow(<Canvas nodes={nodes} selectedNodes={[nodes[0]]} deselectNode={deselectNode} />);
@@ -179,6 +184,7 @@ describe('Canvas', () => {
       const component = shallow(<Canvas virtualLink={virtualLink} createLink={createLink} />);
       const graph = component.find(ForceGraph2D);
       graph.props().onLinkClick({
+        id: virtualLink.id,
         source: nodes.find((n) => n.id === virtualLink.source),
         target: nodes.find((n) => n.id === virtualLink.target),
         virtual: true,
@@ -187,7 +193,7 @@ describe('Canvas', () => {
     });
 
     it('does not invoke the create link if a not-virtual link is clicked', () => {
-      const component = shallow(<Canvas links={links} createLink={createLink} />);
+      const component = shallow(<Canvas links={links} createLink={createLink} selectLink={jest.fn()} />);
       const graph = component.find(ForceGraph2D);
       const link = graph.props().graphData.links[0];
       graph.props().onLinkClick(link);
@@ -224,6 +230,128 @@ describe('Canvas', () => {
               key,
             });
           expect(openConfirmDeleteNode).toHaveBeenCalledWith(nodes.map((node) => node.id));
+        });
+
+        it('does nothing if a link is also selected', () => {
+          const component = shallow(
+            <Canvas selectedLink={selectedLink} links={links} nodes={nodes} selectedNodes={nodes} openConfirmDeleteNode={openConfirmDeleteNode} />
+          );
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          expect(openConfirmDeleteNode).not.toHaveBeenCalled();
+        });
+      });
+    });
+  });
+
+  describe('selected link', () => {
+    it('marks the selected link as selected in the array provided to the graph', () => {
+      const component = shallow(<Canvas links={links} selectedLink={selectedLink} />);
+      const graph = component.find(ForceGraph2D);
+      const linksProps = graph.props().graphData.links;
+      expect(linksProps.find((link) => link.id === selectedLink.id)).toEqual({
+        id: selectedLink.id,
+        source: selectedLink.source.id,
+        target: selectedLink.target.id,
+        selected: true,
+      });
+    });
+
+    it('unmarks the selected link if undefined is passed as prop', () => {
+      const component = shallow(<Canvas links={links} selectedLink={selectedLink} />);
+      component.setProps({ selectedLink: undefined });
+      const graph = component.find(ForceGraph2D);
+      const linksProps = graph.props().graphData.links;
+      expect(linksProps.find((l) => l.selected)).toBeFalsy();
+    });
+
+    it('swaps selected links if a new one is passed', () => {
+      const component = shallow(<Canvas links={links} selectedLink={selectedLink} />);
+      selectedLink = {
+        id: links[0].id,
+        source: nodes.find((n) => n.id === links[0].source),
+        target: nodes.find((n) => n.id === links[0].target),
+      };
+      component.setProps({ selectedLink });
+      const graph = component.find(ForceGraph2D);
+      const linksProps = graph.props().graphData.links;
+      expect(linksProps.find((l) => l.selected).id).toEqual(links[0].id);
+    });
+  });
+
+  describe('select link', () => {
+    it('invokes the `selectLink` function with the selected link when a not selected link is clicked', () => {
+      const selectLink = jest.fn();
+      const component = shallow(<Canvas links={links} selectLink={selectLink} />);
+      const graph = component.find(ForceGraph2D);
+      graph.props().onLinkClick(links[0]);
+      expect(selectLink).toHaveBeenCalledWith(links[0]);
+    });
+  });
+
+  describe('deselect link', () => {
+    it('invokes the `deselectLink` function when the selected link is clicked', () => {
+      const deselectLink = jest.fn();
+      const component = shallow(<Canvas links={links} selectedLink={selectedLink} deselectLink={deselectLink} />);
+      const graph = component.find(ForceGraph2D);
+      const graphLinks = graph.props().graphData.links;
+      graph.props().onLinkClick(graphLinks[1]);
+      expect(deselectLink).toHaveBeenCalled();
+    });
+  });
+
+  describe('delete link', () => {
+    let openConfirmDeleteLink;
+
+    beforeEach(() => {
+      openConfirmDeleteLink = jest.fn();
+    });
+
+    ['Backspace', 'Delete'].forEach((key) => {
+      describe(key, () => {
+        it('does nothing if no link is selected', () => {
+          const component = shallow(<Canvas links={links} openConfirmDeleteLink={openConfirmDeleteLink} />);
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          expect(openConfirmDeleteLink).not.toHaveBeenCalled();
+        });
+
+        it('invokes `openConfirmDeleteLink` with the selected link id', () => {
+          const component = shallow(<Canvas links={links} selectedLink={selectedLink} openConfirmDeleteLink={openConfirmDeleteLink} />);
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          expect(openConfirmDeleteLink).toHaveBeenCalledWith(selectedLink.id);
+        });
+
+        it('does nothing if a node is also selected', () => {
+          const component = shallow(
+            <Canvas
+              selectedNodes={[nodes[0]]}
+              nodes={nodes}
+              selectedLink={selectedLink}
+              links={links}
+              openConfirmDeleteLink={openConfirmDeleteLink}
+            />
+          );
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          expect(openConfirmDeleteLink).not.toHaveBeenCalled();
         });
       });
     });

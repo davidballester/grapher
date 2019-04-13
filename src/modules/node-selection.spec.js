@@ -159,6 +159,7 @@ describe('node-selection', () => {
         },
       });
       expect(response).toEqual({
+        id: 'foo',
         source: 'baz',
         target: 'qux',
       });

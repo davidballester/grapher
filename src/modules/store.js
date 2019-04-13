@@ -8,6 +8,8 @@ import newGraphReducer from './new-graph';
 import newNodeReducer from './new-node';
 import nodeSelectionReducer from './node-selection';
 import confirmDeleteNodeReducer from './confirm-delete-node';
+import linkSelectionReducer from './link-selection';
+import confirmDeleteLinkReducer from './confirm-delete-link';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
@@ -18,6 +20,8 @@ const reducer = combineReducers({
   newNode: newNodeReducer,
   nodeSelection: nodeSelectionReducer,
   confirmDeleteNode: confirmDeleteNodeReducer,
+  linkSelection: linkSelectionReducer,
+  confirmDeleteLink: confirmDeleteLinkReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
