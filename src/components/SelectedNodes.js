@@ -8,15 +8,8 @@ export const StyledSelectedNode = styled(SelectedNode)`
   margin-bottom: 1rem;
 `;
 
-export const SelectedNodesContainer = styled.div`
-  position: absolute;
-  right: 1rem;
-  bottom: 0;
-`;
-
 function SelectedNodes({ nodes = [], openConfirmDeleteNode }) {
-  const selectedNodes = nodes.map((node) => <StyledSelectedNode key={node.id} node={node} openConfirmDeleteNode={openConfirmDeleteNode} />);
-  return <SelectedNodesContainer>{selectedNodes}</SelectedNodesContainer>;
+  return nodes.map((node) => <StyledSelectedNode key={node.id} node={node} openConfirmDeleteNode={openConfirmDeleteNode} />);
 }
 
 SelectedNodes.propTypes = {

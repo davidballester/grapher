@@ -6,10 +6,9 @@ import GraphList from '../containers/GraphList';
 import NewGraph from '../containers/NewGraph';
 import Canvas from '../containers/Canvas';
 import NewNode from '../containers/NewNode';
-import SelectedNodes from '../containers/SelectedNodes';
-import SelectedLink from '../containers/SelectedLink';
 import ConfirmDeleteNode from '../containers/ConfirmDeleteNode';
 import ConfirmDeleteLink from '../containers/ConfirmDeleteLink';
+import SelectedItems from './SelectedItems';
 
 export class App extends Component {
   render() {
@@ -19,10 +18,9 @@ export class App extends Component {
         <NewGraph />
         <Canvas />
         <NewNode />
-        <SelectedNodes />
-        <SelectedLink />
         <ConfirmDeleteNode />
         <ConfirmDeleteLink />
+        <SelectedItems />
       </Provider>
     );
   }
