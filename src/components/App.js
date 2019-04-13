@@ -8,6 +8,7 @@ import Canvas from '../containers/Canvas';
 import NewNode from '../containers/NewNode';
 import SelectedNodes from '../containers/SelectedNodes';
 import ConfirmDeleteNode from '../containers/ConfirmDeleteNode';
+import ConfirmDeleteLink from '../containers/ConfirmDeleteLink';
 
 export class App extends Component {
   render() {
@@ -19,6 +20,7 @@ export class App extends Component {
         <NewNode />
         <SelectedNodes />
         <ConfirmDeleteNode />
+        <ConfirmDeleteLink />
       </Provider>
     );
   }
