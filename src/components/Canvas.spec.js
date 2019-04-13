@@ -8,6 +8,7 @@ describe('Canvas', () => {
   let nodes;
   let links;
   let virtualLink;
+  let selectedLink;
 
   beforeEach(() => {
     nodes = [{ id: 'foo' }, { id: 'bar' }, { id: 'baz' }, { id: 'qux' }];
@@ -32,6 +33,11 @@ describe('Canvas', () => {
       id: 'source-qux',
       source: 'foo',
       target: 'qux',
+    };
+    selectedLink = {
+      id: links[1].id,
+      source: nodes.find((n) => n.id === links[1].source),
+      target: nodes.find((n) => n.id === links[1].target),
     };
   });
 
@@ -197,15 +203,9 @@ describe('Canvas', () => {
 
   describe('delete node', () => {
     let openConfirmDeleteNode;
-    let selectedLink;
 
     beforeEach(() => {
       openConfirmDeleteNode = jest.fn();
-      selectedLink = {
-        id: links[1].id,
-        source: nodes.find((n) => n.id === links[1].source),
-        target: nodes.find((n) => n.id === links[1].target),
-      };
     });
 
     ['Backspace', 'Delete'].forEach((key) => {
@@ -249,16 +249,6 @@ describe('Canvas', () => {
   });
 
   describe('selected link', () => {
-    let selectedLink;
-
-    beforeEach(() => {
-      selectedLink = {
-        id: links[1].id,
-        source: nodes.find((n) => n.id === links[1].source),
-        target: nodes.find((n) => n.id === links[1].target),
-      };
-    });
-
     it('marks the selected link as selected in the array provided to the graph', () => {
       const component = shallow(<Canvas links={links} selectedLink={selectedLink} />);
       const graph = component.find(ForceGraph2D);
@@ -304,16 +294,6 @@ describe('Canvas', () => {
   });
 
   describe('deselect link', () => {
-    let selectedLink;
-
-    beforeEach(() => {
-      selectedLink = {
-        id: links[1].id,
-        source: nodes.find((n) => n.id === links[1].source),
-        target: nodes.find((n) => n.id === links[1].target),
-      };
-    });
-
     it('invokes the `deselectLink` function when the selected link is clicked', () => {
       const deselectLink = jest.fn();
       const component = shallow(<Canvas links={links} selectedLink={selectedLink} deselectLink={deselectLink} />);
@@ -326,15 +306,9 @@ describe('Canvas', () => {
 
   describe('delete link', () => {
     let openConfirmDeleteLink;
-    let selectedLink;
 
     beforeEach(() => {
       openConfirmDeleteLink = jest.fn();
-      selectedLink = {
-        id: links[1].id,
-        source: nodes.find((n) => n.id === links[1].source),
-        target: nodes.find((n) => n.id === links[1].target),
-      };
     });
 
     ['Backspace', 'Delete'].forEach((key) => {
