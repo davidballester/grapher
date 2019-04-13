@@ -7,6 +7,7 @@ import Canvas from '../components/Canvas';
 import { openNewNode } from '../modules/new-node';
 import { selectNode, deselectNode, getSelectedNodes, getNonExistentLinkBetweenSelectedNodes } from '../modules/node-selection';
 import { getSelectedLink, selectLink, deselectLink } from '../modules/link-selection';
+import { openConfirmDeleteLink } from '../modules/confirm-delete-link';
 
 function mapStateToProps(state) {
   return {
@@ -28,6 +29,7 @@ function mapDispatchToProps(dispatch) {
       openConfirmDeleteNode,
       selectLink,
       deselectLink,
+      openConfirmDeleteLink,
     },
     dispatch
   );

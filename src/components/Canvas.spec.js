@@ -197,9 +197,15 @@ describe('Canvas', () => {
 
   describe('delete node', () => {
     let openConfirmDeleteNode;
+    let selectedLink;
 
     beforeEach(() => {
       openConfirmDeleteNode = jest.fn();
+      selectedLink = {
+        id: links[1].id,
+        source: nodes.find((n) => n.id === links[1].source),
+        target: nodes.find((n) => n.id === links[1].target),
+      };
     });
 
     ['Backspace', 'Delete'].forEach((key) => {
@@ -224,6 +230,19 @@ describe('Canvas', () => {
               key,
             });
           expect(openConfirmDeleteNode).toHaveBeenCalledWith(nodes.map((node) => node.id));
+        });
+
+        it('does nothing if a link is also selected', () => {
+          const component = shallow(
+            <Canvas selectedLink={selectedLink} links={links} nodes={nodes} selectedNodes={nodes} openConfirmDeleteNode={openConfirmDeleteNode} />
+          );
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          expect(openConfirmDeleteNode).not.toHaveBeenCalled();
         });
       });
     });
@@ -302,6 +321,65 @@ describe('Canvas', () => {
       const graphLinks = graph.props().graphData.links;
       graph.props().onLinkClick(graphLinks[1]);
       expect(deselectLink).toHaveBeenCalled();
+    });
+  });
+
+  describe('delete link', () => {
+    let openConfirmDeleteLink;
+    let selectedLink;
+
+    beforeEach(() => {
+      openConfirmDeleteLink = jest.fn();
+      selectedLink = {
+        id: links[1].id,
+        source: nodes.find((n) => n.id === links[1].source),
+        target: nodes.find((n) => n.id === links[1].target),
+      };
+    });
+
+    ['Backspace', 'Delete'].forEach((key) => {
+      describe(key, () => {
+        it('does nothing if no link is selected', () => {
+          const component = shallow(<Canvas links={links} openConfirmDeleteLink={openConfirmDeleteLink} />);
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          expect(openConfirmDeleteLink).not.toHaveBeenCalled();
+        });
+
+        it('invokes `openConfirmDeleteLink` with the selected link id', () => {
+          const component = shallow(<Canvas links={links} selectedLink={selectedLink} openConfirmDeleteLink={openConfirmDeleteLink} />);
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          expect(openConfirmDeleteLink).toHaveBeenCalledWith(selectedLink.id);
+        });
+
+        it('does nothing if a node is also selected', () => {
+          const component = shallow(
+            <Canvas
+              selectedNodes={[nodes[0]]}
+              nodes={nodes}
+              selectedLink={selectedLink}
+              links={links}
+              openConfirmDeleteLink={openConfirmDeleteLink}
+            />
+          );
+          component
+            .find('div')
+            .first()
+            .simulate('keyup', {
+              key,
+            });
+          expect(openConfirmDeleteLink).not.toHaveBeenCalled();
+        });
+      });
     });
   });
 });

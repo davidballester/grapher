@@ -33,6 +33,7 @@ export default class Canvas extends React.Component {
     }),
     selectLink: PropTypes.func,
     deselectLink: PropTypes.func,
+    openConfirmDeleteLink: PropTypes.func,
   };
 
   constructor(props) {
@@ -73,8 +74,11 @@ export default class Canvas extends React.Component {
       case 'Backspace':
       case 'Delete':
         const selectedNodes = this.props.selectedNodes || [];
-        if (!!selectedNodes.length) {
+        const selectedLink = this.props.selectedLink;
+        if (!!selectedNodes.length && !selectedLink) {
           this.props.openConfirmDeleteNode(selectedNodes.map((node) => node.id));
+        } else if (!selectedNodes.length && !!selectedLink) {
+          this.props.openConfirmDeleteLink(selectedLink.id);
         }
         break;
       default:
