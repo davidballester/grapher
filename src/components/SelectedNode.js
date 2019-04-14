@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-function SelectedNode({ node, openConfirmDeleteNode, className }) {
+function SelectedNode({ node, openConfirmDeleteNode, className, openEditNode }) {
   return (
     <Card className={className}>
       <CardContent>
@@ -18,8 +18,11 @@ function SelectedNode({ node, openConfirmDeleteNode, className }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => openConfirmDeleteNode([node.id])}>
+        <Button className="delete" size="small" onClick={() => openConfirmDeleteNode([node.id])}>
           Delete
+        </Button>
+        <Button className="edit" size="small" onClick={() => openEditNode(node)}>
+          Edit
         </Button>
       </CardActions>
     </Card>
@@ -32,6 +35,7 @@ SelectedNode.propTypes = {
   }).isRequired,
   openConfirmDeleteNode: PropTypes.func.isRequired,
   className: PropTypes.string,
+  openEditNode: PropTypes.func.isRequired,
 };
 
 export default SelectedNode;

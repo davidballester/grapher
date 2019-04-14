@@ -8,8 +8,8 @@ export const StyledSelectedNode = styled(SelectedNode)`
   margin-bottom: 1rem;
 `;
 
-function SelectedNodes({ nodes = [], openConfirmDeleteNode }) {
-  return nodes.map((node) => <StyledSelectedNode key={node.id} node={node} openConfirmDeleteNode={openConfirmDeleteNode} />);
+function SelectedNodes({ nodes = [], ...props }) {
+  return nodes.map((node) => <StyledSelectedNode key={node.id} node={node} {...props} />);
 }
 
 SelectedNodes.propTypes = {
@@ -19,6 +19,7 @@ SelectedNodes.propTypes = {
     })
   ).isRequired,
   openConfirmDeleteNode: PropTypes.func.isRequired,
+  openEditNode: PropTypes.func.isRequired,
 };
 
 export default SelectedNodes;
