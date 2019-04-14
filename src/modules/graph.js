@@ -267,6 +267,11 @@ export const getLinksAsArray = createSelector(
   (links) => Object.values(links)
 );
 
+export const getNodesIds = createSelector(
+  getNodes,
+  (nodes) => Object.keys(nodes)
+);
+
 export function* saveGraph(action) {
   const graph = yield select(graphSelector);
   const updatedGraph = yield call(reducer, graph, action);

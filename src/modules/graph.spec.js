@@ -29,6 +29,7 @@ import {
   GRAPH_DELETE_LINK,
   editNode,
   GRAPH_EDIT_NODE,
+  getNodesIds,
 } from './graph';
 
 // eslint-disable-next-line import/first
@@ -567,6 +568,31 @@ describe('graph', () => {
         };
         const links = getLinksAsArray(appState);
         expect(links).toEqual([link1, link2, link3]);
+      });
+    });
+
+    describe(getNodesIds.name, () => {
+      it('returns an empty array if there are no nodes', () => {
+        const appState = {
+          graph: {
+            nodes: {},
+          },
+        };
+        const nodesIds = getNodesIds(appState);
+        expect(nodesIds).toEqual([]);
+      });
+
+      it('returns the IDs of the nodes', () => {
+        const appState = {
+          graph: {
+            nodes: {
+              foo: {},
+              bar: {},
+            },
+          },
+        };
+        const nodesIds = getNodesIds(appState);
+        expect(nodesIds).toEqual(['foo', 'bar']);
       });
     });
   });
