@@ -9,6 +9,7 @@ import NewNode from '../containers/NewNode';
 import ConfirmDeleteNode from '../containers/ConfirmDeleteNode';
 import ConfirmDeleteLink from '../containers/ConfirmDeleteLink';
 import SelectedItems from './SelectedItems';
+import EditNode from '../containers/EditNode';
 
 export class App extends Component {
   render() {
@@ -21,6 +22,7 @@ export class App extends Component {
         <ConfirmDeleteNode />
         <ConfirmDeleteLink />
         <SelectedItems />
+        <EditNode />
       </Provider>
     );
   }
