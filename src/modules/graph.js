@@ -13,6 +13,7 @@ export const GRAPH_CREATE_NODE = 'grapher/Graph/CREATE_NODE';
 export const GRAPH_CREATE_LINK = 'grapher/Graph/CREATE_LINK';
 export const GRAPH_DELETE_NODE = 'grapher/Graph/DELETE_NODE';
 export const GRAPH_DELETE_LINK = 'grapher/Graph/DELETE_LINK';
+export const GRAPH_EDIT_NODE = 'grapher/Graph/EDIT_NODE';
 
 const initialState = {
   name: '',
@@ -138,6 +139,36 @@ export default function reducer(state = initialState, action) {
         links,
       };
     }
+    case GRAPH_EDIT_NODE: {
+      const { oldId, node } = action.payload;
+      let nodes = { ...state.nodes };
+      delete nodes[oldId];
+      const links = Object.keys(state.links)
+        .map((linkId) => {
+          let link = state.links[linkId];
+          if (link.source === oldId) {
+            link = {
+              ...link,
+              source: node.id,
+            };
+            link.id = linksService.getId(link);
+          }
+          if (link.target === oldId) {
+            link = {
+              ...link,
+              target: node.id,
+            };
+            link.id = linksService.getId(link);
+          }
+          return link;
+        })
+        .reduce((newLinks, link) => ({ ...newLinks, [link.id]: link }), {});
+      return {
+        ...state,
+        nodes: { ...nodes, [node.id]: node },
+        links,
+      };
+    }
     default: {
       return state;
     }
@@ -197,6 +228,16 @@ export function deleteLink(linkId) {
   return {
     type: GRAPH_DELETE_LINK,
     payload: linkId,
+  };
+}
+
+export function editNode(oldId, node) {
+  return {
+    type: GRAPH_EDIT_NODE,
+    payload: {
+      oldId,
+      node,
+    },
   };
 }
 

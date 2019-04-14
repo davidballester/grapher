@@ -27,6 +27,8 @@ import {
   GRAPH_DELETE_NODE,
   deleteLink,
   GRAPH_DELETE_LINK,
+  editNode,
+  GRAPH_EDIT_NODE,
 } from './graph';
 
 // eslint-disable-next-line import/first
@@ -177,6 +179,21 @@ describe('graph', () => {
         const action = deleteLink(expectedPayload);
         const payload = action.payload;
         expect(payload).toEqual(expectedPayload);
+      });
+    });
+
+    describe(editNode.name, () => {
+      it('creates the action with the `GRAPH_EDIT_NODE` type', () => {
+        const action = editNode();
+        expect(action.type).toEqual(GRAPH_EDIT_NODE);
+      });
+
+      it('creates the payload provided', () => {
+        const oldId = 'foo';
+        const node = { foo: 'bar' };
+        const action = editNode(oldId, node);
+        const payload = action.payload;
+        expect(payload).toEqual({ oldId, node });
       });
     });
   });
@@ -379,6 +396,104 @@ describe('graph', () => {
         const action = deleteLink(linkId);
         const state = reducer(initialState, action);
         expect(state).toMatchObject(expectedState);
+      });
+    });
+
+    describe('GRAPH_EDIT_NODE', () => {
+      it('substitutes the node with the new one', () => {
+        const initialState = {
+          nodes: {
+            foo: { id: 'foo' },
+          },
+          links: {},
+        };
+        const expectedState = {
+          nodes: {
+            bar: { id: 'bar' },
+          },
+          links: {},
+        };
+        const action = editNode('foo', { id: 'bar' });
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
+      });
+
+      it('does not delete the node if the ID does not change', () => {
+        const initialState = {
+          nodes: {
+            foo: { id: 'foo', bar: 'baz' },
+          },
+          links: {},
+        };
+        const expectedState = {
+          nodes: {
+            foo: { id: 'foo', baz: 'qux' },
+          },
+          links: {},
+        };
+        const action = editNode('foo', { id: 'foo', baz: 'qux' });
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
+      });
+
+      it('replaces the node ID in existing links', () => {
+        const initialState = {
+          nodes: {},
+          links: {
+            'foo-bar': {
+              id: 'foo-bar',
+              source: 'foo',
+              target: 'bar',
+            },
+          },
+        };
+        const expectedState = {
+          nodes: {
+            baz: { id: 'baz' },
+          },
+          links: {
+            'baz-bar': {
+              id: 'baz-bar',
+              source: 'baz',
+              target: 'bar',
+            },
+          },
+        };
+        linksService.getId.mockReturnValue('baz-bar');
+
+        const action = editNode('foo', { id: 'baz' });
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
+      });
+
+      it('does not modify the links if the node ID does not change', () => {
+        const initialState = {
+          nodes: {},
+          links: {
+            'foo-bar': {
+              id: 'foo-bar',
+              source: 'foo',
+              target: 'bar',
+            },
+          },
+        };
+        const expectedState = {
+          nodes: {
+            foo: { id: 'foo' },
+          },
+          links: {
+            'foo-bar': {
+              id: 'foo-bar',
+              source: 'foo',
+              target: 'bar',
+            },
+          },
+        };
+        linksService.getId.mockReturnValue('foo-bar');
+
+        const action = editNode('foo', { id: 'foo' });
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
       });
     });
   });
