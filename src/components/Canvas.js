@@ -9,16 +9,16 @@ const nodeProp = PropTypes.shape({
   id: PropTypes.string.isRequired,
 });
 
+const linkProp = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  source: PropTypes.string.isRequired,
+  target: PropTypes.string.isRequired,
+});
+
 export default class Canvas extends React.Component {
   static propTypes = {
     nodes: PropTypes.arrayOf(nodeProp),
-    links: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        source: PropTypes.string.isRequired,
-        target: PropTypes.string.isRequired,
-      })
-    ),
+    links: PropTypes.arrayOf(linkProp),
     className: PropTypes.string,
     openNewNode: PropTypes.func,
     selectNode: PropTypes.func,
@@ -26,11 +26,7 @@ export default class Canvas extends React.Component {
     createLink: PropTypes.func,
     virtualLink: PropTypes.any,
     openConfirmDeleteNode: PropTypes.func,
-    selectedLink: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      source: nodeProp,
-      target: nodeProp,
-    }),
+    selectedLink: linkProp,
     selectLink: PropTypes.func,
     deselectLink: PropTypes.func,
     openConfirmDeleteLink: PropTypes.func,
@@ -168,12 +164,13 @@ export default class Canvas extends React.Component {
   };
 
   linkClick = (link) => {
+    const stateLink = this.fromGraphLink(link);
     if (link.virtual) {
-      this.props.createLink(this.fromGraphLink(link));
+      this.props.createLink(stateLink);
     } else if (link.selected) {
-      this.props.deselectLink(link);
+      this.props.deselectLink(stateLink);
     } else {
-      this.props.selectLink(link);
+      this.props.selectLink(stateLink);
     }
   };
 

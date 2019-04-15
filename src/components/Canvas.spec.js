@@ -34,11 +34,7 @@ describe('Canvas', () => {
       source: 'foo',
       target: 'qux',
     };
-    selectedLink = {
-      id: links[1].id,
-      source: nodes.find((n) => n.id === links[1].source),
-      target: nodes.find((n) => n.id === links[1].target),
-    };
+    selectedLink = links[1];
   });
 
   afterEach(() => {
@@ -254,9 +250,7 @@ describe('Canvas', () => {
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
       expect(linksProps.find((link) => link.id === selectedLink.id)).toEqual({
-        id: selectedLink.id,
-        source: selectedLink.source.id,
-        target: selectedLink.target.id,
+        ...selectedLink,
         selected: true,
       });
     });
@@ -271,11 +265,7 @@ describe('Canvas', () => {
 
     it('swaps selected links if a new one is passed', () => {
       const component = shallow(<Canvas links={links} selectedLink={selectedLink} />);
-      selectedLink = {
-        id: links[0].id,
-        source: nodes.find((n) => n.id === links[0].source),
-        target: nodes.find((n) => n.id === links[0].target),
-      };
+      selectedLink = links[0];
       component.setProps({ selectedLink });
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
@@ -287,8 +277,17 @@ describe('Canvas', () => {
     it('invokes the `selectLink` function with the selected link when a not selected link is clicked', () => {
       const selectLink = jest.fn();
       const component = shallow(<Canvas links={links} selectLink={selectLink} />);
+      const clickedLink = {
+        ...links[0],
+        source: {
+          id: links[0].source,
+        },
+        target: {
+          id: links[0].target,
+        },
+      };
       const graph = component.find(ForceGraph2D);
-      graph.props().onLinkClick(links[0]);
+      graph.props().onLinkClick(clickedLink);
       expect(selectLink).toHaveBeenCalledWith(links[0]);
     });
   });
