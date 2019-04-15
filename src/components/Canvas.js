@@ -69,16 +69,20 @@ export default class Canvas extends React.Component {
     switch (key) {
       case 'Backspace':
       case 'Delete':
-        const selectedNodes = this.props.selectedNodes || [];
-        const selectedLink = this.props.selectedLink;
-        if (!!selectedNodes.length && !selectedLink) {
-          this.props.openConfirmDeleteNode(selectedNodes.map((node) => node.id));
-        } else if (!selectedNodes.length && !!selectedLink) {
-          this.props.openConfirmDeleteLink(selectedLink.id);
-        }
+        this.onDeleteKey();
         break;
       default:
         break;
+    }
+  };
+
+  onDeleteKey = () => {
+    const selectedNodes = this.props.selectedNodes || [];
+    const selectedLink = this.props.selectedLink;
+    if (!!selectedNodes.length && !selectedLink) {
+      this.props.openConfirmDeleteNode(selectedNodes.map((node) => node.id));
+    } else if (!selectedNodes.length && !!selectedLink) {
+      this.props.openConfirmDeleteLink(selectedLink.id);
     }
   };
 
