@@ -8,7 +8,7 @@ import {
 } from './node-selection';
 import reducer from './node-selection';
 import linksService from '../services/links-service';
-import { getLinks, GRAPH_DELETE_NODE } from './graph';
+import { getLinks, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from './graph';
 
 jest.mock('./graph');
 
@@ -87,6 +87,48 @@ describe('node-selection', () => {
         const action = { type: GRAPH_DELETE_NODE, payload: 'foo' };
         const state = reducer(initialState, action);
         expect(state.selectedNodes).toEqual([{ id: 'bar' }]);
+      });
+    });
+
+    describe('GRAPH_EDIT_NODE', () => {
+      let oldId;
+      let node;
+
+      beforeEach(() => {
+        oldId = 'foo';
+        node = {
+          id: 'bar',
+        };
+      });
+
+      it('does nothing if there are no selected nodes', () => {
+        const initialState = {
+          selectedNodes: [],
+        };
+        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
+        const state = reducer(initialState, action);
+        expect(state).toEqual(initialState);
+      });
+
+      it('does nothing if the edited node is not one of the selected nodes', () => {
+        const initialState = {
+          selectedNodes: [{ id: 'baz' }],
+        };
+        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
+        const state = reducer(initialState, action);
+        expect(state).toEqual(initialState);
+      });
+
+      it('replaces the selected node if it was edited', () => {
+        const initialState = {
+          selectedNodes: [{ id: 'baz' }, { id: 'foo', qux: 'quux' }],
+        };
+        const expectedState = {
+          selectedNodes: [{ id: 'baz' }, { id: 'bar' }],
+        };
+        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
       });
     });
   });
