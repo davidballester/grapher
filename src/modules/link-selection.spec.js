@@ -1,5 +1,15 @@
+jest.mock('../services/links-service', () => ({
+  __esModule: true,
+  default: {
+    getId: jest.fn(),
+  },
+}));
+
+// eslint-disable-next-line import/first
 import reducer, { LINK_SELECTION_SELECT, LINK_SELECTION_DESELECT, selectLink, deselectLink, getSelectedLink } from './link-selection';
-import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE } from './graph';
+// eslint-disable-next-line import/first
+import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from './graph';
+import linksService from '../services/links-service';
 
 describe('link-selection', () => {
   afterEach(() => {
@@ -125,6 +135,98 @@ describe('link-selection', () => {
           selectedLink: undefined,
         };
         const action = { type: GRAPH_DELETE_LINK, payload: 'foo' };
+        const state = reducer(initialState, action);
+        expect(state).toEqual(initialState);
+      });
+    });
+
+    describe('GRAPH_EDIT_NODE', () => {
+      let oldId;
+      let node;
+
+      beforeEach(() => {
+        oldId = 'foo';
+        node = {
+          id: 'qux',
+        };
+      });
+
+      it('does not modify the selected link if there was none', () => {
+        const initialState = {
+          selectedLink: undefined,
+        };
+        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
+        const state = reducer(initialState, action);
+        expect(state).toEqual(initialState);
+      });
+
+      it('does not modify the selected link if it is neither the source nor the the target', () => {
+        const initialState = {
+          selectedLink: {
+            id: 'bar-baz',
+            source: 'bar',
+            target: 'baz',
+          },
+        };
+        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
+        linksService.getId.mockReturnValue('bar-baz');
+        const state = reducer(initialState, action);
+        expect(state).toEqual(initialState);
+      });
+
+      it('modifies the link if the edited node is the source', () => {
+        const initialState = {
+          selectedLink: {
+            id: 'foo-baz',
+            source: 'foo',
+            target: 'baz',
+          },
+        };
+        const expectedState = {
+          selectedLink: {
+            id: 'qux-baz',
+            source: 'qux',
+            target: 'baz',
+          },
+        };
+        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
+        linksService.getId.mockReturnValue('qux-baz');
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
+      });
+
+      it('modifies the link if the edited node is the target', () => {
+        const initialState = {
+          selectedLink: {
+            id: 'baz-foo',
+            source: 'baz',
+            target: 'foo',
+          },
+        };
+        const expectedState = {
+          selectedLink: {
+            id: 'baz-qux',
+            source: 'baz',
+            target: 'qux',
+          },
+        };
+        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
+        linksService.getId.mockReturnValue('baz-qux');
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
+      });
+
+      it('does nothing if the edited node does not change its ID', () => {
+        oldId = node.id;
+        const initialState = {
+          selectedLink: {
+            id: 'foo-foo',
+            source: 'foo',
+            target: 'foo',
+          },
+        };
+        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
+        linksService.getId.mockReturnValue('foo-foo');
         const state = reducer(initialState, action);
         expect(state).toEqual(initialState);
       });
