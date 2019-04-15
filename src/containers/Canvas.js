@@ -8,6 +8,7 @@ import { openNewNode } from '../modules/new-node';
 import { selectNode, deselectNode, getSelectedNodes, getNonExistentLinkBetweenSelectedNodes } from '../modules/node-selection';
 import { getSelectedLink, selectLink, deselectLink } from '../modules/link-selection';
 import { openConfirmDeleteLink } from '../modules/confirm-delete-link';
+import { openEditNode } from '../modules/edit-node';
 
 function mapStateToProps(state) {
   return {
@@ -30,6 +31,7 @@ function mapDispatchToProps(dispatch) {
       selectLink,
       deselectLink,
       openConfirmDeleteLink,
+      openEditNode,
     },
     dispatch
   );

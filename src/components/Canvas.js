@@ -30,6 +30,7 @@ export default class Canvas extends React.Component {
     selectLink: PropTypes.func,
     deselectLink: PropTypes.func,
     openConfirmDeleteLink: PropTypes.func,
+    openEditNode: PropTypes.func,
   };
 
   constructor(props) {
@@ -71,6 +72,9 @@ export default class Canvas extends React.Component {
       case 'Delete':
         this.onDeleteKey();
         break;
+      case 'Enter':
+        this.onEnterKey();
+        break;
       default:
         break;
     }
@@ -83,6 +87,13 @@ export default class Canvas extends React.Component {
       this.props.openConfirmDeleteNode(selectedNodes.map((node) => node.id));
     } else if (!selectedNodes.length && !!selectedLink) {
       this.props.openConfirmDeleteLink(selectedLink.id);
+    }
+  };
+
+  onEnterKey = () => {
+    const selectedNodes = this.props.selectedNodes || [];
+    if (selectedNodes.length === 1) {
+      this.props.openEditNode(selectedNodes[0]);
     }
   };
 

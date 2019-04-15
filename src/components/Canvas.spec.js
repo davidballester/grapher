@@ -355,4 +355,45 @@ describe('Canvas', () => {
       });
     });
   });
+
+  describe('edit node', () => {
+    let openEditNode;
+
+    beforeEach(() => {
+      openEditNode = jest.fn();
+    });
+
+    it('does nothing if no nodes are selected', () => {
+      const component = shallow(<Canvas nodes={nodes} openEditNode={openEditNode} />);
+      component
+        .find('div')
+        .first()
+        .simulate('keyup', {
+          key: 'Enter',
+        });
+      expect(openEditNode).not.toHaveBeenCalled();
+    });
+
+    it('does nothing if there are more than one nodes selected', () => {
+      const component = shallow(<Canvas nodes={nodes} selectedNodes={[nodes[0], nodes[1]]} openEditNode={openEditNode} />);
+      component
+        .find('div')
+        .first()
+        .simulate('keyup', {
+          key: 'Enter',
+        });
+      expect(openEditNode).not.toHaveBeenCalled();
+    });
+
+    it('invokes `openEditNode` with the selected node', () => {
+      const component = shallow(<Canvas nodes={nodes} selectedNodes={[nodes[0]]} openEditNode={openEditNode} />);
+      component
+        .find('div')
+        .first()
+        .simulate('keyup', {
+          key: 'Enter',
+        });
+      expect(openEditNode).toHaveBeenCalledWith(nodes[0]);
+    });
+  });
 });
