@@ -30,6 +30,8 @@ import {
   editNode,
   GRAPH_EDIT_NODE,
   getNodesIds,
+  GRAPH_OPEN,
+  openGraph,
 } from './graph';
 
 // eslint-disable-next-line import/first
@@ -195,6 +197,19 @@ describe('graph', () => {
         const action = editNode(oldId, node);
         const payload = action.payload;
         expect(payload).toEqual({ oldId, node });
+      });
+    });
+
+    describe(openGraph.name, () => {
+      it('creates the action with the `GRAPH_OPEN` type', () => {
+        const action = openGraph();
+        expect(action.type).toEqual(GRAPH_OPEN);
+      });
+
+      it('creates the payload provided', () => {
+        const payload = 'foo';
+        const action = openGraph(payload);
+        expect(action.payload).toEqual(payload);
       });
     });
   });

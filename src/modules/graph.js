@@ -14,6 +14,7 @@ export const GRAPH_CREATE_LINK = 'grapher/Graph/CREATE_LINK';
 export const GRAPH_DELETE_NODE = 'grapher/Graph/DELETE_NODE';
 export const GRAPH_DELETE_LINK = 'grapher/Graph/DELETE_LINK';
 export const GRAPH_EDIT_NODE = 'grapher/Graph/EDIT_NODE';
+export const GRAPH_OPEN = 'grapher/Graph/OPEN';
 
 const initialState = {
   name: '',
@@ -238,6 +239,13 @@ export function editNode(oldId, node) {
       oldId,
       node,
     },
+  };
+}
+
+export function openGraph(graphName) {
+  return {
+    type: GRAPH_OPEN,
+    payload: graphName,
   };
 }
 
