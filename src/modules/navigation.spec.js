@@ -26,9 +26,9 @@ describe('navigation', () => {
   });
 
   describe(navigate.name, () => {
-    it('pushes `/graph/new` to `history` if a `NEW_GRAPH_OPEN` action is received', () => {
+    it('pushes `/graphs/new` to `history` if a `NEW_GRAPH_OPEN` action is received', () => {
       const gen = cloneableGenerator(navigate)({ type: NEW_GRAPH_OPEN });
-      expect(gen.next().value).toEqual(call([history, 'push'], '/graph/new'));
+      expect(gen.next().value).toEqual(call([history, 'push'], '/graphs/new'));
     });
 
     it('pushes `/` to `history` if a `GRAPH_LIST_OPEN` action is received', () => {
@@ -36,14 +36,14 @@ describe('navigation', () => {
       expect(gen.next().value).toEqual(call([history, 'push'], '/'));
     });
 
-    it('pushes `/graph/<GRAPH_NAME>` to `history` if a `GRAPH_LOAD` action is received', () => {
+    it('pushes `/graphs/<GRAPH_NAME>` to `history` if a `GRAPH_LOAD` action is received', () => {
       const gen = cloneableGenerator(navigate)({ type: GRAPH_LOAD, payload: 'foo' });
-      expect(gen.next().value).toEqual(call([history, 'push'], '/graph/foo'));
+      expect(gen.next().value).toEqual(call([history, 'push'], '/graphs/foo'));
     });
 
-    it('pushes `/graph/<GRAPH_NAME>` to `history` if a `GRAPH_CREATE` action is received', () => {
+    it('pushes `/graphs/<GRAPH_NAME>` to `history` if a `GRAPH_CREATE` action is received', () => {
       const gen = cloneableGenerator(navigate)({ type: GRAPH_CREATE, payload: 'foo' });
-      expect(gen.next().value).toEqual(call([history, 'push'], '/graph/foo'));
+      expect(gen.next().value).toEqual(call([history, 'push'], '/graphs/foo'));
     });
   });
 });
