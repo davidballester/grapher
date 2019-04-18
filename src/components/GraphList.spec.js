@@ -48,14 +48,14 @@ describe('GraphList', () => {
     expect(openNewGraph).toHaveBeenCalled();
   });
 
-  it('calls the `loadGraph` prop when a list item is clicked', () => {
-    const loadGraph = jest.fn();
+  it('calls the `openGraph` prop when a list item is clicked', () => {
+    const openGraph = jest.fn();
     const graphName = 'foo';
-    const component = shallow(<GraphList graphNames={[graphName]} loadGraph={loadGraph} />);
+    const component = shallow(<GraphList graphNames={[graphName]} openGraph={openGraph} />);
     component
       .find(ListItem)
       .first()
       .simulate('click');
-    expect(loadGraph).toHaveBeenCalledWith(graphName);
+    expect(openGraph).toHaveBeenCalledWith(graphName);
   });
 });

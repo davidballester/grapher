@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import GraphList from '../components/GraphList';
-import { loadGraph } from '../modules/graph';
+import { openGraph } from '../modules/graph';
 import { getGraphNames } from '../modules/graph-names';
 import { openNewGraph } from '../modules/new-graph';
 
@@ -16,7 +16,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       openNewGraph,
-      loadGraph,
+      openGraph,
     },
     dispatch
   );

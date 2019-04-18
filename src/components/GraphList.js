@@ -9,9 +9,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
-export default function GraphList({ graphNames, openNewGraph, loadGraph }) {
+export default function GraphList({ graphNames, openNewGraph, openGraph }) {
   const listItems = graphNames.map((graphName) => (
-    <ListItem key={graphName} button onClick={() => loadGraph(graphName)}>
+    <ListItem key={graphName} button onClick={() => openGraph(graphName)}>
       <ListItemText primary={graphName} />
     </ListItem>
   ));
