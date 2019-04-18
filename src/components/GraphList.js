@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
-export default function GraphList({ graphNames, isOpen, openNewGraph, loadGraph }) {
+export default function GraphList({ graphNames, openNewGraph, loadGraph }) {
   const listItems = graphNames.map((graphName) => (
     <ListItem key={graphName} button onClick={() => loadGraph(graphName)}>
       <ListItemText primary={graphName} />
@@ -28,7 +28,7 @@ export default function GraphList({ graphNames, isOpen, openNewGraph, loadGraph 
   );
 
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={true}>
       <DialogTitle>Select a graph</DialogTitle>
       <DialogContent>
         <List>

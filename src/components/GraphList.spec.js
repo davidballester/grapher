@@ -7,24 +7,24 @@ import GraphList from './GraphList';
 
 describe('GraphList', () => {
   it('renders without crashing', () => {
-    const component = shallow(<GraphList graphNames={[]} isOpen={true} />);
+    const component = shallow(<GraphList graphNames={[]} />);
     expect(component).toBeDefined();
   });
 
   it('renders one list item per graph name plus an additional one', () => {
     const graphNames = ['foo', 'bar', 'baz'];
-    const component = shallow(<GraphList graphNames={graphNames} isOpen={true} />);
+    const component = shallow(<GraphList graphNames={graphNames} />);
     expect(component.find(ListItem).getElements()).toHaveLength(graphNames.length + 1);
   });
 
   it('renders a list item when there are no graph names', () => {
-    const component = shallow(<GraphList graphNames={[]} isOpen={true} />);
+    const component = shallow(<GraphList graphNames={[]} />);
     expect(component.find(ListItem).getElements()).toHaveLength(1);
   });
 
   it('renders the graph names in the list items', () => {
     const graphNames = ['foo', 'bar', 'baz'];
-    const component = shallow(<GraphList graphNames={graphNames} isOpen={true} />);
+    const component = shallow(<GraphList graphNames={graphNames} />);
     const elements = component.find(ListItem);
     graphNames.forEach((graphName) => {
       const element = elements.find((element) => element.text().match(new RegExp(graphName, 'i')));
@@ -32,21 +32,15 @@ describe('GraphList', () => {
     });
   });
 
-  it('sets the dialog `open` prop to `false` if `isOpen` flag is set to `false`', () => {
-    const component = shallow(<GraphList graphNames={[]} isOpen={false} />);
-    const dialog = component.find(Dialog).getElement();
-    expect(dialog.props.open).toBeFalsy();
-  });
-
-  it('sets the dialog `open` prop to `true` if `isOpen` flag is set to `true`', () => {
-    const component = shallow(<GraphList graphNames={[]} isOpen={true} />);
+  it('sets the dialog `open` prop to `true`', () => {
+    const component = shallow(<GraphList graphNames={[]} />);
     const dialog = component.find(Dialog).getElement();
     expect(dialog.props.open).toBeTruthy();
   });
 
   it('calls the `openNewGraph` prop when the only list item rendered if no graph names are provided is clicked', () => {
     const openNewGraph = jest.fn();
-    const component = shallow(<GraphList graphNames={[]} openNewGraph={openNewGraph} isOpen={true} />);
+    const component = shallow(<GraphList graphNames={[]} openNewGraph={openNewGraph} />);
     component
       .find(ListItem)
       .first()
@@ -57,7 +51,7 @@ describe('GraphList', () => {
   it('calls the `loadGraph` prop when a list item is clicked', () => {
     const loadGraph = jest.fn();
     const graphName = 'foo';
-    const component = shallow(<GraphList graphNames={[graphName]} loadGraph={loadGraph} isOpen={true} />);
+    const component = shallow(<GraphList graphNames={[graphName]} loadGraph={loadGraph} />);
     component
       .find(ListItem)
       .first()
