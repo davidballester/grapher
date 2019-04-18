@@ -19,11 +19,11 @@ function submit(newGraphName, setError, saveNewGraph) {
   }
 }
 
-export default function NewGraph({ title, isOpen, saveNewGraph, cancelNewGraph }) {
+export default function NewGraph({ title, saveNewGraph, cancelNewGraph }) {
   const [newGraphName, setNewGraphName] = useState('');
   const [error, setError] = useState(false);
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={true}>
       <DialogTitle>{title}</DialogTitle>
       <form
         onSubmit={(event) => {

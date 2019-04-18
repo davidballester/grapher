@@ -1,7 +1,8 @@
 import { takeLatest, call } from 'redux-saga/effects';
 
 import history from '../services/history';
-import { NEW_GRAPH_OPEN, NEW_GRAPH_CLOSE } from './new-graph';
+import { GRAPH_LIST_OPEN } from './graph-list';
+import { NEW_GRAPH_OPEN } from './new-graph';
 import { GRAPH_LOAD } from './graph';
 
 export function* navigate({ type, payload }) {
@@ -10,7 +11,7 @@ export function* navigate({ type, payload }) {
       yield call([history, 'push'], '/graph/new');
       break;
     }
-    case NEW_GRAPH_CLOSE: {
+    case GRAPH_LIST_OPEN: {
       yield call([history, 'push'], '/');
       break;
     }
@@ -25,5 +26,5 @@ export function* navigate({ type, payload }) {
 }
 
 export function* navigateSaga() {
-  yield takeLatest([NEW_GRAPH_OPEN, NEW_GRAPH_CLOSE, GRAPH_LOAD], navigate);
+  yield takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_LOAD], navigate);
 }
