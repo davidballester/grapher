@@ -2,7 +2,7 @@ import { takeLatest, call } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
 import { GRAPH_LIST_OPEN } from './graph-list';
-import { GRAPH_LOAD } from './graph';
+import { GRAPH_LOAD, GRAPH_CREATE } from './graph';
 import { NEW_GRAPH_OPEN } from './new-graph';
 
 jest.mock('../services/history', () => ({
@@ -19,9 +19,9 @@ import { navigateSaga, navigate } from './navigation';
 
 describe('navigation', () => {
   describe(navigateSaga.name, () => {
-    it('invokes take latest with `NEW_GRAPH_OPEN`, `GRAPH_LIST_OPEN`, `GRAPH_LOAD`', () => {
+    it('invokes take latest with `NEW_GRAPH_OPEN`, `GRAPH_LIST_OPEN`, `GRAPH_LOAD`, `GRAPH_CREATE`', () => {
       const gen = cloneableGenerator(navigateSaga)({});
-      expect(gen.next().value).toEqual(takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_LOAD], navigate));
+      expect(gen.next().value).toEqual(takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_LOAD, GRAPH_CREATE], navigate));
     });
   });
 
@@ -38,6 +38,11 @@ describe('navigation', () => {
 
     it('pushes `/graph/<GRAPH_NAME>` to `history` if a `GRAPH_LOAD` action is received', () => {
       const gen = cloneableGenerator(navigate)({ type: GRAPH_LOAD, payload: 'foo' });
+      expect(gen.next().value).toEqual(call([history, 'push'], '/graph/foo'));
+    });
+
+    it('pushes `/graph/<GRAPH_NAME>` to `history` if a `GRAPH_CREATE` action is received', () => {
+      const gen = cloneableGenerator(navigate)({ type: GRAPH_CREATE, payload: 'foo' });
       expect(gen.next().value).toEqual(call([history, 'push'], '/graph/foo'));
     });
   });
