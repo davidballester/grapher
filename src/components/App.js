@@ -12,6 +12,7 @@ export class App extends Component {
       <React.Fragment>
         <Canvas />
         <Route path="/" exact component={GraphList} />
+        <Route path="/graphs" exact component={GraphList} />
         <Route path="/graph/new" exact component={NewGraph} />
         <Route path="/graph/:graphName" exact component={EditGraph} />
       </React.Fragment>
