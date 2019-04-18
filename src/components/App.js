@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import GraphList from '../containers/GraphList';
 import NewGraph from '../containers/NewGraph';
 import Canvas from '../containers/Canvas';
-import EditGraph from './EditGraph';
+import EditGraph from '../containers/EditGraph';
 
 export class App extends Component {
   render() {
