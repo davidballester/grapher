@@ -13,7 +13,7 @@ export class App extends Component {
         <Canvas />
         <Route path="/" exact component={GraphList} />
         <Route path="/graphs" exact component={GraphList} />
-        <Route path="/graphs/new" exact component={NewGraph} />
+        <Route path="/new" exact component={NewGraph} />
         <Route path="/graphs/:graphName" exact component={EditGraph} />
       </React.Fragment>
     );

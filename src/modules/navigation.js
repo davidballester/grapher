@@ -8,7 +8,7 @@ import { GRAPH_OPEN, GRAPH_CREATE } from './graph';
 export function* navigate({ type, payload }) {
   switch (type) {
     case NEW_GRAPH_OPEN: {
-      yield call([history, 'push'], '/graphs/new');
+      yield call([history, 'push'], '/new');
       break;
     }
     case GRAPH_LIST_OPEN: {

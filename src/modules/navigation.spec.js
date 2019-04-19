@@ -26,9 +26,9 @@ describe('navigation', () => {
   });
 
   describe(navigate.name, () => {
-    it('pushes `/graphs/new` to `history` if a `NEW_GRAPH_OPEN` action is received', () => {
+    it('pushes `/new` to `history` if a `NEW_GRAPH_OPEN` action is received', () => {
       const gen = cloneableGenerator(navigate)({ type: NEW_GRAPH_OPEN });
-      expect(gen.next().value).toEqual(call([history, 'push'], '/graphs/new'));
+      expect(gen.next().value).toEqual(call([history, 'push'], '/new'));
     });
 
     it('pushes `/` to `history` if a `GRAPH_LIST_OPEN` action is received', () => {
