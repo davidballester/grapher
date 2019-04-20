@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import Title from './Title';
+import { ROUTES } from '../../constants';
 
 describe(Title.name, () => {
   let location;
@@ -9,7 +10,7 @@ describe(Title.name, () => {
 
   beforeEach(() => {
     location = {
-      pathname: '/',
+      pathname: ROUTES.BASE,
     };
     graphName = 'Foo';
   });
@@ -19,19 +20,25 @@ describe(Title.name, () => {
     expect(component).toBeDefined();
   });
 
-  it('renders `Grapher` if pathname is `/`', () => {
+  it(`renders 'Grapher' if pathname is '${ROUTES.BASE}'`, () => {
     const component = mount(<Title location={location} graphName={graphName} />);
     expect(component.text().trim()).toEqual('Grapher');
   });
 
-  it('renders `New graph` if pathname is `/new`', () => {
-    location.pathname = '/new';
+  it(`renders 'Grapher' if pathname is '${ROUTES.GRAPHS}'`, () => {
+    location.pathname = ROUTES.GRAPHS;
+    const component = mount(<Title location={location} graphName={graphName} />);
+    expect(component.text().trim()).toEqual('Grapher');
+  });
+
+  it(`renders 'New graph' if pathname is '${ROUTES.NEW_GRAPH}'`, () => {
+    location.pathname = ROUTES.NEW_GRAPH;
     const component = mount(<Title location={location} graphName={graphName} />);
     expect(component.text().trim()).toEqual('New graph');
   });
 
-  it('renders the graph name if pathname is neither `/` nor `/new`', () => {
-    location.pathname = '/graphs/Foo';
+  it(`renders the graph name if pathname is not '${ROUTES.BASE}', ${ROUTES.GRAPHS} or ${ROUTES.NEW_GRAPH}`, () => {
+    location.pathname = '/foo';
     const component = mount(<Title location={location} graphName={graphName} />);
     expect(component.text().trim()).toEqual(graphName);
   });

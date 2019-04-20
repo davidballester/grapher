@@ -6,16 +6,16 @@ import NewGraph from '../containers/NewGraph';
 import Canvas from '../containers/Canvas';
 import EditGraph from '../containers/EditGraph';
 import MainBar from '../containers/MainBar';
+import { ROUTES } from '../constants';
 
 export class App extends Component {
   render() {
     return (
       <React.Fragment>
         <Route component={MainBar} />
-        <Route path="/" exact component={GraphList} />
-        <Route path="/graphs" exact component={GraphList} />
-        <Route path="/new" exact component={NewGraph} />
-        <Route path="/graphs/:graphName" exact component={EditGraph} />
+        <Route path={[ROUTES.BASE, ROUTES.GRAPHS]} exact component={GraphList} />
+        <Route path={ROUTES.NEW_GRAPH} exact component={NewGraph} />
+        <Route path={ROUTES.GRAPH} exact component={EditGraph} />
         <Canvas />
       </React.Fragment>
     );

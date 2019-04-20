@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 
+import { ROUTES } from '../../constants';
+
 function getTitle({ pathname }, graphName) {
-  if (pathname === '/') {
+  if (pathname === ROUTES.BASE || pathname === ROUTES.GRAPHS) {
     return 'Grapher';
   }
 
-  if (pathname === '/new') {
+  if (pathname === ROUTES.NEW_GRAPH) {
     return 'New graph';
   }
 

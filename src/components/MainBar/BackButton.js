@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
+import { ROUTES } from '../../constants';
+
 function BackButton({ location, ...props }) {
   const { pathname } = location;
-  if (pathname === '/') {
+  if (pathname === ROUTES.BASE || pathname === ROUTES.GRAPHS) {
     return null;
   }
   return (
-    <IconButton component={Link} to="/" color="inherit" {...props}>
+    <IconButton component={Link} to={ROUTES.BASE} color="inherit" {...props}>
       <ArrowBackIcon />
     </IconButton>
   );

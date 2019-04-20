@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 
 import BackButton from './BackButton';
+import { ROUTES } from '../../constants';
 
 describe(BackButton.name, () => {
   let location;
@@ -19,8 +20,14 @@ describe(BackButton.name, () => {
     expect(component).toBeDefined();
   });
 
-  it('does not render anything if the pathname is `/`', () => {
-    location.pathname = '/';
+  it(`does not render anything if the pathname is '${ROUTES.BASE}'`, () => {
+    location.pathname = ROUTES.BASE;
+    const component = shallow(<BackButton location={location} />);
+    expect(component.type()).toEqual(null);
+  });
+
+  it(`does not render anything if the pathname is '${ROUTES.GRAPHS}'`, () => {
+    location.pathname = ROUTES.GRAPHS;
     const component = shallow(<BackButton location={location} />);
     expect(component.type()).toEqual(null);
   });
@@ -31,9 +38,9 @@ describe(BackButton.name, () => {
     expect(iconButtonComponent).toEqual(Link);
   });
 
-  it('passes `to="/"` to the `IconButton`', () => {
+  it(`passes 'to=${ROUTES.BASE}'' to the 'IconButton'`, () => {
     const component = shallow(<BackButton location={location} />);
     const to = component.find(IconButton).props().to;
-    expect(to).toEqual('/');
+    expect(to).toEqual(ROUTES.BASE);
   });
 });

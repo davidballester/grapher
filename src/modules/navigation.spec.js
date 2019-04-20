@@ -4,6 +4,7 @@ import { cloneableGenerator } from '@redux-saga/testing-utils';
 import { GRAPH_LIST_OPEN } from './graph-list';
 import { GRAPH_OPEN, GRAPH_CREATE } from './graph';
 import { NEW_GRAPH_OPEN } from './new-graph';
+import { ROUTES } from '../constants';
 
 jest.mock('../services/history', () => ({
   __esModule: true,
@@ -26,24 +27,24 @@ describe('navigation', () => {
   });
 
   describe(navigate.name, () => {
-    it('pushes `/new` to `history` if a `NEW_GRAPH_OPEN` action is received', () => {
+    it(`pushes '${ROUTES.NEW_GRAPH}' to 'history' if a 'NEW_GRAPH_OPEN' action is received`, () => {
       const gen = cloneableGenerator(navigate)({ type: NEW_GRAPH_OPEN });
-      expect(gen.next().value).toEqual(call([history, 'push'], '/new'));
+      expect(gen.next().value).toEqual(call([history, 'push'], ROUTES.NEW_GRAPH));
     });
 
-    it('pushes `/` to `history` if a `GRAPH_LIST_OPEN` action is received', () => {
+    it(`pushes '${ROUTES.BASE}' to 'history' if a 'GRAPH_LIST_OPEN' action is received`, () => {
       const gen = cloneableGenerator(navigate)({ type: GRAPH_LIST_OPEN });
-      expect(gen.next().value).toEqual(call([history, 'push'], '/'));
+      expect(gen.next().value).toEqual(call([history, 'push'], ROUTES.BASE));
     });
 
-    it('pushes `/graphs/<GRAPH_NAME>` to `history` if a `GRAPH_OPEN` action is received', () => {
+    it(`pushes '${ROUTES.GRAPH}' to 'history' if a 'GRAPH_OPEN' action is received`, () => {
       const gen = cloneableGenerator(navigate)({ type: GRAPH_OPEN, payload: 'foo' });
-      expect(gen.next().value).toEqual(call([history, 'push'], '/graphs/foo'));
+      expect(gen.next().value).toEqual(call([history, 'push'], `${ROUTES.GRAPHS}/foo`));
     });
 
-    it('pushes `/graphs/<GRAPH_NAME>` to `history` if a `GRAPH_CREATE` action is received', () => {
+    it(`pushes '${ROUTES.GRAPH}' to 'history' if a 'GRAPH_CREATE' action is received`, () => {
       const gen = cloneableGenerator(navigate)({ type: GRAPH_CREATE, payload: 'foo' });
-      expect(gen.next().value).toEqual(call([history, 'push'], '/graphs/foo'));
+      expect(gen.next().value).toEqual(call([history, 'push'], `${ROUTES.GRAPHS}/foo`));
     });
   });
 });
