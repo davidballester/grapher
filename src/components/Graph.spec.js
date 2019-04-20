@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import EditGraph from './EditGraph';
+import Graph from './Graph';
 
-describe(EditGraph.name, () => {
+describe(Graph.name, () => {
   let loadGraph;
 
   beforeEach(() => {
@@ -15,22 +15,22 @@ describe(EditGraph.name, () => {
   });
 
   it('renders without crashing', () => {
-    const component = shallow(<EditGraph loadGraph={loadGraph} />);
+    const component = shallow(<Graph loadGraph={loadGraph} />);
     expect(component).toBeDefined();
   });
 
   it('does not invoke `loadGraph` if `graphId` is not provided', () => {
-    shallow(<EditGraph loadGraph={loadGraph} />);
+    shallow(<Graph loadGraph={loadGraph} />);
     expect(loadGraph).not.toHaveBeenCalled();
   });
 
   it('does not invoke `loadGraph` if `graphId` is equal to `loadedGraphId`', () => {
-    shallow(<EditGraph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'foo'} />);
+    shallow(<Graph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'foo'} />);
     expect(loadGraph).not.toHaveBeenCalled();
   });
 
   it('invokes `loadGraph` with `graphId`', () => {
-    shallow(<EditGraph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'bar'} />);
+    shallow(<Graph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'bar'} />);
     expect(loadGraph).toHaveBeenCalledWith('foo');
   });
 });

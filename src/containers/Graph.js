@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 
-import EditGraph from '../components/EditGraph';
+import Graph from '../components/Graph';
 import { loadGraph, getId } from '../modules/graph';
 
 function mapStateToProps(state, ownProps) {
@@ -25,5 +25,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(EditGraph)
+  )(Graph)
 );

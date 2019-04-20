@@ -7,7 +7,7 @@ import ConfirmDeleteLink from '../containers/ConfirmDeleteLink';
 import SelectedItems from './SelectedItems';
 import EditNode from '../containers/EditNode';
 
-function EditGraph({ graphId, loadedGraphId, loadGraph }) {
+function Graph({ graphId, loadedGraphId, loadGraph }) {
   if (!!graphId && graphId !== loadedGraphId) {
     loadGraph(graphId);
   }
@@ -22,10 +22,10 @@ function EditGraph({ graphId, loadedGraphId, loadGraph }) {
   );
 }
 
-EditGraph.propTypes = {
+Graph.propTypes = {
   graphId: PropTypes.string,
   loadedGraphId: PropTypes.string,
   loadGraph: PropTypes.func,
 };
 
-export default EditGraph;
+export default Graph;
