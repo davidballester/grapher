@@ -7,6 +7,7 @@ import { store } from './modules/store';
 import history from './services/history';
 import { App } from './components/App';
 import * as serviceWorker from './serviceWorker';
+import './index.css';
 
 ReactDOM.render(
   <Provider store={store}>
