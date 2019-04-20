@@ -179,7 +179,7 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export function setNameGraph(graphName) {
+export function setGraphName(graphName) {
   return {
     type: GRAPH_SET_NAME,
     payload: graphName,
