@@ -28,13 +28,13 @@ const StyledEditButton = styled(EditButton)`
   }
 `;
 
-export default function MainBar({ graphName, location }) {
+export default function MainBar({ graphName, location, openEditGraph }) {
   return (
     <StyledAppBar position="static">
       <Toolbar>
         <StyledBackButton location={location} />
         <StyledTitle location={location} graphName={graphName} />
-        <StyledEditButton graphName={graphName} />
+        <StyledEditButton graphName={graphName} openEditGraph={openEditGraph} />
       </Toolbar>
     </StyledAppBar>
   );
