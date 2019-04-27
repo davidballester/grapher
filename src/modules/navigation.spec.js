@@ -43,7 +43,7 @@ describe('navigation', () => {
     });
 
     it(`pushes '${ROUTES.GRAPH}' to 'history' if a 'GRAPH_CREATE' action is received`, () => {
-      const gen = cloneableGenerator(navigate)({ type: GRAPH_CREATE, payload: 'foo' });
+      const gen = cloneableGenerator(navigate)({ type: GRAPH_CREATE, payload: { name: 'bar', id: 'foo' } });
       expect(gen.next().value).toEqual(call([history, 'push'], `${ROUTES.GRAPHS}/foo`));
     });
   });
