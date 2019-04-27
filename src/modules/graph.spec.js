@@ -231,6 +231,12 @@ describe('graph', () => {
         const action = deleteGraph();
         expect(action.type).toEqual(GRAPH_DELETE);
       });
+
+      it('creates the payload provided', () => {
+        const payload = 'foo';
+        const action = deleteGraph(payload);
+        expect(action.payload).toEqual(payload);
+      });
     });
   });
 
@@ -716,24 +722,17 @@ describe('graph', () => {
     });
 
     describe(doDeleteGraph.name, () => {
-      it('selects using `getId`', () => {
-        let gen = cloneableGenerator(doDeleteGraph)();
-        expect(gen.next().value).toEqual(select(getId));
-      });
-
       it('calls `graphService.removeGraph`', () => {
-        const id = 'foo';
-        let gen = cloneableGenerator(doDeleteGraph)();
-        gen.next(); // select
-        expect(gen.next(id).value).toEqual(call([graphService, 'removeGraph'], id));
+        const action = { payload: 'foo' };
+        let gen = cloneableGenerator(doDeleteGraph)(action);
+        expect(gen.next().value).toEqual(call([graphService, 'removeGraph'], 'foo'));
       });
 
       it('calls `graphNamesService.removeGraphName`', () => {
-        const id = 'foo';
-        let gen = cloneableGenerator(doDeleteGraph)();
-        gen.next(); // select
-        gen.next(id); // remove graph
-        expect(gen.next().value).toEqual(call([graphNamesService, 'removeGraphName'], id));
+        const action = { payload: 'foo' };
+        let gen = cloneableGenerator(doDeleteGraph)(action);
+        gen.next(); // remove graph
+        expect(gen.next().value).toEqual(call([graphNamesService, 'removeGraphName'], 'foo'));
       });
     });
   });

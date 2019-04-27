@@ -7,42 +7,44 @@ import ConfirmDeleteGraph from './ConfirmDeleteGraph';
 describe(ConfirmDeleteGraph.name, () => {
   let isOpen;
   let graphName;
+  let graphId;
   let deleteGraph;
   let cancel;
 
   beforeEach(() => {
     isOpen = true;
     graphName = 'foo';
+    graphId = 'bar';
     deleteGraph = jest.fn();
     cancel = jest.fn();
   });
 
   it('renders without crashing', () => {
-    const component = mount(<ConfirmDeleteGraph isOpen={isOpen} graphName={graphName} deleteGraph={deleteGraph} cancel={cancel} />);
+    const component = mount(<ConfirmDeleteGraph isOpen={isOpen} graphName={graphName} graphId={graphId} deleteGraph={deleteGraph} cancel={cancel} />);
     expect(component).toBeDefined();
   });
 
   it('sets the dialog `open` prop to `false` if `isOpen` flag is set to `false`', () => {
-    const component = mount(<ConfirmDeleteGraph isOpen={false} graphName={graphName} deleteGraph={deleteGraph} cancel={cancel} />);
+    const component = mount(<ConfirmDeleteGraph isOpen={false} graphName={graphName} graphId={graphId} deleteGraph={deleteGraph} cancel={cancel} />);
     const dialog = component.find(Dialog).getElement();
     expect(dialog.props.open).toBeFalsy();
   });
 
   it('sets the dialog `open` prop to `true` if `isOpen` flag is set to `true`', () => {
-    const component = mount(<ConfirmDeleteGraph isOpen={true} graphName={graphName} deleteGraph={deleteGraph} cancel={cancel} />);
+    const component = mount(<ConfirmDeleteGraph isOpen={true} graphName={graphName} graphId={graphId} deleteGraph={deleteGraph} cancel={cancel} />);
     const dialog = component.find(Dialog).getElement();
     expect(dialog.props.open).toBeTruthy();
   });
 
   it('invokes the `cancel` function when the `cancel` button is clicked', () => {
-    const component = mount(<ConfirmDeleteGraph isOpen={isOpen} graphName={graphName} deleteGraph={deleteGraph} cancel={cancel} />);
+    const component = mount(<ConfirmDeleteGraph isOpen={isOpen} graphName={graphName} graphId={graphId} deleteGraph={deleteGraph} cancel={cancel} />);
     component.find('Button.cancel').simulate('click');
     expect(cancel).toHaveBeenCalled();
   });
 
   it('invokes the `deleteGraph` function when the `delete` button is clicked', () => {
-    const component = mount(<ConfirmDeleteGraph isOpen={isOpen} graphName={graphName} deleteGraph={deleteGraph} cancel={cancel} />);
+    const component = mount(<ConfirmDeleteGraph isOpen={isOpen} graphName={graphName} graphId={graphId} deleteGraph={deleteGraph} cancel={cancel} />);
     component.find('Button.delete').simulate('click');
-    expect(deleteGraph).toHaveBeenCalled();
+    expect(deleteGraph).toHaveBeenCalledWith(graphId);
   });
 });

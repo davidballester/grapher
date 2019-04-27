@@ -243,9 +243,10 @@ export function deleteLink(linkId) {
   };
 }
 
-export function deleteGraph() {
+export function deleteGraph(id) {
   return {
     type: GRAPH_DELETE,
+    payload: id,
   };
 }
 
@@ -321,8 +322,7 @@ export function* loadGraphSaga() {
   yield takeLatest([GRAPH_LOAD], doLoadGraph);
 }
 
-export function* doDeleteGraph() {
-  const graphId = yield select(getId);
+export function* doDeleteGraph({ payload: graphId }) {
   yield call([graphService, 'removeGraph'], graphId);
   yield call([graphNamesService, 'removeGraphName'], graphId);
 }

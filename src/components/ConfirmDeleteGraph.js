@@ -7,7 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 
-function ConfirmDeleteGraph({ isOpen, graphName, deleteGraph, cancel }) {
+function ConfirmDeleteGraph({ isOpen, graphName, graphId, deleteGraph, cancel }) {
   return (
     <Dialog open={isOpen}>
       <DialogTitle>Delete {graphName}?</DialogTitle>
@@ -18,7 +18,7 @@ function ConfirmDeleteGraph({ isOpen, graphName, deleteGraph, cancel }) {
         <Button onClick={cancel} className="cancel">
           Cancel
         </Button>
-        <Button onClick={() => deleteGraph()} className="delete" color="primary">
+        <Button onClick={() => deleteGraph(graphId)} className="delete" color="primary">
           Delete
         </Button>
       </DialogActions>
@@ -29,6 +29,7 @@ function ConfirmDeleteGraph({ isOpen, graphName, deleteGraph, cancel }) {
 ConfirmDeleteGraph.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   graphName: PropTypes.string,
+  graphId: PropTypes.string,
   deleteGraph: PropTypes.func,
   cancel: PropTypes.func,
 };
