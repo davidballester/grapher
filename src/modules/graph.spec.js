@@ -86,10 +86,11 @@ describe('graph', () => {
       });
 
       it('creates the payload provided', () => {
-        const expectedPayload = 'foo';
-        const action = setGraphName(expectedPayload);
+        const id = 'foo';
+        const name = 'bar';
+        const action = setGraphName(id, name);
         const payload = action.payload;
-        expect(payload).toEqual(expectedPayload);
+        expect(payload).toEqual({ id, name });
       });
     });
 
@@ -240,7 +241,7 @@ describe('graph', () => {
           name: undefined,
         };
         const expectedName = 'foo';
-        const action = setGraphName(expectedName);
+        const action = setGraphName('id', expectedName);
         const state = reducer(initialState, action);
         expect(state.name).toEqual(expectedName);
       });

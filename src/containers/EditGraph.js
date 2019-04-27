@@ -2,20 +2,22 @@ import { connect } from 'react-redux';
 
 import EditGraph from '../components/EditGraph';
 import { getIsOpen, closeEditGraph } from '../modules/edit-graph';
-import { setGraphName, getName } from '../modules/graph';
+import { setGraphName, getName, getId } from '../modules/graph';
 
 function mapStateToProps(state) {
+  console.log('name', getName(state), 'id', getId(state));
   return {
     isOpen: getIsOpen(state),
     graphName: getName(state),
+    graphId: getId(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setGraphName: (graphName) => {
+    setGraphName: (graphId, graphName) => {
       dispatch(closeEditGraph());
-      dispatch(setGraphName(graphName));
+      dispatch(setGraphName(graphId, graphName));
     },
     cancelEditGraph: () => dispatch(closeEditGraph()),
   };

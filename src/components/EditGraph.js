@@ -9,7 +9,7 @@ import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
-function EditGraph({ isOpen, graphName, setGraphName, cancelEditGraph }) {
+function EditGraph({ isOpen, graphId, graphName, setGraphName, cancelEditGraph }) {
   const initialValues = {
     graphName,
   };
@@ -24,7 +24,7 @@ function EditGraph({ isOpen, graphName, setGraphName, cancelEditGraph }) {
       <Formik
         initialValues={initialValues}
         validationSchema={GraphSchema}
-        onSubmit={(values) => setGraphName(values.graphName)}
+        onSubmit={(values) => setGraphName(graphId, values.graphName)}
         render={({ errors }) => (
           <Form>
             <DialogContent>
@@ -47,7 +47,8 @@ function EditGraph({ isOpen, graphName, setGraphName, cancelEditGraph }) {
 
 EditGraph.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  graphName: PropTypes.string.isRequired,
+  graphName: PropTypes.string,
+  graphId: PropTypes.string.isRequired,
   setGraphName: PropTypes.func.isRequired,
   cancelEditGraph: PropTypes.func.isRequired,
 };

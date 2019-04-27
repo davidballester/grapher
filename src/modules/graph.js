@@ -77,9 +77,10 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case GRAPH_SET_NAME: {
+      const { name } = action.payload;
       return {
         ...state,
-        name: action.payload,
+        name,
       };
     }
     case GRAPH_CREATE: {
@@ -180,10 +181,13 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export function setGraphName(graphName) {
+export function setGraphName(id, name) {
   return {
     type: GRAPH_SET_NAME,
-    payload: graphName,
+    payload: {
+      id,
+      name,
+    },
   };
 }
 
