@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 
 import Title from './Title';
 import BackButton from './BackButton';
-import EditButton from './EditButton';
+import ActionsMenu from './ActionsMenu';
 
 const StyledAppBar = styled(AppBar)`
   flex-grow: 1;
@@ -22,19 +22,19 @@ const StyledTitle = styled(Title)`
   flex-grow: 1;
 `;
 
-const StyledEditButton = styled(EditButton)`
+const StyledActionsMenu = styled(ActionsMenu)`
   && {
     margin-right: -12px;
   }
 `;
 
-export default function MainBar({ graphName, location, openEditGraph }) {
+export default function MainBar({ graphName, location, openEditGraph, openConfirmDeleteGraph }) {
   return (
     <StyledAppBar position="static">
       <Toolbar>
         <StyledBackButton location={location} />
         <StyledTitle location={location} graphName={graphName} />
-        <StyledEditButton graphName={graphName} openEditGraph={openEditGraph} />
+        <StyledActionsMenu edit={openEditGraph} remove={() => openConfirmDeleteGraph(graphName)} />
       </Toolbar>
     </StyledAppBar>
   );
