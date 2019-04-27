@@ -5,7 +5,6 @@ import { getIsOpen, closeEditGraph } from '../modules/edit-graph';
 import { setGraphName, getName, getId } from '../modules/graph';
 
 function mapStateToProps(state) {
-  console.log('name', getName(state), 'id', getId(state));
   return {
     isOpen: getIsOpen(state),
     graphName: getName(state),
