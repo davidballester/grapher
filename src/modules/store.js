@@ -1,7 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import graphNamesReducer from './graph-names';
 import graphListReducer from './graph-list';
 import graphReducer, { saveGraphSaga, loadGraphSaga, deleteGraphSaga } from './graph';
 import newGraphReducer from './new-graph';
@@ -17,7 +16,6 @@ import confirmDeleteGraphReducer from './confirm-delete-graph';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
-  graphNames: graphNamesReducer,
   graphList: graphListReducer,
   graph: graphReducer,
   newGraph: newGraphReducer,
