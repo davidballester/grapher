@@ -3,12 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 
 import EditGraph from '../components/EditGraph';
-import { loadGraph, getName } from '../modules/graph';
+import { loadGraph, getId } from '../modules/graph';
 
 function mapStateToProps(state, ownProps) {
   return {
-    graphName: ownProps.match.params.graphName,
-    loadedGraphName: getName(state),
+    graphId: ownProps.match.params.graphId,
+    loadedGraphId: getId(state),
   };
 }
 

@@ -7,9 +7,9 @@ import ConfirmDeleteLink from '../containers/ConfirmDeleteLink';
 import SelectedItems from './SelectedItems';
 import EditNode from '../containers/EditNode';
 
-function EditGraph({ graphName, loadedGraphName, loadGraph }) {
-  if (!!graphName && graphName !== loadedGraphName) {
-    loadGraph(graphName);
+function EditGraph({ graphId, loadedGraphId, loadGraph }) {
+  if (!!graphId && graphId !== loadedGraphId) {
+    loadGraph(graphId);
   }
   return (
     <React.Fragment>
@@ -23,8 +23,8 @@ function EditGraph({ graphName, loadedGraphName, loadGraph }) {
 }
 
 EditGraph.propTypes = {
-  graphName: PropTypes.string,
-  loadedGraphName: PropTypes.string,
+  graphId: PropTypes.string,
+  loadedGraphId: PropTypes.string,
   loadGraph: PropTypes.func,
 };
 
