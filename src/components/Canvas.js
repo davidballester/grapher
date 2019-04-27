@@ -157,7 +157,9 @@ export default class Canvas extends React.Component {
     if (!this.originalZoom) {
       this.originalZoom = this.canvas.zoom();
     }
-    this.canvas.zoom(this.originalZoom * 0.8);
+    if (this.graphNodesData.length === 1) {
+      this.canvas.zoom(this.originalZoom * 5);
+    }
   };
 
   toggleNodeSelection = (node) => {
