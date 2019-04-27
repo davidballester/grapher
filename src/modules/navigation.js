@@ -21,7 +21,7 @@ export function* navigate({ type, payload }) {
       break;
     }
     case GRAPH_CREATE: {
-      yield call([history, 'push'], `${ROUTES.GRAPHS}/${payload}`);
+      yield call([history, 'push'], `${ROUTES.GRAPHS}/${payload.id}`);
       break;
     }
     default: {
