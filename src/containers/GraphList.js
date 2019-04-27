@@ -3,12 +3,12 @@ import { bindActionCreators } from 'redux';
 
 import GraphList from '../components/GraphList';
 import { openGraph } from '../modules/graph';
-import { getGraphNames } from '../modules/graph-names';
+import { getGraphNamesAsArray } from '../modules/graph-names';
 import { openNewGraph } from '../modules/new-graph';
 
 function mapStateToProps(state) {
   return {
-    graphNames: getGraphNames(state),
+    graphNames: getGraphNamesAsArray(state),
   };
 }
 

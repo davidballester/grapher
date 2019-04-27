@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -9,9 +10,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
-export default function GraphList({ graphNames, openNewGraph, openGraph }) {
-  const listItems = graphNames.map((graphName) => (
-    <ListItem key={graphName} button onClick={() => openGraph(graphName)}>
+function GraphList({ graphNames, openNewGraph, openGraph }) {
+  const listItems = graphNames.map(([graphId, graphName]) => (
+    <ListItem key={graphId} button onClick={() => openGraph(graphId)}>
       <ListItemText primary={graphName} />
     </ListItem>
   ));
@@ -39,3 +40,11 @@ export default function GraphList({ graphNames, openNewGraph, openGraph }) {
     </Dialog>
   );
 }
+
+GraphList.propTypes = {
+  graphNames: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+  openNewGraph: PropTypes.func,
+  openGraph: PropTypes.func,
+};
+
+export default GraphList;
