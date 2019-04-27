@@ -19,6 +19,7 @@ export const GRAPH_OPEN = 'grapher/Graph/OPEN';
 export const GRAPH_DELETE = 'grapher/Graph/DELETE';
 
 const initialState = {
+  id: '',
   name: '',
   nodes: {
     kingarthur: { id: 'kingarthur' },
