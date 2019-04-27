@@ -1,29 +1,27 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 
 import EditGraph from '../components/EditGraph';
-import { loadGraph, getId } from '../modules/graph';
+import { getIsOpen, closeEditGraph } from '../modules/edit-graph';
+import { setGraphName, getName } from '../modules/graph';
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    graphId: ownProps.match.params.graphId,
-    loadedGraphId: getId(state),
+    isOpen: getIsOpen(state),
+    graphName: getName(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      loadGraph,
+  return {
+    setGraphName: (graphName) => {
+      dispatch(closeEditGraph());
+      dispatch(setGraphName(graphName));
     },
-    dispatch
-  );
+    cancelEditGraph: () => dispatch(closeEditGraph()),
+  };
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(EditGraph)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditGraph);

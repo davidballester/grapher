@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import GraphList from '../containers/GraphList';
 import NewGraph from '../containers/NewGraph';
 import Canvas from '../containers/Canvas';
-import EditGraph from '../containers/EditGraph';
+import Graph from '../containers/Graph';
 import MainBar from '../containers/MainBar';
 import { ROUTES } from '../constants';
 
@@ -15,7 +15,7 @@ export class App extends Component {
         <Route component={MainBar} />
         <Route path={[ROUTES.BASE, ROUTES.GRAPHS]} exact component={GraphList} />
         <Route path={ROUTES.NEW_GRAPH} exact component={NewGraph} />
-        <Route path={ROUTES.GRAPH} exact component={EditGraph} />
+        <Route path={ROUTES.GRAPH} exact component={Graph} />
         <Canvas />
       </React.Fragment>
     );

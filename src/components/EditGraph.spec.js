@@ -1,36 +1,42 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import Dialog from '@material-ui/core/Dialog';
+import { mount } from 'enzyme';
 
 import EditGraph from './EditGraph';
 
 describe(EditGraph.name, () => {
-  let loadGraph;
+  let isOpen;
+  let graphName;
+  let setGraphName;
+  let cancelEditGraph;
 
   beforeEach(() => {
-    loadGraph = jest.fn();
-  });
-
-  afterEach(() => {
-    jest.resetAllMocks();
+    isOpen = true;
+    graphName = 'foo';
+    setGraphName = jest.fn();
+    cancelEditGraph = jest.fn();
   });
 
   it('renders without crashing', () => {
-    const component = shallow(<EditGraph loadGraph={loadGraph} />);
+    const component = mount(<EditGraph isOpen={isOpen} graphName={graphName} setGraphName={setGraphName} cancelEditGraph={cancelEditGraph} />);
     expect(component).toBeDefined();
   });
 
-  it('does not invoke `loadGraph` if `graphId` is not provided', () => {
-    shallow(<EditGraph loadGraph={loadGraph} />);
-    expect(loadGraph).not.toHaveBeenCalled();
+  it('sets the dialog `open` prop to `false` if `isOpen` flag is set to `false`', () => {
+    const component = mount(<EditGraph isOpen={false} graphName={graphName} setGraphName={setGraphName} cancelEditGraph={cancelEditGraph} />);
+    const dialog = component.find(Dialog).getElement();
+    expect(dialog.props.open).toBeFalsy();
   });
 
-  it('does not invoke `loadGraph` if `graphId` is equal to `loadedGraphId`', () => {
-    shallow(<EditGraph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'foo'} />);
-    expect(loadGraph).not.toHaveBeenCalled();
+  it('sets the dialog `open` prop to `true` if `isOpen` flag is set to `true`', () => {
+    const component = mount(<EditGraph isOpen={true} graphName={graphName} setGraphName={setGraphName} cancelEditGraph={cancelEditGraph} />);
+    const dialog = component.find(Dialog).getElement();
+    expect(dialog.props.open).toBeTruthy();
   });
 
-  it('invokes `loadGraph` with `graphId`', () => {
-    shallow(<EditGraph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'bar'} />);
-    expect(loadGraph).toHaveBeenCalledWith('foo');
+  it('invokes the `cancelEditGraph` function when the `cancel` button is clicked', () => {
+    const component = mount(<EditGraph isOpen={isOpen} graphName={graphName} setGraphName={setGraphName} cancelEditGraph={cancelEditGraph} />);
+    component.find('Button.cancel').simulate('click');
+    expect(cancelEditGraph).toHaveBeenCalled();
   });
 });

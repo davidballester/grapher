@@ -16,10 +16,10 @@ function getTitle({ pathname }, graphName) {
   return graphName;
 }
 
-function Title({ location, graphName }) {
+function Title({ location, graphName, ...props }) {
   const title = getTitle(location, graphName);
   return (
-    <Typography variant="h6" color="inherit">
+    <Typography variant="h6" color="inherit" {...props}>
       {title}
     </Typography>
   );

@@ -1,31 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogContent';
+import Button from '@material-ui/core/Button';
+import { TextField } from 'formik-material-ui';
+import { Formik, Field, Form } from 'formik';
+import * as Yup from 'yup';
 
-import NewNode from '../containers/NewNode';
-import ConfirmDeleteNode from '../containers/ConfirmDeleteNode';
-import ConfirmDeleteLink from '../containers/ConfirmDeleteLink';
-import SelectedItems from './SelectedItems';
-import EditNode from '../containers/EditNode';
+function EditGraph({ isOpen, graphName, setGraphName, cancelEditGraph }) {
+  const initialValues = {
+    graphName,
+  };
 
-function EditGraph({ graphId, loadedGraphId, loadGraph }) {
-  if (!!graphId && graphId !== loadedGraphId) {
-    loadGraph(graphId);
-  }
+  const GraphSchema = Yup.object().shape({
+    graphName: Yup.string().required('Required'),
+  });
+
   return (
-    <React.Fragment>
-      <NewNode />
-      <ConfirmDeleteNode />
-      <ConfirmDeleteLink />
-      <SelectedItems />
-      <EditNode />
-    </React.Fragment>
+    <Dialog open={isOpen}>
+      <DialogTitle>Edit graph {graphName}</DialogTitle>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={GraphSchema}
+        onSubmit={(values) => setGraphName(values.graphName)}
+        render={({ errors }) => (
+          <Form>
+            <DialogContent>
+              <Field type="text" label="Name" name="graphName" component={TextField} error={!!errors.name} />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={cancelEditGraph} className="cancel" type="button">
+                Cancel
+              </Button>
+              <Button color="primary" type="submit">
+                Done
+              </Button>
+            </DialogActions>
+          </Form>
+        )}
+      />
+    </Dialog>
   );
 }
 
 EditGraph.propTypes = {
-  graphId: PropTypes.string,
-  loadedGraphId: PropTypes.string,
-  loadGraph: PropTypes.func,
+  isOpen: PropTypes.bool.isRequired,
+  graphName: PropTypes.string.isRequired,
+  setGraphName: PropTypes.func.isRequired,
+  cancelEditGraph: PropTypes.func.isRequired,
 };
 
 export default EditGraph;

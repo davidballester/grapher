@@ -9,7 +9,7 @@ import { cloneableGenerator } from '@redux-saga/testing-utils';
 
 import {
   getName,
-  setNameGraph,
+  setGraphName,
   GRAPH_SET_NAME,
   getNodesAsArray,
   getLinksAsArray,
@@ -74,15 +74,15 @@ describe('graph', () => {
   });
 
   describe('actions', () => {
-    describe('setNameGraph', () => {
+    describe('setGraphName', () => {
       it('creates the action with the `GRAPH_SET_NAME` type', () => {
-        const action = setNameGraph();
+        const action = setGraphName();
         expect(action.type).toEqual(GRAPH_SET_NAME);
       });
 
       it('creates the payload provided', () => {
         const expectedPayload = 'foo';
-        const action = setNameGraph(expectedPayload);
+        const action = setGraphName(expectedPayload);
         const payload = action.payload;
         expect(payload).toEqual(expectedPayload);
       });
@@ -228,7 +228,7 @@ describe('graph', () => {
           name: undefined,
         };
         const expectedName = 'foo';
-        const action = setNameGraph(expectedName);
+        const action = setGraphName(expectedName);
         const state = reducer(initialState, action);
         expect(state.name).toEqual(expectedName);
       });
@@ -623,7 +623,7 @@ describe('graph', () => {
   describe('sagas', () => {
     describe(saveGraphSaga.name, () => {
       it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`, `GRAPH_DELETE_NODE`, `GRAPH_DELETE_LINK`', async () => {
-        const action = setNameGraph('bar');
+        const action = setGraphName('bar');
         const gen = cloneableGenerator(saveGraphSaga)(action);
         expect(gen.next().value).toEqual(
           takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK], saveGraph)
