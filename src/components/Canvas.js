@@ -33,6 +33,11 @@ export default class Canvas extends React.Component {
     openEditNode: PropTypes.func,
   };
 
+  state = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  };
+
   constructor(props) {
     super(props);
     this.canvas = undefined;
@@ -41,8 +46,18 @@ export default class Canvas extends React.Component {
     this.originalZoom = undefined;
   }
 
+  componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener('resize', this.updateDimensions.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions.bind(this));
+  }
+
   render() {
     const { className, openNewNode, nodes, links, selectedNodes, virtualLink, selectedLink } = this.props;
+    const { height, width } = this.state;
     this.synchronizeGraphData(nodes, links, selectedNodes, virtualLink, selectedLink);
     if (!!this.canvas) {
       this.setZoom();
@@ -52,6 +67,8 @@ export default class Canvas extends React.Component {
       <div className={className} onDoubleClick={openNewNode} tabIndex="0" onKeyUp={(evt) => this.handleKey(evt.key)}>
         <ForceGraph2D
           ref={(canvas) => (this.canvas = canvas)}
+          height={height}
+          width={width}
           graphData={{ nodes: this.graphNodesData, links: this.graphLinksData }}
           nodeRelSize={8}
           linkDirectionalArrowLength={5}
@@ -235,5 +252,13 @@ export default class Canvas extends React.Component {
     ctx.fillStyle = '#000';
     ctx.font = `${fontSize}px Sans-Serif`;
     ctx.fillText(node.id, node.x, node.y + 12);
+  };
+
+  updateDimensions = () => {
+    const headerHeight = window.innerWidth < 600 ? 60 : 70;
+    this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight - headerHeight,
+    });
   };
 }
