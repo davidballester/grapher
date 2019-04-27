@@ -32,5 +32,5 @@ export function* navigate({ type, payload }) {
 }
 
 export function* navigateSaga() {
-  yield takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE], navigate);
+  yield takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE], navigate);
 }

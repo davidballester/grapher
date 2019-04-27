@@ -20,9 +20,9 @@ import { navigateSaga, navigate } from './navigation';
 
 describe('navigation', () => {
   describe(navigateSaga.name, () => {
-    it('invokes take latest with `NEW_GRAPH_OPEN`, `GRAPH_LIST_OPEN`, `GRAPH_OPEN`, `GRAPH_CREATE`', () => {
+    it('invokes take latest with `NEW_GRAPH_OPEN`, `GRAPH_LIST_OPEN`, `GRAPH_OPEN`, `GRAPH_CREATE`, `GRAPH_DELETE`', () => {
       const gen = cloneableGenerator(navigateSaga)({});
-      expect(gen.next().value).toEqual(takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE], navigate));
+      expect(gen.next().value).toEqual(takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE], navigate));
     });
   });
 
