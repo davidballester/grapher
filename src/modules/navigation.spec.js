@@ -2,7 +2,7 @@ import { takeLatest, call } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
 import { GRAPH_LIST_OPEN } from './graph-list';
-import { GRAPH_OPEN, GRAPH_CREATE } from './graph';
+import { GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE } from './graph';
 import { NEW_GRAPH_OPEN } from './new-graph';
 import { ROUTES } from '../constants';
 
@@ -45,6 +45,11 @@ describe('navigation', () => {
     it(`pushes '${ROUTES.GRAPH}' to 'history' if a 'GRAPH_CREATE' action is received`, () => {
       const gen = cloneableGenerator(navigate)({ type: GRAPH_CREATE, payload: { name: 'bar', id: 'foo' } });
       expect(gen.next().value).toEqual(call([history, 'push'], `${ROUTES.GRAPHS}/foo`));
+    });
+
+    it(`pushes '${ROUTES.BASE}' to 'history' if a 'GRAPH_DELETE' action is received`, () => {
+      const gen = cloneableGenerator(navigate)({ type: GRAPH_DELETE });
+      expect(gen.next().value).toEqual(call([history, 'push'], ROUTES.BASE));
     });
   });
 });

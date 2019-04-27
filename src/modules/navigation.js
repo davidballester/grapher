@@ -3,7 +3,7 @@ import { takeLatest, call } from 'redux-saga/effects';
 import history from '../services/history';
 import { GRAPH_LIST_OPEN } from './graph-list';
 import { NEW_GRAPH_OPEN } from './new-graph';
-import { GRAPH_OPEN, GRAPH_CREATE } from './graph';
+import { GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE } from './graph';
 import { ROUTES } from '../constants';
 
 export function* navigate({ type, payload }) {
@@ -12,7 +12,8 @@ export function* navigate({ type, payload }) {
       yield call([history, 'push'], ROUTES.NEW_GRAPH);
       break;
     }
-    case GRAPH_LIST_OPEN: {
+    case GRAPH_LIST_OPEN:
+    case GRAPH_DELETE: {
       yield call([history, 'push'], ROUTES.BASE);
       break;
     }
