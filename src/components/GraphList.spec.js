@@ -6,13 +6,18 @@ import { shallow } from 'enzyme';
 import GraphList from './GraphList';
 
 describe('GraphList', () => {
+  let graphNames;
+
+  beforeEach(() => {
+    graphNames = [['1', 'foo'], ['2', 'bar'], ['3', 'baz']];
+  });
+
   it('renders without crashing', () => {
     const component = shallow(<GraphList graphNames={[]} />);
     expect(component).toBeDefined();
   });
 
   it('renders one list item per graph name plus an additional one', () => {
-    const graphNames = ['foo', 'bar', 'baz'];
     const component = shallow(<GraphList graphNames={graphNames} />);
     expect(component.find(ListItem).getElements()).toHaveLength(graphNames.length + 1);
   });
@@ -23,7 +28,6 @@ describe('GraphList', () => {
   });
 
   it('renders the graph names in the list items', () => {
-    const graphNames = ['foo', 'bar', 'baz'];
     const component = shallow(<GraphList graphNames={graphNames} />);
     const elements = component.find(ListItem);
     graphNames.forEach((graphName) => {
@@ -50,12 +54,11 @@ describe('GraphList', () => {
 
   it('calls the `openGraph` prop when a list item is clicked', () => {
     const openGraph = jest.fn();
-    const graphName = 'foo';
-    const component = shallow(<GraphList graphNames={[graphName]} openGraph={openGraph} />);
+    const component = shallow(<GraphList graphNames={graphNames} openGraph={openGraph} />);
     component
       .find(ListItem)
       .first()
       .simulate('click');
-    expect(openGraph).toHaveBeenCalledWith(graphName);
+    expect(openGraph).toHaveBeenCalledWith(graphNames[0][0]);
   });
 });
