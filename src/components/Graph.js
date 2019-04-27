@@ -7,6 +7,7 @@ import ConfirmDeleteLink from '../containers/ConfirmDeleteLink';
 import SelectedItems from './SelectedItems';
 import EditNode from '../containers/EditNode';
 import EditGraph from '../containers/EditGraph';
+import ConfirmDeleteGraph from '../containers/ConfirmDeleteGraph';
 
 function Graph({ graphId, loadedGraphId, loadGraph }) {
   if (!!graphId && graphId !== loadedGraphId) {
@@ -20,6 +21,7 @@ function Graph({ graphId, loadedGraphId, loadGraph }) {
       <SelectedItems />
       <EditNode />
       <EditGraph />
+      <ConfirmDeleteGraph />
     </React.Fragment>
   );
 }
