@@ -11,6 +11,7 @@ import confirmDeleteNodeReducer from './confirm-delete-node';
 import linkSelectionReducer from './link-selection';
 import confirmDeleteLinkReducer from './confirm-delete-link';
 import editNodeReducer from './edit-node';
+import editGraphReducer from './edit-graph';
 import { navigateSaga } from './navigation';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   linkSelection: linkSelectionReducer,
   confirmDeleteLink: confirmDeleteLinkReducer,
   editNode: editNodeReducer,
+  editGraph: editGraphReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
