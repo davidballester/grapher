@@ -4,7 +4,7 @@ describe('graphService', () => {
   let graph;
 
   beforeEach(() => {
-    graph = { name: 'foo', bar: 'baz' };
+    graph = { id: 'foo', bar: 'baz' };
   });
 
   afterEach(() => {
@@ -18,9 +18,9 @@ describe('graphService', () => {
       setItemSpy = jest.spyOn(localStorage, 'setItem');
     });
 
-    it(`saves a stringified version of the graph under \`${GRAPH_STORAGE_PREFIX}\` + graph name`, () => {
+    it(`saves a stringified version of the graph under \`${GRAPH_STORAGE_PREFIX}\` + graph id`, () => {
       graphService.saveGraph(graph);
-      expect(setItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.name}`, JSON.stringify(graph));
+      expect(setItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.id}`, JSON.stringify(graph));
     });
   });
 
@@ -31,13 +31,13 @@ describe('graphService', () => {
       getItemSpy = jest.spyOn(localStorage, 'getItem').mockReturnValue(JSON.stringify(graph));
     });
 
-    it(`reads from the local storage the record under \`${GRAPH_STORAGE_PREFIX}\` + graph name`, () => {
-      graphService.readGraph(graph.name);
-      expect(getItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.name}`);
+    it(`reads from the local storage the record under \`${GRAPH_STORAGE_PREFIX}\` + graph id`, () => {
+      graphService.readGraph(graph.id);
+      expect(getItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.id}`);
     });
 
-    it(`returns the parsed value of the store record under \`${GRAPH_STORAGE_PREFIX}\` + graph name`, () => {
-      const returnedGraph = graphService.readGraph(graph.name);
+    it(`returns the parsed value of the store record under \`${GRAPH_STORAGE_PREFIX}\` + graph id`, () => {
+      const returnedGraph = graphService.readGraph(graph.id);
       expect(returnedGraph).toEqual(graph);
     });
   });
@@ -49,9 +49,9 @@ describe('graphService', () => {
       removeItemSpy = jest.spyOn(localStorage, 'removeItem');
     });
 
-    it(`removes from the local storage the record under \`${GRAPH_STORAGE_PREFIX}\` + graph name`, () => {
-      graphService.removeGraph(graph.name);
-      expect(removeItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.name}`);
+    it(`removes from the local storage the record under \`${GRAPH_STORAGE_PREFIX}\` + graph id`, () => {
+      graphService.removeGraph(graph.id);
+      expect(removeItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.id}`);
     });
   });
 });
