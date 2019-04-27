@@ -19,18 +19,18 @@ describe(EditGraph.name, () => {
     expect(component).toBeDefined();
   });
 
-  it('does not invoke `loadGraph` if `graphName` is not provided', () => {
+  it('does not invoke `loadGraph` if `graphId` is not provided', () => {
     shallow(<EditGraph loadGraph={loadGraph} />);
     expect(loadGraph).not.toHaveBeenCalled();
   });
 
-  it('does not invoke `loadGraph` if `graphName` is equal to `loadedGraphName`', () => {
-    shallow(<EditGraph loadGraph={loadGraph} graphName={'foo'} loadedGraphName={'foo'} />);
+  it('does not invoke `loadGraph` if `graphId` is equal to `loadedGraphId`', () => {
+    shallow(<EditGraph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'foo'} />);
     expect(loadGraph).not.toHaveBeenCalled();
   });
 
-  it('invokes `loadGraph` with `graphName`', () => {
-    shallow(<EditGraph loadGraph={loadGraph} graphName={'foo'} loadedGraphName={'bar'} />);
+  it('invokes `loadGraph` with `graphId`', () => {
+    shallow(<EditGraph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'bar'} />);
     expect(loadGraph).toHaveBeenCalledWith('foo');
   });
 });
