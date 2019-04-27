@@ -37,6 +37,11 @@ import {
   getNodesIds,
   GRAPH_OPEN,
   openGraph,
+  GRAPH_DELETE,
+  deleteGraph,
+  deleteGraphSaga,
+  doDeleteGraph,
+  getId,
 } from './graph';
 
 import reducer from './graph';
@@ -217,6 +222,13 @@ describe('graph', () => {
         const payload = 'foo';
         const action = openGraph(payload);
         expect(action.payload).toEqual(payload);
+      });
+    });
+
+    describe(deleteGraph.name, () => {
+      it('creates the action with the `GRAPH_DELETE` type', () => {
+        const action = deleteGraph();
+        expect(action.type).toEqual(GRAPH_DELETE);
       });
     });
   });
@@ -536,6 +548,19 @@ describe('graph', () => {
       });
     });
 
+    describe(getId.name, () => {
+      it('extracts `id` from the graph substate', () => {
+        const expectedId = 'foo';
+        const appState = {
+          graph: {
+            id: expectedId,
+          },
+        };
+        const id = getId(appState);
+        expect(id).toEqual(expectedId);
+      });
+    });
+
     describe('getNodesAsArray', () => {
       it('returns an empty array if there are no nodes', () => {
         const appState = {
@@ -678,6 +703,36 @@ describe('graph', () => {
         const gen = cloneableGenerator(doLoadGraph)(action);
         gen.next();
         expect(gen.next(graph).value).toEqual(put(loadGraphSuccess(graph)));
+      });
+    });
+
+    describe(deleteGraphSaga.name, () => {
+      it('invokes take latest with `GRAPH_DELETE`', () => {
+        const action = deleteGraph();
+        const gen = cloneableGenerator(deleteGraphSaga)(action);
+        expect(gen.next().value).toEqual(takeLatest([GRAPH_DELETE], doDeleteGraph));
+      });
+    });
+
+    describe(doDeleteGraph.name, () => {
+      it('selects using `getId`', () => {
+        let gen = cloneableGenerator(doDeleteGraph)();
+        expect(gen.next().value).toEqual(select(getId));
+      });
+
+      it('calls `graphService.removeGraph`', () => {
+        const id = 'foo';
+        let gen = cloneableGenerator(doDeleteGraph)();
+        gen.next(); // select
+        expect(gen.next(id).value).toEqual(call([graphService, 'removeGraph'], id));
+      });
+
+      it('calls `graphNamesService.removeGraphName`', () => {
+        const id = 'foo';
+        let gen = cloneableGenerator(doDeleteGraph)();
+        gen.next(); // select
+        gen.next(id); // remove graph
+        expect(gen.next().value).toEqual(call([graphNamesService, 'removeGraphName'], id));
       });
     });
   });
