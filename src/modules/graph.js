@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { select, takeLatest, call, put } from 'redux-saga/effects';
+import uuid from 'uuid/v4';
 
 import linksService from '../services/links-service';
 import graphService from '../services/graph-service';
@@ -81,9 +82,11 @@ export default function reducer(state = initialState, action) {
       };
     }
     case GRAPH_CREATE: {
+      const { name, id } = action.payload;
       return {
         ...state,
-        name: action.payload,
+        id,
+        name,
         nodes: {},
         links: {},
       };
@@ -183,17 +186,20 @@ export function setNameGraph(graphName) {
   };
 }
 
-export function createGraph(graphName) {
+export function createGraph(name) {
   return {
     type: GRAPH_CREATE,
-    payload: graphName,
+    payload: {
+      name,
+      id: uuid(),
+    },
   };
 }
 
-export function loadGraph(graphName) {
+export function loadGraph(id) {
   return {
     type: GRAPH_LOAD,
-    payload: graphName,
+    payload: id,
   };
 }
 
@@ -242,15 +248,19 @@ export function editNode(oldId, node) {
   };
 }
 
-export function openGraph(graphName) {
+export function openGraph(id) {
   return {
     type: GRAPH_OPEN,
-    payload: graphName,
+    payload: id,
   };
 }
 
 export function graphSelector(state) {
   return state.graph;
+}
+
+export function getId(state) {
+  return graphSelector(state).id;
 }
 
 export function getName(state) {
@@ -280,13 +290,10 @@ export const getNodesIds = createSelector(
   (nodes) => Object.keys(nodes)
 );
 
-export function* saveGraph(action) {
+export function* saveGraph() {
   const graph = yield select(graphSelector);
-  const updatedGraph = yield call(reducer, graph, action);
-  yield call([graphService, 'removeGraph'], graph.name);
-  yield call([graphService, 'saveGraph'], updatedGraph);
-  yield call([graphNamesService, 'removeGraphName'], graph.name);
-  yield call([graphNamesService, 'saveGraphName'], updatedGraph.name);
+  yield call([graphService, 'saveGraph'], graph);
+  yield call([graphNamesService, 'saveGraphName'], graph.id, graph.name);
 }
 
 export function* saveGraphSaga() {
@@ -294,8 +301,8 @@ export function* saveGraphSaga() {
 }
 
 export function* doLoadGraph(action) {
-  const graphName = action.payload;
-  const graph = yield call([graphService, 'readGraph'], graphName);
+  const graphId = action.payload;
+  const graph = yield call([graphService, 'readGraph'], graphId);
   yield put(loadGraphSuccess(graph));
 }
 

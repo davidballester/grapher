@@ -1,7 +1,12 @@
+/* eslint-disable import/first */
+jest.mock('uuid/v4', () => ({
+  __esModule: true,
+  default: () => 'uuid',
+}));
+
 import { select, takeLatest, call, put } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
-// eslint-disable-next-line import/first
 import {
   getName,
   setNameGraph,
@@ -34,7 +39,6 @@ import {
   openGraph,
 } from './graph';
 
-// eslint-disable-next-line import/first
 import reducer from './graph';
 jest.mock('../services/links-service', () => ({
   __esModule: true,
@@ -60,11 +64,8 @@ jest.mock('../services/graph-names-service', () => ({
   },
 }));
 
-// eslint-disable-next-line import/first
 import linksService from '../services/links-service';
-// eslint-disable-next-line import/first
 import graphService from '../services/graph-service';
-// eslint-disable-next-line import/first
 import graphNamesService from '../services/graph-names-service';
 
 describe('graph', () => {
@@ -87,17 +88,23 @@ describe('graph', () => {
       });
     });
 
-    describe('createGraph', () => {
+    describe(createGraph.name, () => {
       it('creates the action with the `GRAPH_CREATE` type', () => {
         const action = createGraph();
         expect(action.type).toEqual(GRAPH_CREATE);
       });
 
-      it('creates the payload provided', () => {
-        const expectedPayload = 'foo';
-        const action = createGraph(expectedPayload);
+      it('includes the name provided', () => {
+        const expectedName = 'foo';
+        const action = createGraph(expectedName);
         const payload = action.payload;
-        expect(payload).toEqual(expectedPayload);
+        expect(payload.name).toEqual(expectedName);
+      });
+
+      it('includes an uuid as id', () => {
+        const action = createGraph();
+        const payload = action.payload;
+        expect(payload.id).toEqual('uuid');
       });
     });
 
@@ -240,6 +247,7 @@ describe('graph', () => {
           },
         };
         const expectedState = {
+          id: 'uuid',
           name: graphName,
           nodes: {},
           links: {},
@@ -623,55 +631,25 @@ describe('graph', () => {
       });
     });
 
-    describe('saveGraph', () => {
+    describe(saveGraph.name, () => {
       it('selects using `graphSelector`', () => {
-        const action = saveGraph('bar');
-        let gen = cloneableGenerator(saveGraph)(action);
+        let gen = cloneableGenerator(saveGraph)();
         expect(gen.next().value).toEqual(select(graphSelector));
       });
 
-      it('calls `graphService.removeGraph`', () => {
-        const action = saveGraph('bar');
-        let gen = cloneableGenerator(saveGraph)(action);
-        gen.next(); // select
-        gen.next({ name: 'foo' }); // reduce
-        expect(gen.next().value).toEqual(call([graphService, 'removeGraph'], 'foo'));
-      });
-
       it('calls `graphService.saveGraph`', () => {
-        const graph = { name: 'foo', nodes: { foo: 'bar' }, links: { bar: 'baz' } };
-        const updatedGraph = { ...graph, name: 'bar' };
-        const action = saveGraph('bar');
-        let gen = cloneableGenerator(saveGraph)(action);
+        const graph = { name: 'foo' };
+        let gen = cloneableGenerator(saveGraph)();
         gen.next(); // select
-        gen.next(graph); // reduce
-        gen.next(updatedGraph); // remove graph
-        expect(gen.next().value).toEqual(call([graphService, 'saveGraph'], updatedGraph));
-      });
-
-      it('calls `graphNamesService.removeGraphName`', () => {
-        const graph = { name: 'foo', nodes: { foo: 'bar' }, links: { bar: 'baz' } };
-        const updatedGraph = { ...graph, name: 'bar' };
-        const action = saveGraph('bar');
-        let gen = cloneableGenerator(saveGraph)(action);
-        gen.next(); // select
-        gen.next(graph); // reduce
-        gen.next(updatedGraph); // remove graph
-        gen.next(); // save graph
-        expect(gen.next().value).toEqual(call([graphNamesService, 'removeGraphName'], 'foo'));
+        expect(gen.next(graph).value).toEqual(call([graphService, 'saveGraph'], graph));
       });
 
       it('calls `graphNamesService.saveGraphName`', () => {
-        const graph = { name: 'foo', nodes: { foo: 'bar' }, links: { bar: 'baz' } };
-        const updatedGraph = { ...graph, name: 'bar' };
-        const action = saveGraph('bar');
-        let gen = cloneableGenerator(saveGraph)(action);
+        const graph = { id: 'uuid', name: 'foo' };
+        let gen = cloneableGenerator(saveGraph)();
         gen.next(); // select
-        gen.next(graph); // reduce
-        gen.next(updatedGraph); // remove graph
-        gen.next(); // save graph
-        gen.next(); // remove graph name
-        expect(gen.next().value).toEqual(call([graphNamesService, 'saveGraphName'], 'bar'));
+        gen.next(graph); // save graph
+        expect(gen.next().value).toEqual(call([graphNamesService, 'saveGraphName'], 'uuid', 'foo'));
       });
     });
 
