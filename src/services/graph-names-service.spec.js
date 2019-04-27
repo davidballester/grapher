@@ -9,7 +9,7 @@ describe('GraphNamesService', () => {
     let getItemSpy;
 
     beforeEach(() => {
-      getItemSpy = jest.spyOn(localStorage, 'getItem').mockReturnValue('[]');
+      getItemSpy = jest.spyOn(localStorage, 'getItem').mockReturnValue('{}');
     });
 
     it('reads the GRAPHS_NAMES_STORAGE_KEY key from the local storage', () => {
@@ -17,14 +17,14 @@ describe('GraphNamesService', () => {
       expect(getItemSpy).toHaveBeenCalledWith(GRAPHS_NAMES_STORAGE_KEY);
     });
 
-    it('returns an empty array if there are no value for GRAPHS_NAMES_STORAGE_KEY in the local storage', () => {
+    it('returns an empty object if there are no value for GRAPHS_NAMES_STORAGE_KEY in the local storage', () => {
       getItemSpy.mockReturnValue(undefined);
       const graphNames = graphNamesService.getGraphNames();
-      expect(graphNames).toEqual([]);
+      expect(graphNames).toEqual({});
     });
 
-    it('the value found in the local storage for GRAPHS_NAMES_STORAGE_KEY as an array of strings', () => {
-      const expectedGraphNames = ['foo', 'bar', 'baz'];
+    it('the value found in the local storage for GRAPHS_NAMES_STORAGE_KEY as an object', () => {
+      const expectedGraphNames = { foo: 'bar', baz: 'qux' };
       getItemSpy.mockReturnValue(JSON.stringify(expectedGraphNames));
       const graphNames = graphNamesService.getGraphNames();
       expect(graphNames).toEqual(expectedGraphNames);
@@ -33,53 +33,39 @@ describe('GraphNamesService', () => {
 
   describe('#saveGraphName', () => {
     let graphNames;
-    let graphName;
+    let id;
+    let name;
     let setItemSpy;
 
     beforeEach(() => {
-      graphNames = ['foo'];
-      graphName = 'bar';
+      graphNames = { foo: 'bar' };
+      id = 'baz';
+      name = 'qux';
       jest.spyOn(localStorage, 'getItem').mockReturnValue(JSON.stringify(graphNames));
       setItemSpy = jest.spyOn(localStorage, 'setItem');
     });
 
-    it('invokes `localStorage.setItem` with the existing array of graph names + the provided graph name', () => {
-      graphNamesService.saveGraphName(graphName);
-      expect(setItemSpy).toHaveBeenCalledWith(GRAPHS_NAMES_STORAGE_KEY, JSON.stringify([...graphNames, graphName]));
-    });
-
-    it('adds a graph name even if it was already in the list', () => {
-      graphNamesService.saveGraphName(graphNames[0]);
-      expect(setItemSpy).toHaveBeenCalledWith(GRAPHS_NAMES_STORAGE_KEY, JSON.stringify([...graphNames, graphNames[0]]));
+    it('invokes `localStorage.setItem` with the existing graph names + the provided graph name', () => {
+      graphNamesService.saveGraphName(id, name);
+      expect(setItemSpy).toHaveBeenCalledWith(GRAPHS_NAMES_STORAGE_KEY, JSON.stringify({ ...graphNames, [id]: name }));
     });
   });
 
   describe('#removeGraphName', () => {
     let graphNames;
-    let graphName;
+    let id;
     let setItemSpy;
 
     beforeEach(() => {
-      graphNames = ['foo'];
-      graphName = 'foo';
+      graphNames = { foo: 'bar', bar: 'baz' };
+      id = 'foo';
       jest.spyOn(localStorage, 'getItem').mockReturnValue(JSON.stringify(graphNames));
       setItemSpy = jest.spyOn(localStorage, 'setItem');
     });
 
-    it('invokes `localStorage.setItem` with the existing array of graph names - the provided graph name', () => {
-      graphNamesService.removeGraphName(graphName);
-      expect(setItemSpy).toHaveBeenCalledWith(GRAPHS_NAMES_STORAGE_KEY, JSON.stringify([]));
-    });
-
-    it('removes just one instance of the provided name', () => {
-      jest.spyOn(localStorage, 'getItem').mockReturnValue(JSON.stringify([...graphNames, ...graphNames]));
-      graphNamesService.removeGraphName(graphName);
-      expect(setItemSpy).toHaveBeenCalledWith(GRAPHS_NAMES_STORAGE_KEY, JSON.stringify(graphNames));
-    });
-
-    it('does not save the array if the provided name is not contained', () => {
-      graphNamesService.removeGraphName('bar');
-      expect(setItemSpy).not.toHaveBeenCalled();
+    it('invokes `localStorage.setItem` with the existing graph names minus the provided one', () => {
+      graphNamesService.removeGraphName(id);
+      expect(setItemSpy).toHaveBeenCalledWith(GRAPHS_NAMES_STORAGE_KEY, JSON.stringify({ bar: 'baz' }));
     });
   });
 });
