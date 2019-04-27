@@ -75,7 +75,8 @@ export default class Canvas extends React.Component {
           linkDirectionalArrowRelPos={1}
           enableNodeDrag={true}
           nodeCanvasObject={(node, ctx, globalScale) => this.renderNode(node, ctx, globalScale)}
-          linkCanvasObject={(link, ctx, globalScale) => this.renderLink(link, ctx, globalScale)}
+          linkColor={this.linkColor.bind(this)}
+          linkWidth={3}
           onNodeClick={(node) => this.toggleNodeSelection(node)}
           onLinkClick={(link) => this.linkClick(link)}
         />
@@ -213,22 +214,15 @@ export default class Canvas extends React.Component {
     this.renderLabel(node, ctx, globalScale);
   };
 
-  renderLink = (link, ctx, globalScale) => {
-    const { source, target, virtual = false, selected = false } = link;
-    let strokeStyle;
+  linkColor = (link) => {
+    const { virtual = false, selected = false } = link;
     if (virtual) {
-      strokeStyle = blue['A200'];
+      return blue['A200'];
     } else if (selected) {
-      strokeStyle = orange['A700'];
+      return orange['A700'];
     } else {
-      strokeStyle = grey['300'];
+      return grey['300'];
     }
-    ctx.strokeStyle = strokeStyle;
-    ctx.strokeWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(source.x, source.y);
-    ctx.lineTo(target.x, target.y);
-    ctx.stroke();
   };
 
   renderCircle = (node, ctx) => {
