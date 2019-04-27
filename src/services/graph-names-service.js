@@ -3,22 +3,19 @@ export const GRAPHS_NAMES_STORAGE_KEY = 'grapher/services/graphs-service';
 class GraphNamesService {
   getGraphNames() {
     const rawGraphNames = localStorage.getItem(GRAPHS_NAMES_STORAGE_KEY);
-    return !!rawGraphNames ? JSON.parse(rawGraphNames) : [];
+    return !!rawGraphNames ? JSON.parse(rawGraphNames) : {};
   }
 
-  saveGraphName(graphName) {
+  saveGraphName(id, name) {
     const graphNames = this.getGraphNames();
-    const newGraphNames = [...graphNames, graphName];
+    const newGraphNames = { ...graphNames, [id]: name };
     this.saveGraphNames(newGraphNames);
   }
 
-  removeGraphName(graphName) {
+  removeGraphName(id) {
     const graphNames = this.getGraphNames();
-    const graphNameIndex = graphNames.findIndex((gn) => gn === graphName);
-    if (graphNameIndex >= 0) {
-      const newGraphNames = graphNames.filter((_, index) => index !== graphNameIndex);
-      this.saveGraphNames(newGraphNames);
-    }
+    delete graphNames[id];
+    this.saveGraphNames(graphNames);
   }
 
   saveGraphNames(graphNames) {
