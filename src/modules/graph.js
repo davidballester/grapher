@@ -174,15 +174,6 @@ export default function reducer(state = initialState, action) {
         links,
       };
     }
-    case GRAPH_DELETE: {
-      return {
-        ...state,
-        id: undefined,
-        name: undefined,
-        nodes: {},
-        links: {},
-      };
-    }
     default: {
       return state;
     }
