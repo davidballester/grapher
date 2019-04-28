@@ -13,10 +13,10 @@ export class App extends Component {
     return (
       <React.Fragment>
         <Route component={MainBar} />
+        <Canvas />
         <Route path={[ROUTES.BASE, ROUTES.GRAPHS]} exact component={GraphList} />
         <Route path={ROUTES.NEW_GRAPH} exact component={NewGraph} />
         <Route path={ROUTES.GRAPH} exact component={Graph} />
-        <Canvas />
       </React.Fragment>
     );
   }
