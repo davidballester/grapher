@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { select, takeLatest, call, put } from 'redux-saga/effects';
 import uuid from 'uuid/v4';
+import blue from '@material-ui/core/colors/blue';
 
 import linksService from '../services/links-service';
 import graphService from '../services/graph-service';
@@ -219,7 +220,10 @@ export function loadGraphSuccess(graph) {
 export function createNode(node) {
   return {
     type: GRAPH_CREATE_NODE,
-    payload: node,
+    payload: {
+      color: blue['A200'],
+      ...node,
+    },
   };
 }
 

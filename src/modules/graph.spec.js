@@ -142,17 +142,17 @@ describe('graph', () => {
       });
     });
 
-    describe('createNode', () => {
+    describe(createNode.name, () => {
       it('creates the action with the `GRAPH_CREATE_NODE` type', () => {
         const action = createNode();
         expect(action.type).toEqual(GRAPH_CREATE_NODE);
       });
 
-      it('creates the payload provided', () => {
-        const expectedPayload = 'foo';
+      it('includes the payload provided', () => {
+        const expectedPayload = { foo: 'bar' };
         const action = createNode(expectedPayload);
         const payload = action.payload;
-        expect(payload).toEqual(expectedPayload);
+        expect(payload).toMatchObject(expectedPayload);
       });
     });
 
@@ -164,7 +164,7 @@ describe('graph', () => {
 
       it('creates the payload provided', () => {
         const expectedPayload = 'foo';
-        const action = createNode(expectedPayload);
+        const action = createLink(expectedPayload);
         const payload = action.payload;
         expect(payload).toEqual(expectedPayload);
       });
@@ -312,7 +312,7 @@ describe('graph', () => {
         };
         const action = createNode(node);
         const state = reducer(initialState, action);
-        expect(state).toEqual(expectedState);
+        expect(state).toMatchObject(expectedState);
       });
     });
 
