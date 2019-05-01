@@ -127,8 +127,10 @@ export default class Canvas extends React.Component {
   };
 
   synchronizeNodes = (nodes = []) => {
-    const preservedNodes = this.graphNodesData.filter((graphNode) => !!nodes.find((n) => n.id === graphNode.id));
-    const newNodes = nodes.filter((node) => !this.graphNodesData.find((graphNode) => graphNode.id === node.id)).map(({ id }) => ({ id }));
+    const preservedNodes = this.graphNodesData.map((graphNode) => nodes.find((n) => n.id === graphNode.id)).filter((n) => !!n);
+    const newNodes = nodes
+      .filter((node) => !this.graphNodesData.find((graphNode) => graphNode.id === node.id))
+      .map(({ id, color }) => ({ id, color }));
     this.graphNodesData = [...preservedNodes, ...newNodes];
   };
 
@@ -226,7 +228,7 @@ export default class Canvas extends React.Component {
   };
 
   renderCircle = (node, ctx) => {
-    const color = node.selected ? orange['A200'] : blue['A200'];
+    const color = node.selected ? orange['A200'] : node.color || blue['A200'];
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
     ctx.beginPath();
