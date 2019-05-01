@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -8,11 +9,21 @@ import Button from '@material-ui/core/Button';
 import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+import { red, purple, blue, green, yellow, orange, brown, grey } from '@material-ui/core/colors';
+
+import ToggleColorPicker from './ToggleColorPicker';
+
+const StyledTextField = styled(TextField)`
+  display: block !important;
+`;
+
+const colors = [red['A200'], purple['A200'], blue['A200'], green['A200'], yellow['A200'], orange['A200'], brown['500'], grey['500']];
 
 function EditNode({ isOpen, node = {}, nodesIds = [], editNode, cancelEditNode }) {
   const oldId = node.id;
   const initialValues = {
     id: node.id,
+    color: node.color,
   };
 
   const NodeSchema = Yup.object().shape({
@@ -28,10 +39,11 @@ function EditNode({ isOpen, node = {}, nodesIds = [], editNode, cancelEditNode }
         initialValues={initialValues}
         validationSchema={NodeSchema}
         onSubmit={(values) => editNode(oldId, values)}
-        render={({ errors }) => (
+        render={({ errors, values, setFieldValue }) => (
           <Form>
             <DialogContent>
-              <Field type="text" label="ID" name="id" component={TextField} error={!!errors.id} />
+              <Field type="text" label="ID" name="id" component={StyledTextField} error={!!errors.id} />
+              <ToggleColorPicker color={values.color} colors={colors} onChange={(color) => setFieldValue('color', color)} />
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelEditNode} className="cancel" type="button">
