@@ -314,7 +314,10 @@ export function* saveGraph() {
 }
 
 export function* saveGraphSaga() {
-  yield takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK], saveGraph);
+  yield takeLatest(
+    [GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK, GRAPH_EDIT_NODE],
+    saveGraph
+  );
 }
 
 export function* doLoadGraph(action) {

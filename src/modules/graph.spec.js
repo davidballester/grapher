@@ -654,11 +654,14 @@ describe('graph', () => {
 
   describe('sagas', () => {
     describe(saveGraphSaga.name, () => {
-      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`, `GRAPH_DELETE_NODE`, `GRAPH_DELETE_LINK`', async () => {
+      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`, `GRAPH_DELETE_NODE`, `GRAPH_DELETE_LINK`, `GRAPH_EDIT_NODE`', async () => {
         const action = setGraphName('bar');
         const gen = cloneableGenerator(saveGraphSaga)(action);
         expect(gen.next().value).toEqual(
-          takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK], saveGraph)
+          takeLatest(
+            [GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK, GRAPH_EDIT_NODE],
+            saveGraph
+          )
         );
       });
     });
