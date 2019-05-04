@@ -13,6 +13,7 @@ import editNodeReducer from './edit-node';
 import editGraphReducer from './edit-graph';
 import { navigateSaga } from './navigation';
 import confirmDeleteGraphReducer from './confirm-delete-graph';
+import editLinkReducer from './edit-link';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   editNode: editNodeReducer,
   editGraph: editGraphReducer,
   confirmDeleteGraph: confirmDeleteGraphReducer,
+  editLink: editLinkReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
