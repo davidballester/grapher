@@ -8,6 +8,7 @@ import SelectedItems from './SelectedItems';
 import EditNode from '../containers/EditNode';
 import EditGraph from '../containers/EditGraph';
 import ConfirmDeleteGraph from '../containers/ConfirmDeleteGraph';
+import EditLink from '../containers/EditLink';
 
 function Graph({ graphId, loadedGraphId, loadGraph }) {
   if (!!graphId && graphId !== loadedGraphId) {
@@ -22,6 +23,7 @@ function Graph({ graphId, loadedGraphId, loadGraph }) {
       <EditNode />
       <EditGraph />
       <ConfirmDeleteGraph />
+      <EditLink />
     </React.Fragment>
   );
 }
