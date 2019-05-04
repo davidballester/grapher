@@ -181,15 +181,12 @@ export default class Canvas extends React.Component {
   toGraphLink = (link) => {
     return {
       ...link,
+      original: link,
     };
   };
 
   fromGraphLink = (link) => {
-    return {
-      id: link.id,
-      source: link.source.id,
-      target: link.target.id,
-    };
+    return link.original;
   };
 
   addVirtualLink = (virtualLink) => {
