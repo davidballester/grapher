@@ -81,13 +81,22 @@ describe('Canvas', () => {
 
   describe('links', () => {
     it('passes the links to the force graph', () => {
+      const expectedLinks = links.map((link) => ({ ...link, original: link }));
       const component = shallow(<Canvas links={links} />);
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
-      expect(linksProps).toEqual(links);
+      expect(linksProps).toEqual(expectedLinks);
     });
 
     it('updates the links', () => {
+      const expectedLinks = [
+        links[0],
+        {
+          id: 'foo-qux',
+          source: 'foo',
+          target: 'qux',
+        },
+      ].map((link) => ({ ...link, original: link }));
       const component = shallow(<Canvas links={links} />);
       component.setProps({
         links: [
@@ -101,14 +110,7 @@ describe('Canvas', () => {
       });
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
-      expect(linksProps).toEqual([
-        links[0],
-        {
-          id: 'foo-qux',
-          source: 'foo',
-          target: 'qux',
-        },
-      ]);
+      expect(linksProps).toEqual(expectedLinks);
     });
   });
 
@@ -165,7 +167,7 @@ describe('Canvas', () => {
       const component = shallow(<Canvas links={links} virtualLink={virtualLink} />);
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
-      expect(linksProps).toContainEqual({ id: 'linkId', ...virtualLink, virtual: true });
+      expect(linksProps.find(({ id }) => id === virtualLink.id)).toMatchObject({ virtual: true });
     });
   });
 
@@ -177,13 +179,11 @@ describe('Canvas', () => {
     });
 
     it('invokes the create link if a virtual link is clicked', () => {
-      const component = shallow(<Canvas virtualLink={virtualLink} createLink={createLink} />);
+      const component = shallow(<Canvas createLink={createLink} />);
       const graph = component.find(ForceGraph2D);
       graph.props().onLinkClick({
-        id: virtualLink.id,
-        source: nodes.find((n) => n.id === virtualLink.source),
-        target: nodes.find((n) => n.id === virtualLink.target),
         virtual: true,
+        original: virtualLink,
       });
       expect(createLink).toHaveBeenCalledWith(virtualLink);
     });
@@ -249,8 +249,7 @@ describe('Canvas', () => {
       const component = shallow(<Canvas links={links} selectedLink={selectedLink} />);
       const graph = component.find(ForceGraph2D);
       const linksProps = graph.props().graphData.links;
-      expect(linksProps.find((link) => link.id === selectedLink.id)).toEqual({
-        ...selectedLink,
+      expect(linksProps.find((link) => link.id === selectedLink.id)).toMatchObject({
         selected: true,
       });
     });
@@ -285,6 +284,7 @@ describe('Canvas', () => {
         target: {
           id: links[0].target,
         },
+        original: links[0],
       };
       const graph = component.find(ForceGraph2D);
       graph.props().onLinkClick(clickedLink);
