@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import SelectedLink from '../components/SelectedLink';
 import { getSelectedLink } from '../modules/link-selection';
 import { openConfirmDeleteLink } from '../modules/confirm-delete-link';
+import { openEditLink } from '../modules/edit-link';
 
 function mapStateToProps(state) {
   return {
@@ -12,7 +13,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ openConfirmDeleteLink }, dispatch);
+  return bindActionCreators({ openConfirmDeleteLink, openEditLink }, dispatch);
 }
 
 export default connect(

@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-function SelectedLink({ link, openConfirmDeleteLink, className }) {
+function SelectedLink({ link, openConfirmDeleteLink, openEditLink, className }) {
   if (!link) {
     return null;
   }
@@ -22,8 +22,11 @@ function SelectedLink({ link, openConfirmDeleteLink, className }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => openConfirmDeleteLink(link.id)}>
+        <Button className="delete" size="small" onClick={() => openConfirmDeleteLink(link.id)}>
           Delete
+        </Button>
+        <Button className="edit" size="small" onClick={() => openEditLink(link)}>
+          Edit
         </Button>
       </CardActions>
     </Card>
@@ -36,6 +39,7 @@ SelectedLink.propTypes = {
     label: PropTypes.string.isRequired,
   }),
   openConfirmDeleteLink: PropTypes.func.isRequired,
+  openEditLink: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
 

@@ -7,10 +7,12 @@ import SelectedLink from './SelectedLink';
 
 describe(SelectedLink.name, () => {
   let openConfirmDeleteLink;
+  let openEditLink;
   let link;
 
   beforeEach(() => {
     openConfirmDeleteLink = jest.fn();
+    openEditLink = jest.fn();
     link = {
       id: 'foo',
       label: 'bar',
@@ -22,12 +24,12 @@ describe(SelectedLink.name, () => {
   });
 
   it('renders without crashing', () => {
-    const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} />);
+    const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
     expect(component).toBeDefined();
   });
 
   it('displays the link label in a Typography', () => {
-    const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} />);
+    const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
     expect(
       component
         .find(Typography)
@@ -37,8 +39,14 @@ describe(SelectedLink.name, () => {
   });
 
   it('invokes the `openConfirmDeleteLink` prop when the delete button is clicked', () => {
-    const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} />);
-    component.find(Button).simulate('click');
+    const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
+    component.find('Button.delete').simulate('click');
     expect(openConfirmDeleteLink).toHaveBeenCalledWith(link.id);
+  });
+
+  it('invokes the `openEditLink` prop when the delete button is clicked', () => {
+    const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
+    component.find('Button.edit').simulate('click');
+    expect(openEditLink).toHaveBeenCalledWith(link);
   });
 });
