@@ -13,6 +13,7 @@ describe(SelectedLink.name, () => {
     openConfirmDeleteLink = jest.fn();
     link = {
       id: 'foo',
+      label: 'bar',
     };
   });
 
@@ -25,14 +26,14 @@ describe(SelectedLink.name, () => {
     expect(component).toBeDefined();
   });
 
-  it('displays the link ID in a Typography', () => {
+  it('displays the link label in a Typography', () => {
     const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} />);
     expect(
       component
         .find(Typography)
         .last()
         .text()
-    ).toEqual(link.id);
+    ).toEqual(link.label);
   });
 
   it('invokes the `openConfirmDeleteLink` prop when the delete button is clicked', () => {

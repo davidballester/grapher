@@ -18,7 +18,7 @@ function SelectedLink({ link, openConfirmDeleteLink, className }) {
           Link
         </Typography>
         <Typography component="h2" variant="h5">
-          {link.id}
+          {link.label}
         </Typography>
       </CardContent>
       <CardActions>
@@ -33,6 +33,7 @@ function SelectedLink({ link, openConfirmDeleteLink, className }) {
 SelectedLink.propTypes = {
   link: PropTypes.shape({
     id: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
   }),
   openConfirmDeleteLink: PropTypes.func.isRequired,
   className: PropTypes.string,
