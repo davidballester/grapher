@@ -5,6 +5,8 @@ import blue from '@material-ui/core/colors/blue';
 import orange from '@material-ui/core/colors/orange';
 import grey from '@material-ui/core/colors/grey';
 
+import renderNode from './node-renderer';
+
 const nodeProp = PropTypes.shape({
   id: PropTypes.string.isRequired,
 });
@@ -74,7 +76,7 @@ export default class Canvas extends React.Component {
           linkDirectionalArrowLength={5}
           linkDirectionalArrowRelPos={1}
           enableNodeDrag={true}
-          nodeCanvasObject={(node, ctx, globalScale) => this.renderNode(node, ctx, globalScale)}
+          nodeCanvasObject={(node, ctx, globalScale) => renderNode(node, ctx, globalScale)}
           linkColor={this.linkColor.bind(this)}
           linkWidth={3}
           onNodeClick={(node) => this.toggleNodeSelection(node)}
@@ -211,11 +213,6 @@ export default class Canvas extends React.Component {
     }
   };
 
-  renderNode = (node, ctx, globalScale) => {
-    this.renderCircle(node, ctx);
-    this.renderLabel(node, ctx, globalScale);
-  };
-
   linkColor = (link) => {
     const { virtual = false, selected = false } = link;
     if (virtual) {
@@ -225,31 +222,6 @@ export default class Canvas extends React.Component {
     } else {
       return grey['300'];
     }
-  };
-
-  renderCircle = (node, ctx) => {
-    const color = node.selected ? orange['A200'] : node.color || blue['A200'];
-    ctx.strokeStyle = color;
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(node.x, node.y, 8, 0, 2 * Math.PI);
-    ctx.fill();
-  };
-
-  renderLabel = (node, ctx, globalScale) => {
-    const label = node.id;
-    const fontSize = 16 / globalScale;
-
-    const textWidth = ctx.measureText(label).width;
-    const bckgDimensions = [textWidth + fontSize * 0.2, fontSize * 1.2];
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y + 14 - bckgDimensions[1] / 2, ...bckgDimensions);
-
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#000';
-    ctx.font = `${fontSize}px Sans-Serif`;
-    ctx.fillText(node.id, node.x, node.y + 12);
   };
 
   updateDimensions = () => {
