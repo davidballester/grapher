@@ -18,6 +18,7 @@ export const GRAPH_DELETE_LINK = 'grapher/Graph/DELETE_LINK';
 export const GRAPH_EDIT_NODE = 'grapher/Graph/EDIT_NODE';
 export const GRAPH_OPEN = 'grapher/Graph/OPEN';
 export const GRAPH_DELETE = 'grapher/Graph/DELETE';
+export const GRAPH_EDIT_LINK = 'grapher/Graph/EDIT_LINK';
 
 const initialState = {
   id: '',
@@ -35,41 +36,49 @@ const initialState = {
   links: {
     'kingarthur-sirmordred': {
       id: 'kingarthur-sirmordred',
+      label: 'fathers',
       source: 'kingarthur',
       target: 'sirmordred',
     },
     'kingarthur-ladyguinevere': {
       id: 'kingarthur-ladyguinevere',
+      label: 'married to',
       source: 'kingarthur',
       target: 'ladyguinevere',
     },
     'kingarthur-merlin': {
       id: 'kingarthur-merlin',
+      label: 'mentored by',
       source: 'kingarthur',
       target: 'merlin',
     },
-    'kingarthur-sirlancelot': {
-      id: 'kingarthur-sirlancelot',
-      source: 'kingarthur',
-      target: 'sirlancelot',
+    'sirlancelot-kingarthur': {
+      id: 'sirlancelot-kingarthur',
+      label: 'serves',
+      source: 'sirlancelot',
+      target: 'kingarthur',
     },
     'sirlancelot-sirgalahad': {
       id: 'sirlancelot-sirgalahad',
+      label: 'fathers',
       source: 'sirlancelot',
       target: 'sirgalahad',
     },
     'sirlancelot-ladyguinevere': {
       id: 'sirlancelot-ladyguinevere',
+      label: 'in a relationship with',
       source: 'sirlancelot',
       target: 'ladyguinevere',
     },
     'sirlancelot-sirbors': {
       id: 'sirlancelot-sirbors',
+      label: 'cousin of',
       source: 'sirlancelot',
       target: 'sirbors',
     },
     'sirgalahad-sirlamorak': {
       id: 'sirgalahad-sirlamorak',
+      label: 'friend of',
       source: 'sirgalahad',
       target: 'sirlamorak',
     },
@@ -133,6 +142,7 @@ export default function reducer(state = initialState, action) {
           ...state.links,
           [linkId]: {
             id: linkId,
+            label: linkId,
             ...link,
           },
         },
@@ -175,6 +185,16 @@ export default function reducer(state = initialState, action) {
         ...state,
         nodes: { ...nodes, [node.id]: node },
         links,
+      };
+    }
+    case GRAPH_EDIT_LINK: {
+      const link = action.payload;
+      return {
+        ...state,
+        links: {
+          ...state.links,
+          [link.id]: link,
+        },
       };
     }
     default: {
@@ -272,6 +292,13 @@ export function openGraph(id) {
   };
 }
 
+export function editLink(link) {
+  return {
+    type: GRAPH_EDIT_LINK,
+    payload: link,
+  };
+}
+
 export function graphSelector(state) {
   return state.graph;
 }
@@ -315,7 +342,7 @@ export function* saveGraph() {
 
 export function* saveGraphSaga() {
   yield takeLatest(
-    [GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK, GRAPH_EDIT_NODE],
+    [GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK],
     saveGraph
   );
 }

@@ -42,6 +42,8 @@ import {
   deleteGraphSaga,
   doDeleteGraph,
   getId,
+  GRAPH_EDIT_LINK,
+  editLink,
 } from './graph';
 
 import reducer from './graph';
@@ -238,6 +240,19 @@ describe('graph', () => {
         expect(action.payload).toEqual(payload);
       });
     });
+
+    describe(editLink.name, () => {
+      it('creates the action with the `GRAPH_EDIT_LINK` type', () => {
+        const action = editLink();
+        expect(action.type).toEqual(GRAPH_EDIT_LINK);
+      });
+
+      it('creates the action with the link provided as payload', () => {
+        const link = { foo: 'bar' };
+        const action = editLink(link);
+        expect(action.payload).toEqual(link);
+      });
+    });
   });
 
   describe('reducer', () => {
@@ -339,6 +354,7 @@ describe('graph', () => {
           links: {
             [linkId]: {
               id: linkId,
+              label: linkId,
               ...link,
             },
           },
@@ -539,6 +555,25 @@ describe('graph', () => {
         expect(state).toEqual(expectedState);
       });
     });
+
+    describe('GRAPH_EDIT_LINK', () => {
+      it('modifies the link in the action payload within the state', () => {
+        const link = { id: 'foo', baz: 'qux' };
+        const initialState = {
+          links: {
+            foo: { id: 'foo', bar: 'baz' },
+          },
+        };
+        const expectedState = {
+          links: {
+            foo: link,
+          },
+        };
+        const action = editLink(link);
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
+      });
+    });
   });
 
   describe('selectors', () => {
@@ -654,12 +689,21 @@ describe('graph', () => {
 
   describe('sagas', () => {
     describe(saveGraphSaga.name, () => {
-      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`, `GRAPH_DELETE_NODE`, `GRAPH_DELETE_LINK`, `GRAPH_EDIT_NODE`', async () => {
+      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`, `GRAPH_DELETE_NODE`, `GRAPH_DELETE_LINK`, `GRAPH_EDIT_NODE`, `GRAPH_EDIT_LINK`', async () => {
         const action = setGraphName('bar');
         const gen = cloneableGenerator(saveGraphSaga)(action);
         expect(gen.next().value).toEqual(
           takeLatest(
-            [GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK, GRAPH_EDIT_NODE],
+            [
+              GRAPH_CREATE,
+              GRAPH_SET_NAME,
+              GRAPH_CREATE_NODE,
+              GRAPH_CREATE_LINK,
+              GRAPH_DELETE_NODE,
+              GRAPH_DELETE_LINK,
+              GRAPH_EDIT_NODE,
+              GRAPH_EDIT_LINK,
+            ],
             saveGraph
           )
         );
