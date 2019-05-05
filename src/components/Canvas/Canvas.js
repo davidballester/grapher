@@ -70,15 +70,17 @@ export default class Canvas extends React.Component {
           height={height}
           width={width}
           graphData={{ nodes: this.graphNodesData, links: this.graphLinksData }}
-          linkDirectionalArrowLength={5}
-          linkDirectionalArrowRelPos={1}
           enableNodeDrag={true}
           nodeCanvasObject={renderNode}
+          nodeLabel="id"
+          linkDirectionalArrowLength={5}
+          linkDirectionalArrowRelPos={1}
           linkColor={getLinkColor}
           linkWidth={3}
           linkDirectionalParticles={4}
           linkDirectionalParticleWidth={(link) => (link.selected ? 4 : 0)}
           linkCanvasObject={renderLink}
+          linkLabel="label"
           onNodeClick={(node) => this.toggleNodeSelection(node)}
           onLinkClick={(link) => this.linkClick(link)}
         />
