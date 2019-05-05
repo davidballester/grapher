@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 
 import ConfirmDeleteLink from '../components/ConfirmDeleteLink';
-import { getIsOpen, closeConfirmDeleteLink, getLinkId } from '../modules/confirm-delete-link';
+import { getIsOpen, closeDialog, getMetadata, DIALOG_IDS } from '../modules/dialog';
 import { deleteLink } from '../modules/graph';
 
 function mapStateToProps(state) {
   return {
-    isOpen: getIsOpen(state),
-    linkId: getLinkId(state),
+    isOpen: getIsOpen(state, DIALOG_IDS.CONFIRM_DELETE_LINK),
+    linkId: getMetadata(state, DIALOG_IDS.CONFIRM_DELETE_LINK),
   };
 }
 
@@ -15,9 +15,9 @@ function mapDispatchToProps(dispatch) {
   return {
     deleteLink: (linkId) => {
       dispatch(deleteLink(linkId));
-      dispatch(closeConfirmDeleteLink());
+      dispatch(closeDialog(DIALOG_IDS.CONFIRM_DELETE_LINK));
     },
-    cancel: () => dispatch(closeConfirmDeleteLink()),
+    cancel: () => dispatch(closeDialog(DIALOG_IDS.CONFIRM_DELETE_LINK)),
   };
 }
 

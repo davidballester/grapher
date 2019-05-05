@@ -10,7 +10,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-function ConfirmDeleteNode({ isOpen, nodeIds, deleteNodes, cancel }) {
+function ConfirmDeleteNode({ isOpen, nodeIds = [], deleteNodes, cancel }) {
   const nodesLabel = nodeIds.length > 1 ? 'nodes' : 'node';
   const theseLabel = nodeIds.length > 1 ? 'these' : 'this';
   const nodes = nodeIds.map((nodeId) => (

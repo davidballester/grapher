@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import MainBar from '../components/MainBar';
 import { getName } from '../modules/graph';
 import { openDialog, DIALOG_IDS } from '../modules/dialog';
-import { openConfirmDeleteGraph } from '../modules/confirm-delete-graph';
 
 function mapStateToProps(state) {
   return {
@@ -14,12 +12,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    ...bindActionCreators(
-      {
-        openConfirmDeleteGraph,
-      },
-      dispatch
-    ),
+    openConfirmDeleteGraph: (graphName) => dispatch(openDialog(DIALOG_IDS.CONFIRM_DELETE_GRAPH, graphName)),
     openEditGraph: () => dispatch(openDialog(DIALOG_IDS.EDIT_GRAPH)),
   };
 }
