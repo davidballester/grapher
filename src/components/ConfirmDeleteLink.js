@@ -7,12 +7,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 
-function ConfirmDeleteLink({ isOpen, linkId, deleteLink, cancel }) {
+function ConfirmDeleteLink({ isOpen, linkLabel, linkId, deleteLink, cancel }) {
   return (
     <Dialog open={isOpen}>
-      <DialogTitle>Delete {linkId}?</DialogTitle>
+      <DialogTitle>Delete {linkLabel}?</DialogTitle>
       <DialogContent>
-        <DialogContentText>You are about to delete this link: {linkId}</DialogContentText>
+        <DialogContentText>You are about to delete this link: {linkLabel}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={cancel} className="cancel">
@@ -29,6 +29,7 @@ function ConfirmDeleteLink({ isOpen, linkId, deleteLink, cancel }) {
 ConfirmDeleteLink.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   linkId: PropTypes.string,
+  linkLabel: PropTypes.string,
   deleteLink: PropTypes.func,
   cancel: PropTypes.func,
 };

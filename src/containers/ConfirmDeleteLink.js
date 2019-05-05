@@ -2,12 +2,15 @@ import { connect } from 'react-redux';
 
 import ConfirmDeleteLink from '../components/ConfirmDeleteLink';
 import { getIsOpen, closeDialog, getMetadata, DIALOG_IDS } from '../modules/dialog';
-import { deleteLink } from '../modules/graph';
+import { deleteLink, getLinkById } from '../modules/graph';
 
 function mapStateToProps(state) {
+  const linkId = getMetadata(state, DIALOG_IDS.CONFIRM_DELETE_LINK);
+  const { label: linkLabel } = getLinkById(state, linkId) || {};
   return {
     isOpen: getIsOpen(state, DIALOG_IDS.CONFIRM_DELETE_LINK),
-    linkId: getMetadata(state, DIALOG_IDS.CONFIRM_DELETE_LINK),
+    linkId,
+    linkLabel,
   };
 }
 

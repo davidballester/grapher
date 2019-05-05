@@ -7,18 +7,20 @@ import ConfirmDeleteLink from './ConfirmDeleteLink';
 describe(ConfirmDeleteLink.name, () => {
   let isOpen;
   let linkId;
+  let linkLabel;
   let deleteLink;
   let cancel;
 
   beforeEach(() => {
     isOpen = true;
     linkId = 'foo';
+    linkLabel = 'bar';
     deleteLink = jest.fn();
     cancel = jest.fn();
   });
 
   it('renders without crashing', () => {
-    const component = mount(<ConfirmDeleteLink isOpen={isOpen} linkId={linkId} deleteLink={deleteLink} cancel={cancel} />);
+    const component = mount(<ConfirmDeleteLink isOpen={isOpen} linkId={linkId} linkLabel={linkLabel} deleteLink={deleteLink} cancel={cancel} />);
     expect(component).toBeDefined();
   });
 
