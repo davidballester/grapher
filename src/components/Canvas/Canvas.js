@@ -72,7 +72,6 @@ export default class Canvas extends React.Component {
           height={height}
           width={width}
           graphData={{ nodes: this.graphNodesData, links: this.graphLinksData }}
-          nodeRelSize={8}
           linkDirectionalArrowLength={5}
           linkDirectionalArrowRelPos={1}
           enableNodeDrag={true}

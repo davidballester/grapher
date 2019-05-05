@@ -14,7 +14,7 @@ function renderSelectedCircle(node, ctx) {
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
   ctx.beginPath();
-  ctx.arc(node.x, node.y, 10, 0, 2 * Math.PI);
+  ctx.arc(node.x, node.y, 6, 0, 2 * Math.PI);
   ctx.fill();
 }
 
@@ -23,24 +23,17 @@ function renderCircle(node, ctx) {
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
   ctx.beginPath();
-  ctx.arc(node.x, node.y, 8, 0, 2 * Math.PI);
+  ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI);
   ctx.fill();
 }
 
 function renderLabel(node, ctx, globalScale) {
-  const label = node.id;
-  const fontSize = 16 / globalScale;
-
-  const textWidth = ctx.measureText(label).width;
-  const bckgDimensions = [textWidth + fontSize * 0.2, fontSize * 1.2];
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-  ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y + 14 - bckgDimensions[1] / 2, ...bckgDimensions);
-
+  const fontSize = globalScale;
+  ctx.font = `${fontSize}px Sans-Serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = '#000';
-  ctx.font = `${fontSize}px Sans-Serif`;
-  ctx.fillText(node.id, node.x, node.y + 12);
+  ctx.fillText(node.id, node.x, node.y + 8);
 }
 
 export default renderNode;
