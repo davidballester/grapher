@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ForceGraph2D from 'react-force-graph-2d';
-import blue from '@material-ui/core/colors/blue';
-import orange from '@material-ui/core/colors/orange';
-import grey from '@material-ui/core/colors/grey';
 
 import renderNode from './node-renderer';
+import { getLinkColor, renderLink } from './link-renderer';
 
 const nodeProp = PropTypes.shape({
   id: PropTypes.string.isRequired,
@@ -75,9 +73,12 @@ export default class Canvas extends React.Component {
           linkDirectionalArrowLength={5}
           linkDirectionalArrowRelPos={1}
           enableNodeDrag={true}
-          nodeCanvasObject={(node, ctx, globalScale) => renderNode(node, ctx, globalScale)}
-          linkColor={this.linkColor.bind(this)}
+          nodeCanvasObject={renderNode}
+          linkColor={getLinkColor}
           linkWidth={3}
+          linkDirectionalParticles={4}
+          linkDirectionalParticleWidth={(link) => (link.selected ? 4 : 0)}
+          linkCanvasObject={renderLink}
           onNodeClick={(node) => this.toggleNodeSelection(node)}
           onLinkClick={(link) => this.linkClick(link)}
         />
@@ -206,17 +207,6 @@ export default class Canvas extends React.Component {
       this.props.deselectLink(stateLink);
     } else {
       this.props.selectLink(stateLink);
-    }
-  };
-
-  linkColor = (link) => {
-    const { virtual = false, selected = false } = link;
-    if (virtual) {
-      return blue['A200'];
-    } else if (selected) {
-      return orange['A700'];
-    } else {
-      return grey['300'];
     }
   };
 
