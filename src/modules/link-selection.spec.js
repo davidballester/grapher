@@ -1,3 +1,5 @@
+/* eslint-disable import/first */
+
 jest.mock('../services/links-service', () => ({
   __esModule: true,
   default: {
@@ -5,10 +7,8 @@ jest.mock('../services/links-service', () => ({
   },
 }));
 
-// eslint-disable-next-line import/first
 import reducer, { LINK_SELECTION_SELECT, LINK_SELECTION_DESELECT, selectLink, deselectLink, getSelectedLink } from './link-selection';
-// eslint-disable-next-line import/first
-import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from './graph';
+import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK } from './graph';
 import linksService from '../services/links-service';
 
 describe('link-selection', () => {
@@ -229,6 +229,53 @@ describe('link-selection', () => {
         linksService.getId.mockReturnValue('foo-foo');
         const state = reducer(initialState, action);
         expect(state).toEqual(initialState);
+      });
+    });
+
+    describe('GRAPH_EDIT_LINK', () => {
+      let action;
+
+      beforeEach(() => {
+        action = {
+          type: GRAPH_EDIT_LINK,
+          payload: {
+            id: 'foo',
+            bar: 'baz',
+          },
+        };
+      });
+
+      it('does nothing if there is no selected link', () => {
+        const initialState = {
+          selectedLink: undefined,
+        };
+        const state = reducer(initialState, action);
+        expect(state).toEqual(initialState);
+      });
+
+      it('does nothing if the selected link is not the one edited', () => {
+        const initialState = {
+          selectedLink: {
+            id: 'bar',
+            baz: 'qux',
+          },
+        };
+        const state = reducer(initialState, action);
+        expect(state).toEqual(initialState);
+      });
+
+      it("replaces the selected link by the action's payload if their IDs match", () => {
+        const initialState = {
+          selectedLink: {
+            id: 'foo',
+            baz: 'qux',
+          },
+        };
+        const expectedState = {
+          selectedLink: action.payload,
+        };
+        const state = reducer(initialState, action);
+        expect(state).toEqual(expectedState);
       });
     });
   });

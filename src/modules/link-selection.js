@@ -1,4 +1,4 @@
-import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from './graph';
+import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK } from './graph';
 import linksService from '../services/links-service';
 
 export const LINK_SELECTION_SELECT = 'grapher/LinkSelection/SELECT';
@@ -51,6 +51,14 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         selectedLink,
+      };
+    }
+    case GRAPH_EDIT_LINK: {
+      const { id: selectedLinkId } = state.selectedLink || {};
+      const link = action.payload;
+      return {
+        ...state,
+        selectedLink: selectedLinkId === link.id ? link : state.selectedLink,
       };
     }
     default: {
