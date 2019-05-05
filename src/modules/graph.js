@@ -319,6 +319,10 @@ export function getLinks(state) {
   return graphSelector(state).links;
 }
 
+export function getLinkById(state, linkId) {
+  return getLinks(state)[linkId];
+}
+
 export const getNodesAsArray = createSelector(
   getNodes,
   (nodes) => Object.values(nodes)

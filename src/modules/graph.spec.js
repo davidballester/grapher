@@ -44,6 +44,7 @@ import {
   getId,
   GRAPH_EDIT_LINK,
   editLink,
+  getLinkById,
 } from './graph';
 
 import reducer from './graph';
@@ -683,6 +684,33 @@ describe('graph', () => {
         };
         const nodesIds = getNodesIds(appState);
         expect(nodesIds).toEqual(['foo', 'bar']);
+      });
+    });
+
+    describe(getLinkById.name, () => {
+      const linkId = 'foo';
+
+      it('returns the link which ID is provided', () => {
+        const expectedLink = { foo: 'bar' };
+        const state = {
+          graph: {
+            links: {
+              [linkId]: expectedLink,
+            },
+          },
+        };
+        const link = getLinkById(state, linkId);
+        expect(link).toEqual(expectedLink);
+      });
+
+      it('returns nothing if there is no link matching the given ID', () => {
+        const state = {
+          graph: {
+            links: {},
+          },
+        };
+        const link = getLinkById(state, linkId);
+        expect(link).toBeUndefined();
       });
     });
   });
