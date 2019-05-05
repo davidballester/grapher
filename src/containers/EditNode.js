@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 
 import EditNode from '../components/EditNode';
-import { getIsOpen, getNode, closeEditNode } from '../modules/edit-node';
+import { getIsOpen, getMetadata, closeDialog, DIALOG_IDS } from '../modules/dialog';
 import { editNode, getNodesIds } from '../modules/graph';
 
 function mapStateToProps(state) {
   return {
-    isOpen: getIsOpen(state),
-    node: getNode(state),
+    isOpen: getIsOpen(state, DIALOG_IDS.EDIT_NODE),
+    node: getMetadata(state, DIALOG_IDS.EDIT_NODE),
     nodesIds: getNodesIds(state),
   };
 }
@@ -16,9 +16,9 @@ function mapDispatchToProps(dispatch) {
   return {
     editNode: (oldId, node) => {
       dispatch(editNode(oldId, node));
-      dispatch(closeEditNode());
+      dispatch(closeDialog(DIALOG_IDS.EDIT_NODE));
     },
-    cancelEditNode: () => dispatch(closeEditNode()),
+    cancelEditNode: () => dispatch(closeDialog(DIALOG_IDS.EDIT_NODE)),
   };
 }
 

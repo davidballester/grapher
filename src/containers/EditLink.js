@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 
 import EditLink from '../components/EditLink';
-import { getIsOpen, getLink, closeEditLink } from '../modules/edit-link';
+import { getIsOpen, getMetadata, closeDialog, DIALOG_IDS } from '../modules/dialog';
 import { editLink } from '../modules/graph';
 
 function mapStateToProps(state) {
   return {
-    isOpen: getIsOpen(state),
-    link: getLink(state),
+    isOpen: getIsOpen(state, DIALOG_IDS.EDIT_LINK),
+    link: getMetadata(state, DIALOG_IDS.EDIT_LINK),
   };
 }
 
@@ -15,9 +15,9 @@ function mapDispatchToProps(dispatch) {
   return {
     editLink: (link) => {
       dispatch(editLink(link));
-      dispatch(closeEditLink());
+      dispatch(closeDialog(DIALOG_IDS.EDIT_LINK));
     },
-    cancelEditLink: () => dispatch(closeEditLink()),
+    cancelEditLink: () => dispatch(closeDialog(DIALOG_IDS.EDIT_LINK)),
   };
 }
 

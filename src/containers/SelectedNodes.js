@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import SelectedNodes from '../components/SelectedNodes';
 import { getSelectedNodes } from '../modules/node-selection';
 import { openConfirmDeleteNode } from '../modules/confirm-delete-node';
-import { openEditNode } from '../modules/edit-node';
+import { openDialog, DIALOG_IDS } from '../modules/dialog';
 
 function mapStateToProps(state) {
   return {
@@ -13,13 +13,15 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      openConfirmDeleteNode,
-      openEditNode,
-    },
-    dispatch
-  );
+  return {
+    ...bindActionCreators(
+      {
+        openConfirmDeleteNode,
+      },
+      dispatch
+    ),
+    openEditNode: (node) => dispatch(openDialog(DIALOG_IDS.EDIT_NODE, node)),
+  };
 }
 
 export default connect(

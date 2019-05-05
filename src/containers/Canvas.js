@@ -4,11 +4,10 @@ import { bindActionCreators } from 'redux';
 import { getNodesAsArray, getLinksAsArray, createLink } from '../modules/graph';
 import { openConfirmDeleteNode } from '../modules/confirm-delete-node';
 import Canvas from '../components/Canvas';
-import { openNewNode } from '../modules/new-node';
+import { openDialog, DIALOG_IDS } from '../modules/dialog';
 import { selectNode, deselectNode, getSelectedNodes, getNonExistentLinkBetweenSelectedNodes } from '../modules/node-selection';
 import { getSelectedLink, selectLink, deselectLink } from '../modules/link-selection';
 import { openConfirmDeleteLink } from '../modules/confirm-delete-link';
-import { openEditNode } from '../modules/edit-node';
 
 function mapStateToProps(state) {
   return {
@@ -21,20 +20,22 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      openNewNode,
-      selectNode,
-      deselectNode,
-      createLink,
-      openConfirmDeleteNode,
-      selectLink,
-      deselectLink,
-      openConfirmDeleteLink,
-      openEditNode,
-    },
-    dispatch
-  );
+  return {
+    ...bindActionCreators(
+      {
+        selectNode,
+        deselectNode,
+        createLink,
+        openConfirmDeleteNode,
+        selectLink,
+        deselectLink,
+        openConfirmDeleteLink,
+      },
+      dispatch
+    ),
+    openNewNode: () => dispatch(openDialog(DIALOG_IDS.NEW_NODE)),
+    openEditNode: (node) => dispatch(openDialog(DIALOG_IDS.EDIT_NODE, node)),
+  };
 }
 
 export default connect(

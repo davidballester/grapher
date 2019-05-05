@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 
 import NewNode from '../components/NewNode';
-import { getIsOpen, closeNewNode } from '../modules/new-node';
+import { getIsOpen, closeDialog, DIALOG_IDS } from '../modules/dialog';
 import { createNode } from '../modules/graph';
 
 function mapStateToProps(state) {
   return {
-    isOpen: getIsOpen(state),
+    isOpen: getIsOpen(state, DIALOG_IDS.NEW_NODE),
   };
 }
 
@@ -14,9 +14,9 @@ function mapDispatchToProps(dispatch) {
   return {
     saveNewNode: (node) => {
       dispatch(createNode(node));
-      dispatch(closeNewNode());
+      dispatch(closeDialog(DIALOG_IDS.NEW_NODE));
     },
-    cancelNewNode: () => dispatch(closeNewNode()),
+    cancelNewNode: () => dispatch(closeDialog(DIALOG_IDS.NEW_NODE)),
   };
 }
 

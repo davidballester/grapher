@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 
 import EditGraph from '../components/EditGraph';
-import { getIsOpen, closeEditGraph } from '../modules/edit-graph';
+import { getIsOpen, closeDialog, DIALOG_IDS } from '../modules/dialog';
 import { setGraphName, getName, getId } from '../modules/graph';
 
 function mapStateToProps(state) {
   return {
-    isOpen: getIsOpen(state),
+    isOpen: getIsOpen(state, DIALOG_IDS.EDIT_GRAPH),
     graphName: getName(state),
     graphId: getId(state),
   };
@@ -15,10 +15,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setGraphName: (graphId, graphName) => {
-      dispatch(closeEditGraph());
+      dispatch(closeDialog(DIALOG_IDS.EDIT_GRAPH));
       dispatch(setGraphName(graphId, graphName));
     },
-    cancelEditGraph: () => dispatch(closeEditGraph()),
+    cancelEditGraph: () => dispatch(closeDialog(DIALOG_IDS.EDIT_GRAPH)),
   };
 }
 
