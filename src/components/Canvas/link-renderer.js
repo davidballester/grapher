@@ -43,6 +43,14 @@ function renderLabel(link, ctx, globalScale) {
     ctx.textBaseline = 'middle';
     ctx.fillStyle = getLabelColor(link);
     ctx.fillText(label, halfX, halfY);
+
+    if (link.selected) {
+      const lineWidth = ctx.lineWidth;
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 0.2;
+      ctx.strokeText(label, halfX, halfY);
+      ctx.lineWidth = lineWidth;
+    }
   }
 }
 
