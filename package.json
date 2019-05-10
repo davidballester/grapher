@@ -3,27 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.9.2",
-    "@material-ui/icons": "^3.0.2",
-    "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.10.0",
-    "formik": "^1.5.1",
-    "formik-material-ui": "^0.0.16",
-    "jest-localstorage-mock": "^2.4.0",
-    "lodash": "^4.17.11",
-    "react": "^16.8.3",
-    "react-color": "^2.17.3",
-    "react-dom": "^16.8.3",
-    "react-force-graph-2d": "^1.5.4",
-    "react-redux": "^6.0.1",
-    "react-router-dom": "^5.0.0",
+    "@material-ui/core": "3.9.2",
+    "@material-ui/icons": "3.0.2",
+    "@material-ui/lab": "3.0.0-alpha.30",
+    "enzyme": "3.9.0",
+    "enzyme-adapter-react-16": "1.10.0",
+    "formik": "1.5.1",
+    "formik-material-ui": "0.0.16",
+    "jest-localstorage-mock": "2.4.0",
+    "lodash": "4.17.11",
+    "react": "16.8.3",
+    "react-color": "2.17.3",
+    "react-dom": "16.8.3",
+    "react-force-graph-2d": "1.5.4",
+    "react-redux": "6.0.1",
+    "react-router-dom": "5.0.0",
     "react-scripts": "2.1.5",
-    "redux": "^4.0.1",
-    "redux-saga": "^1.0.2",
-    "reselect": "^4.0.0",
-    "styled-components": "^4.2.0",
-    "uuid": "^3.3.2",
-    "yup": "^0.26.10"
+    "redux": "4.0.1",
+    "redux-saga": "1.0.2",
+    "reselect": "4.0.0",
+    "styled-components": "4.2.0",
+    "uuid": "3.3.2",
+    "yup": "0.26.10"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,7 +42,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@redux-saga/testing-utils": "^1.0.2",
-    "prettier": "^1.16.4"
+    "@redux-saga/testing-utils": "1.0.2",
+    "patch-package": "^6.1.2",
+    "postinstall-postinstall": "^2.0.0",
+    "prettier": "1.16.4"
   }
 }
