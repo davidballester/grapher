@@ -3,6 +3,7 @@ export const DIALOG_IDS = {
   EDIT_LINK: 'editlink',
   EDIT_NODE: 'editnode',
   NEW_NODE: 'newnode',
+  NEW_LINK: 'newlink',
   CONFIRM_DELETE_GRAPH: 'confirmdeletegraph',
   CONFIRM_DELETE_LINK: 'confirmdeletelink',
   CONFIRM_DELETE_NODE: 'confirmdeletenode',

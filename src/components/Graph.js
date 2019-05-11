@@ -11,6 +11,7 @@ import EditGraph from '../containers/EditGraph';
 import ConfirmDeleteGraph from '../containers/ConfirmDeleteGraph';
 import EditLink from '../containers/EditLink';
 import SpeedDials from '../containers/SpeedDials';
+import NewLink from '../containers/NewLink';
 
 const StyledSpeedDials = styled(SpeedDials)`
   position: absolute;
@@ -33,6 +34,7 @@ function Graph({ graphId, loadedGraphId, loadGraph }) {
       <ConfirmDeleteGraph />
       <EditLink />
       <StyledSpeedDials />
+      <NewLink />
     </React.Fragment>
   );
 }
