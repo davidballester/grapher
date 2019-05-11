@@ -6,6 +6,7 @@ import { openDialog, DIALOG_IDS } from '../modules/dialog';
 function mapDispatchToProps(dispatch) {
   return {
     openNewNode: () => dispatch(openDialog(DIALOG_IDS.NEW_NODE)),
+    openNewLink: () => dispatch(openDialog(DIALOG_IDS.NEW_LINK)),
   };
 }
 
