@@ -45,6 +45,8 @@ import {
   GRAPH_EDIT_LINK,
   editLink,
   getLinkById,
+  getLinksWithOpposite,
+  getLinksIdsWithOpposite,
 } from './graph';
 
 import reducer from './graph';
@@ -711,6 +713,88 @@ describe('graph', () => {
         };
         const link = getLinkById(state, linkId);
         expect(link).toBeUndefined();
+      });
+    });
+
+    describe(getLinksWithOpposite.name, () => {
+      it('returns an empty array if there are no links', () => {
+        const state = { graph: { links: {} } };
+        const links = getLinksWithOpposite(state);
+        expect(links).toEqual([]);
+      });
+
+      it('returns an empty array if there are no links with opposite', () => {
+        const state = {
+          graph: {
+            links: {
+              'foo-bar': {
+                source: 'foo',
+                target: 'bar',
+              },
+              'foo-baz': {
+                source: 'foo',
+                target: 'baz',
+              },
+            },
+          },
+        };
+        const links = getLinksWithOpposite(state);
+        expect(links).toEqual([]);
+      });
+
+      it('returns links with opposites', () => {
+        const fooBar = {
+          source: 'foo',
+          target: 'bar',
+        };
+        const barFoo = {
+          source: 'bar',
+          target: 'foo',
+        };
+        const state = {
+          graph: {
+            links: {
+              'foo-bar': fooBar,
+              'foo-baz': {
+                source: 'foo',
+                target: 'baz',
+              },
+              'bar-foo': barFoo,
+            },
+          },
+        };
+        const links = getLinksWithOpposite(state);
+        expect(links).toEqual([fooBar, barFoo]);
+      });
+    });
+
+    describe(getLinksIdsWithOpposite.name, () => {
+      it('returns the IDs of the links with opposite', () => {
+        const fooBar = {
+          id: 'foo-bar',
+          source: 'foo',
+          target: 'bar',
+        };
+        const barFoo = {
+          id: 'bar-foo',
+          source: 'bar',
+          target: 'foo',
+        };
+        const state = {
+          graph: {
+            links: {
+              'foo-bar': fooBar,
+              'foo-baz': {
+                id: 'foo-baz',
+                source: 'foo',
+                target: 'baz',
+              },
+              'bar-foo': barFoo,
+            },
+          },
+        };
+        const links = getLinksIdsWithOpposite(state);
+        expect(links).toEqual([fooBar.id, barFoo.id]);
       });
     });
   });

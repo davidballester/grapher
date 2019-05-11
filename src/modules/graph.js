@@ -338,6 +338,22 @@ export const getNodesIds = createSelector(
   (nodes) => Object.keys(nodes)
 );
 
+/**
+ * Gets a list of links that have an opposite link, that is, where there's another link which source is this one target and vice versa.
+ */
+export const getLinksWithOpposite = createSelector(
+  getLinksAsArray,
+  (links) => links.filter((link) => !!getOppositeLink(links, link))
+);
+
+/**
+ * Gets the IDs of links that have an opposite link, that is, where there's another link which source is this one target and vice versa.
+ */
+export const getLinksIdsWithOpposite = createSelector(
+  getLinksWithOpposite,
+  (links) => links.map((link) => link.id)
+);
+
 export function* saveGraph() {
   const graph = yield select(graphSelector);
   yield call([graphService, 'saveGraph'], graph);
@@ -368,4 +384,8 @@ export function* doDeleteGraph({ payload: graphId }) {
 
 export function* deleteGraphSaga() {
   yield takeLatest([GRAPH_DELETE], doDeleteGraph);
+}
+
+function getOppositeLink(links, { source, target }) {
+  return links.find(({ source: candidateSource, target: candidateTarget }) => candidateSource === target && candidateTarget === source);
 }
