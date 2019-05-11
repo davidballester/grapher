@@ -31,6 +31,7 @@ export default class Canvas extends React.Component {
     deselectLink: PropTypes.func,
     openConfirmDeleteLink: PropTypes.func,
     openEditNode: PropTypes.func,
+    linksIdsWithOpposite: PropTypes.arrayOf(PropTypes.string),
   };
 
   state = {
@@ -56,7 +57,7 @@ export default class Canvas extends React.Component {
   }
 
   render() {
-    const { className, openNewNode, nodes, links, selectedNodes, virtualLink, selectedLink } = this.props;
+    const { className, openNewNode, nodes, links, selectedNodes, virtualLink, selectedLink, linksIdsWithOpposite } = this.props;
     const { height, width } = this.state;
     this.synchronizeGraphData(nodes, links, selectedNodes, virtualLink, selectedLink);
     if (!!this.canvas) {
@@ -81,6 +82,7 @@ export default class Canvas extends React.Component {
           linkDirectionalParticleWidth={(link) => (link.selected ? 4 : 0)}
           linkCanvasObject={renderLink}
           linkLabel="label"
+          linkCurvature={({ id }) => (!!linksIdsWithOpposite.find((linkId) => linkId === id) ? 0.3 : 0)}
           onNodeClick={(node) => this.toggleNodeSelection(node)}
           onLinkClick={(link) => this.linkClick(link)}
         />

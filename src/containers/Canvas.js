@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getNodesAsArray, getLinksAsArray, createLink } from '../modules/graph';
+import { getNodesAsArray, getLinksAsArray, createLink, getLinksIdsWithOpposite } from '../modules/graph';
 import Canvas from '../components/Canvas';
 import { openDialog, DIALOG_IDS } from '../modules/dialog';
 import { selectNode, deselectNode, getSelectedNodes, getNonExistentLinkBetweenSelectedNodes } from '../modules/node-selection';
@@ -14,6 +14,7 @@ function mapStateToProps(state) {
     selectedNodes: getSelectedNodes(state),
     virtualLink: getNonExistentLinkBetweenSelectedNodes(state),
     selectedLink: getSelectedLink(state),
+    linksIdsWithOpposite: getLinksIdsWithOpposite(state),
   };
 }
 
