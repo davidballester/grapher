@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import NewNode from '../containers/NewNode';
 import ConfirmDeleteNode from '../containers/ConfirmDeleteNode';
@@ -9,6 +10,13 @@ import EditNode from '../containers/EditNode';
 import EditGraph from '../containers/EditGraph';
 import ConfirmDeleteGraph from '../containers/ConfirmDeleteGraph';
 import EditLink from '../containers/EditLink';
+import SpeedDials from '../containers/SpeedDials';
+
+const StyledSpeedDials = styled(SpeedDials)`
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+`;
 
 function Graph({ graphId, loadedGraphId, loadGraph }) {
   if (!!graphId && graphId !== loadedGraphId) {
@@ -24,6 +32,7 @@ function Graph({ graphId, loadedGraphId, loadGraph }) {
       <EditGraph />
       <ConfirmDeleteGraph />
       <EditLink />
+      <StyledSpeedDials />
     </React.Fragment>
   );
 }
