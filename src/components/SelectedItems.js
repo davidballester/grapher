@@ -10,7 +10,7 @@ export const StyledSelectedLink = styled(SelectedLink)`
 
 export const SelectedItemsContainer = styled.div`
   position: absolute;
-  right: 1rem;
+  left: 1rem;
   bottom: 0;
 `;
 
