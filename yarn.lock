@@ -1710,9 +1710,9 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bezier-js@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/bezier-js/-/bezier-js-2.3.2.tgz#dd11dad7efac78743314168e3c2b61b2fb8132bb"
+bezier-js@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/bezier-js/-/bezier-js-2.4.0.tgz#8fb65113e01c7d3e443aa9fd66921478befc24a0"
 
 bfj@6.1.1:
   version "6.1.1"
@@ -3896,21 +3896,21 @@ for-own@^1.0.0:
   dependencies:
     for-in "^1.0.1"
 
-force-graph@^1.14.3:
-  version "1.14.3"
-  resolved "https://registry.yarnpkg.com/force-graph/-/force-graph-1.14.3.tgz#7291d169985f258732a71f502e6694c444adfd55"
+force-graph@^1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/force-graph/-/force-graph-1.15.0.tgz#5768791debfb8fa1b66faf6fbbb83610d6ab80ac"
   dependencies:
     "@tweenjs/tween.js" "^17.3.0"
     accessor-fn "^1.2.2"
-    bezier-js "^2.3.2"
+    bezier-js "^2.4.0"
     canvas-color-tracker "^1.0.1"
     d3-drag "^1.2.3"
     d3-force-3d "^2.0.1"
     d3-scale-chromatic "^1.3.3"
     d3-selection "^1.4.0"
     d3-zoom "^1.7.3"
-    index-array-by "^1.2.2"
-    kapsule "^1.9.2"
+    index-array-by "^1.2.3"
+    kapsule "^1.10.0"
     lodash.throttle "^4.1.1"
 
 forever-agent@~0.6.1:
@@ -4619,9 +4619,9 @@ indefinite-observable@^1.0.1:
   dependencies:
     symbol-observable "1.2.0"
 
-index-array-by@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/index-array-by/-/index-array-by-1.2.2.tgz#5af5f5a870d8eb240d43e4bfa954c6434357c66c"
+index-array-by@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/index-array-by/-/index-array-by-1.2.3.tgz#52a7025144f4184825c69f8e61ea9fa2a62501cc"
 
 indexes-of@^1.0.1:
   version "1.0.1"
@@ -5631,9 +5631,9 @@ jsx-ast-utils@^2.0.1:
   dependencies:
     array-includes "^3.0.3"
 
-kapsule@^1.9.2:
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/kapsule/-/kapsule-1.9.2.tgz#424df7b6ace3633cfbc8a8210a2ba6d52e49c055"
+kapsule@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/kapsule/-/kapsule-1.10.0.tgz#0fe7fd8a98cc3c556912519dce464b4085e9a93f"
   dependencies:
     debounce "^1.1.0"
 
@@ -7515,7 +7515,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.0, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   dependencies:
@@ -7759,12 +7759,12 @@ react-fast-compare@^2.0.1:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
 
-react-force-graph-2d@1.5.4:
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/react-force-graph-2d/-/react-force-graph-2d-1.5.4.tgz#c972dd8a4f7e83ffffd65ebfc3a475b1a0b692e8"
+react-force-graph-2d@1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/react-force-graph-2d/-/react-force-graph-2d-1.6.1.tgz#b075e7819294c58dbdfbcd82c1a4441a45488311"
   dependencies:
-    force-graph "^1.14.3"
-    prop-types "^15.7.0"
+    force-graph "^1.15.0"
+    prop-types "^15.7.2"
     react-kapsule "^1.4.1"
 
 react-is@^16.6.0:
