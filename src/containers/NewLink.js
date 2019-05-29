@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 
-import NewLink from '../components/NewLink';
+import NewLink from '../components/NewLink/NewLink';
 import { getIsOpen, closeDialog, DIALOG_IDS } from '../modules/dialog';
-import { createLink } from '../modules/graph';
+import { createLink, getNodesIds } from '../modules/graph';
 
 function mapStateToProps(state) {
   return {
     isOpen: getIsOpen(state, DIALOG_IDS.NEW_LINK),
+    nodesIds: getNodesIds(state),
   };
 }
 
