@@ -6,6 +6,7 @@ import Canvas from '../components/Canvas';
 import { openDialog, DIALOG_IDS } from '../modules/dialog';
 import { selectNode, deselectNode, getSelectedNodes, getNonExistentLinkBetweenSelectedNodes } from '../modules/node-selection';
 import { getSelectedLink, selectLink, deselectLink } from '../modules/link-selection';
+import { registerCanvasComponent } from '../modules/canvas';
 
 function mapStateToProps(state) {
   return {
@@ -27,6 +28,7 @@ function mapDispatchToProps(dispatch) {
         createLink,
         selectLink,
         deselectLink,
+        registerCanvasComponent,
       },
       dispatch
     ),

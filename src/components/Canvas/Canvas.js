@@ -32,6 +32,7 @@ export default class Canvas extends React.Component {
     openConfirmDeleteLink: PropTypes.func,
     openEditNode: PropTypes.func,
     linksIdsWithOpposite: PropTypes.arrayOf(PropTypes.string),
+    registerCanvasComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -50,6 +51,7 @@ export default class Canvas extends React.Component {
   componentDidMount() {
     this.updateDimensions();
     window.addEventListener('resize', this.updateDimensions.bind(this));
+    this.props.registerCanvasComponent(this.canvas);
   }
 
   componentWillUnmount() {
