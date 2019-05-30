@@ -8,6 +8,7 @@ import nodeSelectionReducer from './node-selection';
 import linkSelectionReducer from './link-selection';
 import { navigateSaga } from './navigation';
 import dialogReducer from './dialog';
+import canvasReducer, { refreshSaga } from './canvas';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
@@ -17,6 +18,7 @@ const reducer = combineReducers({
   nodeSelection: nodeSelectionReducer,
   linkSelection: linkSelectionReducer,
   dialog: dialogReducer,
+  canvas: canvasReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
@@ -24,3 +26,4 @@ sagaMiddleware.run(saveGraphSaga);
 sagaMiddleware.run(loadGraphSaga);
 sagaMiddleware.run(navigateSaga);
 sagaMiddleware.run(deleteGraphSaga);
+sagaMiddleware.run(refreshSaga);
