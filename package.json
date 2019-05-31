@@ -14,6 +14,7 @@
     "jest-localstorage-mock": "2.4.0",
     "lodash": "4.17.11",
     "react": "16.8.3",
+    "react-ace": "^7.0.1",
     "react-color": "2.17.3",
     "react-dom": "16.8.3",
     "react-force-graph-2d": "1.6.1",
