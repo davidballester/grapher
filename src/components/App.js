@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 
-import GraphList from '../containers/GraphList';
+import Landing from '../components/Landing';
 import NewGraph from '../containers/NewGraph';
 import Canvas from '../containers/Canvas';
 import Graph from '../containers/Graph';
@@ -14,7 +14,7 @@ export class App extends Component {
       <React.Fragment>
         <Route component={MainBar} />
         <Canvas />
-        <Route path={[ROUTES.BASE, ROUTES.GRAPHS]} exact component={GraphList} />
+        <Route path={[ROUTES.BASE, ROUTES.GRAPHS]} exact component={Landing} />
         <Route path={ROUTES.NEW_GRAPH} exact component={NewGraph} />
         <Route path={ROUTES.GRAPH} exact component={Graph} />
       </React.Fragment>
