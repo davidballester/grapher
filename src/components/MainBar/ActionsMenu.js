@@ -6,8 +6,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
-export default function ActionsMenu({ edit, remove, ...props }) {
+export default function ActionsMenu({ edit, remove, openExport, ...props }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   function handleClick(event) {
@@ -35,6 +36,19 @@ export default function ActionsMenu({ edit, remove, ...props }) {
           </ListItemIcon>
           Edit
         </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            openExport();
+            handleClose();
+          }}
+        >
+          <ListItemIcon>
+            <GetAppIcon />
+          </ListItemIcon>
+          Export
+        </MenuItem>
+
         <MenuItem
           onClick={() => {
             remove();

@@ -28,13 +28,13 @@ const StyledActionsMenu = styled(ActionsMenu)`
   }
 `;
 
-export default function MainBar({ graphName, location, openEditGraph, openConfirmDeleteGraph }) {
+export default function MainBar({ graphName, location, openEditGraph, openConfirmDeleteGraph, openExport }) {
   return (
     <StyledAppBar position="static">
       <Toolbar>
         <StyledBackButton location={location} />
         <StyledTitle location={location} graphName={graphName} />
-        <StyledActionsMenu edit={openEditGraph} remove={() => openConfirmDeleteGraph(graphName)} />
+        <StyledActionsMenu edit={openEditGraph} remove={() => openConfirmDeleteGraph(graphName)} openExport={openExport} />
       </Toolbar>
     </StyledAppBar>
   );
