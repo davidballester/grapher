@@ -47,6 +47,7 @@ import {
   getLinkById,
   getLinksWithOpposite,
   getLinksIdsWithOpposite,
+  getSerializedGraph,
 } from './graph';
 
 import reducer from './graph';
@@ -63,6 +64,7 @@ jest.mock('../services/graph-service', () => ({
     saveGraph: jest.fn(),
     removeGraph: jest.fn(),
     readGraph: jest.fn(),
+    serializeGraph: jest.fn(),
   },
 }));
 
@@ -795,6 +797,24 @@ describe('graph', () => {
         };
         const links = getLinksIdsWithOpposite(state);
         expect(links).toEqual([fooBar.id, barFoo.id]);
+      });
+    });
+
+    describe(getSerializedGraph.name, () => {
+      it('invokes the serialize method of the graph service', () => {
+        const graph = { foo: 'bar' };
+        const state = { graph };
+        getSerializedGraph(state);
+        expect(graphService.serializeGraph).toHaveBeenCalledWith(graph);
+      });
+
+      it('returns the result of the serialization', () => {
+        const graph = { foo: 'bar' };
+        const state = { graph };
+        const expectedResult = 'foo';
+        graphService.serializeGraph.mockReturnValue(expectedResult);
+        const result = getSerializedGraph(state);
+        expect(result).toEqual(expectedResult);
       });
     });
   });

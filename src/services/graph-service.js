@@ -21,6 +21,10 @@ export class GraphService {
   getGraphStorageKey(id) {
     return GRAPH_STORAGE_PREFIX + id;
   }
+
+  serializeGraph(graph) {
+    return JSON.stringify(graph, null, 2);
+  }
 }
 
 export default new GraphService();

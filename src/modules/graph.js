@@ -354,6 +354,11 @@ export const getLinksIdsWithOpposite = createSelector(
   (links) => links.map((link) => link.id)
 );
 
+export const getSerializedGraph = createSelector(
+  graphSelector,
+  (graph) => graphService.serializeGraph(graph)
+);
+
 export function* saveGraph() {
   const graph = yield select(graphSelector);
   yield call([graphService, 'saveGraph'], graph);

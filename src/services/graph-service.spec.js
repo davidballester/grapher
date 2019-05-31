@@ -54,4 +54,13 @@ describe('graphService', () => {
       expect(removeItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.id}`);
     });
   });
+
+  describe('#serializeGraph', () => {
+    it('stringifies the given graph', () => {
+      const graph = { foo: 'bar' };
+      const expectedGraph = JSON.stringify(graph);
+      const receivedGraph = graphService.serializeGraph(graph);
+      expect(receivedGraph).toEqual(expectedGraph);
+    });
+  });
 });
