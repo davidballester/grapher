@@ -7,6 +7,7 @@ export const DIALOG_IDS = {
   CONFIRM_DELETE_GRAPH: 'confirmdeletegraph',
   CONFIRM_DELETE_LINK: 'confirmdeletelink',
   CONFIRM_DELETE_NODE: 'confirmdeletenode',
+  EXPORT_GRAPH: 'exportgraph',
 };
 
 export const DIALOG_OPEN = 'grapher/EditGraph/OPEN';
