@@ -1,0 +1,103 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": ["id", "name", "nodes", "links"],
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "string",
+      "title": "The Id Schema",
+      "default": "",
+      "examples": ["bf1b72c8-1c9e-45a9-921d-f6678da8def7"],
+      "pattern": "^([a-z0-9\\-]+)$"
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "The Name Schema",
+      "default": "",
+      "examples": ["Mario world!"],
+      "pattern": "^(.+)$"
+    },
+    "nodes": {
+      "$id": "#/properties/nodes",
+      "type": "object",
+      "title": "The Nodes Schema",
+      "patternProperties": {
+        ".+": {
+          "type": "object",
+          "title": "The Mario Schema",
+          "required": ["id"],
+          "properties": {
+            "color": {
+              "$id": "#/properties/nodes/properties/mario/properties/color",
+              "type": "string",
+              "title": "The Color Schema",
+              "default": "",
+              "examples": ["#448aff"],
+              "pattern": "^#([0-9a-fA-F]{6})$"
+            },
+            "id": {
+              "$id": "#/properties/nodes/properties/mario/properties/id",
+              "type": "string",
+              "title": "The Id Schema",
+              "default": "",
+              "examples": ["mario"],
+              "pattern": "^(.+)$"
+            }
+          }
+        }
+      }
+    },
+    "links": {
+      "$id": "#/properties/links",
+      "type": "object",
+      "title": "The Links Schema",
+      "patternProperties": {
+        ".+": {
+          "$id": "#/properties/links/properties/mario-luigi",
+          "type": "object",
+          "title": "The Mario-luigi Schema",
+          "required": ["id", "label", "source", "target"],
+          "properties": {
+            "id": {
+              "$id": "#/properties/links/properties/mario-luigi/properties/id",
+              "type": "string",
+              "title": "The Id Schema",
+              "default": "",
+              "examples": ["mario-luigi"],
+              "pattern": "^(.+)$"
+            },
+            "label": {
+              "$id": "#/properties/links/properties/mario-luigi/properties/label",
+              "type": "string",
+              "title": "The Label Schema",
+              "default": "",
+              "examples": ["brothers"],
+              "pattern": "^(.+)$"
+            },
+            "source": {
+              "$id": "#/properties/links/properties/mario-luigi/properties/source",
+              "type": "string",
+              "title": "The Source Schema",
+              "default": "",
+              "examples": ["mario"],
+              "pattern": "^(.+)$"
+            },
+            "target": {
+              "$id": "#/properties/links/properties/mario-luigi/properties/target",
+              "type": "string",
+              "title": "The Target Schema",
+              "default": "",
+              "examples": ["luigi"],
+              "pattern": "^(.+)$"
+            }
+          }
+        }
+      }
+    }
+  }
+}

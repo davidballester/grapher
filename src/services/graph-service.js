@@ -1,3 +1,6 @@
+import { validate } from 'jsonschema';
+import graphJsonSchema from './graph-schema';
+
 export const GRAPH_STORAGE_PREFIX = 'grapher/services/graphs/';
 
 export class GraphService {
@@ -24,6 +27,21 @@ export class GraphService {
 
   serializeGraph(graph) {
     return JSON.stringify(graph, null, 2);
+  }
+
+  deserializeGraph(serializedGraph) {
+    let graph;
+    try {
+      graph = JSON.parse(serializedGraph);
+    } catch (error) {
+      return { errors: ['Invalid JSON'] };
+    }
+    const validationResult = validate(graph, graphJsonSchema);
+    if (!validationResult.valid) {
+      const errors = validationResult.errors.map((error) => error.stack).map((error) => error.replace('instance', 'Graph'));
+      return { errors };
+    }
+    return { graph };
   }
 }
 

@@ -1,3 +1,10 @@
+/* eslint-disable import/first */
+jest.mock('jsonschema', () => ({
+  validate: jest.fn(),
+}));
+
+import { validate } from 'jsonschema';
+
 import graphService, { GRAPH_STORAGE_PREFIX } from './graph-service';
 
 describe('graphService', () => {
@@ -58,9 +65,63 @@ describe('graphService', () => {
   describe('#serializeGraph', () => {
     it('stringifies the given graph', () => {
       const graph = { foo: 'bar' };
-      const expectedGraph = JSON.stringify(graph);
+      const expectedGraph = JSON.stringify(graph, null, 2);
       const receivedGraph = graphService.serializeGraph(graph);
       expect(receivedGraph).toEqual(expectedGraph);
+    });
+  });
+
+  describe('#deserializeGraph', () => {
+    let expectedGraph;
+    let input;
+
+    beforeEach(() => {
+      expectedGraph = {
+        id: 'foo',
+        name: 'bar',
+        nodes: {},
+        links: {},
+      };
+      input = JSON.stringify(expectedGraph);
+
+      validate.mockReturnValue({ valid: true });
+    });
+
+    it('throws an error containing an error message if the input is not a valid JSON', () => {
+      const { errors } = graphService.deserializeGraph('');
+      expect(errors.length).toEqual(1);
+    });
+
+    it('validates the parsed input', () => {
+      graphService.deserializeGraph(input);
+      expect(validate).toHaveBeenCalledWith(expectedGraph, expect.anything());
+    });
+
+    it('returns errors if the validation fails', () => {
+      validate.mockReturnValue({
+        valid: false,
+        errors: [],
+      });
+      const { errors } = graphService.deserializeGraph(input);
+      expect(errors).toBeDefined();
+    });
+
+    it('returns the stack of the validation errors subtituting instance by Graph', () => {
+      validate.mockReturnValue({
+        valid: false,
+        errors: [
+          {
+            stack: 'instance foo',
+          },
+        ],
+      });
+      const { errors } = graphService.deserializeGraph(input);
+      expect(errors[0]).toEqual('Graph foo');
+    });
+
+    it('returns the deserialized input', () => {
+      const { graph } = graphService.deserializeGraph(input);
+      expect(graph).toEqual(expectedGraph);
     });
   });
 });
