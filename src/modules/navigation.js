@@ -4,6 +4,7 @@ import history from '../services/history';
 import { GRAPH_LIST_OPEN } from './graph-list';
 import { NEW_GRAPH_OPEN } from './new-graph';
 import { GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE } from './graph';
+import { GRAPH_IMPORT_SUCCESS, GRAPH_IMPORT_OPEN } from './graph-import';
 import { ROUTES } from '../constants';
 
 export function* navigate({ type, payload }) {
@@ -25,6 +26,14 @@ export function* navigate({ type, payload }) {
       yield call([history, 'push'], `${ROUTES.GRAPHS}/${payload.id}`);
       break;
     }
+    case GRAPH_IMPORT_OPEN: {
+      yield call([history, 'push'], ROUTES.IMPORT_GRAPH);
+      break;
+    }
+    case GRAPH_IMPORT_SUCCESS: {
+      yield call([history, 'push'], `${ROUTES.GRAPHS}/${payload.id}`);
+      break;
+    }
     default: {
       break;
     }
@@ -32,5 +41,5 @@ export function* navigate({ type, payload }) {
 }
 
 export function* navigateSaga() {
-  yield takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE], navigate);
+  yield takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_OPEN, GRAPH_IMPORT_SUCCESS], navigate);
 }
