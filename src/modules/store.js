@@ -9,6 +9,7 @@ import linkSelectionReducer from './link-selection';
 import { navigateSaga } from './navigation';
 import dialogReducer from './dialog';
 import canvasReducer, { refreshSaga } from './canvas';
+import graphImportReducer, { importGraphSaga } from './graph-import';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   linkSelection: linkSelectionReducer,
   dialog: dialogReducer,
   canvas: canvasReducer,
+  graphImport: graphImportReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
@@ -27,3 +29,4 @@ sagaMiddleware.run(loadGraphSaga);
 sagaMiddleware.run(navigateSaga);
 sagaMiddleware.run(deleteGraphSaga);
 sagaMiddleware.run(refreshSaga);
+sagaMiddleware.run(importGraphSaga);
