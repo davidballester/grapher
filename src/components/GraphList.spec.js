@@ -17,14 +17,14 @@ describe('GraphList', () => {
     expect(component).toBeDefined();
   });
 
-  it('renders one list item per graph name plus an additional one', () => {
+  it('renders one list item per graph name plus two additional ones', () => {
     const component = shallow(<GraphList graphNames={graphNames} />);
-    expect(component.find(ListItem).getElements()).toHaveLength(graphNames.length + 1);
+    expect(component.find(ListItem).getElements()).toHaveLength(graphNames.length + 2);
   });
 
-  it('renders a list item when there are no graph names', () => {
+  it('renders two list items when there are no graph names', () => {
     const component = shallow(<GraphList graphNames={[]} />);
-    expect(component.find(ListItem).getElements()).toHaveLength(1);
+    expect(component.find(ListItem).getElements()).toHaveLength(2);
   });
 
   it('renders the graph names in the list items', () => {
@@ -42,14 +42,18 @@ describe('GraphList', () => {
     expect(dialog.props.open).toBeTruthy();
   });
 
-  it('calls the `openNewGraph` prop when the only list item rendered if no graph names are provided is clicked', () => {
+  it('calls the `openNewGraph` prop when the new graph list item rendered is clicked', () => {
     const openNewGraph = jest.fn();
     const component = shallow(<GraphList graphNames={[]} openNewGraph={openNewGraph} />);
-    component
-      .find(ListItem)
-      .first()
-      .simulate('click');
+    component.find('.open-new-graph').simulate('click');
     expect(openNewGraph).toHaveBeenCalled();
+  });
+
+  it('calls the `openImportGraph` prop when the import graph list item rendered is clicked', () => {
+    const openImportGraph = jest.fn();
+    const component = shallow(<GraphList graphNames={[]} openImportGraph={openImportGraph} />);
+    component.find('.open-import-graph').simulate('click');
+    expect(openImportGraph).toHaveBeenCalled();
   });
 
   it('calls the `openGraph` prop when a list item is clicked', () => {

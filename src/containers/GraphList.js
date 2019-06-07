@@ -5,6 +5,7 @@ import GraphList from '../components/GraphList';
 import { openGraph } from '../modules/graph';
 import { getGraphNamesAsArray } from '../modules/graph-list';
 import { openNewGraph } from '../modules/new-graph';
+import { openImportGraph } from '../modules/graph-import';
 
 function mapStateToProps(state) {
   return {
@@ -17,6 +18,7 @@ function mapDispatchToProps(dispatch) {
     {
       openNewGraph,
       openGraph,
+      openImportGraph,
     },
     dispatch
   );
