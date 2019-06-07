@@ -1,4 +1,4 @@
-import { select, takeLatest, call } from 'redux-saga/effects';
+import { takeLatest, call } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
 import reducer, { CANVAS_REGISTER_CANVAS_COMPONENT, CANVAS_REFRESH, refresh, registerCanvasComponent, refreshSaga, doRefresh } from './canvas';
