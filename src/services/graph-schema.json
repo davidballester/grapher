@@ -4,16 +4,8 @@
   "$id": "http://example.com/root.json",
   "type": "object",
   "title": "The Root Schema",
-  "required": ["id", "name", "nodes", "links"],
+  "required": ["name", "nodes", "links"],
   "properties": {
-    "id": {
-      "$id": "#/properties/id",
-      "type": "string",
-      "title": "The Id Schema",
-      "default": "",
-      "examples": ["bf1b72c8-1c9e-45a9-921d-f6678da8def7"],
-      "pattern": "^([a-z0-9\\-]+)$"
-    },
     "name": {
       "$id": "#/properties/name",
       "type": "string",

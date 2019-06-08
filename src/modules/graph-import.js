@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { takeLatest, call, put } from 'redux-saga/effects';
 
 import graphService from '../services/graph-service';
-import { loadGraphSuccess } from './graph';
+import { createGraph } from './graph';
 
 export const GRAPH_IMPORT_OPEN = 'grapher/GraphImport/OPEN';
 export const GRAPH_IMPORT = 'grapher/GraphImport/IMPORT';
@@ -82,7 +82,7 @@ export function* doImportGraph(action) {
     yield put(importGraphFailure(errors));
   } else {
     yield put(importGraphSuccess(graph));
-    yield put(loadGraphSuccess(graph));
+    yield put(createGraph(graph));
   }
 }
 
