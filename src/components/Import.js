@@ -10,9 +10,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import AceEditor from 'react-ace';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 import 'brace/mode/javascript';
 import 'brace/theme/monokai';
+
+import './Import.css';
 
 const styles = (theme) => {
   return {
@@ -25,6 +28,15 @@ const styles = (theme) => {
   };
 };
 
+function handleFileUpload(file, setSerializedGraph) {
+  const fileReader = new FileReader();
+  fileReader.onload = (event) => {
+    const serializedGraph = event.target.result;
+    setSerializedGraph(serializedGraph);
+  };
+  fileReader.readAsText(file);
+}
+
 function Import({ errors = [], close, importGraph, classes }) {
   const [serializedGraph, setSerializedGraph] = useState('');
   const errorsListItems = errors.map((error, index) => (
@@ -33,21 +45,31 @@ function Import({ errors = [], close, importGraph, classes }) {
     </ListItem>
   ));
   return (
-    <Dialog open={true}>
-      <DialogTitle>Import</DialogTitle>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          importGraph(serializedGraph);
-        }}
-      >
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        importGraph(serializedGraph);
+      }}
+    >
+      <Dialog open={true}>
+        <DialogTitle>Import</DialogTitle>
         <DialogContent>
           <List dense={true}>{errorsListItems}</List>
+          <DropzoneArea
+            onChange={(files) => handleFileUpload(files[0], setSerializedGraph)}
+            dropZoneClass="dropzone"
+            dropzoneParagraphClass="dropzone__paragraph"
+            dropzoneText="Drag and drop a JSON graph here or click to manually browse for it"
+            acceptedFiles={['application/json']}
+            filesLimit={1}
+            showPreviewsInDropzone={false}
+            showAlerts={false}
+          />
           <AceEditor
             placeholder=""
             mode="javascript"
             theme="monokai"
-            fontSize={14}
+            fontSize={12}
             showPrintMargin={false}
             showGutter={true}
             highlightActiveLine={true}
@@ -68,8 +90,8 @@ function Import({ errors = [], close, importGraph, classes }) {
             Done
           </Button>
         </DialogActions>
-      </form>
-    </Dialog>
+      </Dialog>
+    </form>
   );
 }
 

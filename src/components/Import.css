@@ -1,0 +1,10 @@
+.dropzone.dropzone {
+  margin: 1rem 0;
+  min-height: 0;
+}
+
+.dropzone__paragraph.dropzone__paragraph {
+  font-family: sans-serif;
+  font-size: 16px;
+  color: #555;
+}
