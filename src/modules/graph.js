@@ -95,13 +95,13 @@ export default function reducer(state = initialState, action) {
       };
     }
     case GRAPH_CREATE: {
-      const { name, id } = action.payload;
+      const graph = action.payload;
       return {
         ...state,
-        id,
-        name,
+        name: '',
         nodes: {},
         links: {},
+        ...graph,
       };
     }
     case GRAPH_LOAD_SUCCESS: {
@@ -213,11 +213,11 @@ export function setGraphName(id, name) {
   };
 }
 
-export function createGraph(name) {
+export function createGraph(graph) {
   return {
     type: GRAPH_CREATE,
     payload: {
-      name,
+      ...graph,
       id: uuid(),
     },
   };

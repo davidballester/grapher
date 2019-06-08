@@ -107,15 +107,14 @@ describe('graph', () => {
         expect(action.type).toEqual(GRAPH_CREATE);
       });
 
-      it('includes the name provided', () => {
-        const expectedName = 'foo';
-        const action = createGraph(expectedName);
-        const payload = action.payload;
-        expect(payload.name).toEqual(expectedName);
+      it('includes the graph provided', () => {
+        const expectedGraph = { foo: 'bar' };
+        const action = createGraph(expectedGraph);
+        expect(action.payload).toMatchObject(expectedGraph);
       });
 
-      it('includes an uuid as id', () => {
-        const action = createGraph();
+      it('includes an uuid as id, regardless of the contents of the payload', () => {
+        const action = createGraph({ id: 'foo' });
         const payload = action.payload;
         expect(payload.id).toEqual('uuid');
       });
@@ -274,24 +273,45 @@ describe('graph', () => {
     });
 
     describe('GRAPH_CREATE', () => {
-      it('sets the `name` in the state to the payload of the given action and empties nodes and links', () => {
-        const graphName = 'baz';
-        const initialState = {
-          name: undefined,
+      it('sets the full graph in the state to the payload of the given action', () => {
+        const graph = {
           nodes: {
-            foo: 'bar',
+            bar: {},
           },
           links: {
-            foo: 'bar',
+            baz: {},
+          },
+        };
+        const initialState = {};
+        const action = createGraph(graph);
+        const state = reducer(initialState, action);
+        expect(state).toMatchObject(graph);
+      });
+
+      it('sets the ID of the graph', () => {
+        const initialState = {};
+        const action = createGraph({});
+        const state = reducer(initialState, action);
+        expect(state.id).toEqual('uuid');
+      });
+
+      it('resets previous graph even if new one is empty', () => {
+        const initialState = {
+          id: 'foo',
+          nodes: {
+            foo: {},
+          },
+          links: {
+            bar: {},
           },
         };
         const expectedState = {
           id: 'uuid',
-          name: graphName,
+          name: '',
           nodes: {},
           links: {},
         };
-        const action = createGraph(graphName);
+        const action = createGraph({});
         const state = reducer(initialState, action);
         expect(state).toEqual(expectedState);
       });
