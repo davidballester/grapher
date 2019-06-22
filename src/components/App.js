@@ -8,17 +8,18 @@ import MainBar from '../containers/MainBar';
 import { ROUTES } from '../constants';
 import GraphList from '../containers/GraphList';
 import Import from '../containers/Import';
+import SubgraphCreator from '../containers/SubgraphCreator';
 
 export class App extends Component {
   render() {
     return (
       <React.Fragment>
         <Route component={MainBar} />
-        <Canvas />
-        <Route path={[ROUTES.BASE, ROUTES.GRAPHS]} exact component={GraphList} />
-        <Route path={ROUTES.IMPORT_GRAPH} exact component={Import} />
-        <Route path={ROUTES.NEW_GRAPH} exact component={NewGraph} />
-        <Route path={ROUTES.GRAPH} exact component={Graph} />
+        <Route path={[ROUTES.BASE, ROUTES.GRAPHS]} exact render={() => [<GraphList key="GraphList" />, <Canvas key="Canvas" />]} />
+        <Route path={ROUTES.IMPORT_GRAPH} exact render={() => [<Import key="Import" />, <Canvas key="Canvas" />]} />
+        <Route path={ROUTES.NEW_GRAPH} exact render={() => [<NewGraph key="NewGraph" />, <Canvas key="Canvas" />]} />
+        <Route path={ROUTES.SUBGRAPH_CREATOR} exact component={SubgraphCreator} />
+        <Route path={ROUTES.GRAPH} exact render={() => [<Graph key="Graph" />, <Canvas key="Canvas" />]} />
       </React.Fragment>
     );
   }
