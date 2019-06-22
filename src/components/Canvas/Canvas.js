@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ForceGraph2D from 'react-force-graph-2d';
+import * as _isEqual from 'lodash/isEqual';
 
 import renderNode from './node-renderer';
 import { getLinkColor } from './link-renderer';
@@ -32,7 +33,7 @@ export default class Canvas extends React.Component {
     openConfirmDeleteLink: PropTypes.func,
     openEditNode: PropTypes.func,
     linksIdsWithOpposite: PropTypes.arrayOf(PropTypes.string),
-    registerCanvasComponent: PropTypes.func.isRequired,
+    registerCanvasComponent: PropTypes.func,
   };
 
   state = {
@@ -51,15 +52,25 @@ export default class Canvas extends React.Component {
   componentDidMount() {
     this.updateDimensions();
     window.addEventListener('resize', this.updateDimensions.bind(this));
-    this.props.registerCanvasComponent(this.canvas);
+    if (!!this.props.registerCanvasComponent) {
+      this.props.registerCanvasComponent(this.canvas);
+    }
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateDimensions.bind(this));
   }
 
+  componentDidUpdate() {
+    this.setWidth();
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_isEqual(nextProps, this.props) || !_isEqual(this.state, nextState);
+  }
+
   render() {
-    const { className, openNewNode, nodes, links, selectedNodes, virtualLink, selectedLink, linksIdsWithOpposite } = this.props;
+    const { className, openNewNode, nodes, links, selectedNodes, virtualLink, selectedLink, linksIdsWithOpposite = [] } = this.props;
     const { height, width } = this.state;
     this.synchronizeGraphData(nodes, links, selectedNodes, virtualLink, selectedLink);
     if (!!this.canvas) {
@@ -67,7 +78,13 @@ export default class Canvas extends React.Component {
     }
 
     return (
-      <div className={className} onDoubleClick={openNewNode} tabIndex="0" onKeyUp={(evt) => this.handleKey(evt.key)}>
+      <div
+        className={className}
+        onDoubleClick={openNewNode}
+        tabIndex="0"
+        onKeyUp={(evt) => this.handleKey(evt.key)}
+        ref={(container) => (this.container = container)}
+      >
         <ForceGraph2D
           ref={(canvas) => (this.canvas = canvas)}
           height={height}
@@ -173,8 +190,16 @@ export default class Canvas extends React.Component {
     }
   };
 
+  setWidth = () => {
+    if (this.state.width !== this.container.clientWidth) {
+      this.setState({
+        width: this.container.clientWidth,
+      });
+    }
+  };
+
   toggleNodeSelection = (node) => {
-    const { selectedNodes = [], selectNode, deselectNode, nodes } = this.props;
+    const { selectedNodes = [], selectNode = () => {}, deselectNode = () => {}, nodes } = this.props;
     const isSelected = !!selectedNodes.find((n) => n.id === node.id);
     if (isSelected) {
       deselectNode(node.id);
