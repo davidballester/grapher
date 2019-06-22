@@ -10,6 +10,7 @@ import { navigateSaga } from './navigation';
 import dialogReducer from './dialog';
 import canvasReducer, { refreshSaga } from './canvas';
 import graphImportReducer, { importGraphSaga } from './graph-import';
+import subgraphCreatorReducer, { subgraphProcessSaga, importSubgraphSaga } from './subgraph-creator';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   dialog: dialogReducer,
   canvas: canvasReducer,
   graphImport: graphImportReducer,
+  subgraphCreator: subgraphCreatorReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
@@ -30,3 +32,5 @@ sagaMiddleware.run(navigateSaga);
 sagaMiddleware.run(deleteGraphSaga);
 sagaMiddleware.run(refreshSaga);
 sagaMiddleware.run(importGraphSaga);
+sagaMiddleware.run(subgraphProcessSaga);
+sagaMiddleware.run(importSubgraphSaga);

@@ -13,6 +13,7 @@ export const GRAPH_EDIT_NODE = 'grapher/Graph/EDIT_NODE';
 export const GRAPH_OPEN = 'grapher/Graph/OPEN';
 export const GRAPH_DELETE = 'grapher/Graph/DELETE';
 export const GRAPH_EDIT_LINK = 'grapher/Graph/EDIT_LINK';
+export const GRAPH_IMPORT_SUBGRAPH = 'grapher/Graph/IMPORT_SUBGRAPH';
 
 export function setGraphName(id, name) {
   return {
@@ -107,5 +108,15 @@ export function editLink(link) {
   return {
     type: GRAPH_EDIT_LINK,
     payload: link,
+  };
+}
+
+export function importSubgraph(nodes = {}, links = {}) {
+  return {
+    type: GRAPH_IMPORT_SUBGRAPH,
+    payload: {
+      nodes,
+      links,
+    },
   };
 }

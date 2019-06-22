@@ -9,6 +9,7 @@ import {
   GRAPH_DELETE_LINK,
   GRAPH_EDIT_NODE,
   GRAPH_EDIT_LINK,
+  GRAPH_IMPORT_SUBGRAPH,
 } from './actions';
 
 const initialState = {
@@ -185,6 +186,34 @@ export default function reducer(state = initialState, action) {
         links: {
           ...state.links,
           [link.id]: link,
+        },
+      };
+    }
+    case GRAPH_IMPORT_SUBGRAPH: {
+      const { nodes, links } = action.payload;
+      const nodesAsObject = nodes.reduce(
+        (obj, node) => ({
+          ...obj,
+          [node.id]: node,
+        }),
+        {}
+      );
+      const linksAsObject = links.reduce(
+        (obj, link) => ({
+          ...obj,
+          [link.id]: link,
+        }),
+        {}
+      );
+      return {
+        ...state,
+        nodes: {
+          ...state.nodes,
+          ...nodesAsObject,
+        },
+        links: {
+          ...state.links,
+          ...linksAsObject,
         },
       };
     }
