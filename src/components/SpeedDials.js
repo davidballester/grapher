@@ -6,8 +6,9 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import BrightnessIcon1 from '@material-ui/icons/Brightness1';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import TimelineIcon from '@material-ui/icons/Timeline';
 
-function SpeedDials({ openNewNode, openNewLink, refresh, ...props }) {
+function SpeedDials({ openNewNode, openNewLink, refresh, openSubgraphCreator, ...props }) {
   const [open, setOpen] = useState(false);
   return (
     <SpeedDial
@@ -25,6 +26,7 @@ function SpeedDials({ openNewNode, openNewLink, refresh, ...props }) {
     >
       <SpeedDialAction key="add-node" icon={<BrightnessIcon1 />} tooltipTitle={'Add node'} onClick={openNewNode} tooltipOpen />
       <SpeedDialAction key="add-link" icon={<ArrowRightAltIcon />} tooltipTitle={'Add link'} onClick={openNewLink} tooltipOpen />
+      <SpeedDialAction key="subgraph-creator" icon={<TimelineIcon />} tooltipTitle={'Add subgraph'} onClick={openSubgraphCreator} tooltipOpen />
       <SpeedDialAction key="refresh" icon={<RefreshIcon />} tooltipTitle={'Refresh'} onClick={refresh} tooltipOpen />
     </SpeedDial>
   );
@@ -33,6 +35,7 @@ function SpeedDials({ openNewNode, openNewLink, refresh, ...props }) {
 SpeedDials.propTypes = {
   openNewNode: PropTypes.func.isRequired,
   openNewLink: PropTypes.func.isRequired,
+  openSubgraphCreator: PropTypes.func.isRequired,
   refresh: PropTypes.func.isRequired,
 };
 
