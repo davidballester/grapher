@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { ROUTES } from '../../constants';
+import history from '../../services/history';
 
 function BackButton({ location, ...props }) {
   const { pathname } = location;
@@ -12,7 +12,7 @@ function BackButton({ location, ...props }) {
     return null;
   }
   return (
-    <IconButton component={Link} to={ROUTES.BASE} color="inherit" {...props}>
+    <IconButton color="inherit" {...props} onClick={() => history.goBack()}>
       <ArrowBackIcon />
     </IconButton>
   );
