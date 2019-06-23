@@ -36,7 +36,8 @@ export function* navigate({ type, payload }) {
       break;
     }
     case SUBGRAPH_CREATOR_OPEN: {
-      yield call([history, 'push'], ROUTES.SUBGRAPH_CREATOR);
+      const graphId = yield select(getId);
+      yield call([history, 'push'], ROUTES.SUBGRAPH_CREATOR.replace(':graphId', graphId));
       break;
     }
     case SUBGRAPH_CREATOR_CLOSE: {

@@ -21,7 +21,11 @@ const StyledButton = styled(Button)`
   width: 100%;
 `;
 
-function SubgraphCreator({ nodes, links, processSubgraph, close, importSubgraph }) {
+function SubgraphCreator({ nodes, links, processSubgraph, close, importSubgraph, graphId, loadedGraphId, loadGraph }) {
+  if (!!graphId && graphId !== loadedGraphId) {
+    loadGraph(graphId);
+  }
+
   const [subgraphString, setSubgraphString] = useState('');
 
   return (
