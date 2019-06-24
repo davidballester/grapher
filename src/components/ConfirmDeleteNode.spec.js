@@ -36,13 +36,19 @@ describe(ConfirmDeleteNode.name, () => {
 
   it('invokes the `cancel` function when the `cancel` button is clicked', () => {
     const component = mount(<ConfirmDeleteNode isOpen={isOpen} nodeIds={nodeIds} deleteNodes={deleteNodes} cancel={cancel} />);
-    component.find('Button.cancel').simulate('click');
+    component
+      .find('[type="button"].cancel')
+      .first()
+      .simulate('click');
     expect(cancel).toHaveBeenCalled();
   });
 
   it('invokes the `deleteNodes` function when the `delete` button is clicked', () => {
     const component = mount(<ConfirmDeleteNode isOpen={isOpen} nodeIds={nodeIds} deleteNodes={deleteNodes} cancel={cancel} />);
-    component.find('Button.delete').simulate('click');
+    component
+      .find('[type="button"].delete')
+      .first()
+      .simulate('click');
     expect(deleteNodes).toHaveBeenCalledWith(nodeIds);
   });
 });

@@ -13,7 +13,7 @@
     "formik-material-ui": "0.0.16",
     "jest-localstorage-mock": "2.4.0",
     "jsonschema": "^1.2.4",
-    "lodash": "4.17.11",
+    "lodash-es": "4.17.11",
     "material-ui-dropzone": "2.3.5",
     "ohm-js": "^0.14.0",
     "react": "16.8.3",

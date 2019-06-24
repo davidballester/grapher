@@ -1,10 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 
 import BackButton from './BackButton';
 import { ROUTES } from '../../constants';
+
+jest.mock('../../services/history', () => ({
+  goBack: jest.fn(),
+}));
+// eslint-disable-next-line import/first
+import history from '../../services/history';
 
 describe(BackButton.name, () => {
   let location;
@@ -32,15 +37,9 @@ describe(BackButton.name, () => {
     expect(component.type()).toEqual(null);
   });
 
-  it('renders an `IconButton` using `Link`', () => {
+  it('calls the history service goBack function on click', () => {
     const component = shallow(<BackButton location={location} />);
-    const iconButtonComponent = component.find(IconButton).props().component;
-    expect(iconButtonComponent).toEqual(Link);
-  });
-
-  it(`passes 'to=${ROUTES.BASE}'' to the 'IconButton'`, () => {
-    const component = shallow(<BackButton location={location} />);
-    const to = component.find(IconButton).props().to;
-    expect(to).toEqual(ROUTES.BASE);
+    component.find(IconButton).simulate('click');
+    expect(history.goBack).toHaveBeenCalled();
   });
 });

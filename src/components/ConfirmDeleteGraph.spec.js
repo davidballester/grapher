@@ -38,13 +38,19 @@ describe(ConfirmDeleteGraph.name, () => {
 
   it('invokes the `cancel` function when the `cancel` button is clicked', () => {
     const component = mount(<ConfirmDeleteGraph isOpen={isOpen} graphName={graphName} graphId={graphId} deleteGraph={deleteGraph} cancel={cancel} />);
-    component.find('Button.cancel').simulate('click');
+    component
+      .find('[type="button"].cancel')
+      .first()
+      .simulate('click');
     expect(cancel).toHaveBeenCalled();
   });
 
   it('invokes the `deleteGraph` function when the `delete` button is clicked', () => {
     const component = mount(<ConfirmDeleteGraph isOpen={isOpen} graphName={graphName} graphId={graphId} deleteGraph={deleteGraph} cancel={cancel} />);
-    component.find('Button.delete').simulate('click');
+    component
+      .find('[type="button"].delete')
+      .first()
+      .simulate('click');
     expect(deleteGraph).toHaveBeenCalledWith(graphId);
   });
 });

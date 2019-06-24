@@ -36,7 +36,10 @@ describe(NewLink.name, () => {
 
   it('invokes the `cancel` function when the `cancel` button is clicked', () => {
     const component = mount(<NewLink isOpen={isOpen} saveNewLink={saveNewLink} cancelNewLink={cancelNewLink} nodesIds={nodesIds} />);
-    component.find('Button.cancel').simulate('click');
+    component
+      .find('[type="button"].cancel')
+      .first()
+      .simulate('click');
     expect(cancelNewLink).toHaveBeenCalled();
   });
 });

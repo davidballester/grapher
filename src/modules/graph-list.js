@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import * as _entries from 'lodash/entries';
+import entries from 'lodash/entries';
 
 import graphNamesService from '../services/graph-names-service';
 import { GRAPH_SET_NAME, GRAPH_CREATE, GRAPH_DELETE } from './graph';
@@ -48,5 +48,5 @@ export function getGraphNames(state) {
 
 export const getGraphNamesAsArray = createSelector(
   getGraphNames,
-  (graphNames) => _entries(graphNames)
+  (graphNames) => entries(graphNames)
 );

@@ -38,7 +38,10 @@ describe(EditNode.name, () => {
 
   it('invokes the `cancelEditNode` function when the `cancel` button is clicked', () => {
     const component = mount(<EditNode isOpen={isOpen} node={node} editNode={editNode} cancelEditNode={cancelEditNode} />);
-    component.find('Button.cancel').simulate('click');
+    component
+      .find('[type="button"].cancel')
+      .first()
+      .simulate('click');
     expect(cancelEditNode).toHaveBeenCalled();
   });
 });

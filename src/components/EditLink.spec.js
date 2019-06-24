@@ -39,7 +39,10 @@ describe(EditLink.name, () => {
 
   it('invokes the `cancelEditLink` function when the `cancel` button is clicked', () => {
     const component = mount(<EditLink isOpen={isOpen} link={link} editLink={editLink} cancelEditLink={cancelEditLink} />);
-    component.find('Button.cancel').simulate('click');
+    component
+      .find('[type="button"].cancel')
+      .first()
+      .simulate('click');
     expect(cancelEditLink).toHaveBeenCalled();
   });
 });

@@ -46,7 +46,10 @@ describe(EditGraph.name, () => {
     const component = mount(
       <EditGraph isOpen={isOpen} graphName={graphName} graphId={graphId} setGraphName={setGraphName} cancelEditGraph={cancelEditGraph} />
     );
-    component.find('Button.cancel').simulate('click');
+    component
+      .find('[type="button"].cancel')
+      .first()
+      .simulate('click');
     expect(cancelEditGraph).toHaveBeenCalled();
   });
 });

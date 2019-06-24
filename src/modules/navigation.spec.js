@@ -5,6 +5,7 @@ import { GRAPH_LIST_OPEN } from './graph-list';
 import { GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE } from './graph';
 import { NEW_GRAPH_OPEN } from './new-graph';
 import { GRAPH_IMPORT_SUCCESS, GRAPH_IMPORT_OPEN } from './graph-import';
+import { SUBGRAPH_CREATOR_OPEN, SUBGRAPH_CREATOR_CLOSE } from './subgraph-creator';
 import { ROUTES } from '../constants';
 
 jest.mock('../services/history', () => ({
@@ -24,7 +25,20 @@ describe('navigation', () => {
     it('invokes take latest with `NEW_GRAPH_OPEN`, `GRAPH_LIST_OPEN`, `GRAPH_OPEN`, `GRAPH_CREATE`, `GRAPH_DELETE`', () => {
       const gen = cloneableGenerator(navigateSaga)({});
       expect(gen.next().value).toEqual(
-        takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_OPEN, GRAPH_IMPORT_SUCCESS], navigate)
+        takeLatest(
+          [
+            NEW_GRAPH_OPEN,
+            GRAPH_LIST_OPEN,
+            GRAPH_OPEN,
+            GRAPH_CREATE,
+            GRAPH_DELETE,
+            GRAPH_IMPORT_OPEN,
+            GRAPH_IMPORT_SUCCESS,
+            SUBGRAPH_CREATOR_OPEN,
+            SUBGRAPH_CREATOR_CLOSE,
+          ],
+          navigate
+        )
       );
     });
   });

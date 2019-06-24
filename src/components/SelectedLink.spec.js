@@ -40,13 +40,19 @@ describe(SelectedLink.name, () => {
 
   it('invokes the `openConfirmDeleteLink` prop when the delete button is clicked', () => {
     const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
-    component.find('Button.delete').simulate('click');
+    component
+      .find('[type="button"].delete')
+      .first()
+      .simulate('click');
     expect(openConfirmDeleteLink).toHaveBeenCalledWith(link.id);
   });
 
   it('invokes the `openEditLink` prop when the delete button is clicked', () => {
     const component = mount(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
-    component.find('Button.edit').simulate('click');
+    component
+      .find('[type="button"].edit')
+      .first()
+      .simulate('click');
     expect(openEditLink).toHaveBeenCalledWith(link);
   });
 });

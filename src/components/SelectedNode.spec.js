@@ -38,13 +38,19 @@ describe(SelectedNode.name, () => {
 
   it('invokes the `openConfirmDeleteNode` prop when the delete button is clicked', () => {
     const component = mount(<SelectedNode node={node} openConfirmDeleteNode={openConfirmDeleteNode} openEditNode={openEditNode} />);
-    component.find('Button.delete').simulate('click');
+    component
+      .find('[type="button"].delete')
+      .first()
+      .simulate('click');
     expect(openConfirmDeleteNode).toHaveBeenCalledWith([node.id]);
   });
 
   it('invokes the `openEditNode` prop when the delete button is clicked', () => {
     const component = mount(<SelectedNode node={node} openConfirmDeleteNode={openConfirmDeleteNode} openEditNode={openEditNode} />);
-    component.find('Button.edit').simulate('click');
+    component
+      .find('[type="button"].edit')
+      .first()
+      .simulate('click');
     expect(openEditNode).toHaveBeenCalledWith(node);
   });
 });

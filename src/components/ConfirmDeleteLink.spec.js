@@ -38,13 +38,19 @@ describe(ConfirmDeleteLink.name, () => {
 
   it('invokes the `cancel` function when the `cancel` button is clicked', () => {
     const component = mount(<ConfirmDeleteLink isOpen={isOpen} linkId={linkId} deleteLink={deleteLink} cancel={cancel} />);
-    component.find('Button.cancel').simulate('click');
+    component
+      .find('[type="button"].cancel')
+      .first()
+      .simulate('click');
     expect(cancel).toHaveBeenCalled();
   });
 
   it('invokes the `deleteLink` function when the `delete` button is clicked', () => {
     const component = mount(<ConfirmDeleteLink isOpen={isOpen} linkId={linkId} deleteLink={deleteLink} cancel={cancel} />);
-    component.find('Button.delete').simulate('click');
+    component
+      .find('[type="button"].delete')
+      .first()
+      .simulate('click');
     expect(deleteLink).toHaveBeenCalledWith(linkId);
   });
 });

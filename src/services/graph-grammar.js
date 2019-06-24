@@ -1,5 +1,5 @@
 import * as ohm from 'ohm-js';
-import * as _flatten from 'lodash/flatten';
+import flatten from 'lodash/flatten';
 import uuid from 'uuid/v4';
 
 const grammar = `
@@ -35,7 +35,7 @@ class GraphGrammar {
     this.grammar = ohm.grammar(grammar);
     this.semantics = this.grammar.createSemantics().addOperation('eval', {
       path_partials: (partialPaths, node) => {
-        const entities = _flatten([...partialPaths.eval(), node.eval()]);
+        const entities = flatten([...partialPaths.eval(), node.eval()]);
         return {
           nodes: entities.filter((entity) => entity.type === 'node'),
           links: entities
