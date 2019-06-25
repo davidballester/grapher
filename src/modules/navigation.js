@@ -42,7 +42,7 @@ export function* navigate({ type, payload }) {
     }
     case SUBGRAPH_CREATOR_CLOSE: {
       const graphId = yield select(getId);
-      yield call([history, 'push'], `${ROUTES.GRAPHS}/${graphId}`);
+      yield call([history, 'push'], ROUTES.GRAPH.replace(':graphId', graphId));
       break;
     }
     default: {

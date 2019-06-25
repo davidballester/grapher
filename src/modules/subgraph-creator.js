@@ -123,7 +123,6 @@ export function* subgraphProcessSaga() {
 export function* doImportSubgraph() {
   const nodes = yield select(getNodes);
   const links = yield select(getLinks);
-  console.log(nodes, links);
   yield put(graphImportSubgraph(nodes, links));
   yield put(closeSubgraphCreator());
 }

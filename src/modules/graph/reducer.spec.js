@@ -11,7 +11,18 @@ jest.mock('../../services/links-service', () => ({
   },
 }));
 import linksService from '../../services/links-service';
-import { setGraphName, createGraph, createNode, createLink, loadGraphSuccess, deleteNode, deleteLink, editNode, editLink } from './actions';
+import {
+  setGraphName,
+  createGraph,
+  createNode,
+  createLink,
+  loadGraphSuccess,
+  deleteNode,
+  deleteLink,
+  editNode,
+  editLink,
+  importSubgraph,
+} from './actions';
 import reducer from './reducer';
 
 describe('reducer', () => {
@@ -352,6 +363,98 @@ describe('reducer', () => {
       const action = editLink(link);
       const state = reducer(initialState, action);
       expect(state).toEqual(expectedState);
+    });
+  });
+
+  describe('GRAPH_IMPORT_SUBGRAPH', () => {
+    it('adds the nodes in the payload to the state', () => {
+      const nodes = [
+        {
+          id: 'foo',
+        },
+      ];
+      const action = importSubgraph(nodes);
+      const initialState = {
+        nodes: {
+          bar: {
+            id: 'bar',
+          },
+        },
+      };
+      const expectedState = {
+        nodes: {
+          bar: {
+            id: 'bar',
+          },
+          foo: {
+            id: 'foo',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('replaces existing nodes', () => {
+      const nodes = [
+        {
+          id: 'foo',
+          bar: 'baz',
+        },
+      ];
+      const action = importSubgraph(nodes);
+      const initialState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            baz: 'qux',
+          },
+        },
+      };
+      const expectedState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            bar: 'baz',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('adds the links in the payload to the state', () => {
+      const links = [
+        {
+          id: 'foo',
+        },
+      ];
+      const action = importSubgraph(undefined, links);
+      const initialState = {
+        links: {
+          bar: {
+            id: 'bar',
+          },
+        },
+      };
+      const expectedState = {
+        links: {
+          bar: {
+            id: 'bar',
+          },
+          foo: {
+            id: 'foo',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
     });
   });
 });

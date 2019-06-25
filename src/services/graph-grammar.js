@@ -37,19 +37,26 @@ class GraphGrammar {
       path_partials: (partialPaths, node) => {
         const entities = flatten([...partialPaths.eval(), node.eval()]);
         return {
-          nodes: entities.filter((entity) => entity.type === 'node'),
+          nodes: entities
+            .filter((entity) => entity.type === 'node')
+            .map((node) => ({
+              id: node.id,
+            })),
           links: entities
             .map((entity, index) => [entity, index])
             .filter(([entity]) => entity.type === 'link')
             .map(([entity, index]) => ({
               id: entity.id,
+              label: entity.label,
               source: entity.direction === 'back' ? entities[index + 1].id : entities[index - 1].id,
               target: entity.direction === 'back' ? entities[index - 1].id : entities[index + 1].id,
             })),
         };
       },
       path_nodes: (nodes) => ({
-        nodes: nodes.eval(),
+        nodes: nodes.eval().map((node) => ({
+          id: node.id,
+        })),
       }),
       partialPath: (node, link) => [node.eval(), link.eval()],
       node: (open, identifier, close) => ({

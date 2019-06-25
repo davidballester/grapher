@@ -29,6 +29,8 @@ import {
   deleteGraph,
   GRAPH_EDIT_LINK,
   editLink,
+  GRAPH_IMPORT_SUBGRAPH,
+  importSubgraph,
 } from './actions';
 
 describe('actions', () => {
@@ -201,6 +203,20 @@ describe('actions', () => {
       const link = { foo: 'bar' };
       const action = editLink(link);
       expect(action.payload).toEqual(link);
+    });
+  });
+
+  describe(importSubgraph.name, () => {
+    it('creates the action with the `GRAPH_IMPORT_SUBGRAPH` type', () => {
+      const action = importSubgraph();
+      expect(action.type).toEqual(GRAPH_IMPORT_SUBGRAPH);
+    });
+
+    it('creates the action with the nodes and links provided as payload', () => {
+      const nodes = { foo: 'bar' };
+      const links = { bar: 'baz' };
+      const action = importSubgraph(nodes, links);
+      expect(action.payload).toEqual({ nodes, links });
     });
   });
 });

@@ -1,8 +1,8 @@
-import { takeLatest, call } from 'redux-saga/effects';
+import { takeLatest, call, select } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
 import { GRAPH_LIST_OPEN } from './graph-list';
-import { GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE } from './graph';
+import { GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, getId } from './graph';
 import { NEW_GRAPH_OPEN } from './new-graph';
 import { GRAPH_IMPORT_SUCCESS, GRAPH_IMPORT_OPEN } from './graph-import';
 import { SUBGRAPH_CREATOR_OPEN, SUBGRAPH_CREATOR_CLOSE } from './subgraph-creator';
@@ -77,6 +77,28 @@ describe('navigation', () => {
     it(`pushes '${ROUTES.GRAPH}' to 'history' if a 'GRAPH_IMPORT_SUCCESS' action is received`, () => {
       const gen = cloneableGenerator(navigate)({ type: GRAPH_IMPORT_SUCCESS, payload: { name: 'bar', id: 'foo' } });
       expect(gen.next().value).toEqual(call([history, 'push'], `${ROUTES.GRAPHS}/foo`));
+    });
+
+    it(`selects the graph ID if a ${SUBGRAPH_CREATOR_OPEN} action is received`, () => {
+      const gen = cloneableGenerator(navigate)({ type: SUBGRAPH_CREATOR_OPEN });
+      expect(gen.next().value).toEqual(select(getId));
+    });
+
+    it(`pushes '${ROUTES.SUBGRAPH_CREATOR}' to 'history' if a 'GRAPH_IMPORT_SUCCESS' action is received`, () => {
+      const gen = cloneableGenerator(navigate)({ type: SUBGRAPH_CREATOR_OPEN });
+      gen.next();
+      expect(gen.next('foo').value).toEqual(call([history, 'push'], ROUTES.SUBGRAPH_CREATOR.replace(':graphId', 'foo')));
+    });
+
+    it(`selects the graph ID if a ${SUBGRAPH_CREATOR_CLOSE} action is received`, () => {
+      const gen = cloneableGenerator(navigate)({ type: SUBGRAPH_CREATOR_CLOSE });
+      expect(gen.next().value).toEqual(select(getId));
+    });
+
+    it(`pushes '${ROUTES.GRAPH}' to 'history' if a 'GRAPH_IMPORT_CLOSE' action is received`, () => {
+      const gen = cloneableGenerator(navigate)({ type: SUBGRAPH_CREATOR_CLOSE });
+      gen.next();
+      expect(gen.next('foo').value).toEqual(call([history, 'push'], ROUTES.GRAPH.replace(':graphId', 'foo')));
     });
   });
 });
