@@ -1,7 +1,6 @@
 import { takeLatest, call, select } from 'redux-saga/effects';
 
 import history from '../services/history.service';
-import { GRAPH_LIST_OPEN } from '../scenes/graph-list/graph-list.duck';
 import { GRAPH_CREATE, GRAPH_DELETE, getId } from './graph';
 import { GRAPH_IMPORT_SUCCESS } from '../scenes/graph-import/graph-import.duck';
 import { SUBGRAPH_CREATOR_OPEN, SUBGRAPH_CREATOR_CLOSE } from '../scenes/subgraph-creator/subgraph-creator.duck';
@@ -11,6 +10,7 @@ import { ROUTES } from '../constants';
 export const GRAPH_IMPORT_OPEN = 'grapher/Navigation/GRAPH_IMPORT_OPEN';
 export const NEW_GRAPH_OPEN = 'grapher/Navigation/NEW_GRAPH_OPEN';
 export const GRAPH_OPEN = 'grapher/Navigation/GRAPH_OPEN';
+export const GRAPH_LIST_OPEN = 'grapher/Navigation/GRAPH_LIST_OPEN';
 
 export function openImportGraph() {
   return {
@@ -28,6 +28,12 @@ export function openGraph(id) {
   return {
     type: GRAPH_OPEN,
     payload: id,
+  };
+}
+
+export function openGraphList() {
+  return {
+    type: GRAPH_LIST_OPEN,
   };
 }
 

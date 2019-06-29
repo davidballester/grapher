@@ -4,8 +4,6 @@ import entries from 'lodash/entries';
 import graphNamesService from '../../services/graph-names.service';
 import { GRAPH_SET_NAME, GRAPH_CREATE, GRAPH_DELETE } from '../../ducks/graph';
 
-export const GRAPH_LIST_OPEN = 'grapher/GraphList/OPEN';
-
 const initialState = graphNamesService.getGraphNames();
 
 export default function reducer(state = initialState, action) {
@@ -34,12 +32,6 @@ export default function reducer(state = initialState, action) {
       return state;
     }
   }
-}
-
-export function openGraphList() {
-  return {
-    type: GRAPH_LIST_OPEN,
-  };
 }
 
 export function getGraphNames(state) {

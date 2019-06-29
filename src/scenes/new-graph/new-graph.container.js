@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import NewGraph from './new-graph.component';
 import { createGraph } from '../../ducks/graph';
-import { openGraphList } from '../graph-list/graph-list.duck';
+import { openGraphList } from '../../ducks/navigation';
 
 function mapStateToProps() {
   return {

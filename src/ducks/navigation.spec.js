@@ -2,7 +2,6 @@
 import { takeLatest, call, select } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
-import { GRAPH_LIST_OPEN } from '../scenes/graph-list/graph-list.duck';
 import { GRAPH_CREATE, GRAPH_DELETE, getId } from './graph';
 import { GRAPH_IMPORT_SUCCESS } from '../scenes/graph-import/graph-import.duck';
 import { SUBGRAPH_CREATOR_OPEN, SUBGRAPH_CREATOR_CLOSE } from '../scenes/subgraph-creator/subgraph-creator.duck';
@@ -16,7 +15,18 @@ jest.mock('../services/history.service', () => ({
 }));
 
 import history from '../services/history.service';
-import { navigateSaga, navigate, openImportGraph, GRAPH_IMPORT_OPEN, NEW_GRAPH_OPEN, openNewGraph, GRAPH_OPEN, openGraph } from './navigation';
+import {
+  navigateSaga,
+  navigate,
+  openImportGraph,
+  GRAPH_IMPORT_OPEN,
+  NEW_GRAPH_OPEN,
+  openNewGraph,
+  GRAPH_OPEN,
+  openGraph,
+  GRAPH_LIST_OPEN,
+  openGraphList,
+} from './navigation';
 
 describe('navigation', () => {
   describe('actions', () => {
@@ -44,6 +54,13 @@ describe('navigation', () => {
         const payload = 'foo';
         const action = openGraph(payload);
         expect(action.payload).toEqual(payload);
+      });
+    });
+
+    describe(openGraphList.name, () => {
+      it('creates the action with the `GRAPH_LIST_OPEN` type', () => {
+        const action = openGraphList();
+        expect(action.type).toEqual(GRAPH_LIST_OPEN);
       });
     });
   });
