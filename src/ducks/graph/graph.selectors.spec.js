@@ -17,7 +17,7 @@ import {
   getLinksWithOpposite,
   getLinksIdsWithOpposite,
   getSerializedGraph,
-} from './selectors';
+} from './graph.selectors';
 
 describe('selectors', () => {
   describe('getName', () => {

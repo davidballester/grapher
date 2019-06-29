@@ -22,8 +22,8 @@ import {
   editNode,
   editLink,
   importSubgraph,
-} from './actions';
-import reducer from './reducer';
+} from './graph.actions';
+import reducer from './graph.reducer';
 
 describe('reducer', () => {
   describe('GRAPH_SET_NAME', () => {

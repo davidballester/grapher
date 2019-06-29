@@ -1,4 +1,4 @@
-import reducer, { DIALOG_OPEN, DIALOG_CLOSE, openDialog, closeDialog, getIsOpen, getMetadata } from './dialog';
+import reducer, { DIALOG_OPEN, DIALOG_CLOSE, openDialog, closeDialog, getIsOpen, getMetadata } from './dialog.duck';
 
 describe('dialog', () => {
   describe('actions', () => {

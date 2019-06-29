@@ -29,7 +29,7 @@ import {
   editLink,
   GRAPH_IMPORT_SUBGRAPH,
   importSubgraph,
-} from './actions';
+} from './graph.actions';
 
 describe('actions', () => {
   describe('setGraphName', () => {

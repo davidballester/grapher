@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import SpeedDials from './speed-dials.component';
-import { openDialog, DIALOG_IDS } from '../../../../ducks/dialog';
+import { openDialog, DIALOG_IDS } from '../../../../ducks/dialog.duck';
 import { refresh } from '../../../../components/canvas/canvas.duck';
 import { openSubgraphCreator } from '../../../subgraph-creator/subgraph-creator.duck';
 

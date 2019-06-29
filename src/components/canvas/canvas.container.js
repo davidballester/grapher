@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 
 import { getNodesAsArray, getLinksAsArray, createLink, getLinksIdsWithOpposite } from '../../ducks/graph';
 import Canvas from './canvas.component';
-import { openDialog, DIALOG_IDS } from '../../ducks/dialog';
+import { openDialog, DIALOG_IDS } from '../../ducks/dialog.duck';
 import {
   selectNode,
   deselectNode,

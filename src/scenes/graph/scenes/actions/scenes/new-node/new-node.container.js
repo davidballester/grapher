@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import NewNode from './new-node.component';
-import { getIsOpen, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog';
+import { getIsOpen, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog.duck';
 import { createNode } from '../../../../../../ducks/graph';
 
 function mapStateToProps(state) {

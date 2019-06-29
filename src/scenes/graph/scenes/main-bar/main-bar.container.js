@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import MainBar from './main-bar.component';
 import { getName } from '../../../../ducks/graph';
-import { openDialog, DIALOG_IDS } from '../../../../ducks/dialog';
+import { openDialog, DIALOG_IDS } from '../../../../ducks/dialog.duck';
 
 function mapStateToProps(state) {
   return {

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 
 import Import from './graph-import.component';
 import { importGraph, getErrors } from './graph-import.duck';
-import { openGraphList } from '../../ducks/navigation';
+import { openGraphList } from '../../ducks/navigation.duck';
 
 function mapStateToProps(state) {
   return {

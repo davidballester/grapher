@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import EditLink from './edit-link.component';
-import { getIsOpen, getMetadata, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog';
+import { getIsOpen, getMetadata, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog.duck';
 import { editLink } from '../../../../../../ducks/graph';
 
 function mapStateToProps(state) {

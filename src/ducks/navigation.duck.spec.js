@@ -26,7 +26,7 @@ import {
   openGraph,
   GRAPH_LIST_OPEN,
   openGraphList,
-} from './navigation';
+} from './navigation.duck';
 
 describe('navigation', () => {
   describe('actions', () => {

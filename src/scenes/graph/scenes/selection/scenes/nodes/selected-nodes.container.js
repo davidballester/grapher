@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import SelectedNodes from './selected-nodes.component';
 import { getSelectedNodes } from './node-selection.duck';
-import { openDialog, DIALOG_IDS } from '../../../../../../ducks/dialog';
+import { openDialog, DIALOG_IDS } from '../../../../../../ducks/dialog.duck';
 
 function mapStateToProps(state) {
   return {

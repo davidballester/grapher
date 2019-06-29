@@ -2,7 +2,7 @@ import { select, takeLatest, call, put } from 'redux-saga/effects';
 
 import graphService from '../../services/graph.service';
 import graphNamesService from '../../services/graph-names.service';
-import { graphSelector } from './selectors';
+import { graphSelector } from './graph.selectors';
 import {
   GRAPH_CREATE,
   GRAPH_SET_NAME,
@@ -15,7 +15,7 @@ import {
   GRAPH_LOAD,
   GRAPH_DELETE,
   loadGraphSuccess,
-} from './actions';
+} from './graph.actions';
 
 export function* saveGraph() {
   const graph = yield select(graphSelector);

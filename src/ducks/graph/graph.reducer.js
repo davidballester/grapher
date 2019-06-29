@@ -10,7 +10,7 @@ import {
   GRAPH_EDIT_NODE,
   GRAPH_EDIT_LINK,
   GRAPH_IMPORT_SUBGRAPH,
-} from './actions';
+} from './graph.actions';
 
 const initialState = {
   id: '',

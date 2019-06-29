@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import EditGraph from './edit-graph.component';
-import { getIsOpen, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog';
+import { getIsOpen, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog.duck';
 import { setGraphName, getName, getId } from '../../../../../../ducks/graph';
 
 function mapStateToProps(state) {

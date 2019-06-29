@@ -17,9 +17,9 @@ import {
   GRAPH_DELETE,
   deleteGraph,
   GRAPH_EDIT_LINK,
-} from './actions';
-import { saveGraph, loadGraphSaga, doLoadGraph, saveGraphSaga, deleteGraphSaga, doDeleteGraph } from './sagas';
-import { graphSelector } from './selectors';
+} from './graph.actions';
+import { saveGraph, loadGraphSaga, doLoadGraph, saveGraphSaga, deleteGraphSaga, doDeleteGraph } from './graph.sagas';
+import { graphSelector } from './graph.selectors';
 
 jest.mock('../../services/graph.service', () => ({
   __esModule: true,
