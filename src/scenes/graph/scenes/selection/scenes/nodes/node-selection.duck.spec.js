@@ -7,10 +7,10 @@ import {
   getNonExistentLinkBetweenSelectedNodes,
 } from './node-selection.duck';
 import reducer from './node-selection.duck';
-import linksService from '../../../../../../scenes/graph/services/links.service';
-import { getLinks, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from '../../../../ducks';
+import linksService from '../../../../../../services/links.service';
+import { getLinks, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from '../../../../../../ducks/graph';
 
-jest.mock('../../../../ducks');
+jest.mock('../../../../../../ducks/graph');
 
 describe('node-selection', () => {
   afterEach(() => {

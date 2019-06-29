@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
 import { MAX_SELECTED_NODES } from '../../../../../../constants';
-import { getLinks, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from '../../../../ducks';
-import linksService from '../../../../../../scenes/graph/services/links.service';
+import { getLinks, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from '../../../../../../ducks/graph';
+import linksService from '../../../../../../services/links.service';
 
 export const NODE_SELECTION_SELECT = 'grapher/NodeSelection/SELECT';
 export const NODE_SELECTION_DESELECT = 'grapher/NodeSelection/DESELECT';

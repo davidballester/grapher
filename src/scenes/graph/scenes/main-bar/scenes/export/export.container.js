@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import Export from './export.component';
 import { getIsOpen, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog';
-import { getSerializedGraph, getName } from '../../../../ducks';
+import { getSerializedGraph, getName } from '../../../../../../ducks/graph';
 
 function mapStateToProps(state) {
   return {

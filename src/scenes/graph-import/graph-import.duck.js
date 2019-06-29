@@ -2,9 +2,8 @@ import { createSelector } from 'reselect';
 import { takeLatest, call, put } from 'redux-saga/effects';
 
 import graphService from '../../services/graph.service';
-import { createGraph } from '../graph/ducks';
+import { createGraph } from '../../ducks/graph';
 
-export const GRAPH_IMPORT_OPEN = 'grapher/GraphImport/OPEN';
 export const GRAPH_IMPORT = 'grapher/GraphImport/IMPORT';
 export const GRAPH_IMPORT_SUCCESS = 'grapher/GraphImport/IMPORT_SUCCESS';
 export const GRAPH_IMPORT_FAILURE = 'grapher/GraphImport/IMPORT_FAILURE';
@@ -37,12 +36,6 @@ export default function reducer(state = initialState, action) {
       return state;
     }
   }
-}
-
-export function openImportGraph() {
-  return {
-    type: GRAPH_IMPORT_OPEN,
-  };
 }
 
 export function importGraph(serializedGraph) {

@@ -10,7 +10,6 @@ export const GRAPH_CREATE_LINK = 'grapher/Graph/CREATE_LINK';
 export const GRAPH_DELETE_NODE = 'grapher/Graph/DELETE_NODE';
 export const GRAPH_DELETE_LINK = 'grapher/Graph/DELETE_LINK';
 export const GRAPH_EDIT_NODE = 'grapher/Graph/EDIT_NODE';
-export const GRAPH_OPEN = 'grapher/Graph/OPEN';
 export const GRAPH_DELETE = 'grapher/Graph/DELETE';
 export const GRAPH_EDIT_LINK = 'grapher/Graph/EDIT_LINK';
 export const GRAPH_IMPORT_SUBGRAPH = 'grapher/Graph/IMPORT_SUBGRAPH';
@@ -94,13 +93,6 @@ export function editNode(oldId, node) {
       oldId,
       node,
     },
-  };
-}
-
-export function openGraph(id) {
-  return {
-    type: GRAPH_OPEN,
-    payload: id,
   };
 }
 

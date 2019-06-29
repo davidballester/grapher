@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import entries from 'lodash/entries';
 
 import graphNamesService from '../../services/graph-names.service';
-import { GRAPH_SET_NAME, GRAPH_CREATE, GRAPH_DELETE } from '../graph/ducks';
+import { GRAPH_SET_NAME, GRAPH_CREATE, GRAPH_DELETE } from '../../ducks/graph';
 
 export const GRAPH_LIST_OPEN = 'grapher/GraphList/OPEN';
 

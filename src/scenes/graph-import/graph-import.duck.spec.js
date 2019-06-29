@@ -7,14 +7,12 @@ jest.mock('../../services/graph.service', () => ({
 }));
 
 import graphService from '../../services/graph.service';
-import { createGraph } from '../graph/ducks';
+import { createGraph } from '../../ducks/graph';
 
 import reducer, {
-  GRAPH_IMPORT_OPEN,
   GRAPH_IMPORT,
   GRAPH_IMPORT_SUCCESS,
   GRAPH_IMPORT_FAILURE,
-  openImportGraph,
   importGraph,
   importGraphSuccess,
   importGraphFailure,
@@ -29,13 +27,6 @@ describe('graph-import', () => {
   });
 
   describe('actions', () => {
-    describe(openImportGraph.name, () => {
-      it('creates the action with the `GRAPH_IMPORT_OPEN` type', () => {
-        const action = openImportGraph();
-        expect(action.type).toEqual(GRAPH_IMPORT_OPEN);
-      });
-    });
-
     describe(importGraph.name, () => {
       it('creates the action with the `GRAPH_IMPORT` type', () => {
         const action = importGraph();

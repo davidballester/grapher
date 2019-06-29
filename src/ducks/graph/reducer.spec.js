@@ -4,13 +4,13 @@ jest.mock('uuid/v4', () => ({
   default: () => 'uuid',
 }));
 
-jest.mock('../services/links.service', () => ({
+jest.mock('../../services/links.service', () => ({
   __esModule: true,
   default: {
     getId: jest.fn(),
   },
 }));
-import linksService from '../services/links.service';
+import linksService from '../../services/links.service';
 import {
   setGraphName,
   createGraph,

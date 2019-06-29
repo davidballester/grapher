@@ -1,5 +1,5 @@
-import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK } from '../../../../ducks';
-import linksService from '../../../../../../scenes/graph/services/links.service';
+import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK } from '../../../../../../ducks/graph';
+import linksService from '../../../../../../services/links.service';
 
 export const LINK_SELECTION_SELECT = 'grapher/LinkSelection/SELECT';
 export const LINK_SELECTION_DESELECT = 'grapher/LinkSelection/DESELECT';

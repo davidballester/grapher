@@ -21,7 +21,7 @@ import {
 import { saveGraph, loadGraphSaga, doLoadGraph, saveGraphSaga, deleteGraphSaga, doDeleteGraph } from './sagas';
 import { graphSelector } from './selectors';
 
-jest.mock('../../../services/graph.service', () => ({
+jest.mock('../../services/graph.service', () => ({
   __esModule: true,
   default: {
     saveGraph: jest.fn(),
@@ -30,7 +30,7 @@ jest.mock('../../../services/graph.service', () => ({
   },
 }));
 
-jest.mock('../../../services/graph-names.service', () => ({
+jest.mock('../../services/graph-names.service', () => ({
   __esModule: true,
   default: {
     saveGraphName: jest.fn(),
@@ -38,8 +38,8 @@ jest.mock('../../../services/graph-names.service', () => ({
   },
 }));
 
-import graphService from '../../../services/graph.service';
-import graphNamesService from '../../../services/graph-names.service';
+import graphService from '../../services/graph.service';
+import graphNamesService from '../../services/graph-names.service';
 
 describe('graph', () => {
   afterEach(() => {

@@ -23,8 +23,6 @@ import {
   GRAPH_DELETE_LINK,
   editNode,
   GRAPH_EDIT_NODE,
-  GRAPH_OPEN,
-  openGraph,
   GRAPH_DELETE,
   deleteGraph,
   GRAPH_EDIT_LINK,
@@ -164,19 +162,6 @@ describe('actions', () => {
       const action = editNode(oldId, node);
       const payload = action.payload;
       expect(payload).toEqual({ oldId, node });
-    });
-  });
-
-  describe(openGraph.name, () => {
-    it('creates the action with the `GRAPH_OPEN` type', () => {
-      const action = openGraph();
-      expect(action.type).toEqual(GRAPH_OPEN);
-    });
-
-    it('creates the payload provided', () => {
-      const payload = 'foo';
-      const action = openGraph(payload);
-      expect(action.payload).toEqual(payload);
     });
   });
 

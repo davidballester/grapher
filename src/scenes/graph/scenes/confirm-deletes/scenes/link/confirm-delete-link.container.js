@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import ConfirmDeleteLink from './confirm-delete-link.component';
 import { getIsOpen, closeDialog, getMetadata, DIALOG_IDS } from '../../../../../../ducks/dialog';
-import { deleteLink, getLinkById } from '../../../../ducks';
+import { deleteLink, getLinkById } from '../../../../../../ducks/graph';
 
 function mapStateToProps(state) {
   const linkId = getMetadata(state, DIALOG_IDS.CONFIRM_DELETE_LINK);

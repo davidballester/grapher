@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import NewLink from './new-link.component';
 import { getIsOpen, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog';
-import { createLink, getNodesIds } from '../../../../ducks';
+import { createLink, getNodesIds } from '../../../../../../ducks/graph';
 
 function mapStateToProps(state) {
   return {

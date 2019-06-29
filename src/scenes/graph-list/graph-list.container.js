@@ -2,10 +2,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import GraphList from './graph-list.component';
-import { openGraph } from '../graph/ducks';
 import { getGraphNamesAsArray } from './graph-list.duck';
-import { openNewGraph } from '../new-graph/new-graph.duck';
-import { openImportGraph } from '../graph-import/graph-import.duck';
+import { openImportGraph, openNewGraph, openGraph } from '../../ducks/navigation';
 
 function mapStateToProps(state) {
   return {

@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 
-jest.mock('../../../../../../scenes/graph/services/links.service', () => ({
+jest.mock('../../../../../../services/links.service', () => ({
   __esModule: true,
   default: {
     getId: jest.fn(),
@@ -8,8 +8,8 @@ jest.mock('../../../../../../scenes/graph/services/links.service', () => ({
 }));
 
 import reducer, { LINK_SELECTION_SELECT, LINK_SELECTION_DESELECT, selectLink, deselectLink, getSelectedLink } from './link-selection.duck';
-import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK } from '../../../../ducks';
-import linksService from '../../../../../../scenes/graph/services/links.service';
+import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK } from '../../../../../../ducks/graph';
+import linksService from '../../../../../../services/links.service';
 
 describe('link-selection', () => {
   afterEach(() => {

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 
 import { getNodes, getLinks, processSubgraph, closeSubgraphCreator, importSubgraph } from './subgraph-creator.duck';
 import SubgraphCreator from './subgraph-creator.component';
-import { loadGraph, getId } from '../graph/ducks';
+import { loadGraph, getId } from '../../ducks/graph';
 
 function mapStateToProps(state, ownProps) {
   return {

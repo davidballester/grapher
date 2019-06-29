@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 
 import Graph from './graph.component';
-import { loadGraph, getId } from './ducks';
+import { loadGraph, getId } from '../../ducks/graph';
 
 function mapStateToProps(state, ownProps) {
   return {

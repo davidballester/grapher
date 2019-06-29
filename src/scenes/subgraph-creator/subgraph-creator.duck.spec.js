@@ -30,7 +30,7 @@ import reducer, {
   importSubgraphSaga,
   doImportSubgraph,
 } from './subgraph-creator.duck';
-import { importSubgraph as graphImportSubgraph } from '../graph/ducks';
+import { importSubgraph as graphImportSubgraph } from '../../ducks/graph';
 
 describe('subgraph-creator', () => {
   afterEach(() => {

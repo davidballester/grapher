@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import ConfirmDeleteNode from './confirm-delete-node.component';
 import { getIsOpen, closeDialog, getMetadata, DIALOG_IDS } from '../../../../../../ducks/dialog';
-import { deleteNode } from '../../../../ducks';
+import { deleteNode } from '../../../../../../ducks/graph';
 
 function mapStateToProps(state) {
   return {

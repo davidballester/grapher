@@ -1,7 +1,7 @@
 import { select, takeLatest, call, put } from 'redux-saga/effects';
 
-import graphService from '../../../services/graph.service';
-import graphNamesService from '../../../services/graph-names.service';
+import graphService from '../../services/graph.service';
+import graphNamesService from '../../services/graph-names.service';
 import { graphSelector } from './selectors';
 import {
   GRAPH_CREATE,

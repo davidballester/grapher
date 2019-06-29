@@ -1,12 +1,12 @@
 /* eslint-disable import/first */
-jest.mock('../../../services/graph.service', () => ({
+jest.mock('../../services/graph.service', () => ({
   __esModule: true,
   default: {
     serializeGraph: jest.fn(),
   },
 }));
 
-import graphService from '../../../services/graph.service';
+import graphService from '../../services/graph.service';
 import {
   getName,
   getNodesAsArray,

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import graphService from '../../../services/graph.service';
+import graphService from '../../services/graph.service';
 
 export function graphSelector(state) {
   return state.graph;

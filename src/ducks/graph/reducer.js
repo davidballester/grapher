@@ -1,4 +1,4 @@
-import linksService from '../services/links.service';
+import linksService from '../../services/links.service';
 import {
   GRAPH_SET_NAME,
   GRAPH_CREATE,

@@ -2,12 +2,36 @@ import { takeLatest, call, select } from 'redux-saga/effects';
 
 import history from '../services/history.service';
 import { GRAPH_LIST_OPEN } from '../scenes/graph-list/graph-list.duck';
-import { NEW_GRAPH_OPEN } from '../scenes/new-graph/new-graph.duck';
-import { GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, getId } from '../scenes/graph/ducks';
-import { GRAPH_IMPORT_SUCCESS, GRAPH_IMPORT_OPEN } from '../scenes/graph-import/graph-import.duck';
+import { GRAPH_CREATE, GRAPH_DELETE, getId } from './graph';
+import { GRAPH_IMPORT_SUCCESS } from '../scenes/graph-import/graph-import.duck';
 import { SUBGRAPH_CREATOR_OPEN, SUBGRAPH_CREATOR_CLOSE } from '../scenes/subgraph-creator/subgraph-creator.duck';
 import { ROUTES } from '../constants';
 
+// Actions
+export const GRAPH_IMPORT_OPEN = 'grapher/Navigation/GRAPH_IMPORT_OPEN';
+export const NEW_GRAPH_OPEN = 'grapher/Navigation/NEW_GRAPH_OPEN';
+export const GRAPH_OPEN = 'grapher/Navigation/GRAPH_OPEN';
+
+export function openImportGraph() {
+  return {
+    type: GRAPH_IMPORT_OPEN,
+  };
+}
+
+export function openNewGraph() {
+  return {
+    type: NEW_GRAPH_OPEN,
+  };
+}
+
+export function openGraph(id) {
+  return {
+    type: GRAPH_OPEN,
+    payload: id,
+  };
+}
+
+// Sagas
 export function* navigate({ type, payload }) {
   switch (type) {
     case NEW_GRAPH_OPEN: {

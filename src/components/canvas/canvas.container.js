@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getNodesAsArray, getLinksAsArray, createLink, getLinksIdsWithOpposite } from '../../scenes/graph/ducks';
+import { getNodesAsArray, getLinksAsArray, createLink, getLinksIdsWithOpposite } from '../../ducks/graph';
 import Canvas from './canvas.component';
 import { openDialog, DIALOG_IDS } from '../../ducks/dialog';
 import {
