@@ -11,6 +11,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
+import Navbar from '../../components/navbar';
+
 function GraphList({ graphNames, openNewGraph, openGraph, openImportGraph }) {
   const listItems = graphNames.map(([graphId, graphName]) => (
     <ListItem key={graphId} button onClick={() => openGraph(graphId)}>
@@ -41,16 +43,19 @@ function GraphList({ graphNames, openNewGraph, openGraph, openImportGraph }) {
   );
 
   return (
-    <Dialog open={true}>
-      <DialogTitle>Select a graph</DialogTitle>
-      <DialogContent>
-        <List>
-          {listItems}
-          {addGraph}
-          {importGraph}
-        </List>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Navbar title="Graph list" />
+      <Dialog open={true}>
+        <DialogTitle>Select a graph</DialogTitle>
+        <DialogContent>
+          <List>
+            {listItems}
+            {addGraph}
+            {importGraph}
+          </List>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 

@@ -3,12 +3,14 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 
 import Graph from './graph.component';
-import { loadGraph, getId } from '../../ducks/graph';
+import { loadGraph, getId, getName } from '../../ducks/graph';
+import { openGraphList } from '../../ducks/navigation.duck';
 
 function mapStateToProps(state, ownProps) {
   return {
     graphId: ownProps.match.params.graphId,
     loadedGraphId: getId(state),
+    graphName: getName(state),
   };
 }
 
@@ -16,6 +18,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       loadGraph,
+      openGraphList,
     },
     dispatch
   );

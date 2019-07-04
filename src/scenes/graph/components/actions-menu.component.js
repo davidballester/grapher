@@ -7,8 +7,15 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import { withStyles } from '@material-ui/core/styles';
 
-export default function ActionsMenu({ edit, remove, openExport, ...props }) {
+const styles = (theme) => ({
+  moreButton: {
+    marginRight: -theme.spacing(2),
+  },
+});
+
+function ActionsMenu({ graphName, openEditGraph, openConfirmDeleteGraph, openExport, classes, ...props }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   function handleClick(event) {
@@ -21,13 +28,13 @@ export default function ActionsMenu({ edit, remove, openExport, ...props }) {
 
   return (
     <React.Fragment>
-      <IconButton color="inherit" onClick={handleClick} {...props}>
+      <IconButton color="inherit" onClick={handleClick} className={classes.moreButton} {...props}>
         <MoreVertIcon />
       </IconButton>
       <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
         <MenuItem
           onClick={() => {
-            edit();
+            openEditGraph();
             handleClose();
           }}
         >
@@ -51,7 +58,7 @@ export default function ActionsMenu({ edit, remove, openExport, ...props }) {
 
         <MenuItem
           onClick={() => {
-            remove();
+            openConfirmDeleteGraph(graphName);
             handleClose();
           }}
         >
@@ -64,3 +71,5 @@ export default function ActionsMenu({ edit, remove, openExport, ...props }) {
     </React.Fragment>
   );
 }
+
+export default withStyles(styles, { withTheme: true })(ActionsMenu);

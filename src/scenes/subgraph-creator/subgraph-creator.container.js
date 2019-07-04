@@ -15,7 +15,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ processSubgraph, close: closeSubgraphCreator, importSubgraph, loadGraph }, dispatch);
+  return bindActionCreators({ processSubgraph, close: closeSubgraphCreator, closeSubgraphCreator, importSubgraph, loadGraph }, dispatch);
 }
 
 export default connect(

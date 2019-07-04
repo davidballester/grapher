@@ -7,6 +7,7 @@ import 'brace/mode/text';
 import 'brace/theme/monokai';
 
 import Canvas from '../../components/canvas/canvas.component';
+import Navbar from '../../components/navbar';
 
 const Row = styled.div`
   display: flex;
@@ -21,7 +22,17 @@ const StyledButton = styled(Button)`
   width: 100%;
 `;
 
-function SubgraphCreator({ nodes = [], links = [], processSubgraph, close, importSubgraph, graphId, loadedGraphId, loadGraph }) {
+function SubgraphCreator({
+  nodes = [],
+  links = [],
+  processSubgraph,
+  close,
+  importSubgraph,
+  graphId,
+  loadedGraphId,
+  loadGraph,
+  closeSubgraphCreator,
+}) {
   if (!!graphId && graphId !== loadedGraphId) {
     loadGraph(graphId);
   }
@@ -29,38 +40,41 @@ function SubgraphCreator({ nodes = [], links = [], processSubgraph, close, impor
   const [subgraphString, setSubgraphString] = useState('');
 
   return (
-    <Row>
-      <Column>
-        <AceEditor
-          mode="text"
-          theme="monokai"
-          fontSize={12}
-          showPrintMargin={false}
-          showGutter={true}
-          highlightActiveLine={true}
-          value={subgraphString}
-          width="100%"
-          height="80vh"
-          onChange={(value) => {
-            setSubgraphString(value);
-            processSubgraph(value);
-          }}
-        />
-        <Row style={{ marginTop: '1rem' }}>
-          <Column style={{ marginRight: '1rem' }}>
-            <StyledButton variant="contained" color="primary" disabled={!nodes.length} onClick={importSubgraph}>
-              Save
-            </StyledButton>
-          </Column>
-          <Column>
-            <StyledButton onClick={close}>Cancel</StyledButton>
-          </Column>
-        </Row>
-      </Column>
-      <Column>
-        <Canvas nodes={nodes} links={links} />
-      </Column>
-    </Row>
+    <>
+      <Navbar title="Create subgraph" onBack={closeSubgraphCreator} />
+      <Row>
+        <Column>
+          <AceEditor
+            mode="text"
+            theme="monokai"
+            fontSize={12}
+            showPrintMargin={false}
+            showGutter={true}
+            highlightActiveLine={true}
+            value={subgraphString}
+            width="100%"
+            height="80vh"
+            onChange={(value) => {
+              setSubgraphString(value);
+              processSubgraph(value);
+            }}
+          />
+          <Row style={{ marginTop: '1rem' }}>
+            <Column style={{ marginRight: '1rem' }}>
+              <StyledButton variant="contained" color="primary" disabled={!nodes.length} onClick={importSubgraph}>
+                Save
+              </StyledButton>
+            </Column>
+            <Column>
+              <StyledButton onClick={close}>Cancel</StyledButton>
+            </Column>
+          </Row>
+        </Column>
+        <Column>
+          <Canvas nodes={nodes} links={links} />
+        </Column>
+      </Row>
+    </>
   );
 }
 

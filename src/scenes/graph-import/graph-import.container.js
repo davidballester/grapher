@@ -16,6 +16,7 @@ function mapDispatchToProps(dispatch) {
     ...bindActionCreators(
       {
         importGraph,
+        openGraphList,
       },
       dispatch
     ),

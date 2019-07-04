@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 
-import MainBar from './main-bar.component';
-import { getName } from '../../../../ducks/graph';
-import { openDialog, DIALOG_IDS } from '../../../../ducks/dialog.duck';
+import ActionsMenu from './actions-menu.component';
+import { openDialog, DIALOG_IDS } from '../../../ducks/dialog.duck';
+import { getName } from '../../../ducks/graph';
 
 function mapStateToProps(state) {
   return {
@@ -21,4 +21,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MainBar);
+)(ActionsMenu);
