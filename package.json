@@ -7,6 +7,7 @@
     "@material-ui/icons": "4.2.0",
     "@material-ui/lab": "4.0.0-alpha.16",
     "@material-ui/styles": "4.1.1",
+    "clx": "1.0.0",
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.10.0",
     "formik": "1.5.1",
