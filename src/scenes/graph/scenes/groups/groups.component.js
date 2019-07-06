@@ -22,9 +22,12 @@ const styles = {
   },
 };
 
-function Groups({ groups = [], classes = {}, addGroup, removeGroup }) {
+function Groups({ groups = [], classes = {}, addGroup, removeGroup, updateGroup }) {
   const [expanded, setExpanded] = useState(true);
-  const [groupEditOpen, setGroupEditOpen] = useState(false);
+  const [groupEdit, setGroupEdit] = useState({
+    open: false,
+    group: undefined,
+  });
   const [confirmDelete, setConfirmDelete] = useState({
     open: false,
     group: undefined,
@@ -42,15 +45,37 @@ function Groups({ groups = [], classes = {}, addGroup, removeGroup }) {
             group,
           })
         }
+        onEdit={() => {
+          setGroupEdit({
+            open: true,
+            group,
+          });
+        }}
       />
     ));
   const list = !!groups.length && (
     <List className={classes.list}>
       {listItems}
-      <AddGroupListItem onClick={() => setGroupEditOpen(true)} />
+      <AddGroupListItem
+        onClick={() =>
+          setGroupEdit({
+            open: true,
+            group: undefined,
+          })
+        }
+      />
     </List>
   );
-  const emptyState = !groups.length && <EmptyState addGroup={() => setGroupEditOpen(true)} />;
+  const emptyState = !groups.length && (
+    <EmptyState
+      addGroup={() =>
+        setGroupEdit({
+          open: true,
+          group: undefined,
+        })
+      }
+    />
+  );
 
   return (
     <>
@@ -64,11 +89,24 @@ function Groups({ groups = [], classes = {}, addGroup, removeGroup }) {
         </ExpansionPanelDetails>
       </ExpansionPanel>
       <GroupEdit
-        isOpen={groupEditOpen}
-        cancel={() => setGroupEditOpen(false)}
+        isOpen={groupEdit.open}
+        group={groupEdit.group}
+        cancel={() =>
+          setGroupEdit({
+            open: false,
+            group: undefined,
+          })
+        }
         save={(group) => {
-          addGroup(group);
-          setGroupEditOpen(false);
+          if (!group.id) {
+            addGroup(group);
+          } else {
+            updateGroup(group);
+          }
+          setGroupEdit({
+            open: false,
+            group: undefined,
+          });
         }}
       />
       <ConfirmDelete
