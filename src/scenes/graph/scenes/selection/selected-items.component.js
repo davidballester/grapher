@@ -1,26 +1,27 @@
 import React from 'react';
-import styled from 'styled-components';
+import { withStyles } from '@material-ui/core/styles';
 
 import SelectedNodes from './scenes/nodes';
 import SelectedLink from './scenes/links';
 
-export const StyledSelectedLink = styled(SelectedLink)`
-  margin-bottom: 1rem;
-`;
+const styles = (theme) => ({
+  root: {
+    position: 'absolute',
+    left: theme.spacing(1),
+    top: theme.spacing(1),
+  },
+  link: {
+    marginBottom: theme.spacing(1),
+  },
+});
 
-export const SelectedItemsContainer = styled.div`
-  position: absolute;
-  left: 1rem;
-  bottom: 0;
-`;
-
-function SelectedItems() {
+function SelectedItems({ classes = {} }) {
   return (
-    <SelectedItemsContainer>
-      <StyledSelectedLink />
+    <div className={classes.root}>
+      <SelectedLink className={classes.link} />
       <SelectedNodes />
-    </SelectedItemsContainer>
+    </div>
   );
 }
 
-export default SelectedItems;
+export default withStyles(styles, { withTheme: true })(SelectedItems);

@@ -10,12 +10,24 @@ import ActionsMenu from './components/actions-menu.container';
 import EditGraph from './scenes/edit-graph';
 import Export from './scenes/export';
 import Groups from './scenes/groups';
+import Canvas from '../../components/canvas';
 
 const styles = (theme) => ({
   groups: {
     position: 'absolute',
     bottom: theme.spacing(1),
     left: theme.spacing(1),
+  },
+  content: {
+    position: 'relative',
+  },
+  panels: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '33%',
+    maxWidth: '400px',
+    height: '100%',
   },
 });
 
@@ -28,12 +40,17 @@ function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, cl
       <Navbar title={graphName} onBack={openGraphList}>
         <ActionsMenu />
       </Navbar>
-      <Actions />
-      <ConfirmDeletes />
-      <SelectedItems />
-      <EditGraph />
-      <Export />
-      <Groups classes={{ root: classes.groups }} />
+      <div className={classes.content}>
+        <Canvas />
+        <div className={classes.panels}>
+          <ConfirmDeletes />
+          <SelectedItems />
+          <EditGraph />
+          <Export />
+          <Groups classes={{ root: classes.groups }} />
+        </div>
+        <Actions />
+      </div>
     </React.Fragment>
   );
 }
