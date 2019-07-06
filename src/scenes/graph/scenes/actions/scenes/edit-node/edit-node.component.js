@@ -11,7 +11,7 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { red, purple, blue, green, yellow, orange, brown, grey } from '@material-ui/core/colors';
 
-import ToggleColorPicker from './components/toggle-color-picker.component';
+import ToggleColorPicker from '../../../../../../components/toggle-color-picker.component';
 
 const StyledTextField = styled(TextField)`
   display: block !important;
