@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { createShallow } from '@material-ui/core/test-utils';
 
 import Groups from './groups.component';
 import EmptyState from './components/empty-state.component';
@@ -7,6 +7,12 @@ import GroupListItem from './components/group-list-item.component';
 import AddGroupListItem from './components/add-group-list-item.component';
 
 describe(Groups.name, () => {
+  let shallow;
+
+  beforeEach(() => {
+    shallow = createShallow({ dive: true });
+  });
+
   it('renders a list item per group', () => {
     const component = shallow(<Groups groups={[{ id: 'foo' }, { id: 'bar' }]} />);
     expect(component.find(GroupListItem).getElements()).toHaveLength(2);
