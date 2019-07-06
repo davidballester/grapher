@@ -9,12 +9,19 @@ import List from '@material-ui/core/List';
 import EmptyState from './components/empty-state.component';
 import GroupEdit from './components/group-edit.component';
 import GroupListItem from './components/group-list-item.component';
+import AddGroupListItem from './components/add-group-list-item.component';
 
 export default function Groups({ groups = [], classes = {}, addGroup }) {
   const [expanded, setExpanded] = useState(true);
   const [groupEditOpen, setGroupEditOpen] = useState(false);
 
   const listItems = !!groups.length && groups.map((group) => <GroupListItem key={group.id} group={group} />);
+  const list = !!groups.length && (
+    <List>
+      {listItems}
+      <AddGroupListItem onClick={() => setGroupEditOpen(true)} />
+    </List>
+  );
   const emptyState = !groups.length && <EmptyState addGroup={() => setGroupEditOpen(true)} />;
 
   return (
@@ -25,7 +32,7 @@ export default function Groups({ groups = [], classes = {}, addGroup }) {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           {emptyState}
-          <List>{listItems}</List>
+          {list}
         </ExpansionPanelDetails>
       </ExpansionPanel>
       <GroupEdit
