@@ -15,15 +15,18 @@ const styles = {
 
 function Navbar({ title, onBack, classes, children }) {
   return (
-    <AppBar>
-      <Toolbar>
-        {!!onBack && <BackButton onBack={onBack} />}
-        <Typography className={classes.title} variant="h6" color="inherit">
-          {title}
-        </Typography>
-        {children}
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar>
+        <Toolbar>
+          {!!onBack && <BackButton onBack={onBack} />}
+          <Typography className={classes.title} variant="h6" color="inherit">
+            {title}
+          </Typography>
+          {children}
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
+    </>
   );
 }
 
