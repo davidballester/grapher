@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Groups from './groups.component';
-import { getGroupsAsArray, addGroup } from '../../../../ducks/groups.duck';
+import { getGroupsAsArray, addGroup, removeGroup } from '../../../../ducks/groups.duck';
 
 function mapStateToProps(state) {
   return {
@@ -14,6 +14,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       addGroup,
+      removeGroup,
     },
     dispatch
   );

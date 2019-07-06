@@ -10,12 +10,30 @@ import EmptyState from './components/empty-state.component';
 import GroupEdit from './components/group-edit.component';
 import GroupListItem from './components/group-list-item.component';
 import AddGroupListItem from './components/add-group-list-item.component';
+import ConfirmDelete from './components/confirm-delete.component';
 
-export default function Groups({ groups = [], classes = {}, addGroup }) {
+export default function Groups({ groups = [], classes = {}, addGroup, removeGroup }) {
   const [expanded, setExpanded] = useState(true);
   const [groupEditOpen, setGroupEditOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState({
+    open: false,
+    group: undefined,
+  });
 
-  const listItems = !!groups.length && groups.map((group) => <GroupListItem key={group.id} group={group} />);
+  const listItems =
+    !!groups.length &&
+    groups.map((group) => (
+      <GroupListItem
+        key={group.id}
+        group={group}
+        onDelete={() =>
+          setConfirmDelete({
+            open: true,
+            group,
+          })
+        }
+      />
+    ));
   const list = !!groups.length && (
     <List>
       {listItems}
@@ -41,6 +59,15 @@ export default function Groups({ groups = [], classes = {}, addGroup }) {
         save={(group) => {
           addGroup(group);
           setGroupEditOpen(false);
+        }}
+      />
+      <ConfirmDelete
+        open={confirmDelete.open}
+        groupName={!!confirmDelete.group ? confirmDelete.group.name : ''}
+        cancel={() => setConfirmDelete({ open: false, group: undefined })}
+        confirm={() => {
+          removeGroup(confirmDelete.group.id);
+          setConfirmDelete({ open: false, group: undefined });
         }}
       />
     </>
