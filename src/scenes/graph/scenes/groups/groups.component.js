@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -11,6 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import EmptyState from './components/empty-state.component';
 
 export default function Groups({ groups = [], classes = {} }) {
+  const [expanded, setExpanded] = useState(true);
   const listItems =
     !!groups.length &&
     groups.map((group) => (
@@ -21,7 +22,7 @@ export default function Groups({ groups = [], classes = {} }) {
   const emptyState = !groups.length && <EmptyState />;
 
   return (
-    <ExpansionPanel className={classes.root} defaultExpanded>
+    <ExpansionPanel className={classes.root} expanded={expanded} onChange={() => setExpanded(!expanded)}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
         <Typography color="textSecondary">Groups</Typography>
       </ExpansionPanelSummary>
