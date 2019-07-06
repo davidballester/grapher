@@ -10,6 +10,9 @@ import {
   GRAPH_EDIT_NODE,
   GRAPH_EDIT_LINK,
   GRAPH_IMPORT_SUBGRAPH,
+  GRAPH_GROUPS_ADD,
+  GRAPH_GROUPS_UPDATE,
+  GRAPH_GROUPS_REMOVE,
 } from './graph.actions';
 
 const initialState = {
@@ -75,6 +78,7 @@ const initialState = {
       target: 'sirlamorak',
     },
   },
+  groups: {},
 };
 
 export default function reducer(state = initialState, action) {
@@ -214,6 +218,37 @@ export default function reducer(state = initialState, action) {
         links: {
           ...state.links,
           ...linksAsObject,
+        },
+      };
+    }
+    case GRAPH_GROUPS_ADD: {
+      const group = action.payload;
+      return {
+        ...state,
+        groups: {
+          ...state.groups,
+          [group.id]: group,
+        },
+      };
+    }
+    case GRAPH_GROUPS_REMOVE: {
+      const groupId = action.payload;
+      const newGroups = { ...state.groups };
+      delete newGroups[groupId];
+      return {
+        ...state,
+        groups: {
+          ...newGroups,
+        },
+      };
+    }
+    case GRAPH_GROUPS_UPDATE: {
+      const group = action.payload;
+      return {
+        ...state,
+        groups: {
+          ...state.groups,
+          [group.id]: group,
         },
       };
     }

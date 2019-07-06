@@ -29,6 +29,12 @@ import {
   editLink,
   GRAPH_IMPORT_SUBGRAPH,
   importSubgraph,
+  GRAPH_GROUPS_ADD,
+  GRAPH_GROUPS_REMOVE,
+  GRAPH_GROUPS_UPDATE,
+  addGroup,
+  removeGroup,
+  updateGroup,
 } from './graph.actions';
 
 describe('actions', () => {
@@ -202,6 +208,53 @@ describe('actions', () => {
       const links = { bar: 'baz' };
       const action = importSubgraph(nodes, links);
       expect(action.payload).toEqual({ nodes, links });
+    });
+  });
+
+  describe(addGroup.name, () => {
+    it('creates the action with GRAPH_GROUPS_ADD type', () => {
+      const action = addGroup({});
+      expect(action.type).toEqual(GRAPH_GROUPS_ADD);
+    });
+
+    it('assigns a random ID to the payload', () => {
+      const action = addGroup({});
+      expect(action.payload).toEqual(
+        expect.objectContaining({
+          id: 'uuid',
+        })
+      );
+    });
+
+    it('spreads the given group into the payload', () => {
+      const group = { foo: 'bar' };
+      const action = addGroup(group);
+      expect(action.payload).toEqual(expect.objectContaining(group));
+    });
+  });
+
+  describe(removeGroup.name, () => {
+    it('creates the action with GRAPH_GROUPS_REMOVE type', () => {
+      const action = removeGroup('foo');
+      expect(action.type).toEqual(GRAPH_GROUPS_REMOVE);
+    });
+
+    it('creates the action with the given groupId as payload', () => {
+      const action = removeGroup('foo');
+      expect(action.payload).toEqual('foo');
+    });
+  });
+
+  describe(updateGroup.name, () => {
+    it('creates the action with GRAPH_GROUPS_UPDATE type', () => {
+      const action = updateGroup({});
+      expect(action.type).toEqual(GRAPH_GROUPS_UPDATE);
+    });
+
+    it('creates the action with the given group as payload', () => {
+      const group = { foo: 'bar' };
+      const action = updateGroup(group);
+      expect(action.payload).toEqual(group);
     });
   });
 });

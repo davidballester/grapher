@@ -62,6 +62,16 @@ export const getSerializedGraph = createSelector(
   (graph) => graphService.serializeGraph(graph)
 );
 
+const getGroups = createSelector(
+  graphSelector,
+  (graph) => graph.groups
+);
+
+export const getGroupsAsArray = createSelector(
+  getGroups,
+  (groups) => Object.keys(groups).map((groupId) => groups[groupId])
+);
+
 function getOppositeLink(links, { source, target }) {
   return links.find(({ source: candidateSource, target: candidateTarget }) => candidateSource === target && candidateTarget === source);
 }

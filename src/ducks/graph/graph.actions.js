@@ -13,6 +13,9 @@ export const GRAPH_EDIT_NODE = 'grapher/Graph/EDIT_NODE';
 export const GRAPH_DELETE = 'grapher/Graph/DELETE';
 export const GRAPH_EDIT_LINK = 'grapher/Graph/EDIT_LINK';
 export const GRAPH_IMPORT_SUBGRAPH = 'grapher/Graph/IMPORT_SUBGRAPH';
+export const GRAPH_GROUPS_ADD = 'grapher/Graph/ADD';
+export const GRAPH_GROUPS_REMOVE = 'grapher/Graph/REMOVE';
+export const GRAPH_GROUPS_UPDATE = 'grapher/Graph/UPDATE';
 
 export function setGraphName(id, name) {
   return {
@@ -110,5 +113,29 @@ export function importSubgraph(nodes = [], links = []) {
       nodes,
       links,
     },
+  };
+}
+
+export function addGroup(group) {
+  return {
+    type: GRAPH_GROUPS_ADD,
+    payload: {
+      id: uuid(),
+      ...group,
+    },
+  };
+}
+
+export function removeGroup(groupId) {
+  return {
+    type: GRAPH_GROUPS_REMOVE,
+    payload: groupId,
+  };
+}
+
+export function updateGroup(group) {
+  return {
+    type: GRAPH_GROUPS_UPDATE,
+    payload: group,
   };
 }

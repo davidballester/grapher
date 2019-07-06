@@ -22,6 +22,12 @@ import {
   editNode,
   editLink,
   importSubgraph,
+  GRAPH_GROUPS_ADD,
+  addGroup,
+  GRAPH_GROUPS_REMOVE,
+  removeGroup,
+  GRAPH_GROUPS_UPDATE,
+  updateGroup,
 } from './graph.actions';
 import reducer from './graph.reducer';
 
@@ -455,6 +461,46 @@ describe('reducer', () => {
       const state = reducer(initialState, action);
 
       expect(state).toMatchObject(expectedState);
+    });
+  });
+
+  describe(GRAPH_GROUPS_ADD, () => {
+    it('adds the group to the state', () => {
+      const group = { foo: 'bar' };
+      const action = addGroup(group);
+      const state = reducer({ groups: {} }, action);
+      expect(state).toEqual({
+        groups: {
+          uuid: expect.objectContaining(group),
+        },
+      });
+    });
+  });
+
+  describe(GRAPH_GROUPS_REMOVE, () => {
+    it('does nothing if the given group is not in the state', () => {
+      const initialState = { groups: { bar: 'baz' } };
+      const action = removeGroup('foo');
+      const state = reducer(initialState, action);
+      expect(state).toEqual(initialState);
+    });
+
+    it('removes the group identified by the action group ID', () => {
+      const initialState = { groups: { bar: 'baz' } };
+      const action = removeGroup('bar');
+      const state = reducer(initialState, action);
+      expect(state).toEqual({ groups: {} });
+    });
+  });
+
+  describe(GRAPH_GROUPS_UPDATE, () => {
+    it('sets the group to the state', () => {
+      const group = { id: 'uuid', foo: 'bar' };
+      const action = updateGroup(group);
+      const state = reducer({ groups: {} }, action);
+      expect(state).toEqual({
+        groups: { uuid: group },
+      });
     });
   });
 });

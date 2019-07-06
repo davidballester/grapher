@@ -17,6 +17,7 @@ import {
   getLinksWithOpposite,
   getLinksIdsWithOpposite,
   getSerializedGraph,
+  getGroupsAsArray,
 } from './graph.selectors';
 
 describe('selectors', () => {
@@ -253,6 +254,30 @@ describe('selectors', () => {
       graphService.serializeGraph.mockReturnValue(expectedResult);
       const result = getSerializedGraph(state);
       expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe(getGroupsAsArray.name, () => {
+    it('returns an empty array if there are no groups in the state', () => {
+      const groups = getGroupsAsArray({ graph: { groups: {} } });
+      expect(groups).toEqual([]);
+    });
+
+    it('returns the groups in the state as an array', () => {
+      const state = {
+        graph: {
+          groups: {
+            foo: {
+              bar: 'baz',
+            },
+            bar: {
+              baz: 'qux',
+            },
+          },
+        },
+      };
+      const groups = getGroupsAsArray(state);
+      expect(groups).toEqual([{ bar: 'baz' }, { baz: 'qux' }]);
     });
   });
 });
