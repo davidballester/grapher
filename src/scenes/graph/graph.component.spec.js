@@ -1,13 +1,15 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { createShallow } from '@material-ui/core/test-utils';
 
 import Graph from './graph.component';
 
 describe(Graph.name, () => {
+  let shallow;
   let loadGraph;
 
   beforeEach(() => {
     loadGraph = jest.fn();
+    shallow = createShallow({ dive: true });
   });
 
   afterEach(() => {
