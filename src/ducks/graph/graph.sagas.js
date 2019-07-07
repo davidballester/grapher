@@ -14,6 +14,9 @@ import {
   GRAPH_EDIT_LINK,
   GRAPH_LOAD,
   GRAPH_DELETE,
+  GRAPH_GROUPS_ADD,
+  GRAPH_GROUPS_REMOVE,
+  GRAPH_GROUPS_UPDATE,
   loadGraphSuccess,
 } from './graph.actions';
 
@@ -25,7 +28,19 @@ export function* saveGraph() {
 
 export function* saveGraphSaga() {
   yield takeLatest(
-    [GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_CREATE_NODE, GRAPH_CREATE_LINK, GRAPH_DELETE_NODE, GRAPH_DELETE_LINK, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK],
+    [
+      GRAPH_CREATE,
+      GRAPH_SET_NAME,
+      GRAPH_CREATE_NODE,
+      GRAPH_CREATE_LINK,
+      GRAPH_DELETE_NODE,
+      GRAPH_DELETE_LINK,
+      GRAPH_EDIT_NODE,
+      GRAPH_EDIT_LINK,
+      GRAPH_GROUPS_ADD,
+      GRAPH_GROUPS_REMOVE,
+      GRAPH_GROUPS_UPDATE,
+    ],
     saveGraph
   );
 }
