@@ -48,13 +48,13 @@ function Import({ errors = [], close, importGraph, openGraphList, classes }) {
   return (
     <>
       <Navbar title="Import" onBack={openGraphList} />
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          importGraph(serializedGraph);
-        }}
-      >
-        <Dialog open={true}>
+      <Dialog open={true}>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            importGraph(serializedGraph);
+          }}
+        >
           <DialogTitle>Import</DialogTitle>
           <DialogContent>
             <List dense={true}>{errorsListItems}</List>
@@ -93,8 +93,8 @@ function Import({ errors = [], close, importGraph, openGraphList, classes }) {
               Done
             </Button>
           </DialogActions>
-        </Dialog>
-      </form>
+        </form>
+      </Dialog>
     </>
   );
 }
