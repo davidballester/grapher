@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import classNames from 'classnames';
 import Select from 'react-select';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,12 +10,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
-const Container = styled.div`
-  flex-grow: 1;
-`;
-
 const styles = (theme) => ({
-  root: {},
+  root: {
+    flexGrow: 1,
+  },
   input: {
     display: 'flex',
     padding: 0,
@@ -157,41 +153,28 @@ const components = {
   ValueContainer,
 };
 
-function NodeSearcher({ nodesIds = [], className, classes, onChange, ...props }) {
-  const selectStyles = {
-    input: (base) => ({
-      ...base,
-      '& input': {
-        font: 'inherit',
-      },
-    }),
-  };
-
+function SelectSearcher(props) {
   return (
-    <Container>
+    <div className={props.classes.root}>
       <Select
-        className={className}
-        classes={classes}
-        styles={selectStyles}
-        options={nodesIds.map((nodeId) => ({ label: nodeId, value: nodeId }))}
+        styles={{
+          input: (base) => ({
+            ...base,
+            '& input': {
+              font: 'inherit',
+            },
+          }),
+        }}
         components={components}
-        onChange={({ value }) => onChange(value)}
-        placeholder="Search a node"
         textFieldProps={{
           InputLabelProps: {
             shrink: true,
           },
-          ...props,
         }}
+        {...props}
       />
-    </Container>
+    </div>
   );
 }
 
-NodeSearcher.propTypes = {
-  nodesIds: PropTypes.arrayOf(PropTypes.string),
-  className: PropTypes.string,
-  onChange: PropTypes.func,
-};
-
-export default withStyles(styles, { withTheme: true })(NodeSearcher);
+export default withStyles(styles)(SelectSearcher);

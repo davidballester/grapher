@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { withStyles } from '@material-ui/core/styles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,18 +10,23 @@ import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
-import NodeSearcher from '../../../../../../components/node-searcher.component';
+import SelectSearcher from '../../../../../../components/select-searcher.component';
 import './new-link.component.css';
 
-const StyledTextField = styled(TextField)`
-  display: block !important;
-`;
+const styles = (theme) => ({
+  selectSearcherContainer: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+});
 
-const StyledNodeSearcher = styled(NodeSearcher)`
-  margin-top: 1rem;
-`;
+const StyledTextField = withStyles({
+  root: {
+    display: 'block !important',
+  },
+})(TextField);
 
-function NewLink({ isOpen, nodesIds, saveNewLink, cancelNewLink }) {
+function NewLink({ isOpen, nodesIds, saveNewLink, cancelNewLink, classes }) {
   const initialValues = {
     label: '',
     source: undefined,
@@ -50,8 +55,22 @@ function NewLink({ isOpen, nodesIds, saveNewLink, cancelNewLink }) {
           <Form>
             <DialogContent>
               <Field type="text" label="Label" name="label" component={StyledTextField} error={!!errors.label} />
-              <StyledNodeSearcher nodesIds={nodesIds} onChange={(source) => setFieldValue('source', source)} label="Source" />
-              <StyledNodeSearcher nodesIds={nodesIds} onChange={(target) => setFieldValue('target', target)} label="Target" />
+              <div className={classes.selectSearcherContainer}>
+                <SelectSearcher
+                  options={nodesIds.map((nodeId) => ({ label: nodeId, value: nodeId }))}
+                  onChange={({ value }) => setFieldValue('source', value)}
+                  label="Source"
+                  placeholder="Search a node"
+                />
+              </div>
+              <div className={classes.selectSearcherContainer}>
+                <SelectSearcher
+                  options={nodesIds.map((nodeId) => ({ label: nodeId, value: nodeId }))}
+                  onChange={({ value }) => setFieldValue('target', value)}
+                  label="Target"
+                  placeholder="Search a node"
+                />
+              </div>
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelNewLink} className="cancel" type="button">
@@ -75,4 +94,4 @@ NewLink.propTypes = {
   nodesIds: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default NewLink;
+export default withStyles(styles, { withTheme: true })(NewLink);
