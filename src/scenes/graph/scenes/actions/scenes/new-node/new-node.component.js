@@ -8,15 +8,19 @@ import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
+import GroupsSelect from '../../components/groups-select.component';
+
 const initialValues = {
   id: '',
+  groups: [],
 };
 
 const NodeSchema = Yup.object().shape({
   id: Yup.string().required('Required'),
+  groups: Yup.array(),
 });
 
-export default function NewNode({ isOpen, saveNewNode, cancelNewNode }) {
+export default function NewNode({ isOpen, groups = [], saveNewNode, cancelNewNode }) {
   return (
     <Dialog open={isOpen}>
       <DialogTitle>New node</DialogTitle>
@@ -24,10 +28,11 @@ export default function NewNode({ isOpen, saveNewNode, cancelNewNode }) {
         initialValues={initialValues}
         validationSchema={NodeSchema}
         onSubmit={saveNewNode}
-        render={({ errors }) => (
+        render={({ errors, values, setFieldValue }) => (
           <Form>
             <DialogContent>
               <Field type="text" label="ID" name="id" component={TextField} error={!!errors.id} />
+              <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelNewNode} className="cancel" type="button">
