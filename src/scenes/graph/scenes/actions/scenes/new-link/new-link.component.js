@@ -10,7 +10,7 @@ import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
-import NodeSearcher from './components/node-searcher.component';
+import NodeSearcher from '../../../../../../components/node-searcher.component';
 import './new-link.component.css';
 
 const StyledTextField = styled(TextField)`
