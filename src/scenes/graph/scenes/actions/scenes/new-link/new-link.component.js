@@ -13,20 +13,13 @@ import * as Yup from 'yup';
 import SelectSearcher from '../../../../../../components/select-searcher.component';
 import './new-link.component.css';
 
-const styles = (theme) => ({
-  selectSearcherContainer: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-});
-
 const StyledTextField = withStyles({
   root: {
     display: 'block !important',
   },
 })(TextField);
 
-function NewLink({ isOpen, nodesIds, saveNewLink, cancelNewLink, classes }) {
+function NewLink({ isOpen, nodesIds, saveNewLink, cancelNewLink }) {
   const initialValues = {
     label: '',
     source: undefined,
@@ -55,22 +48,18 @@ function NewLink({ isOpen, nodesIds, saveNewLink, cancelNewLink, classes }) {
           <Form>
             <DialogContent>
               <Field type="text" label="Label" name="label" component={StyledTextField} error={!!errors.label} />
-              <div className={classes.selectSearcherContainer}>
-                <SelectSearcher
-                  options={nodesIds.map((nodeId) => ({ label: nodeId, value: nodeId }))}
-                  onChange={({ value }) => setFieldValue('source', value)}
-                  label="Source"
-                  placeholder="Search a node"
-                />
-              </div>
-              <div className={classes.selectSearcherContainer}>
-                <SelectSearcher
-                  options={nodesIds.map((nodeId) => ({ label: nodeId, value: nodeId }))}
-                  onChange={({ value }) => setFieldValue('target', value)}
-                  label="Target"
-                  placeholder="Search a node"
-                />
-              </div>
+              <SelectSearcher
+                options={nodesIds.map((nodeId) => ({ label: nodeId, value: nodeId }))}
+                onChange={({ value }) => setFieldValue('source', value)}
+                label="Source"
+                placeholder="Search a node"
+              />
+              <SelectSearcher
+                options={nodesIds.map((nodeId) => ({ label: nodeId, value: nodeId }))}
+                onChange={({ value }) => setFieldValue('target', value)}
+                label="Target"
+                placeholder="Search a node"
+              />
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelNewLink} className="cancel" type="button">
@@ -94,4 +83,4 @@ NewLink.propTypes = {
   nodesIds: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default withStyles(styles, { withTheme: true })(NewLink);
+export default NewLink;
