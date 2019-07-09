@@ -235,21 +235,58 @@ export default function reducer(state = initialState, action) {
       const groupId = action.payload;
       const newGroups = { ...state.groups };
       delete newGroups[groupId];
+      const nodes = Object.keys(state.nodes)
+        .map((nodeId) => state.nodes[nodeId])
+        .map((node) => ({
+          ...node,
+          groups: (node.groups || []).filter((ng) => ng.id !== groupId),
+        }))
+        .reduce(
+          (nodesMap, node) => ({
+            ...nodesMap,
+            [node.id]: node,
+          }),
+          {}
+        );
       return {
         ...state,
         groups: {
           ...newGroups,
         },
+        nodes,
       };
     }
     case GRAPH_GROUPS_UPDATE: {
       const group = action.payload;
+      const nodes = Object.keys(state.nodes)
+        .map((nodeId) => state.nodes[nodeId])
+        .map((node) => {
+          const groups = !!node.groups ? [...node.groups] : [];
+          const groupIndex = groups.findIndex((ng) => ng.id === group.id);
+          if (groupIndex >= 0) {
+            groups.splice(groupIndex, 1);
+            return {
+              ...node,
+              groups: [...groups, group],
+            };
+          } else {
+            return node;
+          }
+        })
+        .reduce(
+          (nodesMap, node) => ({
+            ...nodesMap,
+            [node.id]: node,
+          }),
+          {}
+        );
       return {
         ...state,
         groups: {
           ...state.groups,
           [group.id]: group,
         },
+        nodes,
       };
     }
     default: {

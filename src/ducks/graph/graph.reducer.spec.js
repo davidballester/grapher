@@ -479,17 +479,69 @@ describe('reducer', () => {
 
   describe(GRAPH_GROUPS_REMOVE, () => {
     it('does nothing if the given group is not in the state', () => {
-      const initialState = { groups: { bar: 'baz' } };
+      const initialState = { groups: { bar: 'baz' }, nodes: {} };
       const action = removeGroup('foo');
       const state = reducer(initialState, action);
       expect(state).toEqual(initialState);
     });
 
     it('removes the group identified by the action group ID', () => {
-      const initialState = { groups: { bar: 'baz' } };
+      const initialState = { groups: { bar: 'baz' }, nodes: {} };
       const action = removeGroup('bar');
       const state = reducer(initialState, action);
-      expect(state).toEqual({ groups: {} });
+      expect(state).toEqual({ groups: {}, nodes: {} });
+    });
+
+    it('removes the group from the nodes that have it', () => {
+      const initialState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            groups: [
+              {
+                id: 'bar',
+              },
+            ],
+          },
+        },
+      };
+      const action = removeGroup('bar');
+      const state = reducer(initialState, action);
+      expect(state).toMatchObject({
+        nodes: {
+          foo: {
+            groups: [],
+          },
+        },
+      });
+    });
+
+    it('does not affect groups not removed from the nodes', () => {
+      const initialState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            groups: [
+              {
+                id: 'bar',
+              },
+            ],
+          },
+        },
+      };
+      const action = removeGroup('baz');
+      const state = reducer(initialState, action);
+      expect(state).toMatchObject({
+        nodes: {
+          foo: {
+            groups: [
+              {
+                id: 'bar',
+              },
+            ],
+          },
+        },
+      });
     });
   });
 
@@ -497,9 +549,70 @@ describe('reducer', () => {
     it('sets the group to the state', () => {
       const group = { id: 'uuid', foo: 'bar' };
       const action = updateGroup(group);
-      const state = reducer({ groups: {} }, action);
+      const state = reducer({ groups: {}, nodes: {} }, action);
       expect(state).toEqual({
         groups: { uuid: group },
+        nodes: {},
+      });
+    });
+
+    it('replaces the group in the nodes that have it', () => {
+      const group = { id: 'uuid', foo: 'bar' };
+      const initialState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            groups: [
+              {
+                id: 'uuid',
+                bar: 'foo',
+              },
+            ],
+          },
+        },
+      };
+      const action = updateGroup(group);
+      const state = reducer(initialState, action);
+      expect(state).toMatchObject({
+        nodes: {
+          foo: {
+            groups: [
+              {
+                id: 'uuid',
+                foo: 'bar',
+              },
+            ],
+          },
+        },
+      });
+    });
+
+    it('does not affect groups not updated from the nodes', () => {
+      const group = { id: 'uuid', foo: 'bar' };
+      const initialState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            groups: [
+              {
+                id: 'bar',
+              },
+            ],
+          },
+        },
+      };
+      const action = updateGroup(group);
+      const state = reducer(initialState, action);
+      expect(state).toMatchObject({
+        nodes: {
+          foo: {
+            groups: [
+              {
+                id: 'bar',
+              },
+            ],
+          },
+        },
       });
     });
   });
