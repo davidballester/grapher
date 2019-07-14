@@ -154,7 +154,7 @@ export default class Canvas extends React.Component {
     const preservedNodes = this.graphNodesData.map((graphNode) => nodes.find((n) => n.id === graphNode.id)).filter((n) => !!n);
     const newNodes = nodes
       .filter((node) => !this.graphNodesData.find((graphNode) => graphNode.id === node.id))
-      .map(({ id, color }) => ({ id, color }));
+      .map(({ id, color, groups }) => ({ id, color, groups }));
     this.graphNodesData = [...preservedNodes, ...newNodes];
   };
 

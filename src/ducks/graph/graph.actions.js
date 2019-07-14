@@ -1,5 +1,4 @@
 import uuid from 'uuid/v4';
-import blue from '@material-ui/core/colors/blue';
 
 export const GRAPH_SET_NAME = 'grapher/Graph/SET_NAME';
 export const GRAPH_CREATE = 'grapher/Graph/CREATE';
@@ -55,7 +54,6 @@ export function createNode(node) {
   return {
     type: GRAPH_CREATE_NODE,
     payload: {
-      color: blue['A200'],
       ...node,
     },
   };

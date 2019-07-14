@@ -1,5 +1,6 @@
 import blue from '@material-ui/core/colors/blue';
 import orange from '@material-ui/core/colors/orange';
+import _get from 'lodash/get';
 
 function renderNode(node, ctx, globalScale) {
   if (node.selected) {
@@ -19,7 +20,7 @@ function renderSelectedCircle(node, ctx) {
 }
 
 function renderCircle(node, ctx) {
-  const color = node.color || blue['A200'];
+  const color = getNodeColor(node);
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
   ctx.beginPath();
@@ -34,6 +35,18 @@ function renderLabel(node, ctx, globalScale) {
   ctx.textBaseline = 'middle';
   ctx.fillStyle = '#000';
   ctx.fillText(node.id, node.x, node.y + 8);
+}
+
+function getNodeColor(node) {
+  const nodeColor = node.color;
+  if (!!nodeColor) {
+    return nodeColor;
+  }
+  const groupColor = _get(node, 'groups[0].color');
+  if (!!groupColor) {
+    return groupColor;
+  }
+  return blue['A200'];
 }
 
 export default renderNode;
