@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { store } from './store';
 import history from './services/history.service';
@@ -12,6 +13,7 @@ import './index.css';
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
+      <CssBaseline />
       <App />
     </Router>
   </Provider>,
