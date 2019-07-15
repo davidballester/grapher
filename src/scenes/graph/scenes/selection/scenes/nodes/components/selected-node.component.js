@@ -5,8 +5,19 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip';
+import { withStyles } from '@material-ui/core/styles';
 
-function SelectedNode({ node, openConfirmDeleteNode, className, openEditNode }) {
+const styles = (theme) => ({
+  chip: {
+    marginRight: theme.spacing(1),
+  },
+});
+
+function SelectedNode({ node, openConfirmDeleteNode, className, openEditNode, classes }) {
+  const badges = (node.groups || []).map((group) => (
+    <Chip key={group.id} label={group.name} size="small" color="secondary" className={classes.chip} />
+  ));
   return (
     <Card className={className}>
       <CardContent>
@@ -16,6 +27,7 @@ function SelectedNode({ node, openConfirmDeleteNode, className, openEditNode }) 
         <Typography component="h2" variant="h5">
           {node.id}
         </Typography>
+        {badges}
       </CardContent>
       <CardActions>
         <Button className="delete" size="small" onClick={() => openConfirmDeleteNode([node.id])}>
@@ -36,6 +48,7 @@ SelectedNode.propTypes = {
   openConfirmDeleteNode: PropTypes.func.isRequired,
   className: PropTypes.string,
   openEditNode: PropTypes.func.isRequired,
+  classes: PropTypes.any,
 };
 
-export default SelectedNode;
+export default withStyles(styles, { withTheme: true })(SelectedNode);

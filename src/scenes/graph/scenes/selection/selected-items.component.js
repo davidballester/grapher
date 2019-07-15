@@ -9,6 +9,7 @@ const styles = (theme) => ({
     position: 'absolute',
     left: theme.spacing(1),
     top: theme.spacing(1),
+    width: '100%',
   },
   link: {
     marginBottom: theme.spacing(1),
