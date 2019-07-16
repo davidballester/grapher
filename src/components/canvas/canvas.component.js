@@ -140,8 +140,8 @@ export default class Canvas extends React.Component {
   };
 
   synchronizeGraphData = (nodes, links, selectedNodes, virtualLink, selectedLink) => {
-    this.synchronizeNodes(nodes);
-    this.synchronizeLinks(links);
+    this.synchronizeNodes(nodes, links);
+    this.synchronizeLinks(links, this.graphNodesData);
     if (!!virtualLink) {
       this.addVirtualLink(virtualLink);
     }
@@ -150,16 +150,45 @@ export default class Canvas extends React.Component {
     this.markLinkAsSelected(selectedLink);
   };
 
-  synchronizeNodes = (nodes = []) => {
+  synchronizeNodes = (nodes = [], links = []) => {
     const preservedNodes = this.graphNodesData.map((graphNode) => nodes.find((n) => n.id === graphNode.id)).filter((n) => !!n);
     const newNodes = nodes
       .filter((node) => !this.graphNodesData.find((graphNode) => graphNode.id === node.id))
       .map(({ id, color, groups }) => ({ id, color, groups }));
-    this.graphNodesData = [...preservedNodes, ...newNodes];
+    this.graphNodesData = [...preservedNodes, ...newNodes].map((node) => ({
+      ...node,
+      degree: links.filter((link) => link.source === node.id || link.target === node.id).length,
+    }));
   };
 
-  synchronizeLinks = (links = []) => {
-    this.graphLinksData = links.map((link) => this.toGraphLink(link));
+  synchronizeLinks = (links = [], nodes = []) => {
+    const artificialLinks = this.createArtificialLinks(links, nodes);
+    this.graphLinksData = [...links.map((link) => this.toGraphLink(link)), ...artificialLinks];
+  };
+
+  createArtificialLinks = (links = [], nodes = []) => {
+    const lastNodeWithSomeDegree = nodes.reverse().find((n) => n.degree > 0);
+    if (!!lastNodeWithSomeDegree) {
+      return nodes
+        .filter((n) => n.degree === 0)
+        .map((node) =>
+          this.toGraphLink({
+            source: lastNodeWithSomeDegree.id,
+            target: node.id,
+            artificial: true,
+          })
+        );
+    }
+    if (nodes.length > 1) {
+      // No nodes with degree, but nodes. Tie them together!
+      return new Array(nodes.length - 1).fill(undefined).map((value, index) => ({
+        source: nodes[index].id,
+        target: nodes[index + 1].id,
+        artificial: true,
+      }));
+    }
+
+    return [];
   };
 
   markNodesAsSelected = (selectedNodes = []) => {

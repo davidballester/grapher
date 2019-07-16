@@ -435,6 +435,48 @@ describe('Canvas', () => {
     });
   });
 
+  describe('artificial links', () => {
+    it('creates an artificial link between an unlinked node and another node', () => {
+      const unlinkedNode = { id: 'unlinked' };
+      const component = shallow(<Canvas nodes={[...nodes, unlinkedNode]} links={links} />);
+      const graph = component.find(ForceGraph2D);
+      const graphLinks = graph.props().graphData.links;
+      expect(graphLinks).toContainEqual(
+        expect.objectContaining({
+          source: expect.anything(),
+          target: 'unlinked',
+          artificial: true,
+        })
+      );
+    });
+
+    it('does not create an artificial link if there are no unlinked nodes', () => {
+      const component = shallow(<Canvas nodes={nodes} links={links} />);
+      const graph = component.find(ForceGraph2D);
+      const graphLinks = graph.props().graphData.links;
+      expect(graphLinks).not.toContainEqual(
+        expect.objectContaining({
+          artificial: true,
+        })
+      );
+    });
+
+    it('creates an artificial link between two unlinked nodes if there are no more', () => {
+      const unlinkedNodeOne = { id: 'unlinkedNodeOne' };
+      const unlinkedNodeTwo = { id: 'unlinkedNodeTwo' };
+      const component = shallow(<Canvas nodes={[unlinkedNodeOne, unlinkedNodeTwo]} />);
+      const graph = component.find(ForceGraph2D);
+      const graphLinks = graph.props().graphData.links;
+      expect(graphLinks).toEqual([
+        {
+          source: 'unlinkedNodeOne',
+          target: 'unlinkedNodeTwo',
+          artificial: true,
+        },
+      ]);
+    });
+  });
+
   describe('register canvas component', () => {
     it('register the canvas component', () => {
       shallow(<Canvas registerCanvasComponent={registerCanvasComponent} />);
