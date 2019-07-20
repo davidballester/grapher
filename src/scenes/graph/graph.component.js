@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import { Box } from '@material-ui/core';
 
 import ConfirmDeletes from './scenes/confirm-deletes';
 import SelectedItems from './scenes/selection';
@@ -13,21 +15,38 @@ import Groups from './scenes/groups';
 import Canvas from '../../components/canvas';
 
 const styles = (theme) => ({
-  groups: {
+  canvas: {
     position: 'absolute',
-    bottom: theme.spacing(1),
-    left: theme.spacing(1),
-  },
-  content: {
-    position: 'relative',
-  },
-  panels: {
-    position: 'absolute',
+    top: '64px',
     left: 0,
-    top: 0,
-    width: '33%',
-    maxWidth: '400px',
+    width: '100%',
+    height: 'calc(100vh - 64px)',
+  },
+  grid: {
+    position: 'absolute',
+    top: '64px',
+    left: 0,
+    width: '100%',
+    height: 'calc(100vh - 64px)',
+    pointerEvents: 'none',
+  },
+  leftPanel: {
+    padding: theme.spacing(2),
+    height: 'calc(100vh - 64px)',
+    overflow: 'scroll',
+    '& > *': {
+      pointerEvents: 'auto',
+    },
+  },
+  rightPanel: {
+    padding: theme.spacing(2),
     height: '100%',
+    '& > *': {
+      pointerEvents: 'auto',
+    },
+  },
+  selectedItems: {
+    width: '100%',
   },
 });
 
@@ -36,22 +55,29 @@ function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, cl
     loadGraph(graphId);
   }
   return (
-    <React.Fragment>
+    <>
       <Navbar title={graphName} onBack={openGraphList}>
         <ActionsMenu />
       </Navbar>
-      <div className={classes.content}>
-        <Canvas />
-        <div className={classes.panels}>
-          <ConfirmDeletes />
-          <SelectedItems />
-          <EditGraph />
-          <Export />
-          <Groups classes={{ root: classes.groups }} />
-        </div>
-        <Actions />
-      </div>
-    </React.Fragment>
+      <Canvas className={classes.canvas} />
+      <ConfirmDeletes />
+      <EditGraph />
+      <Export />
+      <Grid container classes={{ root: classes.grid }}>
+        <Grid item lg={3} xs={4}>
+          <Box display="flex" alignItems="flex-end" className={classes.leftPanel} flexDirection="column-reverse">
+            <Groups />
+            <SelectedItems className={classes.selectedItems} />
+          </Box>
+        </Grid>
+        <Grid item lg={8} xs={6} />
+        <Grid item lg={1} xs={2}>
+          <Box display="flex" alignItems="flex-end" justifyContent="flex-end" className={classes.rightPanel}>
+            <Actions />
+          </Box>
+        </Grid>
+      </Grid>
+    </>
   );
 }
 

@@ -16,6 +16,9 @@ import ConfirmDelete from './components/confirm-delete.component';
 const styles = {
   root: {
     width: '100%',
+    '&.Mui-expanded': {
+      margin: 0,
+    },
   },
   list: {
     width: '100%',

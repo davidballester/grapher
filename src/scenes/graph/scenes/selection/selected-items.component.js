@@ -5,20 +5,14 @@ import SelectedNodes from './scenes/nodes';
 import SelectedLink from './scenes/links';
 
 const styles = (theme) => ({
-  root: {
-    position: 'absolute',
-    left: theme.spacing(1),
-    top: theme.spacing(1),
-    width: '100%',
-  },
   link: {
     marginBottom: theme.spacing(1),
   },
 });
 
-function SelectedItems({ classes = {} }) {
+function SelectedItems({ classes = {}, className }) {
   return (
-    <div className={classes.root}>
+    <div className={className}>
       <SelectedLink className={classes.link} />
       <SelectedNodes />
     </div>
