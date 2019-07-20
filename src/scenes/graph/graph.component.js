@@ -12,6 +12,7 @@ import ActionsMenu from './components/actions-menu.container';
 import EditGraph from './scenes/edit-graph';
 import Export from './scenes/export';
 import Groups from './scenes/groups';
+import TextEditor from './scenes/text-editor';
 import Canvas from '../../components/canvas';
 
 const styles = (theme) => ({
@@ -20,19 +21,19 @@ const styles = (theme) => ({
     top: '64px',
     left: 0,
     width: '100%',
-    height: 'calc(100vh - 64px)',
+    height: 'calc(100vh - 128px)',
   },
   grid: {
     position: 'absolute',
     top: '64px',
     left: 0,
     width: '100%',
-    height: 'calc(100vh - 64px)',
+    height: 'calc(100vh - 128px)',
     pointerEvents: 'none',
   },
   leftPanel: {
     padding: theme.spacing(2),
-    height: 'calc(100vh - 64px)',
+    height: 'calc(100vh - 128px)',
     overflow: 'scroll',
     '& > *': {
       pointerEvents: 'auto',
@@ -46,6 +47,12 @@ const styles = (theme) => ({
     },
   },
   selectedItems: {
+    width: '100%',
+  },
+  textEditor: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
     width: '100%',
   },
 });
@@ -77,6 +84,7 @@ function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, cl
           </Box>
         </Grid>
       </Grid>
+      <TextEditor className={classes.textEditor} />
     </>
   );
 }
