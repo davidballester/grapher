@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getNodes, getLinks, processSubgraph, closeSubgraphCreator, importSubgraph } from './subgraph-creator.duck';
+import { getNodes, getLinks, processSubgraph, closeSubgraphCreator, importSubgraph } from '../../ducks/subgraph-creator.duck';
 import SubgraphCreator from './subgraph-creator.component';
 import { loadGraph, getId } from '../../ducks/graph';
 

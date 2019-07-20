@@ -3,7 +3,7 @@ import { takeLatest, call, select } from 'redux-saga/effects';
 import history from '../services/history.service';
 import { GRAPH_CREATE, GRAPH_DELETE, getId } from './graph';
 import { GRAPH_IMPORT_SUCCESS } from '../scenes/graph-import/graph-import.duck';
-import { SUBGRAPH_CREATOR_OPEN, SUBGRAPH_CREATOR_CLOSE } from '../scenes/subgraph-creator/subgraph-creator.duck';
+import { SUBGRAPH_CREATOR_OPEN, SUBGRAPH_CREATOR_CLOSE } from './subgraph-creator.duck';
 import { ROUTES } from '../constants';
 
 // Actions

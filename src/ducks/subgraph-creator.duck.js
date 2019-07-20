@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 import { takeLatest, call, put, delay, select } from 'redux-saga/effects';
 
-import graphGrammar from './services/graph-grammar';
-import { importSubgraph as graphImportSubgraph } from '../../ducks/graph';
+import graphGrammar from '../services/graph-grammar';
+import { importSubgraph as graphImportSubgraph } from './graph';
 
 export const SUBGRAPH_CREATOR_OPEN = 'grapher/SubgraphCreator/OPEN';
 export const SUBGRAPH_CREATOR_CLOSE = 'grapher/SubgraphCreator/CLOSE';

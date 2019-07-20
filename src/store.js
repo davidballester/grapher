@@ -9,7 +9,7 @@ import { navigateSaga } from './ducks/navigation.duck';
 import dialogReducer from './ducks/dialog.duck';
 import canvasReducer, { refreshSaga } from './components/canvas/canvas.duck';
 import graphImportReducer, { importGraphSaga } from './scenes/graph-import/graph-import.duck';
-import subgraphCreatorReducer, { subgraphProcessSaga, importSubgraphSaga } from './scenes/subgraph-creator/subgraph-creator.duck';
+import subgraphCreatorReducer, { subgraphProcessSaga, importSubgraphSaga } from './ducks/subgraph-creator.duck';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({

@@ -2,12 +2,12 @@
 import { select, takeLatest, put, delay, call } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
-jest.mock('./services/graph-grammar', () => ({
+jest.mock('../services/graph-grammar', () => ({
   match: jest.fn(),
   eval: jest.fn(),
 }));
 
-import graphGrammar from './services/graph-grammar';
+import graphGrammar from '../services/graph-grammar';
 
 import reducer, {
   SUBGRAPH_CREATOR_OPEN,
@@ -30,7 +30,7 @@ import reducer, {
   importSubgraphSaga,
   doImportSubgraph,
 } from './subgraph-creator.duck';
-import { importSubgraph as graphImportSubgraph } from '../../ducks/graph';
+import { importSubgraph as graphImportSubgraph } from './graph';
 
 describe('subgraph-creator', () => {
   afterEach(() => {
