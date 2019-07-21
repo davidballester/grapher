@@ -47,6 +47,11 @@ describe('graph-grammar', () => {
       const matchResult = graphGrammar.match('(foo)-[qux]->(bar)<-[quux]-(baz)');
       expect(matchResult.succeeded()).toBeTruthy();
     });
+
+    it('matches identifiers with spaces', () => {
+      const matchResult = graphGrammar.match('(foo bar)-[qux quux]->(bar baz)');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
   });
 
   describe('#eval', () => {
@@ -185,6 +190,28 @@ describe('graph-grammar', () => {
           },
           {
             id: 'baz',
+          },
+        ],
+      });
+    });
+
+    it('turns complex labeled paths with spaces in their identifiers into an object properly formed', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(foo bar)-[qux quux]->(bar baz)'));
+      expect(result).toEqual({
+        links: [
+          {
+            id: expect.anything(),
+            label: 'qux quux',
+            source: 'foo bar',
+            target: 'bar baz',
+          },
+        ],
+        nodes: [
+          {
+            id: 'foo bar',
+          },
+          {
+            id: 'bar baz',
           },
         ],
       });

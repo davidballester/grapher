@@ -21,8 +21,8 @@ Grapher {
       | "<-" --backward
 
   identifier
-      = alnum+ --string
-      | identifier space identifier  --withBlanks
+      = identifier space identifier  --withBlanks
+      | alnum+ --string
 
 }
 `;
