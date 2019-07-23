@@ -11,6 +11,7 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
 import SelectSearcher from '../../../../../../components/select-searcher.component';
+import GroupsSelect from '../../components/groups-select.component';
 import './new-link.component.css';
 
 const StyledTextField = withStyles({
@@ -19,17 +20,19 @@ const StyledTextField = withStyles({
   },
 })(TextField);
 
-function NewLink({ isOpen, nodesIds, saveNewLink, cancelNewLink }) {
+function NewLink({ isOpen, nodesIds, groups = [], saveNewLink, cancelNewLink }) {
   const initialValues = {
     label: '',
     source: undefined,
     target: undefined,
+    groups: [],
   };
 
   const LinkSchema = Yup.object().shape({
     label: Yup.string(),
     source: Yup.string().required('Required'),
     target: Yup.string().required('Required'),
+    groups: Yup.array(),
   });
 
   return (
@@ -44,7 +47,7 @@ function NewLink({ isOpen, nodesIds, saveNewLink, cancelNewLink }) {
             label: values.label.trim() !== '' ? values.label : `${values.source}-${values.target}`,
           })
         }
-        render={({ errors, setFieldValue }) => (
+        render={({ errors, setFieldValue, values }) => (
           <Form>
             <DialogContent>
               <Field type="text" label="Label" name="label" component={StyledTextField} error={!!errors.label} />
@@ -60,6 +63,7 @@ function NewLink({ isOpen, nodesIds, saveNewLink, cancelNewLink }) {
                 label="Target"
                 placeholder="Search a node"
               />
+              <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelNewLink} className="cancel" type="button">
