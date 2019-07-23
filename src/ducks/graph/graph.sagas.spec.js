@@ -20,6 +20,7 @@ import {
   GRAPH_GROUPS_ADD,
   GRAPH_GROUPS_REMOVE,
   GRAPH_GROUPS_UPDATE,
+  GRAPH_IMPORT_SUBGRAPH,
 } from './graph.actions';
 import { saveGraph, loadGraphSaga, doLoadGraph, saveGraphSaga, deleteGraphSaga, doDeleteGraph } from './graph.sagas';
 import { graphSelector } from './graph.selectors';
@@ -68,6 +69,7 @@ describe('graph', () => {
               GRAPH_GROUPS_ADD,
               GRAPH_GROUPS_REMOVE,
               GRAPH_GROUPS_UPDATE,
+              GRAPH_IMPORT_SUBGRAPH,
             ],
             saveGraph
           )

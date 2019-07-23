@@ -18,6 +18,7 @@ import {
   GRAPH_GROUPS_REMOVE,
   GRAPH_GROUPS_UPDATE,
   loadGraphSuccess,
+  GRAPH_IMPORT_SUBGRAPH,
 } from './graph.actions';
 
 export function* saveGraph() {
@@ -40,6 +41,7 @@ export function* saveGraphSaga() {
       GRAPH_GROUPS_ADD,
       GRAPH_GROUPS_REMOVE,
       GRAPH_GROUPS_UPDATE,
+      GRAPH_IMPORT_SUBGRAPH,
     ],
     saveGraph
   );
