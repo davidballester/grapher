@@ -23,6 +23,10 @@ const styles = {
   list: {
     width: '100%',
   },
+  content: {
+    maxHeight: '30vh',
+    overflow: 'scroll',
+  },
 };
 
 function Groups({ groups = [], classes = {}, addGroup, removeGroup, updateGroup }) {
@@ -86,7 +90,7 @@ function Groups({ groups = [], classes = {}, addGroup, removeGroup, updateGroup 
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography color="textSecondary">Groups</Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        <ExpansionPanelDetails classes={{ root: classes.content }}>
           {emptyState}
           {list}
         </ExpansionPanelDetails>
