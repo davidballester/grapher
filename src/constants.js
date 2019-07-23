@@ -5,5 +5,4 @@ export const ROUTES = {
   NEW_GRAPH: '/new',
   GRAPH: '/graphs/:graphId',
   IMPORT_GRAPH: '/import',
-  SUBGRAPH_CREATOR: '/graphs/:graphId/subgraph-creator',
 };

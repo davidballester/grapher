@@ -1,9 +1,8 @@
-import { takeLatest, call, select } from 'redux-saga/effects';
+import { takeLatest, call } from 'redux-saga/effects';
 
 import history from '../services/history.service';
-import { GRAPH_CREATE, GRAPH_DELETE, getId } from './graph';
+import { GRAPH_CREATE, GRAPH_DELETE } from './graph';
 import { GRAPH_IMPORT_SUCCESS } from '../scenes/graph-import/graph-import.duck';
-import { SUBGRAPH_CREATOR_OPEN, SUBGRAPH_CREATOR_CLOSE } from './subgraph-creator.duck';
 import { ROUTES } from '../constants';
 
 // Actions
@@ -65,16 +64,6 @@ export function* navigate({ type, payload }) {
       yield call([history, 'push'], `${ROUTES.GRAPHS}/${payload.id}`);
       break;
     }
-    case SUBGRAPH_CREATOR_OPEN: {
-      const graphId = yield select(getId);
-      yield call([history, 'push'], ROUTES.SUBGRAPH_CREATOR.replace(':graphId', graphId));
-      break;
-    }
-    case SUBGRAPH_CREATOR_CLOSE: {
-      const graphId = yield select(getId);
-      yield call([history, 'push'], ROUTES.GRAPH.replace(':graphId', graphId));
-      break;
-    }
     default: {
       break;
     }
@@ -82,18 +71,5 @@ export function* navigate({ type, payload }) {
 }
 
 export function* navigateSaga() {
-  yield takeLatest(
-    [
-      NEW_GRAPH_OPEN,
-      GRAPH_LIST_OPEN,
-      GRAPH_OPEN,
-      GRAPH_CREATE,
-      GRAPH_DELETE,
-      GRAPH_IMPORT_OPEN,
-      GRAPH_IMPORT_SUCCESS,
-      SUBGRAPH_CREATOR_OPEN,
-      SUBGRAPH_CREATOR_CLOSE,
-    ],
-    navigate
-  );
+  yield takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_OPEN, GRAPH_IMPORT_SUCCESS], navigate);
 }

@@ -4,8 +4,6 @@ import { takeLatest, call, put, delay, select } from 'redux-saga/effects';
 import graphGrammar from '../services/graph-grammar';
 import { importSubgraph as graphImportSubgraph } from './graph';
 
-export const SUBGRAPH_CREATOR_OPEN = 'grapher/SubgraphCreator/OPEN';
-export const SUBGRAPH_CREATOR_CLOSE = 'grapher/SubgraphCreator/CLOSE';
 export const SUBGRAPH_PROCESS = 'grapher/SubgraphCreator/PROCESS';
 export const SUBGRAPH_PROCESS_SUCCESS = 'grapher/SubgraphCreator/PROCESS_SUCCESS';
 export const SUBGRAPH_PROCESS_FAILURE = 'grapher/SubgraphCreator/PROCESS_FAILURE';
@@ -45,31 +43,10 @@ export default function reducer(state = initialState, action) {
         processing: false,
       };
     }
-    case SUBGRAPH_CREATOR_CLOSE: {
-      return {
-        ...state,
-        error: false,
-        nodes: [],
-        links: [],
-        groups: [],
-      };
-    }
     default: {
       return state;
     }
   }
-}
-
-export function openSubgraphCreator() {
-  return {
-    type: SUBGRAPH_CREATOR_OPEN,
-  };
-}
-
-export function closeSubgraphCreator() {
-  return {
-    type: SUBGRAPH_CREATOR_CLOSE,
-  };
 }
 
 export function processSubgraph(subgraphString) {
@@ -147,7 +124,6 @@ export function* doImportSubgraph() {
   const links = yield select(getLinks);
   const groups = yield select(getGroups);
   yield put(graphImportSubgraph(nodes, links, groups));
-  yield put(closeSubgraphCreator());
 }
 
 export function* importSubgraphSaga() {

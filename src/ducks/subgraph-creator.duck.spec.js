@@ -10,14 +10,10 @@ jest.mock('../services/graph-grammar', () => ({
 import graphGrammar from '../services/graph-grammar';
 
 import reducer, {
-  SUBGRAPH_CREATOR_OPEN,
-  SUBGRAPH_CREATOR_CLOSE,
   SUBGRAPH_PROCESS,
   SUBGRAPH_PROCESS_SUCCESS,
   SUBGRAPH_PROCESS_FAILURE,
   SUBGRAPH_IMPORT,
-  openSubgraphCreator,
-  closeSubgraphCreator,
   processSubgraph,
   processSubgraphSuccess,
   processSubgraphFailure,
@@ -40,20 +36,6 @@ describe('subgraph-creator', () => {
   });
 
   describe('actions', () => {
-    describe(openSubgraphCreator.name, () => {
-      it('creates the action with the `SUBGRAPH_CREATOR_OPEN` type', () => {
-        const action = openSubgraphCreator();
-        expect(action.type).toEqual(SUBGRAPH_CREATOR_OPEN);
-      });
-    });
-
-    describe(closeSubgraphCreator.name, () => {
-      it('creates the action with the `SUBGRAPH_CREATOR_CLOSE` type', () => {
-        const action = closeSubgraphCreator();
-        expect(action.type).toEqual(SUBGRAPH_CREATOR_CLOSE);
-      });
-    });
-
     describe(processSubgraph.name, () => {
       it('creates the action with the `SUBGRAPH_PROCESS` type', () => {
         const action = processSubgraph();
@@ -172,32 +154,6 @@ describe('subgraph-creator', () => {
         const action = processSubgraphFailure({});
         const state = reducer({ processing: true }, action);
         expect(state.processing).toBeFalsy();
-      });
-    });
-
-    describe('SUBGRAPH_CREATOR_CLOSE', () => {
-      it('sets the error to false', () => {
-        const action = closeSubgraphCreator();
-        const state = reducer(undefined, action);
-        expect(state.error).toBeFalsy();
-      });
-
-      it('empties the nodes', () => {
-        const action = closeSubgraphCreator();
-        const state = reducer(undefined, action);
-        expect(state.nodes).toEqual([]);
-      });
-
-      it('empties the links', () => {
-        const action = closeSubgraphCreator();
-        const state = reducer(undefined, action);
-        expect(state.links).toEqual([]);
-      });
-
-      it('empties the groups', () => {
-        const action = closeSubgraphCreator();
-        const state = reducer(undefined, action);
-        expect(state.groups).toEqual([]);
       });
     });
   });
@@ -368,15 +324,6 @@ describe('subgraph-creator', () => {
         gen.next(nodes);
         gen.next(links);
         expect(gen.next(groups).value).toEqual(put(graphImportSubgraph(nodes, links, groups)));
-      });
-
-      it('puts a closeImportSubgraph action', () => {
-        const gen = cloneableGenerator(doImportSubgraph)();
-        gen.next();
-        gen.next();
-        gen.next();
-        gen.next();
-        expect(gen.next().value).toEqual(put(closeSubgraphCreator()));
       });
     });
   });
