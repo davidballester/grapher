@@ -67,13 +67,18 @@ class GraphGrammar {
           links: nodesAndLinks
             .map((entity, index) => [entity, index])
             .filter(([entity]) => entity.type === 'link')
-            .map(([entity, index]) => ({
-              id: entity.id,
-              label: entity.label,
-              source: entity.direction === 'back' ? nodesAndLinks[index + 1].id : nodesAndLinks[index - 1].id,
-              target: entity.direction === 'back' ? nodesAndLinks[index - 1].id : nodesAndLinks[index + 1].id,
-              groups: !!entity.groups ? entity.groups.map(mapGroup) : undefined,
-            })),
+            .map(([entity, index]) => {
+              const source = entity.direction === 'back' ? nodesAndLinks[index + 1].id : nodesAndLinks[index - 1].id;
+              const target = entity.direction === 'back' ? nodesAndLinks[index - 1].id : nodesAndLinks[index + 1].id;
+              const label = entity.label || `${source}-${target}`;
+              return {
+                id: entity.id,
+                label,
+                source,
+                target,
+                groups: !!entity.groups ? entity.groups.map(mapGroup) : undefined,
+              };
+            }),
           groups: groups.map(mapGroup).filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index),
         };
       },

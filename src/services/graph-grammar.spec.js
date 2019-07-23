@@ -124,12 +124,31 @@ describe('graph-grammar', () => {
       });
     });
 
+    it('creates a link with the specified label', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(foo)-[baz]->(bar)'));
+      expect(result.links).toEqual([
+        expect.objectContaining({
+          label: 'baz',
+        }),
+      ]);
+    });
+
+    it('uses source and target to generate a link label if none is defined', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(foo)->(bar)'));
+      expect(result.links).toEqual([
+        expect.objectContaining({
+          label: 'foo-bar',
+        }),
+      ]);
+    });
+
     it('turns a simple path into an object with two nodes and a link', () => {
       const result = graphGrammar.eval(graphGrammar.match('(foo)->(bar)'));
       expect(result).toEqual({
         links: [
           {
             id: expect.anything(),
+            label: expect.anything(),
             source: 'foo',
             target: 'bar',
           },
@@ -154,11 +173,13 @@ describe('graph-grammar', () => {
             id: expect.anything(),
             source: 'foo',
             target: 'bar',
+            label: expect.anything(),
           },
           {
             id: expect.anything(),
             source: 'baz',
             target: 'bar',
+            label: expect.anything(),
           },
         ],
         nodes: [
@@ -170,29 +191,6 @@ describe('graph-grammar', () => {
           },
           {
             id: 'baz',
-          },
-        ],
-        groups: [],
-      });
-    });
-
-    it('turns a simple labeled path into an object with two nodes and a link', () => {
-      const result = graphGrammar.eval(graphGrammar.match('(foo)-[baz]->(bar)'));
-      expect(result).toEqual({
-        links: [
-          {
-            id: expect.anything(),
-            label: 'baz',
-            source: 'foo',
-            target: 'bar',
-          },
-        ],
-        nodes: [
-          {
-            id: 'foo',
-          },
-          {
-            id: 'bar',
           },
         ],
         groups: [],
@@ -331,6 +329,7 @@ describe('graph-grammar', () => {
         links: [
           {
             id: expect.anything(),
+            label: expect.anything(),
             source: 'foo',
             target: 'bar',
             groups: [
