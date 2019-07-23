@@ -2,12 +2,13 @@ import { connect } from 'react-redux';
 
 import EditLink from './edit-link.component';
 import { getIsOpen, getMetadata, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog.duck';
-import { editLink } from '../../../../../../ducks/graph';
+import { editLink, getGroupsAsArray } from '../../../../../../ducks/graph';
 
 function mapStateToProps(state) {
   return {
     isOpen: getIsOpen(state, DIALOG_IDS.EDIT_LINK),
     link: getMetadata(state, DIALOG_IDS.EDIT_LINK),
+    groups: getGroupsAsArray(state),
   };
 }
 

@@ -10,17 +10,22 @@ import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
+import GroupsSelect from '../../components/groups-select.component';
+
 const StyledTextField = styled(TextField)`
   display: block !important;
 `;
 
-function EditLink({ isOpen, link = {}, editLink, cancelEditLink }) {
+function EditLink({ isOpen, link = {}, groups = [], editLink, cancelEditLink }) {
+  const linkGroups = link.groups || [];
   const initialValues = {
     label: link.label,
+    groups: groups.filter((group) => !!linkGroups.find((linkGroup) => linkGroup.id === group.id)),
   };
 
   const LinkSchema = Yup.object().shape({
     label: Yup.string().required('Required'),
+    groups: Yup.array(),
   });
 
   return (
@@ -30,10 +35,11 @@ function EditLink({ isOpen, link = {}, editLink, cancelEditLink }) {
         initialValues={initialValues}
         validationSchema={LinkSchema}
         onSubmit={(values) => editLink({ ...link, ...values })}
-        render={({ errors }) => (
+        render={({ errors, values, setFieldValue }) => (
           <Form>
             <DialogContent>
               <Field type="text" label="Label" name="label" component={StyledTextField} error={!!errors.label} />
+              <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelEditLink} className="cancel" type="button">
