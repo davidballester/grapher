@@ -9,7 +9,7 @@ const styles = {
   },
 };
 
-function ColorBox({ color, classes }) {
+function ColorBox({ color = '#ccc', classes }) {
   return <div className={classes.root} style={{ backgroundColor: color }} />;
 }
 
