@@ -280,12 +280,26 @@ export default function reducer(state = initialState, action) {
           }),
           {}
         );
+      const links = Object.keys(state.links)
+        .map((linkId) => state.links[linkId])
+        .map((link) => ({
+          ...link,
+          groups: (link.groups || []).filter((lg) => lg.id !== groupId),
+        }))
+        .reduce(
+          (linksMap, link) => ({
+            ...linksMap,
+            [link.id]: link,
+          }),
+          {}
+        );
       return {
         ...state,
         groups: {
           ...newGroups,
         },
         nodes,
+        links,
       };
     }
     case GRAPH_GROUPS_UPDATE: {
@@ -312,6 +326,28 @@ export default function reducer(state = initialState, action) {
           }),
           {}
         );
+      const links = Object.keys(state.links)
+        .map((linkId) => state.links[linkId])
+        .map((link) => {
+          const groups = !!link.groups ? [...link.groups] : [];
+          const groupIndex = groups.findIndex((lg) => lg.id === group.id);
+          if (groupIndex >= 0) {
+            groups.splice(groupIndex, 1);
+            return {
+              ...link,
+              groups: [...groups, group],
+            };
+          } else {
+            return link;
+          }
+        })
+        .reduce(
+          (linksMap, link) => ({
+            ...linksMap,
+            [link.id]: link,
+          }),
+          {}
+        );
       return {
         ...state,
         groups: {
@@ -319,6 +355,7 @@ export default function reducer(state = initialState, action) {
           [group.id]: group,
         },
         nodes,
+        links,
       };
     }
     default: {
