@@ -462,6 +462,324 @@ describe('reducer', () => {
 
       expect(state).toMatchObject(expectedState);
     });
+
+    it('adds the groups in the payload to the state', () => {
+      const groups = [
+        {
+          id: 'foo',
+          name: 'lorem',
+        },
+      ];
+      const action = importSubgraph(undefined, undefined, groups);
+      const initialState = {
+        groups: {
+          bar: {
+            id: 'bar',
+            name: 'ipsum',
+          },
+        },
+      };
+      const expectedState = {
+        groups: {
+          bar: {
+            id: 'bar',
+            name: 'ipsum',
+          },
+          foo: {
+            id: 'foo',
+            name: 'lorem',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('replaces existing groups', () => {
+      const groups = [
+        {
+          id: 'foo',
+          name: 'lorem',
+        },
+      ];
+      const action = importSubgraph(undefined, undefined, groups);
+      const initialState = {
+        groups: {
+          foo: {
+            id: 'foo',
+            name: 'ipsum',
+          },
+        },
+      };
+      const expectedState = {
+        groups: {
+          foo: {
+            id: 'foo',
+            name: 'lorem',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('adds groups to new nodes', () => {
+      const nodes = [
+        {
+          id: 'foo',
+          groups: [
+            {
+              id: 'bar',
+              name: 'bar',
+            },
+          ],
+        },
+      ];
+      const groups = [
+        {
+          id: 'bar',
+          name: 'bar',
+        },
+      ];
+      const action = importSubgraph(nodes, undefined, groups);
+      const initialState = {
+        nodes: {},
+        groups: {},
+      };
+      const expectedState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            groups: [
+              {
+                id: 'bar',
+                name: 'bar',
+              },
+            ],
+          },
+        },
+        groups: {
+          bar: {
+            id: 'bar',
+            name: 'bar',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('adds new groups to existing nodes', () => {
+      const nodes = [
+        {
+          id: 'foo',
+          groups: [
+            {
+              id: 'bar',
+              name: 'bar',
+            },
+          ],
+        },
+      ];
+      const groups = [
+        {
+          id: 'bar',
+          name: 'bar',
+        },
+      ];
+      const action = importSubgraph(nodes, undefined, groups);
+      const initialState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+          },
+        },
+        groups: {},
+      };
+      const expectedState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            groups: [
+              {
+                id: 'bar',
+                name: 'bar',
+              },
+            ],
+          },
+        },
+        groups: {
+          bar: {
+            id: 'bar',
+            name: 'bar',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('uses existing groups in new nodes', () => {
+      const nodes = [
+        {
+          id: 'foo',
+          groups: [
+            {
+              id: 'bar',
+              name: 'bar',
+            },
+          ],
+        },
+      ];
+      const groups = [
+        {
+          id: 'bar',
+          name: 'bar',
+        },
+      ];
+      const action = importSubgraph(nodes, undefined, groups);
+      const initialState = {
+        nodes: {},
+        groups: {
+          baz: {
+            id: 'baz',
+            name: 'bar',
+          },
+        },
+      };
+      const expectedState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            groups: [
+              {
+                id: 'baz',
+                name: 'bar',
+              },
+            ],
+          },
+        },
+        groups: {
+          baz: {
+            id: 'baz',
+            name: 'bar',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('adds groups to links', () => {
+      const links = [
+        {
+          id: 'foo',
+          groups: [
+            {
+              id: 'bar',
+              name: 'bar',
+            },
+          ],
+        },
+      ];
+      const groups = [
+        {
+          id: 'bar',
+          name: 'bar',
+        },
+      ];
+      const action = importSubgraph(undefined, links, groups);
+      const initialState = {
+        links: {},
+        groups: {},
+      };
+      const expectedState = {
+        links: {
+          foo: {
+            id: 'foo',
+            groups: [
+              {
+                id: 'bar',
+                name: 'bar',
+              },
+            ],
+          },
+        },
+        groups: {
+          bar: {
+            id: 'bar',
+            name: 'bar',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('uses existing groups in new links', () => {
+      const links = [
+        {
+          id: 'foo',
+          groups: [
+            {
+              id: 'bar',
+              name: 'bar',
+            },
+          ],
+        },
+      ];
+      const groups = [
+        {
+          id: 'bar',
+          name: 'bar',
+        },
+      ];
+      const action = importSubgraph(undefined, links, groups);
+      const initialState = {
+        links: {},
+        groups: {
+          baz: {
+            id: 'baz',
+            name: 'bar',
+          },
+        },
+      };
+      const expectedState = {
+        links: {
+          foo: {
+            id: 'foo',
+            groups: [
+              {
+                id: 'baz',
+                name: 'bar',
+              },
+            ],
+          },
+        },
+        groups: {
+          baz: {
+            id: 'baz',
+            name: 'bar',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
   });
 
   describe(GRAPH_GROUPS_ADD, () => {

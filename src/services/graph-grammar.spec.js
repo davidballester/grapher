@@ -2,6 +2,11 @@ import { fail } from 'assert';
 
 import graphGrammar from './graph-grammar';
 
+jest.mock('uuid/v4', () => ({
+  __esModule: true,
+  default: () => 'uuid',
+}));
+
 describe('graph-grammar', () => {
   beforeAll(async () => {
     await graphGrammar.initialize();
@@ -52,6 +57,31 @@ describe('graph-grammar', () => {
       const matchResult = graphGrammar.match('(foo bar)-[qux quux]->(bar baz)');
       expect(matchResult.succeeded()).toBeTruthy();
     });
+
+    it('matches nodes with a single group', () => {
+      const matchResult = graphGrammar.match('(foo:bar)');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches nodes with multiple groups', () => {
+      const matchResult = graphGrammar.match('(foo:bar:baz quux)');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches links with groups', () => {
+      const matchResult = graphGrammar.match('(foo)-[bar:baz]->(qux)');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches links with multiple groups', () => {
+      const matchResult = graphGrammar.match('(foo)-[bar:baz:qux quux]->(corge)');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches links with multiple groups without identifiers', () => {
+      const matchResult = graphGrammar.match('(foo)-[:baz:qux quux]->(corge)');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
   });
 
   describe('#eval', () => {
@@ -72,6 +102,7 @@ describe('graph-grammar', () => {
             id: 'foo',
           },
         ],
+        groups: [],
       });
     });
 
@@ -89,6 +120,7 @@ describe('graph-grammar', () => {
             id: 'baz',
           },
         ],
+        groups: [],
       });
     });
 
@@ -110,6 +142,7 @@ describe('graph-grammar', () => {
             id: 'bar',
           },
         ],
+        groups: [],
       });
     });
 
@@ -139,6 +172,7 @@ describe('graph-grammar', () => {
             id: 'baz',
           },
         ],
+        groups: [],
       });
     });
 
@@ -161,6 +195,7 @@ describe('graph-grammar', () => {
             id: 'bar',
           },
         ],
+        groups: [],
       });
     });
 
@@ -192,6 +227,7 @@ describe('graph-grammar', () => {
             id: 'baz',
           },
         ],
+        groups: [],
       });
     });
 
@@ -212,6 +248,169 @@ describe('graph-grammar', () => {
           },
           {
             id: 'bar baz',
+          },
+        ],
+        groups: [],
+      });
+    });
+
+    it('turns a single node with a group into a node and a group', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(foo:bar)'));
+      expect(result).toEqual({
+        nodes: [
+          {
+            id: 'foo',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'bar',
+              },
+            ],
+          },
+        ],
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'bar',
+          },
+        ],
+      });
+    });
+
+    it('turns two nodes with repeated groups into a node and non-repeated groups', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(foo:bar:baz)(qux:bar:quux)'));
+      expect(result).toEqual({
+        nodes: [
+          {
+            id: 'foo',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'bar',
+              },
+              {
+                id: expect.anything(),
+                name: 'baz',
+              },
+            ],
+          },
+          {
+            id: 'qux',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'bar',
+              },
+              {
+                id: expect.anything(),
+                name: 'quux',
+              },
+            ],
+          },
+        ],
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'bar',
+          },
+          {
+            id: expect.anything(),
+            name: 'baz',
+          },
+          {
+            id: expect.anything(),
+            name: 'quux',
+          },
+        ],
+      });
+    });
+
+    it('turns a simple path with groups into those nodes, link and groups', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(foo)-[:qux]->(bar)'));
+      expect(result).toEqual({
+        links: [
+          {
+            id: expect.anything(),
+            source: 'foo',
+            target: 'bar',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'qux',
+              },
+            ],
+          },
+        ],
+        nodes: [
+          {
+            id: 'foo',
+          },
+          {
+            id: 'bar',
+          },
+        ],
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'qux',
+          },
+        ],
+      });
+    });
+
+    it('turns a complex path with groups a well-formed graph', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(foo:bar baz)-[qux:quux]->(corge:bar baz:grault)'));
+      expect(result).toEqual({
+        links: [
+          {
+            id: expect.anything(),
+            source: 'foo',
+            target: 'corge',
+            label: 'qux',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'quux',
+              },
+            ],
+          },
+        ],
+        nodes: [
+          {
+            id: 'foo',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'bar baz',
+              },
+            ],
+          },
+          {
+            id: 'corge',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'bar baz',
+              },
+              {
+                id: expect.anything(),
+                name: 'grault',
+              },
+            ],
+          },
+        ],
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'bar baz',
+          },
+          {
+            id: expect.anything(),
+            name: 'quux',
+          },
+          {
+            id: expect.anything(),
+            name: 'grault',
           },
         ],
       });

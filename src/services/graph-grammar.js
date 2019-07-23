@@ -1,5 +1,7 @@
 import * as ohm from 'ohm-js';
-import flatten from 'lodash/flatten';
+import _flattenDeep from 'lodash/flattenDeep';
+import _omitBy from 'lodash/omitBy';
+import _isNil from 'lodash/isNil';
 import uuid from 'uuid/v4';
 
 const grammar = `
@@ -12,13 +14,20 @@ Grapher {
   partialPath = node link
 
   node
-      = "(" identifier ")"
+      = "(" identifier ")" --nodeNoGroups
+      | "(" identifier groups ")" --nodeGroups
 
   link
       = "-[" identifier "]->" --forwardWithLabel
       | "<-[" identifier "]-" --backwardWithLabel
+      | "-[" identifier? groups "]->" --forwardGroups
+      | "<-[" identifier? groups "]-" --backwardGroups
       | "->" --forward
       | "<-" --backward
+
+  groups
+      = groups+ --multipleGroups
+      | ":" identifier --singleGroup
 
   identifier
       = identifier space identifier  --withBlanks
@@ -26,6 +35,21 @@ Grapher {
 
 }
 `;
+
+const mapGroup = (group) => {
+  return {
+    id: uuid(),
+    name: group.name,
+  };
+};
+const mapNode = (node) =>
+  _omitBy(
+    {
+      id: node.id,
+      groups: !!node.groups ? node.groups.map(mapGroup) : undefined,
+    },
+    _isNil
+  );
 
 class GraphGrammar {
   grammar;
@@ -35,56 +59,121 @@ class GraphGrammar {
     this.grammar = ohm.grammar(grammar);
     this.semantics = this.grammar.createSemantics().addOperation('eval', {
       path_partials: (partialPaths, node) => {
-        const entities = flatten([...partialPaths.eval(), node.eval()]);
+        const entities = _flattenDeep([...partialPaths.eval(), node.eval()]);
+        const groups = entities.filter(({ type }) => type === 'group');
+        const nodesAndLinks = entities.filter(({ type }) => type !== 'group');
         return {
-          nodes: entities
-            .filter((entity) => entity.type === 'node')
-            .map((node) => ({
-              id: node.id,
-            })),
-          links: entities
+          nodes: nodesAndLinks.filter((entity) => entity.type === 'node').map(mapNode),
+          links: nodesAndLinks
             .map((entity, index) => [entity, index])
             .filter(([entity]) => entity.type === 'link')
             .map(([entity, index]) => ({
               id: entity.id,
               label: entity.label,
-              source: entity.direction === 'back' ? entities[index + 1].id : entities[index - 1].id,
-              target: entity.direction === 'back' ? entities[index - 1].id : entities[index + 1].id,
+              source: entity.direction === 'back' ? nodesAndLinks[index + 1].id : nodesAndLinks[index - 1].id,
+              target: entity.direction === 'back' ? nodesAndLinks[index - 1].id : nodesAndLinks[index + 1].id,
+              groups: !!entity.groups ? entity.groups.map(mapGroup) : undefined,
             })),
+          groups: groups.map(mapGroup).filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index),
         };
       },
-      path_nodes: (nodes) => ({
-        nodes: nodes.eval().map((node) => ({
-          id: node.id,
-        })),
-      }),
-      partialPath: (node, link) => [node.eval(), link.eval()],
-      node: (open, identifier, close) => ({
-        type: 'node',
-        id: identifier.eval(),
-      }),
-      link_forwardWithLabel: (open, identifier, close) => ({
-        type: 'link',
-        direction: 'forth',
-        label: identifier.eval(),
-        id: uuid(),
-      }),
-      link_backwardWithLabel: (close, identifier, open) => ({
-        type: 'link',
-        direction: 'back',
-        label: identifier.eval(),
-        id: uuid(),
-      }),
-      link_forward: (chars) => ({
-        type: 'link',
-        direction: 'forth',
-        id: uuid(),
-      }),
-      link_backward: (chars) => ({
-        type: 'link',
-        direction: 'back',
-        id: uuid(),
-      }),
+      path_nodes: (nodes) => {
+        const entities = _flattenDeep(nodes.eval());
+        return {
+          nodes: entities.filter(({ type }) => type === 'node').map(mapNode),
+          groups: entities
+            .filter(({ type }) => type === 'group')
+            .map(mapGroup)
+            .filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index),
+        };
+      },
+      partialPath: (node, link) => _flattenDeep([node.eval(), link.eval()]),
+      node_nodeNoGroups: (open, identifier, close) => [
+        {
+          type: 'node',
+          id: identifier.eval(),
+        },
+      ],
+      node_nodeGroups: (open, identifier, groups, close) => {
+        const groupsArray = groups.eval();
+        return [
+          {
+            type: 'node',
+            id: identifier.eval(),
+            groups: groupsArray.map(mapGroup),
+          },
+          ...groupsArray,
+        ];
+      },
+      link_forwardWithLabel: (open, identifier, close) => [
+        {
+          type: 'link',
+          direction: 'forth',
+          label: identifier.eval(),
+          id: uuid(),
+        },
+      ],
+      link_backwardWithLabel: (close, identifier, open) => [
+        {
+          type: 'link',
+          direction: 'back',
+          label: identifier.eval(),
+          id: uuid(),
+        },
+      ],
+      link_forwardGroups: (open, identifier, groups, close) => {
+        const groupsArray = groups.eval();
+        return [
+          _omitBy(
+            {
+              type: 'link',
+              direction: 'forth',
+              label: !!identifier ? identifier.eval()[0] : undefined,
+              id: uuid(),
+              groups: groupsArray.map(mapGroup),
+            },
+            _isNil
+          ),
+          ...groupsArray,
+        ];
+      },
+      link_backwardGroups: (close, identifier, groups, open) => {
+        const groupsArray = groups.eval();
+        return [
+          _omitBy(
+            {
+              type: 'link',
+              direction: 'back',
+              label: !!identifier ? identifier.eval()[0] : undefined,
+              id: uuid(),
+              groups: groupsArray.map(mapGroup),
+            },
+            _isNil
+          ),
+          ...groupsArray,
+        ];
+      },
+      link_forward: (chars) => [
+        {
+          type: 'link',
+          direction: 'forth',
+          id: uuid(),
+        },
+      ],
+      link_backward: (chars) => [
+        {
+          type: 'link',
+          direction: 'back',
+          id: uuid(),
+        },
+      ],
+      groups_singleGroup: (colon, identifier) => [
+        {
+          type: 'group',
+          name: identifier.eval(),
+        },
+      ],
+      groups_multipleGroups: (groups) => _flattenDeep(groups.eval()),
       identifier_string: function(chars) {
         return this.sourceString;
       },

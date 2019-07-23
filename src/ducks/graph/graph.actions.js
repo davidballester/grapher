@@ -104,12 +104,13 @@ export function editLink(link) {
   };
 }
 
-export function importSubgraph(nodes = [], links = []) {
+export function importSubgraph(nodes = [], links = [], groups = []) {
   return {
     type: GRAPH_IMPORT_SUBGRAPH,
     payload: {
       nodes,
       links,
+      groups,
     },
   };
 }

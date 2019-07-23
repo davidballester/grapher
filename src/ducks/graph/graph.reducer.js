@@ -195,20 +195,48 @@ export default function reducer(state = initialState, action) {
     }
     case GRAPH_IMPORT_SUBGRAPH: {
       const { nodes, links } = action.payload;
-      const nodesAsObject = nodes.reduce(
-        (obj, node) => ({
+      let { groups } = action.payload;
+
+      // Use existing groups for groups based on name
+      groups = groups.map((group) => {
+        const existingGroup = Object.values(state.groups).find(({ name }) => name === group.name);
+        return !!existingGroup ? existingGroup : group;
+      });
+
+      const groupsAsObject = groups.reduce(
+        (obj, group) => ({
           ...obj,
-          [node.id]: node,
+          [group.id]: group,
         }),
         {}
       );
-      const linksAsObject = links.reduce(
-        (obj, link) => ({
-          ...obj,
-          [link.id]: link,
-        }),
-        {}
-      );
+      const nodesAsObject = nodes
+        .map((node) => ({
+          ...node,
+          // Use groups from the existing groups
+          groups: (node.groups || []).map((group) => groups.find(({ name }) => name === group.name)),
+        }))
+        .reduce(
+          (obj, node) => ({
+            ...obj,
+            [node.id]: node,
+          }),
+          {}
+        );
+      const linksAsObject = links
+        .map((link) => ({
+          ...link,
+          // Use groups from the existing groups
+          groups: (link.groups || []).map((group) => groups.find(({ name }) => name === group.name)),
+        }))
+        .reduce(
+          (obj, link) => ({
+            ...obj,
+            [link.id]: link,
+          }),
+          {}
+        );
+
       return {
         ...state,
         nodes: {
@@ -218,6 +246,10 @@ export default function reducer(state = initialState, action) {
         links: {
           ...state.links,
           ...linksAsObject,
+        },
+        groups: {
+          ...state.groups,
+          ...groupsAsObject,
         },
       };
     }

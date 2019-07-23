@@ -14,17 +14,19 @@ export const SUBGRAPH_IMPORT = 'grapher/SubgraphCreator/IMPORT';
 const initialState = {
   nodes: [],
   links: [],
+  groups: [],
   error: false,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SUBGRAPH_PROCESS_SUCCESS: {
-      const { nodes, links } = action.payload;
+      const { nodes, links, groups } = action.payload;
       return {
         ...state,
         nodes,
         links,
+        groups,
         error: false,
       };
     }
@@ -40,6 +42,7 @@ export default function reducer(state = initialState, action) {
         error: false,
         nodes: [],
         links: [],
+        groups: [],
       };
     }
     default: {
@@ -105,6 +108,11 @@ export const getLinks = createSelector(
   (state) => state.links
 );
 
+export const getGroups = createSelector(
+  subgraphCreatorSelector,
+  (state) => state.groups
+);
+
 export function* subgraphProcess({ payload: subgraphString }) {
   yield delay(500);
   const matchResult = yield call([graphGrammar, 'match'], subgraphString);
@@ -123,7 +131,8 @@ export function* subgraphProcessSaga() {
 export function* doImportSubgraph() {
   const nodes = yield select(getNodes);
   const links = yield select(getLinks);
-  yield put(graphImportSubgraph(nodes, links));
+  const groups = yield select(getGroups);
+  yield put(graphImportSubgraph(nodes, links, groups));
   yield put(closeSubgraphCreator());
 }
 

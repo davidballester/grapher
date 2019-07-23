@@ -203,11 +203,12 @@ describe('actions', () => {
       expect(action.type).toEqual(GRAPH_IMPORT_SUBGRAPH);
     });
 
-    it('creates the action with the nodes and links provided as payload', () => {
+    it('creates the action with the nodes, links and groups provided as payload', () => {
       const nodes = { foo: 'bar' };
       const links = { bar: 'baz' };
-      const action = importSubgraph(nodes, links);
-      expect(action.payload).toEqual({ nodes, links });
+      const groups = { baz: 'qux' };
+      const action = importSubgraph(nodes, links, groups);
+      expect(action.payload).toEqual({ nodes, links, groups });
     });
   });
 

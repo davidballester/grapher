@@ -25,6 +25,7 @@ import reducer, {
   getError,
   getNodes,
   getLinks,
+  getGroups,
   subgraphProcessSaga,
   subgraphProcess,
   importSubgraphSaga,
@@ -113,6 +114,15 @@ describe('subgraph-creator', () => {
         expect(state.links).toEqual(subgraph.links);
       });
 
+      it('sets the groups to the ones in the payload', () => {
+        const subgraph = {
+          groups: [{ id: 'foo' }, { id: 'bar' }],
+        };
+        const action = processSubgraphSuccess(subgraph);
+        const state = reducer(undefined, action);
+        expect(state.groups).toEqual(subgraph.groups);
+      });
+
       it('sets the error to false', () => {
         const subgraph = {};
         const action = processSubgraphSuccess(subgraph);
@@ -128,16 +138,18 @@ describe('subgraph-creator', () => {
         expect(state.error).toBeTruthy();
       });
 
-      it('does not modify the nodes or the links', () => {
+      it('does not modify the nodes, the links or the groups', () => {
         const initialState = {
           nodes: [{ id: 'foo' }],
           links: [{ id: 'bar' }],
+          groups: [{ id: 'baz' }],
         };
         const action = processSubgraphFailure();
         const state = reducer(initialState, action);
         expect(state).toMatchObject({
           nodes: initialState.nodes,
           links: initialState.links,
+          groups: initialState.groups,
         });
       });
     });
@@ -159,6 +171,12 @@ describe('subgraph-creator', () => {
         const action = closeSubgraphCreator();
         const state = reducer(undefined, action);
         expect(state.links).toEqual([]);
+      });
+
+      it('empties the groups', () => {
+        const action = closeSubgraphCreator();
+        const state = reducer(undefined, action);
+        expect(state.groups).toEqual([]);
       });
     });
   });
@@ -205,6 +223,22 @@ describe('subgraph-creator', () => {
         };
         const links = getLinks(appState);
         expect(links).toEqual(appState.subgraphCreator.links);
+      });
+    });
+
+    describe(getGroups.name, () => {
+      it('extracts the groups from subgraph creator the substate', () => {
+        const appState = {
+          subgraphCreator: {
+            groups: [
+              {
+                id: 'foo',
+              },
+            ],
+          },
+        };
+        const groups = getGroups(appState);
+        expect(groups).toEqual(appState.subgraphCreator.groups);
       });
     });
   });
@@ -285,17 +319,27 @@ describe('subgraph-creator', () => {
         expect(gen.next().value).toEqual(select(getLinks));
       });
 
-      it('puts a graphImportSubgraph action with the selected nodes and links', () => {
+      it('selects groups', () => {
+        const gen = cloneableGenerator(doImportSubgraph)();
+        gen.next();
+        gen.next();
+        expect(gen.next().value).toEqual(select(getGroups));
+      });
+
+      it('puts a graphImportSubgraph action with the selected nodes, links and groups', () => {
         const nodes = { foo: 'bar' };
         const links = { bar: 'baz' };
+        const groups = { baz: 'qux' };
         const gen = cloneableGenerator(doImportSubgraph)();
         gen.next();
         gen.next(nodes);
-        expect(gen.next(links).value).toEqual(put(graphImportSubgraph(nodes, links)));
+        gen.next(links);
+        expect(gen.next(groups).value).toEqual(put(graphImportSubgraph(nodes, links, groups)));
       });
 
       it('puts a closeImportSubgraph action', () => {
         const gen = cloneableGenerator(doImportSubgraph)();
+        gen.next();
         gen.next();
         gen.next();
         gen.next();
