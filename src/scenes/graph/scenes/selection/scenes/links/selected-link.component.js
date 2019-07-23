@@ -5,11 +5,23 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Chip from '@material-ui/core/Chip';
+import { withStyles } from '@material-ui/core/styles';
 
-function SelectedLink({ link, openConfirmDeleteLink, openEditLink, className }) {
+const styles = (theme) => ({
+  chip: {
+    marginRight: theme.spacing(1),
+  },
+});
+
+function SelectedLink({ link, openConfirmDeleteLink, openEditLink, className, classes }) {
   if (!link) {
     return null;
   }
+
+  const badges = (link.groups || []).map((group) => (
+    <Chip key={group.id} label={group.name} size="small" color="secondary" className={classes.chip} />
+  ));
 
   return (
     <Card className={className}>
@@ -20,6 +32,7 @@ function SelectedLink({ link, openConfirmDeleteLink, openEditLink, className }) 
         <Typography component="h2" variant="h5">
           {link.label}
         </Typography>
+        {badges}
       </CardContent>
       <CardActions>
         <Button className="delete" size="small" onClick={() => openConfirmDeleteLink(link.id)}>
@@ -43,4 +56,4 @@ SelectedLink.propTypes = {
   className: PropTypes.string,
 };
 
-export default SelectedLink;
+export default withStyles(styles, { withTheme: true })(SelectedLink);
