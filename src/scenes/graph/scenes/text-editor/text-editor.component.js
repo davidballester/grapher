@@ -16,7 +16,7 @@ const styles = (theme) => ({
   },
 });
 
-function TextEditor({ processSubgraph, importSubgraph, error = false, className, classes }) {
+function TextEditor({ processSubgraph, importSubgraph, error = false, processing = false, className, classes }) {
   return (
     <Formik
       initialValues={initialValues}
@@ -46,7 +46,7 @@ function TextEditor({ processSubgraph, importSubgraph, error = false, className,
                 fullWidth
               />
             </Box>
-            <IconButton type="submit" color="primary">
+            <IconButton type="submit" color="primary" disabled={processing}>
               <SendIcon />
             </IconButton>
           </Box>
