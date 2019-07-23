@@ -15,11 +15,18 @@ const initialState = {
   nodes: [],
   links: [],
   groups: [],
+  processing: false,
   error: false,
 };
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case SUBGRAPH_PROCESS: {
+      return {
+        ...state,
+        processing: true,
+      };
+    }
     case SUBGRAPH_PROCESS_SUCCESS: {
       const { nodes, links, groups } = action.payload;
       return {
@@ -28,12 +35,14 @@ export default function reducer(state = initialState, action) {
         links,
         groups,
         error: false,
+        processing: false,
       };
     }
     case SUBGRAPH_PROCESS_FAILURE: {
       return {
         ...state,
         error: true,
+        processing: false,
       };
     }
     case SUBGRAPH_CREATOR_CLOSE: {
@@ -111,6 +120,11 @@ export const getLinks = createSelector(
 export const getGroups = createSelector(
   subgraphCreatorSelector,
   (state) => state.groups
+);
+
+export const getProcessing = createSelector(
+  subgraphCreatorSelector,
+  (state) => state.processing
 );
 
 export function* subgraphProcess({ payload: subgraphString }) {

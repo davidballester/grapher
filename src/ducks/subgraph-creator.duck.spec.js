@@ -30,6 +30,7 @@ import reducer, {
   subgraphProcess,
   importSubgraphSaga,
   doImportSubgraph,
+  getProcessing,
 } from './subgraph-creator.duck';
 import { importSubgraph as graphImportSubgraph } from './graph';
 
@@ -95,6 +96,14 @@ describe('subgraph-creator', () => {
   });
 
   describe(reducer.name, () => {
+    describe('SUBGRAPH_PROCESS', () => {
+      it('sets the processing flag to true', () => {
+        const action = processSubgraph();
+        const state = reducer({ processing: false }, action);
+        expect(state.processing).toBeTruthy();
+      });
+    });
+
     describe('SUBGRAPH_PROCESS_SUCCESS', () => {
       it('sets the nodes to the ones in the payload', () => {
         const subgraph = {
@@ -129,6 +138,12 @@ describe('subgraph-creator', () => {
         const state = reducer(undefined, action);
         expect(state.error).toBeFalsy();
       });
+
+      it('sets the processing to false', () => {
+        const action = processSubgraphSuccess({});
+        const state = reducer({ processing: true }, action);
+        expect(state.processing).toBeFalsy();
+      });
     });
 
     describe('SUBGRAPH_PROCESS_FAILURE', () => {
@@ -151,6 +166,12 @@ describe('subgraph-creator', () => {
           links: initialState.links,
           groups: initialState.groups,
         });
+      });
+
+      it('sets the processing to false', () => {
+        const action = processSubgraphFailure({});
+        const state = reducer({ processing: true }, action);
+        expect(state.processing).toBeFalsy();
       });
     });
 
@@ -239,6 +260,18 @@ describe('subgraph-creator', () => {
         };
         const groups = getGroups(appState);
         expect(groups).toEqual(appState.subgraphCreator.groups);
+      });
+    });
+
+    describe(getProcessing.name, () => {
+      it('extracts the processing from subgraph creator the substate', () => {
+        const appState = {
+          subgraphCreator: {
+            processing: true,
+          },
+        };
+        const processing = getProcessing(appState);
+        expect(processing).toBeTruthy();
       });
     });
   });
