@@ -211,11 +211,19 @@ export default function reducer(state = initialState, action) {
         {}
       );
       const nodesAsObject = nodes
-        .map((node) => ({
-          ...node,
-          // Use groups from the existing groups
-          groups: (node.groups || []).map((group) => groups.find(({ name }) => name === group.name)),
-        }))
+        .map((node) => {
+          const existingNode = state.nodes[node.id] || {};
+          // Use groups from the existing groups and merge them with current ones, if any
+          const nodeGroups = [
+            ...(existingNode.groups || []),
+            ...(node.groups || []).map((group) => groups.find(({ name }) => name === group.name)),
+          ].filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index);
+          return {
+            ...existingNode,
+            ...node,
+            groups: nodeGroups,
+          };
+        })
         .reduce(
           (obj, node) => ({
             ...obj,

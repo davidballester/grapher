@@ -780,6 +780,65 @@ describe('reducer', () => {
 
       expect(state).toMatchObject(expectedState);
     });
+
+    it('uses existing nodes and preserves their properties', () => {
+      const nodes = [
+        {
+          id: 'foo',
+          groups: [
+            {
+              id: 'bar',
+              name: 'bar',
+            },
+          ],
+        },
+      ];
+      const groups = [
+        {
+          id: 'bar',
+          name: 'bar',
+        },
+      ];
+      const action = importSubgraph(nodes, undefined, groups);
+      const initialState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            color: 'qux',
+            groups: [
+              {
+                id: 'baz',
+                name: 'baz',
+              },
+            ],
+          },
+        },
+        groups: {
+          baz: {
+            id: 'baz',
+            name: 'baz',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+      expect(state.nodes).toEqual({
+        foo: {
+          id: 'foo',
+          color: 'qux',
+          groups: [
+            {
+              id: 'baz',
+              name: 'baz',
+            },
+            {
+              id: 'bar',
+              name: 'bar',
+            },
+          ],
+        },
+      });
+    });
   });
 
   describe(GRAPH_GROUPS_ADD, () => {
