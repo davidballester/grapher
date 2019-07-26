@@ -102,7 +102,6 @@ export default function reducer(state = initialState, action) {
     }
     case GRAPH_LOAD_SUCCESS: {
       return {
-        ...state,
         ...action.payload,
       };
     }

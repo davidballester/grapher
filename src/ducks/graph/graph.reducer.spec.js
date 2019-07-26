@@ -102,7 +102,6 @@ describe('reducer', () => {
       const action = loadGraphSuccess(graph);
       const state = reducer(initialState, action);
       expect(state).toEqual({
-        ...initialState,
         ...graph,
       });
     });
