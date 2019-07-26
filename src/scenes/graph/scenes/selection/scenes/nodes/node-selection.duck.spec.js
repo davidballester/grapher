@@ -7,8 +7,7 @@ import {
   getNonExistentLinkBetweenSelectedNodes,
 } from './node-selection.duck';
 import reducer from './node-selection.duck';
-import linksService from '../../../../../../services/links.service';
-import { getLinks, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from '../../../../../../ducks/graph';
+import { getLinksAsArray, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from '../../../../../../ducks/graph';
 
 jest.mock('../../../../../../ducks/graph');
 
@@ -149,12 +148,6 @@ describe('node-selection', () => {
   });
 
   describe(getNonExistentLinkBetweenSelectedNodes.name, () => {
-    let getIdSpy;
-
-    beforeEach(() => {
-      getIdSpy = jest.spyOn(linksService, 'getId');
-    });
-
     it('returns `undefined` if there are no selected nodes', () => {
       const response = getNonExistentLinkBetweenSelectedNodes({
         nodeSelection: {
@@ -183,25 +176,36 @@ describe('node-selection', () => {
     });
 
     it('returns `undefined` if there are 2 selected nodes and a link between the two', () => {
-      getLinks.mockReturnValue({ foo: {} });
-      getIdSpy.mockReturnValue('foo');
+      getLinksAsArray.mockReturnValue([
+        {
+          source: 'foo',
+          target: 'bar',
+        },
+      ]);
       const response = getNonExistentLinkBetweenSelectedNodes({
         nodeSelection: {
-          selectedNodes: [{}, {}],
+          selectedNodes: [
+            {
+              id: 'foo',
+            },
+            {
+              id: 'bar',
+            },
+          ],
         },
       });
       expect(response).toBeUndefined();
     });
 
     it('returns a link from the first selected node to the second if there are no links between them', () => {
-      getIdSpy.mockReturnValue('foo');
+      getLinksAsArray.mockReturnValue([]);
       const response = getNonExistentLinkBetweenSelectedNodes({
         nodeSelection: {
           selectedNodes: [{ id: 'baz' }, { id: 'qux' }],
         },
       });
       expect(response).toEqual({
-        id: 'foo',
+        id: expect.anything(),
         source: 'baz',
         target: 'qux',
       });
