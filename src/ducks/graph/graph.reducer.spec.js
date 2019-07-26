@@ -4,13 +4,6 @@ jest.mock('uuid/v4', () => ({
   default: () => 'uuid',
 }));
 
-jest.mock('../../services/links.service', () => ({
-  __esModule: true,
-  default: {
-    getId: jest.fn(),
-  },
-}));
-import linksService from '../../services/links.service';
 import {
   setGraphName,
   createGraph,
@@ -128,12 +121,6 @@ describe('reducer', () => {
   });
 
   describe('GRAPH_CREATE_LINK', () => {
-    const linkId = 'corge';
-
-    beforeEach(() => {
-      linksService.getId.mockReturnValue(linkId);
-    });
-
     afterEach(() => {
       jest.resetAllMocks();
     });
@@ -148,11 +135,52 @@ describe('reducer', () => {
       };
       const expectedState = {
         links: {
-          [linkId]: {
-            id: linkId,
-            label: linkId,
+          uuid: {
+            id: 'uuid',
+            label: expect.anything(),
             ...link,
           },
+        },
+      };
+      const action = createLink(link);
+      const state = reducer(initialState, action);
+      expect(state).toEqual(expectedState);
+    });
+
+    it('uses the label in the payload', () => {
+      const link = {
+        label: 'baz',
+        source: 'foo',
+        target: 'bar',
+      };
+      const initialState = {
+        links: {},
+      };
+      const expectedState = {
+        links: {
+          uuid: expect.objectContaining({
+            label: 'baz',
+          }),
+        },
+      };
+      const action = createLink(link);
+      const state = reducer(initialState, action);
+      expect(state).toEqual(expectedState);
+    });
+
+    it('uses a default label if none is provided', () => {
+      const link = {
+        source: 'foo',
+        target: 'bar',
+      };
+      const initialState = {
+        links: {},
+      };
+      const expectedState = {
+        links: {
+          uuid: expect.objectContaining({
+            label: 'foo-bar',
+          }),
         },
       };
       const action = createLink(link);
@@ -307,14 +335,13 @@ describe('reducer', () => {
           baz: { id: 'baz' },
         },
         links: {
-          'baz-bar': {
-            id: 'baz-bar',
+          'foo-bar': {
+            id: 'foo-bar',
             source: 'baz',
             target: 'bar',
           },
         },
       };
-      linksService.getId.mockReturnValue('baz-bar');
 
       const action = editNode('foo', { id: 'baz' });
       const state = reducer(initialState, action);
@@ -344,7 +371,6 @@ describe('reducer', () => {
           },
         },
       };
-      linksService.getId.mockReturnValue('foo-bar');
 
       const action = editNode('foo', { id: 'foo' });
       const state = reducer(initialState, action);

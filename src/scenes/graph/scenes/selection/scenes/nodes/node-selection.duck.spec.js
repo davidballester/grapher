@@ -205,7 +205,6 @@ describe('node-selection', () => {
         },
       });
       expect(response).toEqual({
-        id: expect.anything(),
         source: 'baz',
         target: 'qux',
       });

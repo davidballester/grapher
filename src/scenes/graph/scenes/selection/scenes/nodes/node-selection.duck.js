@@ -78,7 +78,7 @@ export const getNonExistentLinkBetweenSelectedNodes = createSelector(
       const [source, target] = selectedNodes.map((n) => n.id);
       const link = links.find(({ source: ls, target: lt }) => ls === source && lt === target);
       if (!link) {
-        return { id: `${source}-${target}`, source, target };
+        return { source, target };
       }
     }
   }
