@@ -32,12 +32,14 @@ const styles = (theme) => ({
     pointerEvents: 'none',
   },
   leftPanel: {
-    padding: theme.spacing(2),
     height: 'calc(100vh - 128px)',
+    padding: theme.spacing(2),
+  },
+  leftPanelContent: {
     overflow: 'scroll',
-    '& > *': {
-      pointerEvents: 'auto',
-    },
+    pointerEvents: 'auto',
+    width: '100%',
+    maxHeight: '100%',
   },
   rightPanel: {
     padding: theme.spacing(2),
@@ -72,9 +74,11 @@ function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, cl
       <Export />
       <Grid container classes={{ root: classes.grid }}>
         <Grid item lg={3} xs={4}>
-          <Box display="flex" alignItems="flex-end" className={classes.leftPanel} flexDirection="column-reverse">
-            <Groups />
-            <SelectedItems className={classes.selectedItems} />
+          <Box display="flex" alignItems="flex-end" className={classes.leftPanel}>
+            <Box className={classes.leftPanelContent}>
+              <SelectedItems className={classes.selectedItems} />
+              <Groups />
+            </Box>
           </Box>
         </Grid>
         <Grid item lg={8} xs={6} />
