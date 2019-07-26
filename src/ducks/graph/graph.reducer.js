@@ -1,4 +1,5 @@
-import linksService from '../../services/links.service';
+import uuid from 'uuid/v4';
+
 import {
   GRAPH_SET_NAME,
   GRAPH_CREATE,
@@ -102,7 +103,6 @@ export default function reducer(state = initialState, action) {
     }
     case GRAPH_LOAD_SUCCESS: {
       return {
-        ...state,
         ...action.payload,
       };
     }
@@ -131,14 +131,14 @@ export default function reducer(state = initialState, action) {
     }
     case GRAPH_CREATE_LINK: {
       const link = action.payload;
-      const linkId = linksService.getId(link);
+      const linkId = uuid();
       return {
         ...state,
         links: {
           ...state.links,
           [linkId]: {
             id: linkId,
-            label: linkId,
+            label: `${link.source}-${link.target}`,
             ...link,
           },
         },
@@ -165,14 +165,12 @@ export default function reducer(state = initialState, action) {
               ...link,
               source: node.id,
             };
-            link.id = linksService.getId(link);
           }
           if (link.target === oldId) {
             link = {
               ...link,
               target: node.id,
             };
-            link.id = linksService.getId(link);
           }
           return link;
         })

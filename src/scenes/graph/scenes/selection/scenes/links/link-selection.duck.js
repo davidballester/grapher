@@ -1,5 +1,4 @@
 import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK } from '../../../../../../ducks/graph';
-import linksService from '../../../../../../services/links.service';
 
 export const LINK_SELECTION_SELECT = 'grapher/LinkSelection/SELECT';
 export const LINK_SELECTION_DESELECT = 'grapher/LinkSelection/DESELECT';
@@ -46,7 +45,6 @@ export default function reducer(state = initialState, action) {
           source: state.selectedLink.source === oldId ? node.id : state.selectedLink.source,
           target: state.selectedLink.target === oldId ? node.id : state.selectedLink.target,
         };
-        selectedLink.id = linksService.getId(selectedLink);
       }
       return {
         ...state,
