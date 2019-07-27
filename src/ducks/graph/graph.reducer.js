@@ -230,11 +230,20 @@ export default function reducer(state = initialState, action) {
           {}
         );
       const linksAsObject = links
-        .map((link) => ({
-          ...link,
-          // Use groups from the existing groups
-          groups: (link.groups || []).map((group) => groups.find(({ name }) => name === group.name)),
-        }))
+        .map((link) => {
+          const existingLink = Object.values(state.links).find(({ source, target }) => source === link.source && target === link.target) || {};
+          // Use groups from the existing groups and merge them with current ones, if any
+          const linkGroups = [
+            ...(existingLink.groups || []),
+            ...(link.groups || []).map((group) => groups.find(({ name }) => name === group.name)),
+          ].filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index);
+          return {
+            ...existingLink,
+            ...link,
+            groups: linkGroups,
+            id: existingLink.id || link.id,
+          };
+        })
         .reduce(
           (obj, link) => ({
             ...obj,

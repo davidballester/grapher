@@ -462,6 +462,8 @@ describe('reducer', () => {
       const links = [
         {
           id: 'foo',
+          source: 'baz',
+          target: 'qux',
         },
       ];
       const action = importSubgraph(undefined, links);
@@ -479,6 +481,43 @@ describe('reducer', () => {
           },
           foo: {
             id: 'foo',
+            source: 'baz',
+            target: 'qux',
+          },
+        },
+      };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('replaces existing links', () => {
+      const nodes = [
+        {
+          id: 'foo',
+          source: 'bar',
+          target: 'baz',
+          qux: 'quux',
+        },
+      ];
+      const action = importSubgraph(nodes);
+      const initialState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            source: 'bar',
+            target: 'baz',
+          },
+        },
+      };
+      const expectedState = {
+        nodes: {
+          foo: {
+            id: 'foo',
+            source: 'bar',
+            target: 'baz',
+            qux: 'quux',
           },
         },
       };
@@ -800,6 +839,63 @@ describe('reducer', () => {
           },
         },
       };
+
+      const state = reducer(initialState, action);
+
+      expect(state).toMatchObject(expectedState);
+    });
+
+    it('adds new groups to existing links', () => {
+      const links = [
+        {
+          id: 'foo',
+          source: 'bar',
+          target: 'baz',
+          groups: [
+            {
+              id: 'qux',
+              name: 'qux',
+            },
+          ],
+        },
+      ];
+      const groups = [
+        {
+          id: 'qux',
+          name: 'qux',
+          quux: 'corge',
+        },
+      ];
+      const initialState = {
+        links: {
+          foo: {
+            id: 'foo',
+          },
+        },
+        groups: {},
+      };
+      const expectedState = {
+        links: {
+          foo: {
+            id: 'foo',
+            source: 'bar',
+            target: 'baz',
+            groups: [
+              {
+                id: 'qux',
+                name: 'qux',
+              },
+            ],
+          },
+        },
+        groups: {
+          qux: {
+            id: 'qux',
+            name: 'qux',
+          },
+        },
+      };
+      const action = importSubgraph(undefined, links, groups);
 
       const state = reducer(initialState, action);
 
