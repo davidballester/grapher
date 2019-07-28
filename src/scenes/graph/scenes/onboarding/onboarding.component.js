@@ -11,8 +11,7 @@ import AddNodesAndLinks from './components/add-nodes-and-links.component';
 import Groups from './components/groups.component';
 import TextEditor from './components/text-editor.component';
 import Title from './components/title.component';
-
-const dismissedOnboardingLocalStorageKey = 'grapher/onboarding/dimissed';
+import { isDismissed, markAsDismissed } from './onboarding.service';
 
 const styles = (theme) => ({
   stepper: {
@@ -31,7 +30,7 @@ const styles = (theme) => ({
 });
 
 const Onboarding = ({ classes }) => {
-  const [open, setOpen] = useState(localStorage.getItem(dismissedOnboardingLocalStorageKey) !== 'true');
+  const [open, setOpen] = useState(isDismissed());
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -46,7 +45,7 @@ const Onboarding = ({ classes }) => {
     <Dialog open={open}>
       <Title
         onClose={() => {
-          localStorage.setItem(dismissedOnboardingLocalStorageKey, 'true');
+          markAsDismissed();
           setOpen(false);
         }}
       >
