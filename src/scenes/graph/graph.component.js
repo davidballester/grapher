@@ -14,6 +14,7 @@ import Export from './scenes/export';
 import Groups from './scenes/groups';
 import TextEditor from './scenes/text-editor';
 import Canvas from '../../components/canvas';
+import Onboarding from './scenes/onboarding';
 
 const styles = (theme) => ({
   canvas: {
@@ -68,10 +69,11 @@ function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, cl
       <Navbar title={graphName} onBack={openGraphList}>
         <ActionsMenu />
       </Navbar>
-      <Canvas className={classes.canvas} />
       <ConfirmDeletes />
       <EditGraph />
       <Export />
+      <Onboarding />
+      <Canvas className={classes.canvas} />
       <Grid container classes={{ root: classes.grid }}>
         <Grid item lg={3} xs={4}>
           <Box display="flex" alignItems="flex-end" className={classes.leftPanel}>
