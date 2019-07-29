@@ -1,7 +1,15 @@
 import { takeLatest, call } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
-import reducer, { ONBOARDING_DISMISS, dismissOnboarding, isOpen, doPersistDismiss, persistDismiss } from './onboarding.duck';
+import reducer, {
+  ONBOARDING_DISMISS,
+  dismissOnboarding,
+  ONBOARDING_SHOW,
+  showOnboarding,
+  isOpen,
+  doPersistDismiss,
+  persistDismiss,
+} from './onboarding.duck';
 import { markAsDismissed } from './onboarding.service';
 
 jest.mock('./onboarding.service', () => ({
@@ -21,6 +29,13 @@ describe('onboarding.duck', () => {
         expect(action.type).toEqual(ONBOARDING_DISMISS);
       });
     });
+
+    describe(showOnboarding.name, () => {
+      it('creates the action with the ONBOARDING_SHOW type', () => {
+        const action = showOnboarding();
+        expect(action.type).toEqual(ONBOARDING_SHOW);
+      });
+    });
   });
 
   describe('reducer', () => {
@@ -29,6 +44,14 @@ describe('onboarding.duck', () => {
         const action = dismissOnboarding();
         const state = reducer({ open: true }, action);
         expect(state.open).toEqual(false);
+      });
+    });
+
+    describe('ONBOARDING_SHOW', () => {
+      it('sets open to true', () => {
+        const action = showOnboarding();
+        const state = reducer({ open: false }, action);
+        expect(state.open).toEqual(true);
       });
     });
   });

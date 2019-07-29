@@ -7,6 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = (theme) => ({
@@ -15,7 +16,7 @@ const styles = (theme) => ({
   },
 });
 
-function ActionsMenu({ graphName, openEditGraph, openConfirmDeleteGraph, openExport, classes, ...props }) {
+function ActionsMenu({ graphName, openEditGraph, openConfirmDeleteGraph, openExport, showOnboarding, classes, ...props }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   function handleClick(event) {
@@ -66,6 +67,18 @@ function ActionsMenu({ graphName, openEditGraph, openConfirmDeleteGraph, openExp
             <DeleteIcon />
           </ListItemIcon>
           Delete
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            showOnboarding();
+            handleClose();
+          }}
+        >
+          <ListItemIcon>
+            <HelpOutlineIcon />
+          </ListItemIcon>
+          Help
         </MenuItem>
       </Menu>
     </React.Fragment>

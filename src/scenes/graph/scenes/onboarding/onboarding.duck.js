@@ -5,9 +5,14 @@ import { isDismissed, markAsDismissed } from './onboarding.service';
 
 // Actions
 export const ONBOARDING_DISMISS = 'grapher/Onboarding/DISMISS';
+export const ONBOARDING_SHOW = 'grapher/Onboarding/SHOW';
 
 export const dismissOnboarding = () => ({
   type: ONBOARDING_DISMISS,
+});
+
+export const showOnboarding = () => ({
+  type: ONBOARDING_SHOW,
 });
 
 // Reducer
@@ -21,6 +26,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         open: false,
+      };
+    }
+    case ONBOARDING_SHOW: {
+      return {
+        ...state,
+        open: true,
       };
     }
     default: {
