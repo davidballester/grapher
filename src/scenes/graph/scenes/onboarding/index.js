@@ -1,1 +1,1 @@
-export { default } from './onboarding.component';
+export { default } from './onboarding.container';

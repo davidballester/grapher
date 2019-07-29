@@ -10,6 +10,7 @@ import dialogReducer from './ducks/dialog.duck';
 import canvasReducer, { refreshSaga } from './components/canvas/canvas.duck';
 import graphImportReducer, { importGraphSaga } from './scenes/graph-import/graph-import.duck';
 import subgraphCreatorReducer, { subgraphProcessSaga, importSubgraphSaga } from './ducks/subgraph-creator.duck';
+import onboardingReducer, { persistDismiss } from './scenes/graph/scenes/onboarding/onboarding.duck';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   canvas: canvasReducer,
   graphImport: graphImportReducer,
   subgraphCreator: subgraphCreatorReducer,
+  onboarding: onboardingReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
@@ -32,3 +34,4 @@ sagaMiddleware.run(refreshSaga);
 sagaMiddleware.run(importGraphSaga);
 sagaMiddleware.run(subgraphProcessSaga);
 sagaMiddleware.run(importSubgraphSaga);
+sagaMiddleware.run(persistDismiss);

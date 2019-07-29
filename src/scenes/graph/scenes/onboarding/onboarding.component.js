@@ -11,7 +11,6 @@ import AddNodesAndLinks from './components/add-nodes-and-links.component';
 import Groups from './components/groups.component';
 import TextEditor from './components/text-editor.component';
 import Title from './components/title.component';
-import { isDismissed, markAsDismissed } from './onboarding.service';
 
 const styles = (theme) => ({
   stepper: {
@@ -29,8 +28,7 @@ const styles = (theme) => ({
   },
 });
 
-const Onboarding = ({ classes }) => {
-  const [open, setOpen] = useState(isDismissed());
+const Onboarding = ({ open, dismiss, classes }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -43,14 +41,7 @@ const Onboarding = ({ classes }) => {
 
   return (
     <Dialog open={open}>
-      <Title
-        onClose={() => {
-          markAsDismissed();
-          setOpen(false);
-        }}
-      >
-        Welcome to Grapher!
-      </Title>
+      <Title onClose={dismiss}>Welcome to Grapher!</Title>
       <Introduction hidden={activeStep !== 0} className={classes.step} />
       <AddNodesAndLinks hidden={activeStep !== 1} className={classes.step} />
       <Groups hidden={activeStep !== 2} className={classes.step} />
