@@ -1,4 +1,5 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![CircleCI](https://circleci.com/gh/davidballester/grapher/tree/master.svg?style=svg)](https://circleci.com/gh/davidballester/grapher/tree/master)
 
 # Grapher
 
@@ -28,7 +29,7 @@ Graphs are stored in your [browser's local storage](https://developer.mozilla.or
 
 You can download a JSON version of your graph that you can then use to import the graph again into grapher. Use that feature as backup method.
 
-____
+---
 
 <small>This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).</small>
 
