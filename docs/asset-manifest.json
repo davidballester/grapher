@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3f5e497b.chunk.css",
+    "main.js": "/static/js/main.a1671ee5.chunk.js",
+    "main.js.map": "/static/js/main.a1671ee5.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.404228a9.chunk.js": "/static/js/2.404228a9.chunk.js",
+    "static/js/2.404228a9.chunk.js.map": "/static/js/2.404228a9.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.5a62ef31168870258990e3a6f47a2306.js": "/precache-manifest.5a62ef31168870258990e3a6f47a2306.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.3f5e497b.chunk.css.map": "/static/css/main.3f5e497b.chunk.css.map",
+    "static/media/onboarding-add-nodes-and-links.png": "/static/media/onboarding-add-nodes-and-links.914f6f6c.png",
+    "static/media/onboarding-groups.png": "/static/media/onboarding-groups.68c8615e.png",
+    "static/media/onboarding-introduction.png": "/static/media/onboarding-introduction.63f30b76.png",
+    "static/media/onboarding-text-editor.png": "/static/media/onboarding-text-editor.0e6bebf0.png"
+  }
+}
