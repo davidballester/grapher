@@ -29,6 +29,16 @@ And run it
 npm start
 ```
 
+## Deployment
+
+There's an npm script to deploy to Netlify:
+
+```
+npm run deploy
+```
+
+It requires an env variable, `NETLIFY_SITE_ID` set to the ID of the Netlify site to deploy to.
+
 ## Storage
 
 Graphs are stored in your [browser's local storage](https://developer.mozilla.org/es/docs/Web/API/Window/localStorage). Because of that, it can be considered volatile, so be careful!
