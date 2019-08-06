@@ -36,18 +36,8 @@ jobs:
       # run tests!
       - run: npm run test
 
-      # build
-      - run: npm run build
-
-      # preare docs folder for github pages
-      - run: cp -r build docs
-
-      # commit github pages folder
-      - run: git config credential.helper 'cache --timeout=120'
-      - run: git config user.email "david.ballester.mena@gmail.com"
-      - run: git config user.name "Deployment Bot"
-      - run: git add docs
-      - run: 'git commit -m "docs: update github docs"'
+      # deploy to netlify
+      - run: npm run deploy
 
       # release
       - run: npx semantic-release
