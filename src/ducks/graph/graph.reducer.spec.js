@@ -69,12 +69,16 @@ describe('reducer', () => {
         links: {
           bar: {},
         },
+        groups: {
+          baz: {},
+        },
       };
       const expectedState = {
         id: 'uuid',
         name: '',
         nodes: {},
         links: {},
+        groups: {},
       };
       const action = createGraph({});
       const state = reducer(initialState, action);

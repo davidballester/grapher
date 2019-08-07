@@ -98,6 +98,7 @@ export default function reducer(state = initialState, action) {
         name: '',
         nodes: {},
         links: {},
+        groups: {},
         ...graph,
       };
     }
