@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 
-import renderNode from './services/node-renderer.service';
+import { renderNode, getNodeColor } from './services/node-renderer.service';
 import { getLinkColor } from './services/link-renderer.service';
 
 const updateDimensions = (setDimensions, containerRef) => {
@@ -169,6 +169,8 @@ export default ({
         enableNodeDrag={true}
         nodeCanvasObject={renderNode}
         nodeLabel="id"
+        nodeColor={getNodeColor}
+        nodeCanvasObjectMode={() => 'before'}
         linkDirectionalArrowLength={5}
         linkDirectionalArrowRelPos={1}
         linkColor={getLinkColor}
