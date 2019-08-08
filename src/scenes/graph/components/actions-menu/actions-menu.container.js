@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 
 import ActionsMenu from './actions-menu.component';
-import { openDialog, DIALOG_IDS } from '../../../ducks/dialog.duck';
-import { getName } from '../../../ducks/graph';
-import { showOnboarding } from '../scenes/onboarding/onboarding.duck';
+import { openDialog, DIALOG_IDS } from '../../../../ducks/dialog.duck';
+import { getName } from '../../../../ducks/graph';
+import { showOnboarding } from '../onboarding/onboarding.duck';
 
 function mapStateToProps(state) {
   return {

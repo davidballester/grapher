@@ -3,14 +3,14 @@ import createSagaMiddleware from 'redux-saga';
 
 import graphListReducer from './scenes/graph-list/graph-list.duck';
 import graphReducer, { saveGraphSaga, loadGraphSaga, deleteGraphSaga } from './ducks/graph';
-import nodeSelectionReducer from './scenes/graph/scenes/selection/scenes/nodes/node-selection.duck';
-import linkSelectionReducer from './scenes/graph/scenes/selection/scenes/links/link-selection.duck';
+import nodeSelectionReducer from './scenes/graph/components/selection/scenes/nodes/node-selection.duck';
+import linkSelectionReducer from './scenes/graph/components/selection/scenes/links/link-selection.duck';
 import { navigateSaga } from './ducks/navigation.duck';
 import dialogReducer from './ducks/dialog.duck';
 import canvasReducer, { refreshSaga } from './components/canvas/canvas.duck';
 import graphImportReducer, { importGraphSaga } from './scenes/graph-import/graph-import.duck';
 import subgraphCreatorReducer, { subgraphProcessSaga, importSubgraphSaga } from './ducks/subgraph-creator.duck';
-import onboardingReducer, { persistDismiss } from './scenes/graph/scenes/onboarding/onboarding.duck';
+import onboardingReducer, { persistDismiss } from './scenes/graph/components/onboarding/onboarding.duck';
 
 const sagaMiddleware = createSagaMiddleware();
 const reducer = combineReducers({

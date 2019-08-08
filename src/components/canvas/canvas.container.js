@@ -9,8 +9,8 @@ import {
   deselectNode,
   getSelectedNodes,
   getNonExistentLinkBetweenSelectedNodes,
-} from '../../scenes/graph/scenes/selection/scenes/nodes/node-selection.duck';
-import { getSelectedLink, selectLink, deselectLink } from '../../scenes/graph/scenes/selection/scenes/links/link-selection.duck';
+} from '../../scenes/graph/components/selection/scenes/nodes/node-selection.duck';
+import { getSelectedLink, selectLink, deselectLink } from '../../scenes/graph/components/selection/scenes/links/link-selection.duck';
 import { registerCanvasComponent } from './canvas.duck';
 
 function mapStateToProps(state) {

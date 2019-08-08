@@ -4,17 +4,17 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Box } from '@material-ui/core';
 
-import ConfirmDeletes from './scenes/confirm-deletes';
-import SelectedItems from './scenes/selection';
-import Actions from './scenes/actions';
+import ConfirmDeletes from './components/confirm-deletes';
+import SelectedItems from './components/selection';
+import Actions from './components/actions';
 import Navbar from '../../components/navbar';
-import ActionsMenu from './components/actions-menu.container';
-import EditGraph from './scenes/edit-graph';
-import Export from './scenes/export';
-import Groups from './scenes/groups';
-import TextEditor from './scenes/text-editor';
+import ActionsMenu from './components/actions-menu';
+import EditGraph from './components/edit-graph';
+import Export from './components/export';
+import Groups from './components/groups';
+import TextEditor from './components/text-editor';
 import Canvas from '../../components/canvas';
-import Onboarding from './scenes/onboarding';
+import Onboarding from './components/onboarding';
 
 const styles = (theme) => ({
   canvas: {
