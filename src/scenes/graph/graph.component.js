@@ -75,7 +75,7 @@ function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, cl
       <Onboarding />
       <Canvas className={classes.canvas} />
       <Grid container classes={{ root: classes.grid }}>
-        <Grid item lg={3} xs={4}>
+        <Grid item lg={3} sm={4} xs={6}>
           <Box display="flex" alignItems="flex-end" className={classes.leftPanel}>
             <Box className={classes.leftPanelContent}>
               <SelectedItems className={classes.selectedItems} />
@@ -83,8 +83,8 @@ function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, cl
             </Box>
           </Box>
         </Grid>
-        <Grid item lg={8} xs={6} />
-        <Grid item lg={1} xs={2}>
+        <Grid item lg={8} sm={6} xs={4} />
+        <Grid item lg={1} sm={2} xs={2}>
           <Box display="flex" alignItems="flex-end" justifyContent="flex-end" className={classes.rightPanel}>
             <Actions />
           </Box>
