@@ -63,7 +63,9 @@ function NewLink({ isOpen, nodesIds, groups = [], saveNewLink, cancelNewLink }) 
                 label="Target"
                 placeholder="Search a node"
               />
-              <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
+              {!!groups.length && (
+                <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
+              )}
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelNewLink} className="cancel" type="button">

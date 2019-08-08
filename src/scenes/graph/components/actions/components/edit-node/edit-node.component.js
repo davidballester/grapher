@@ -50,7 +50,9 @@ function EditNode({ isOpen, node = {}, nodesIds = [], groups = [], editNode, can
             <DialogContent>
               <Field type="text" label="ID" name="id" component={StyledTextField} error={!!errors.id} />
               <ToggleColorPicker color={values.color} colors={colors} onChange={(color) => setFieldValue('color', color)} />
-              <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
+              {!!groups.length && (
+                <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
+              )}
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelEditNode} className="cancel" type="button">

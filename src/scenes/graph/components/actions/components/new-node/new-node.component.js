@@ -32,7 +32,9 @@ export default function NewNode({ isOpen, groups = [], saveNewNode, cancelNewNod
           <Form>
             <DialogContent>
               <Field type="text" label="ID" name="id" component={TextField} error={!!errors.id} />
-              <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
+              {!!groups.length && (
+                <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
+              )}
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelNewNode} className="cancel" type="button">

@@ -34,7 +34,9 @@ function EditLink({ isOpen, link = {}, groups = [], editLink, cancelEditLink }) 
           <Form>
             <DialogContent>
               <Field type="text" label="Label" name="label" component={TextField} error={!!errors.label} />
-              <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
+              {!!groups.length && (
+                <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
+              )}
             </DialogContent>
             <DialogActions>
               <Button onClick={cancelEditLink} className="cancel" type="button">
