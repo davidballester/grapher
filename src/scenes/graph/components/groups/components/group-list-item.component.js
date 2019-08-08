@@ -9,17 +9,22 @@ import { withStyles } from '@material-ui/core/styles';
 
 import ColorBox from './color-box.component';
 
-const styles = {
+const styles = (theme) => ({
+  icon: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
   text: {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
-};
+});
 
 const GroupListItemComponent = ({ group, onDelete, onEdit, classes }) => (
   <ListItem button onClick={() => onEdit(group)}>
-    <ListItemIcon>
+    <ListItemIcon classes={{ root: classes.icon }}>
       <ColorBox color={group.color} />
     </ListItemIcon>
     <ListItemText primary={group.name} classes={{ root: classes.text }} />
@@ -31,4 +36,4 @@ const GroupListItemComponent = ({ group, onDelete, onEdit, classes }) => (
   </ListItem>
 );
 
-export default withStyles(styles)(GroupListItemComponent);
+export default withStyles(styles, { withTheme: true })(GroupListItemComponent);
