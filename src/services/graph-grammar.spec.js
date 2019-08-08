@@ -28,11 +28,6 @@ describe('graph-grammar', () => {
       expect(matchResult.succeeded()).toBeTruthy();
     });
 
-    it('matches multiple nodes', () => {
-      const matchResult = graphGrammar.match('(foo)(bar)(baz)');
-      expect(matchResult.succeeded()).toBeTruthy();
-    });
-
     it('matches simple paths', () => {
       const matchResult = graphGrammar.match('(foo)->(bar)');
       expect(matchResult.succeeded()).toBeTruthy();
@@ -100,24 +95,6 @@ describe('graph-grammar', () => {
         nodes: [
           {
             id: 'foo',
-          },
-        ],
-        groups: [],
-      });
-    });
-
-    it('turns multiple nodes into an object with a multiple nodes', () => {
-      const result = graphGrammar.eval(graphGrammar.match('(foo)(bar)(baz)'));
-      expect(result).toEqual({
-        nodes: [
-          {
-            id: 'foo',
-          },
-          {
-            id: 'bar',
-          },
-          {
-            id: 'baz',
           },
         ],
         groups: [],
@@ -270,54 +247,6 @@ describe('graph-grammar', () => {
           {
             id: expect.anything(),
             name: 'bar',
-          },
-        ],
-      });
-    });
-
-    it('turns two nodes with repeated groups into a node and non-repeated groups', () => {
-      const result = graphGrammar.eval(graphGrammar.match('(foo:bar:baz)(qux:bar:quux)'));
-      expect(result).toEqual({
-        nodes: [
-          {
-            id: 'foo',
-            groups: [
-              {
-                id: expect.anything(),
-                name: 'bar',
-              },
-              {
-                id: expect.anything(),
-                name: 'baz',
-              },
-            ],
-          },
-          {
-            id: 'qux',
-            groups: [
-              {
-                id: expect.anything(),
-                name: 'bar',
-              },
-              {
-                id: expect.anything(),
-                name: 'quux',
-              },
-            ],
-          },
-        ],
-        groups: [
-          {
-            id: expect.anything(),
-            name: 'bar',
-          },
-          {
-            id: expect.anything(),
-            name: 'baz',
-          },
-          {
-            id: expect.anything(),
-            name: 'quux',
           },
         ],
       });

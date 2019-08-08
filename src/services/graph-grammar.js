@@ -9,7 +9,7 @@ Grapher {
 
   path
       = partialPath+ node --partials
-      | node+ --nodes
+      | node --node
 
   partialPath = node link
 
@@ -82,8 +82,8 @@ class GraphGrammar {
           groups: groups.map(mapGroup).filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index),
         };
       },
-      path_nodes: (nodes) => {
-        const entities = _flattenDeep(nodes.eval());
+      path_node: (node) => {
+        const entities = node.eval();
         return {
           nodes: entities.filter(({ type }) => type === 'node').map(mapNode),
           groups: entities
