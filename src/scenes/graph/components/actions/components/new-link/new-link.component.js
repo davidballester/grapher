@@ -11,7 +11,7 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
 import SelectSearcher from '../../../../../../components/select-searcher.component';
-import GroupsSelect from '../../components/groups-select.component';
+import GroupsSelect from '../groups-select.component';
 import './new-link.component.css';
 
 const StyledTextField = withStyles({

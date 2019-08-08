@@ -9,7 +9,7 @@ import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
-import GroupsSelect from '../../components/groups-select.component';
+import GroupsSelect from '../groups-select.component';
 
 function EditLink({ isOpen, link = {}, groups = [], editLink, cancelEditLink }) {
   const linkGroups = link.groups || [];

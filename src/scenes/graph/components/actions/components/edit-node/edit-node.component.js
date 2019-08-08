@@ -12,7 +12,7 @@ import { red, purple, blue, green, yellow, orange, brown, grey } from '@material
 import { withStyles } from '@material-ui/core/styles';
 
 import ToggleColorPicker from '../../../../../../components/toggle-color-picker.component';
-import GroupsSelect from '../../components/groups-select.component';
+import GroupsSelect from '../groups-select.component';
 
 const StyledTextField = withStyles({
   root: {
