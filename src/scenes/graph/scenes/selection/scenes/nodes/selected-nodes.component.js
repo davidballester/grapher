@@ -1,16 +1,17 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import styled from 'styled-components';
+import { withStyles } from '@material-ui/core/styles';
 
 import SelectedNode from './components';
 
-export const StyledSelectedNode = styled(SelectedNode)`
-  margin-bottom: 1rem;
-`;
+const styles = (theme) => ({
+  selectedNode: {
+    marginBottom: theme.spacing(1),
+  },
+});
 
-function SelectedNodes({ nodes = [], ...props }) {
-  return nodes.map((node) => <StyledSelectedNode key={node.id} node={node} {...props} />);
-}
+const SelectedNodes = ({ nodes = [], classes, ...props }) =>
+  nodes.map((node) => <SelectedNode key={node.id} node={node} className={classes.selectedNode} {...props} />);
 
 SelectedNodes.propTypes = {
   nodes: PropTypes.arrayOf(
@@ -22,4 +23,4 @@ SelectedNodes.propTypes = {
   openEditNode: PropTypes.func.isRequired,
 };
 
-export default SelectedNodes;
+export default withStyles(styles, { withTheme: true })(SelectedNodes);

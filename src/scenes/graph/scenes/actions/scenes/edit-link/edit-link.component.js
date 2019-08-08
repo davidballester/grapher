@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -11,10 +10,6 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 
 import GroupsSelect from '../../components/groups-select.component';
-
-const StyledTextField = styled(TextField)`
-  display: block !important;
-`;
 
 function EditLink({ isOpen, link = {}, groups = [], editLink, cancelEditLink }) {
   const linkGroups = link.groups || [];
@@ -38,7 +33,7 @@ function EditLink({ isOpen, link = {}, groups = [], editLink, cancelEditLink }) 
         render={({ errors, values, setFieldValue }) => (
           <Form>
             <DialogContent>
-              <Field type="text" label="Label" name="label" component={StyledTextField} error={!!errors.label} />
+              <Field type="text" label="Label" name="label" component={TextField} error={!!errors.label} />
               <GroupsSelect groups={groups} selectedGroups={values.groups} onChange={(selectedGroups) => setFieldValue('groups', selectedGroups)} />
             </DialogContent>
             <DialogActions>

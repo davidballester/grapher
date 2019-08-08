@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,13 +9,16 @@ import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { red, purple, blue, green, yellow, orange, brown, grey } from '@material-ui/core/colors';
+import { withStyles } from '@material-ui/core/styles';
 
 import ToggleColorPicker from '../../../../../../components/toggle-color-picker.component';
 import GroupsSelect from '../../components/groups-select.component';
 
-const StyledTextField = styled(TextField)`
-  display: block !important;
-`;
+const StyledTextField = withStyles({
+  root: {
+    display: 'block',
+  },
+})(TextField);
 
 const colors = [red['A200'], purple['A200'], blue['A200'], green['A200'], yellow['A200'], orange['A200'], brown['500'], grey['500']];
 
