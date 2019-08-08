@@ -1,16 +1,16 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = {
+const styles = (theme) => ({
   root: {
     borderRadius: '2px',
-    width: '1rem',
-    height: '1rem',
+    width: theme.spacing(2),
+    height: theme.spacing(2),
   },
-};
+});
 
 function ColorBox({ color = '#ccc', classes }) {
   return <div className={classes.root} style={{ backgroundColor: color }} />;
 }
 
-export default withStyles(styles)(ColorBox);
+export default withStyles(styles, { withTheme: true })(ColorBox);
