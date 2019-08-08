@@ -1,5 +1,5 @@
 import blue from '@material-ui/core/colors/blue';
-import orange from '@material-ui/core/colors/orange';
+import * as color from 'color';
 
 export function getNodeColor(node) {
   const nodeColor = node.color;
@@ -15,12 +15,18 @@ export function renderNode(node, ctx, globalScale) {
 }
 
 function renderSelectedCircle(node, ctx) {
-  const color = node.color === orange['A200'] ? blue['A200'] : orange['A200'];
-  ctx.strokeStyle = color;
-  ctx.fillStyle = color;
+  ctx.save();
+  const nodeColor = getNodeColor(node);
+  const circleColor = color(nodeColor)
+    .lighten(0.4)
+    .hex();
+  const radius = (node.groups || []).length > 0 ? 7 : 6;
+  ctx.strokeStyle = circleColor;
+  ctx.fillStyle = circleColor;
   ctx.beginPath();
-  ctx.arc(node.x, node.y, 6, 0, 2 * Math.PI);
+  ctx.arc(node.x, node.y, radius, 0, 2 * Math.PI);
   ctx.fill();
+  ctx.restore();
 }
 
 function renderLabel(node, ctx, globalScale) {
