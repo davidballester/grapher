@@ -1,8 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
-import SelectedNodes from './scenes/nodes';
-import SelectedLink from './scenes/links';
+import SelectedNodes from './components/nodes';
+import SelectedLink from './components/links';
 
 const styles = (theme) => ({
   link: {
