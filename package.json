@@ -21,7 +21,7 @@
     "react-ace": "^7.0.1",
     "react-color": "2.17.3",
     "react-dom": "16.8.3",
-    "react-force-graph-2d": "1.6.1",
+    "react-force-graph-2d": "1.9.1",
     "react-redux": "6.0.1",
     "react-router-dom": "5.0.0",
     "react-scripts": "3.0.1",
