@@ -28,7 +28,10 @@ const styles = (theme) => ({
   },
   fieldUnderline: {
     '&:before,&:after': {
-      borderBottom: 'none !important',
+      borderBottomColor: 'transparent !important',
+    },
+    '&.Mui-error:after': {
+      borderBottomColor: `${theme.palette.error.main} !important`,
     },
   },
   send: {
