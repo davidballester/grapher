@@ -77,7 +77,7 @@ function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, cl
       <Grid container classes={{ root: classes.grid }}>
         <Grid item lg={3} sm={4} xs={6}>
           <Box display="flex" alignItems="flex-end" className={classes.leftPanel}>
-            <Box className={classes.leftPanelContent}>
+            <Box className={classes.leftPanelContent} padding={1}>
               <SelectedItems className={classes.selectedItems} />
               <Groups />
             </Box>
