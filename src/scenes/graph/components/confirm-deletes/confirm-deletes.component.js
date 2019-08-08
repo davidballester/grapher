@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ConfirmDeleteNode from './scenes/node';
-import ConfirmDeleteLink from './scenes/link';
-import ConfirmDeleteGraph from './scenes/graph';
+import ConfirmDeleteNode from './components/node';
+import ConfirmDeleteLink from './components/link';
+import ConfirmDeleteGraph from './components/graph';
 
 function ConfirmDeletes() {
   return (
