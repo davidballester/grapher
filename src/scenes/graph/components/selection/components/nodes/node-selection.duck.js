@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { MAX_SELECTED_NODES } from '../../../../../../constants';
-import { GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, getLinksAsArray } from '../../../../../../ducks/graph';
+import { GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_CREATE, GRAPH_LOAD_SUCCESS, getLinksAsArray } from '../../../../../../ducks/graph';
 
 export const NODE_SELECTION_SELECT = 'grapher/NodeSelection/SELECT';
 export const NODE_SELECTION_DESELECT = 'grapher/NodeSelection/DESELECT';
@@ -40,6 +40,18 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         selectedNodes: state.selectedNodes.map((node) => (node.id === oldId ? editedNode : node)),
+      };
+    }
+    case GRAPH_CREATE: {
+      return {
+        ...state,
+        selectedNodes: [],
+      };
+    }
+    case GRAPH_LOAD_SUCCESS: {
+      return {
+        ...state,
+        selectedNodes: [],
       };
     }
     default: {

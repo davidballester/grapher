@@ -7,7 +7,7 @@ import {
   getNonExistentLinkBetweenSelectedNodes,
 } from './node-selection.duck';
 import reducer from './node-selection.duck';
-import { getLinksAsArray, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE } from '../../../../../../ducks/graph';
+import { getLinksAsArray, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_CREATE, GRAPH_LOAD_SUCCESS } from '../../../../../../ducks/graph';
 
 jest.mock('../../../../../../ducks/graph');
 
@@ -128,6 +128,28 @@ describe('node-selection', () => {
         const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
         const state = reducer(initialState, action);
         expect(state).toEqual(expectedState);
+      });
+    });
+
+    describe('GRAPH_CREATE', () => {
+      it('empties the selected nodes array', () => {
+        const initialState = {
+          selectedNodes: [{ id: 'baz' }, { id: 'foo', qux: 'quux' }],
+        };
+        const action = { type: GRAPH_CREATE };
+        const state = reducer(initialState, action);
+        expect(state.selectedNodes).toEqual([]);
+      });
+    });
+
+    describe('GRAPH_LOAD_SUCCESS', () => {
+      it('empties the selected nodes array', () => {
+        const initialState = {
+          selectedNodes: [{ id: 'baz' }, { id: 'foo', qux: 'quux' }],
+        };
+        const action = { type: GRAPH_LOAD_SUCCESS };
+        const state = reducer(initialState, action);
+        expect(state.selectedNodes).toEqual([]);
       });
     });
   });

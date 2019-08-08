@@ -1,5 +1,12 @@
 import reducer, { LINK_SELECTION_SELECT, LINK_SELECTION_DESELECT, selectLink, deselectLink, getSelectedLink } from './link-selection.duck';
-import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK } from '../../../../../../ducks/graph';
+import {
+  GRAPH_DELETE_LINK,
+  GRAPH_DELETE_NODE,
+  GRAPH_EDIT_NODE,
+  GRAPH_EDIT_LINK,
+  GRAPH_CREATE,
+  GRAPH_LOAD_SUCCESS,
+} from '../../../../../../ducks/graph';
 
 describe('link-selection', () => {
   afterEach(() => {
@@ -256,6 +263,32 @@ describe('link-selection', () => {
         };
         const state = reducer(initialState, action);
         expect(state).toEqual(expectedState);
+      });
+    });
+
+    describe('GRAPH_CREATE', () => {
+      it('clears the selected link', () => {
+        const initialState = {
+          selectedLink: {
+            id: 'foo',
+            baz: 'qux',
+          },
+        };
+        const state = reducer(initialState, { type: GRAPH_CREATE });
+        expect(state.selectedLink).toBeUndefined();
+      });
+    });
+
+    describe('GRAPH_LOAD_SUCCESS', () => {
+      it('clears the selected link', () => {
+        const initialState = {
+          selectedLink: {
+            id: 'foo',
+            baz: 'qux',
+          },
+        };
+        const state = reducer(initialState, { type: GRAPH_LOAD_SUCCESS });
+        expect(state.selectedLink).toBeUndefined();
       });
     });
   });

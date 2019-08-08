@@ -1,4 +1,11 @@
-import { GRAPH_DELETE_LINK, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_EDIT_LINK } from '../../../../../../ducks/graph';
+import {
+  GRAPH_DELETE_LINK,
+  GRAPH_DELETE_NODE,
+  GRAPH_EDIT_NODE,
+  GRAPH_EDIT_LINK,
+  GRAPH_CREATE,
+  GRAPH_LOAD_SUCCESS,
+} from '../../../../../../ducks/graph';
 
 export const LINK_SELECTION_SELECT = 'grapher/LinkSelection/SELECT';
 export const LINK_SELECTION_DESELECT = 'grapher/LinkSelection/DESELECT';
@@ -57,6 +64,18 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         selectedLink: selectedLinkId === link.id ? link : state.selectedLink,
+      };
+    }
+    case GRAPH_CREATE: {
+      return {
+        ...state,
+        selectedLink: undefined,
+      };
+    }
+    case GRAPH_LOAD_SUCCESS: {
+      return {
+        ...state,
+        selectedLink: undefined,
       };
     }
     default: {
