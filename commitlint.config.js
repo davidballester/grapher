@@ -14,6 +14,7 @@ module.exports = {
         'links',
         'graph',
 	'groups',
+	'canvas',
       ],
     ]
   },
