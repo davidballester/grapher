@@ -25,8 +25,10 @@ const TextEditor = ({ hidden, className, classes }) => (
     <pre>(Frodo)->(Sam)</pre>
     <p>Name your links too, if you wish.</p>
     <pre>(Frodo)-[master of]->(Sam)</pre>
-    <p>And assign groups using colons!</p>
+    <p>Assign groups using colons!</p>
     <pre>(Frodo:Hobbit:Ring bearer)-[master of:social relation]->(Sam)</pre>
+    <p>You can add multiple paths at once too! Just separate them using semicolons.</p>
+    <pre>(Frodo:Hobbit)->(Sam);(Sam:Ring bearer)->(Bill:Pony)</pre>
   </Box>
 );
 
