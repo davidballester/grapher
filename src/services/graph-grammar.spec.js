@@ -77,6 +77,16 @@ describe('graph-grammar', () => {
       const matchResult = graphGrammar.match('(foo)-[:baz:qux quux]->(corge)');
       expect(matchResult.succeeded()).toBeTruthy();
     });
+
+    it('matches a list of nodes', () => {
+      const matchResult = graphGrammar.match('(foo);(bar);(baz)');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches a list of paths and nodes', () => {
+      const matchResult = graphGrammar.match('(foo)-[:baz:qux quux]->(corge);(bar);(foo)-[baz]->(bar)');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
   });
 
   describe('#eval', () => {
@@ -95,8 +105,10 @@ describe('graph-grammar', () => {
         nodes: [
           {
             id: 'foo',
+            groups: [],
           },
         ],
+        links: [],
         groups: [],
       });
     });
@@ -128,14 +140,17 @@ describe('graph-grammar', () => {
             label: expect.anything(),
             source: 'foo',
             target: 'bar',
+            groups: [],
           },
         ],
         nodes: [
           {
             id: 'foo',
+            groups: [],
           },
           {
             id: 'bar',
+            groups: [],
           },
         ],
         groups: [],
@@ -151,23 +166,28 @@ describe('graph-grammar', () => {
             source: 'foo',
             target: 'bar',
             label: expect.anything(),
+            groups: [],
           },
           {
             id: expect.anything(),
             source: 'baz',
             target: 'bar',
             label: expect.anything(),
+            groups: [],
           },
         ],
         nodes: [
           {
             id: 'foo',
+            groups: [],
           },
           {
             id: 'bar',
+            groups: [],
           },
           {
             id: 'baz',
+            groups: [],
           },
         ],
         groups: [],
@@ -183,23 +203,28 @@ describe('graph-grammar', () => {
             label: 'qux',
             source: 'foo',
             target: 'bar',
+            groups: [],
           },
           {
             id: expect.anything(),
             label: 'quux',
             source: 'baz',
             target: 'bar',
+            groups: [],
           },
         ],
         nodes: [
           {
             id: 'foo',
+            groups: [],
           },
           {
             id: 'bar',
+            groups: [],
           },
           {
             id: 'baz',
+            groups: [],
           },
         ],
         groups: [],
@@ -215,14 +240,17 @@ describe('graph-grammar', () => {
             label: 'qux quux',
             source: 'foo bar',
             target: 'bar baz',
+            groups: [],
           },
         ],
         nodes: [
           {
             id: 'foo bar',
+            groups: [],
           },
           {
             id: 'bar baz',
+            groups: [],
           },
         ],
         groups: [],
@@ -243,6 +271,7 @@ describe('graph-grammar', () => {
             ],
           },
         ],
+        links: [],
         groups: [
           {
             id: expect.anything(),
@@ -272,9 +301,11 @@ describe('graph-grammar', () => {
         nodes: [
           {
             id: 'foo',
+            groups: [],
           },
           {
             id: 'bar',
+            groups: [],
           },
         ],
         groups: [
@@ -341,6 +372,166 @@ describe('graph-grammar', () => {
             name: 'grault',
           },
         ],
+      });
+    });
+
+    it('transforms a list of nodes', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(Aragorn);(Gandalf)'));
+      expect(result).toEqual({
+        nodes: [
+          {
+            id: 'Aragorn',
+            groups: [],
+          },
+          {
+            id: 'Gandalf',
+            groups: [],
+          },
+        ],
+        links: [],
+        groups: [],
+      });
+    });
+
+    it('transforms a path and a node', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(Aragorn)<-(Gandalf);(Elrond)'));
+      expect(result).toEqual({
+        nodes: [
+          {
+            id: 'Aragorn',
+            groups: [],
+          },
+          {
+            id: 'Gandalf',
+            groups: [],
+          },
+          {
+            id: 'Elrond',
+            groups: [],
+          },
+        ],
+        links: [
+          {
+            id: expect.anything(),
+            label: expect.anything(),
+            source: 'Gandalf',
+            target: 'Aragorn',
+            groups: [],
+          },
+        ],
+        groups: [],
+      });
+    });
+
+    it('does not duplicate nodes', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(Aragorn)<-(Gandalf);(Aragorn);(Aragorn)->(Boromir)'));
+      expect(result).toEqual({
+        nodes: [
+          {
+            id: 'Aragorn',
+            groups: [],
+          },
+          {
+            id: 'Gandalf',
+            groups: [],
+          },
+          {
+            id: 'Boromir',
+            groups: [],
+          },
+        ],
+        links: expect.anything(),
+        groups: [],
+      });
+    });
+
+    it('does not duplicate links', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(Aragorn)<-(Gandalf);(Gandalf)->(Aragorn)'));
+      expect(result).toEqual({
+        nodes: expect.anything(),
+        links: [
+          {
+            id: expect.anything(),
+            label: expect.anything(),
+            source: 'Gandalf',
+            target: 'Aragorn',
+            groups: [],
+          },
+        ],
+        groups: [],
+      });
+    });
+
+    it('does not duplicate groups', () => {
+      const result = graphGrammar.eval(
+        graphGrammar.match('(Aragorn:Dunedain)<-[:knows]-(Gandalf:Maia);(Aragorn:Dunedain)-[:knows]->(Boromir:Dunedain)')
+      );
+      expect(result).toEqual({
+        nodes: expect.anything(),
+        links: expect.anything(),
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'Dunedain',
+          },
+          {
+            id: expect.anything(),
+            name: 'knows',
+          },
+          {
+            id: expect.anything(),
+            name: 'Maia',
+          },
+        ],
+      });
+    });
+
+    it('does not duplicate groups in nodes', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(Aragorn:Dunedain:Heir);(Aragorn:Dunedain)'));
+      expect(result).toEqual({
+        nodes: [
+          {
+            id: 'Aragorn',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'Dunedain',
+              },
+              {
+                id: expect.anything(),
+                name: 'Heir',
+              },
+            ],
+          },
+        ],
+        links: expect.anything(),
+        groups: expect.anything(),
+      });
+    });
+
+    it('does not duplicate groups in links', () => {
+      const result = graphGrammar.eval(graphGrammar.match('(Aragorn)<-[:knows]-(Gandalf);(Gandalf)-[:knows:respects]->(Aragorn)'));
+      expect(result).toEqual({
+        nodes: expect.anything(),
+        links: [
+          {
+            id: expect.anything(),
+            label: expect.anything(),
+            source: 'Gandalf',
+            target: 'Aragorn',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'knows',
+              },
+              {
+                id: expect.anything(),
+                name: 'respects',
+              },
+            ],
+          },
+        ],
+        groups: expect.anything(),
       });
     });
   });
