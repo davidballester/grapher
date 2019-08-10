@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
+import Markdown from 'react-markdown';
 
 const styles = (theme) => ({
   chip: {
@@ -28,6 +29,7 @@ function SelectedNode({ node, openConfirmDeleteNode, className, openEditNode, cl
           {node.id}
         </Typography>
         {badges}
+        {!!node.description && <Markdown source={node.description} />}
       </CardContent>
       <CardActions>
         <Button className="delete" size="small" onClick={() => openConfirmDeleteNode([node.id])}>

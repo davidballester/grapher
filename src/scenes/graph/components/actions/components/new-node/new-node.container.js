@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 
-import NewNode from './new-node.component';
+import EditNode from '../edit-node/edit-node.component';
 import { getIsOpen, closeDialog, DIALOG_IDS } from '../../../../../../ducks/dialog.duck';
 import { createNode, getGroupsAsArray } from '../../../../../../ducks/graph';
 
 function mapStateToProps(state) {
   return {
+    title: 'New node',
     isOpen: getIsOpen(state, DIALOG_IDS.NEW_NODE),
     groups: getGroupsAsArray(state),
   };
@@ -13,15 +14,15 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    saveNewNode: (node) => {
+    save: (oldId, node) => {
       dispatch(createNode(node));
       dispatch(closeDialog(DIALOG_IDS.NEW_NODE));
     },
-    cancelNewNode: () => dispatch(closeDialog(DIALOG_IDS.NEW_NODE)),
+    cancel: () => dispatch(closeDialog(DIALOG_IDS.NEW_NODE)),
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewNode);
+)(EditNode);

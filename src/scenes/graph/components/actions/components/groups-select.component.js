@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   selectFormControl: {
@@ -34,11 +35,11 @@ const MenuProps = {
   },
 };
 
-export default function GroupsSelect({ groups, selectedGroups, onChange }) {
+export default function GroupsSelect({ groups, selectedGroups, onChange, className }) {
   const classes = useStyles();
   const [openSelect, setOpenSelect] = useState(false);
   return (
-    <FormControl className={classes.selectFormControl}>
+    <FormControl className={clsx(className, classes.selectFormControl)}>
       <InputLabel htmlFor="groups">Groups</InputLabel>
       <Select
         open={openSelect}
