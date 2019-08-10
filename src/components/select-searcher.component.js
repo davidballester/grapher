@@ -9,6 +9,7 @@ import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
+import clsx from 'clsx';
 
 const styles = (theme) => ({
   root: {
@@ -46,7 +47,7 @@ const styles = (theme) => ({
   },
   paper: {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: 20,
     marginTop: theme.spacing(1),
     left: 0,
     right: 0,
@@ -155,9 +156,9 @@ const components = {
   ValueContainer,
 };
 
-function SelectSearcher(props) {
+function SelectSearcher({ className, ...props }) {
   return (
-    <div className={props.classes.root}>
+    <div className={clsx(className, props.classes.root)}>
       <Select
         styles={{
           input: (base) => ({

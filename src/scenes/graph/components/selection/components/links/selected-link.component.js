@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
+import Markdown from 'react-markdown';
 
 const styles = (theme) => ({
   chip: {
@@ -33,6 +34,7 @@ function SelectedLink({ link, openConfirmDeleteLink, openEditLink, className, cl
           {link.label}
         </Typography>
         {badges}
+        {!!link.description && <Markdown source={link.description} />}
       </CardContent>
       <CardActions>
         <Button className="delete" size="small" onClick={() => openConfirmDeleteLink(link.id)}>
