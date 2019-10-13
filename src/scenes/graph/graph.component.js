@@ -37,7 +37,7 @@ const styles = (theme) => ({
     padding: theme.spacing(2),
   },
   leftPanelContent: {
-    overflow: 'scroll',
+    overflow: 'auto',
     pointerEvents: 'auto',
     width: '100%',
     maxHeight: '100%',

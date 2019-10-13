@@ -25,7 +25,7 @@ const styles = {
   },
   content: {
     maxHeight: '30vh',
-    overflow: 'scroll',
+    overflow: 'auto',
   },
 };
 

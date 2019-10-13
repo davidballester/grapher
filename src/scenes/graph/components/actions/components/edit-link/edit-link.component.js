@@ -24,7 +24,7 @@ const styles = (theme) => ({
     marginBottom: theme.spacing(1),
   },
   content: {
-    overflow: 'scroll',
+    overflow: 'auto',
     maxHeight: '60vh',
     minHeight: '200px',
   },

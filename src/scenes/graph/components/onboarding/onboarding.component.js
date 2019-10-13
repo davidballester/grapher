@@ -23,7 +23,7 @@ const styles = (theme) => ({
     maxWidth: 600,
     height: '60vh',
     maxHeight: 600,
-    overflow: 'scroll',
+    overflow: 'auto',
     padding: theme.spacing(3),
   },
 });
