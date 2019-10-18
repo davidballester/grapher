@@ -57,6 +57,9 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
+  "release": {
+    "branch": "master"
+  },
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
