@@ -8,14 +8,10 @@ import SelectedNode from './selected-node.component';
 
 describe(SelectedNode.name, () => {
   let shallow;
-  let openConfirmDeleteNode;
-  let openEditNode;
   let node;
 
   beforeEach(() => {
     shallow = createShallow({ dive: true });
-    openConfirmDeleteNode = jest.fn();
-    openEditNode = jest.fn();
     node = {
       id: 'foo',
     };
@@ -26,12 +22,12 @@ describe(SelectedNode.name, () => {
   });
 
   it('renders without crashing', () => {
-    const component = shallow(<SelectedNode node={node} openConfirmDeleteNode={openConfirmDeleteNode} openEditNode={openEditNode} />);
+    const component = shallow(<SelectedNode node={node} />);
     expect(component).toBeDefined();
   });
 
   it('displays the node ID in a Typography', () => {
-    const component = shallow(<SelectedNode node={node} openConfirmDeleteNode={openConfirmDeleteNode} openEditNode={openEditNode} />);
+    const component = shallow(<SelectedNode node={node} />);
     expect(
       component
         .find(Typography)
@@ -40,31 +36,9 @@ describe(SelectedNode.name, () => {
     ).toEqual(node.id);
   });
 
-  it('invokes the `openConfirmDeleteNode` prop when the delete button is clicked', () => {
-    const component = shallow(<SelectedNode node={node} openConfirmDeleteNode={openConfirmDeleteNode} openEditNode={openEditNode} />);
-    component
-      .find(Card)
-      .dive()
-      .find('.delete')
-      .first()
-      .simulate('click');
-    expect(openConfirmDeleteNode).toHaveBeenCalledWith([node.id]);
-  });
-
-  it('invokes the `openEditNode` prop when the delete button is clicked', () => {
-    const component = shallow(<SelectedNode node={node} openConfirmDeleteNode={openConfirmDeleteNode} openEditNode={openEditNode} />);
-    component
-      .find(Card)
-      .dive()
-      .find('.edit')
-      .first()
-      .simulate('click');
-    expect(openEditNode).toHaveBeenCalledWith(node);
-  });
-
   it('uses the description of the node as input for a Markdown element', () => {
     node.description = 'lorem ipsum';
-    const component = shallow(<SelectedNode node={node} openConfirmDeleteNode={openConfirmDeleteNode} openEditNode={openEditNode} />);
+    const component = shallow(<SelectedNode node={node} />);
     const markdown = component
       .find(Card)
       .dive()

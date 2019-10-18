@@ -8,14 +8,10 @@ import SelectedLink from './selected-link.component';
 
 describe(SelectedLink.name, () => {
   let shallow;
-  let openConfirmDeleteLink;
-  let openEditLink;
   let link;
 
   beforeEach(() => {
     shallow = createShallow({ dive: true });
-    openConfirmDeleteLink = jest.fn();
-    openEditLink = jest.fn();
     link = {
       id: 'foo',
       label: 'bar',
@@ -27,12 +23,12 @@ describe(SelectedLink.name, () => {
   });
 
   it('renders without crashing', () => {
-    const component = shallow(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
+    const component = shallow(<SelectedLink link={link} />);
     expect(component).toBeDefined();
   });
 
   it('displays the link label in a Typography', () => {
-    const component = shallow(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
+    const component = shallow(<SelectedLink link={link} />);
     expect(
       component
         .find(Typography)
@@ -41,31 +37,9 @@ describe(SelectedLink.name, () => {
     ).toEqual(link.label);
   });
 
-  it('invokes the `openConfirmDeleteLink` prop when the delete button is clicked', () => {
-    const component = shallow(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
-    component
-      .find(Card)
-      .dive()
-      .find('.delete')
-      .first()
-      .simulate('click');
-    expect(openConfirmDeleteLink).toHaveBeenCalledWith(link.id);
-  });
-
-  it('invokes the `openEditLink` prop when the delete button is clicked', () => {
-    const component = shallow(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
-    component
-      .find(Card)
-      .dive()
-      .find('.edit')
-      .first()
-      .simulate('click');
-    expect(openEditLink).toHaveBeenCalledWith(link);
-  });
-
   it('uses the description of the node as input for a Markdown element', () => {
     link.description = 'lorem ipsum';
-    const component = shallow(<SelectedLink link={link} openConfirmDeleteLink={openConfirmDeleteLink} openEditLink={openEditLink} />);
+    const component = shallow(<SelectedLink link={link} />);
     const markdown = component
       .find(Card)
       .dive()

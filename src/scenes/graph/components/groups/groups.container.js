@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import Groups from './groups.component';
-import { getGroupsAsArray, addGroup, removeGroup, updateGroup } from '../../../../ducks/graph';
+import { getGroupsAsArray } from '../../../../ducks/graph';
 
 function mapStateToProps(state) {
   return {
@@ -10,18 +9,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      addGroup,
-      removeGroup,
-      updateGroup,
-    },
-    dispatch
-  );
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Groups);
+export default connect(mapStateToProps)(Groups);

@@ -19,8 +19,6 @@ SelectedNodes.propTypes = {
       id: PropTypes.string.isRequired,
     })
   ).isRequired,
-  openConfirmDeleteNode: PropTypes.func.isRequired,
-  openEditNode: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(SelectedNodes);

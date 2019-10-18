@@ -1,11 +1,4 @@
-import {
-  GRAPH_DELETE_LINK,
-  GRAPH_DELETE_NODE,
-  GRAPH_EDIT_NODE,
-  GRAPH_EDIT_LINK,
-  GRAPH_CREATE,
-  GRAPH_LOAD_SUCCESS,
-} from '../../../../../../ducks/graph';
+import { GRAPH_CREATE, GRAPH_LOAD_SUCCESS } from '../../../../../../ducks/graph';
 
 export const LINK_SELECTION_SELECT = 'grapher/LinkSelection/SELECT';
 export const LINK_SELECTION_DESELECT = 'grapher/LinkSelection/DESELECT';
@@ -27,43 +20,6 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         selectedLink: undefined,
-      };
-    }
-    case GRAPH_DELETE_LINK: {
-      const { id: selectedLinkId } = state.selectedLink || {};
-      return {
-        ...state,
-        selectedLink: selectedLinkId === action.payload ? undefined : state.selectedLink,
-      };
-    }
-    case GRAPH_DELETE_NODE: {
-      const nodeId = action.payload;
-      const { source: selectedLinkSource, target: selectedLinkTarget } = state.selectedLink || {};
-      return {
-        ...state,
-        selectedLink: nodeId !== selectedLinkSource && nodeId !== selectedLinkTarget ? state.selectedLink : undefined,
-      };
-    }
-    case GRAPH_EDIT_NODE: {
-      const { oldId, node } = action.payload;
-      let selectedLink;
-      if (state.selectedLink) {
-        selectedLink = {
-          source: state.selectedLink.source === oldId ? node.id : state.selectedLink.source,
-          target: state.selectedLink.target === oldId ? node.id : state.selectedLink.target,
-        };
-      }
-      return {
-        ...state,
-        selectedLink,
-      };
-    }
-    case GRAPH_EDIT_LINK: {
-      const { id: selectedLinkId } = state.selectedLink || {};
-      const link = action.payload;
-      return {
-        ...state,
-        selectedLink: selectedLinkId === link.id ? link : state.selectedLink,
       };
     }
     case GRAPH_CREATE: {

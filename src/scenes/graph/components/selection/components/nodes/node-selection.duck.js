@@ -1,7 +1,5 @@
-import { createSelector } from 'reselect';
-
 import { MAX_SELECTED_NODES } from '../../../../../../constants';
-import { GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_CREATE, GRAPH_LOAD_SUCCESS, getLinksAsArray } from '../../../../../../ducks/graph';
+import { GRAPH_CREATE, GRAPH_LOAD_SUCCESS } from '../../../../../../ducks/graph';
 
 export const NODE_SELECTION_SELECT = 'grapher/NodeSelection/SELECT';
 export const NODE_SELECTION_DESELECT = 'grapher/NodeSelection/DESELECT';
@@ -27,19 +25,6 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         selectedNodes: state.selectedNodes.filter((node) => node.id !== action.payload),
-      };
-    }
-    case GRAPH_DELETE_NODE: {
-      return {
-        ...state,
-        selectedNodes: state.selectedNodes.filter((node) => node.id !== action.payload),
-      };
-    }
-    case GRAPH_EDIT_NODE: {
-      const { oldId, node: editedNode } = action.payload;
-      return {
-        ...state,
-        selectedNodes: state.selectedNodes.map((node) => (node.id === oldId ? editedNode : node)),
       };
     }
     case GRAPH_CREATE: {
@@ -81,17 +66,3 @@ function nodeSelectionSelector(state) {
 export function getSelectedNodes(state) {
   return nodeSelectionSelector(state).selectedNodes;
 }
-
-export const getNonExistentLinkBetweenSelectedNodes = createSelector(
-  getSelectedNodes,
-  getLinksAsArray,
-  (selectedNodes = [], links = []) => {
-    if (selectedNodes.length === 2) {
-      const [source, target] = selectedNodes.map((n) => n.id);
-      const link = links.find(({ source: ls, target: lt }) => (ls === source || ls === target) && (lt === target || lt === source));
-      if (!link) {
-        return { source, target };
-      }
-    }
-  }
-);

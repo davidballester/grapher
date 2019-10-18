@@ -1,4 +1,3 @@
-import blue from '@material-ui/core/colors/blue';
 import orange from '@material-ui/core/colors/orange';
 import grey from '@material-ui/core/colors/grey';
 import _get from 'lodash/get';
@@ -9,10 +8,8 @@ export function getLinkColor(link) {
     return groupColor;
   }
 
-  const { virtual = false, selected = false, artificial = false } = link;
-  if (virtual) {
-    return blue['A200'];
-  } else if (selected) {
+  const { selected = false, artificial = false } = link;
+  if (selected) {
     return orange['A200'];
   } else if (artificial) {
     return 'rgba(0, 0, 0, 0)';

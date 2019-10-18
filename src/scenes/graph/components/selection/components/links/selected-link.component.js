@@ -1,9 +1,7 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
@@ -15,7 +13,7 @@ const styles = (theme) => ({
   },
 });
 
-function SelectedLink({ link, openConfirmDeleteLink, openEditLink, className, classes }) {
+function SelectedLink({ link, className, classes }) {
   if (!link) {
     return null;
   }
@@ -36,14 +34,6 @@ function SelectedLink({ link, openConfirmDeleteLink, openEditLink, className, cl
         {badges}
         {!!link.description && <Markdown source={link.description} />}
       </CardContent>
-      <CardActions>
-        <Button className="delete" size="small" onClick={() => openConfirmDeleteLink(link.id)}>
-          Delete
-        </Button>
-        <Button className="edit" size="small" onClick={() => openEditLink(link)}>
-          Edit
-        </Button>
-      </CardActions>
     </Card>
   );
 }
@@ -53,8 +43,6 @@ SelectedLink.propTypes = {
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
   }),
-  openConfirmDeleteLink: PropTypes.func.isRequired,
-  openEditLink: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
 

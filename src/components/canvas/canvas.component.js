@@ -21,15 +21,10 @@ export default ({
   selectedNodes = [],
   selectNode,
   deselectNode,
-  openEditNode,
-  openConfirmDeleteNode,
   links = [],
   selectedLink,
-  createLink,
   selectLink,
   deselectLink,
-  virtualLink,
-  openConfirmDeleteLink,
   openNewNode,
   className,
 }) => {
@@ -74,20 +69,9 @@ export default ({
           ...link,
           original: link,
           selected: link.id === (selectedLink || {}).id,
-          virtual: false,
           artificial: false,
         };
       });
-      if (!!virtualLink) {
-        newLinksGraphData = [
-          ...newLinksGraphData,
-          {
-            ...virtualLink,
-            original: virtualLink,
-            virtual: true,
-          },
-        ];
-      }
 
       // Create artificial links (invisible through link-renderer) to avoid orphan nodes from scattering
       const lastNodeWithSomeDegree = nodes.reverse().find((node) => getNodeDegree(node, links) > 0);
@@ -114,7 +98,7 @@ export default ({
       }
       return newLinksGraphData;
     });
-  }, [links, virtualLink, nodes, selectedNodes, selectedLink]);
+  }, [links, nodes, selectedNodes, selectedLink]);
 
   // Manage nodes
   const [nodesGraphData, setNodesGraphData] = useState([]);
@@ -133,31 +117,7 @@ export default ({
   }, [nodes, links, selectedNodes]);
 
   return (
-    <div
-      className={className}
-      onDoubleClick={openNewNode}
-      tabIndex="0"
-      onKeyUp={({ key }) => {
-        switch (key) {
-          case 'Backspace':
-          case 'Delete':
-            if (!!selectedNodes.length && !selectedLink) {
-              openConfirmDeleteNode(selectedNodes.map((node) => node.id));
-            } else if (!selectedNodes.length && !!selectedLink) {
-              openConfirmDeleteLink(selectedLink.id);
-            }
-            break;
-          case 'Enter':
-            if (selectedNodes.length === 1) {
-              openEditNode(selectedNodes[0]);
-            }
-            break;
-          default:
-            break;
-        }
-      }}
-      ref={containerRef}
-    >
+    <div className={className} onDoubleClick={openNewNode} tabIndex="0" ref={containerRef}>
       <ForceGraph2D
         ref={forceGraphRef}
         graphData={{
@@ -190,9 +150,7 @@ export default ({
         }}
         onLinkClick={(link) => {
           const originalLink = link.original;
-          if (link.virtual) {
-            createLink(originalLink);
-          } else if (link.selected) {
+          if (link.selected) {
             deselectLink(originalLink);
           } else {
             selectLink(originalLink);

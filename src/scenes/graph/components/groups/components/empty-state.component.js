@@ -2,7 +2,6 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 const styles = (theme) => ({
   figure: {
@@ -12,21 +11,15 @@ const styles = (theme) => ({
   icon: {
     fontSize: '4rem',
   },
-  callToAction: {
-    marginTop: theme.spacing(1),
-  },
 });
 
-function EmptyState({ classes, addGroup }) {
+function EmptyState({ classes }) {
   return (
     <figure className={classes.figure}>
       <DeviceHubIcon className={classes.icon} />
       <figcaption>
         <Typography color="textPrimary">The are no groups</Typography>
       </figcaption>
-      <Button onClick={addGroup} variant="contained" color="primary" className={classes.callToAction}>
-        Add group
-      </Button>
     </figure>
   );
 }

@@ -1,13 +1,6 @@
-import {
-  NODE_SELECTION_SELECT,
-  NODE_SELECTION_DESELECT,
-  selectNode,
-  deselectNode,
-  getSelectedNodes,
-  getNonExistentLinkBetweenSelectedNodes,
-} from './node-selection.duck';
+import { NODE_SELECTION_SELECT, NODE_SELECTION_DESELECT, selectNode, deselectNode, getSelectedNodes } from './node-selection.duck';
 import reducer from './node-selection.duck';
-import { getLinksAsArray, GRAPH_DELETE_NODE, GRAPH_EDIT_NODE, GRAPH_CREATE, GRAPH_LOAD_SUCCESS } from '../../../../../../ducks/graph';
+import { GRAPH_CREATE, GRAPH_LOAD_SUCCESS } from '../../../../../../ducks/graph';
 
 jest.mock('../../../../../../ducks/graph');
 
@@ -78,59 +71,6 @@ describe('node-selection', () => {
       });
     });
 
-    describe('GRAPH_DELETE_NODE', () => {
-      it("deletes the node specified by the action's payload from the selected nodes array", () => {
-        const initialState = {
-          selectedNodes: [{ id: 'foo' }, { id: 'bar' }],
-        };
-        const action = { type: GRAPH_DELETE_NODE, payload: 'foo' };
-        const state = reducer(initialState, action);
-        expect(state.selectedNodes).toEqual([{ id: 'bar' }]);
-      });
-    });
-
-    describe('GRAPH_EDIT_NODE', () => {
-      let oldId;
-      let node;
-
-      beforeEach(() => {
-        oldId = 'foo';
-        node = {
-          id: 'bar',
-        };
-      });
-
-      it('does nothing if there are no selected nodes', () => {
-        const initialState = {
-          selectedNodes: [],
-        };
-        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
-        const state = reducer(initialState, action);
-        expect(state).toEqual(initialState);
-      });
-
-      it('does nothing if the edited node is not one of the selected nodes', () => {
-        const initialState = {
-          selectedNodes: [{ id: 'baz' }],
-        };
-        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
-        const state = reducer(initialState, action);
-        expect(state).toEqual(initialState);
-      });
-
-      it('replaces the selected node if it was edited', () => {
-        const initialState = {
-          selectedNodes: [{ id: 'baz' }, { id: 'foo', qux: 'quux' }],
-        };
-        const expectedState = {
-          selectedNodes: [{ id: 'baz' }, { id: 'bar' }],
-        };
-        const action = { type: GRAPH_EDIT_NODE, payload: { oldId, node } };
-        const state = reducer(initialState, action);
-        expect(state).toEqual(expectedState);
-      });
-    });
-
     describe('GRAPH_CREATE', () => {
       it('empties the selected nodes array', () => {
         const initialState = {
@@ -165,70 +105,6 @@ describe('node-selection', () => {
         };
         const selectedNodes = getSelectedNodes(appState);
         expect(selectedNodes).toEqual([node]);
-      });
-    });
-  });
-
-  describe(getNonExistentLinkBetweenSelectedNodes.name, () => {
-    it('returns `undefined` if there are no selected nodes', () => {
-      const response = getNonExistentLinkBetweenSelectedNodes({
-        nodeSelection: {
-          selectedNodes: undefined,
-        },
-      });
-      expect(response).toBeUndefined();
-    });
-
-    it('returns `undefined` if there is fewer than 2 selected nodes', () => {
-      const response = getNonExistentLinkBetweenSelectedNodes({
-        nodeSelection: {
-          selectedNodes: [{}],
-        },
-      });
-      expect(response).toBeUndefined();
-    });
-
-    it('returns `undefined` if there is more than 2 selected nodes', () => {
-      const response = getNonExistentLinkBetweenSelectedNodes({
-        nodeSelection: {
-          selectedNodes: [{}, {}, {}],
-        },
-      });
-      expect(response).toBeUndefined();
-    });
-
-    it('returns `undefined` if there are 2 selected nodes and a link between the two', () => {
-      getLinksAsArray.mockReturnValue([
-        {
-          source: 'foo',
-          target: 'bar',
-        },
-      ]);
-      const response = getNonExistentLinkBetweenSelectedNodes({
-        nodeSelection: {
-          selectedNodes: [
-            {
-              id: 'foo',
-            },
-            {
-              id: 'bar',
-            },
-          ],
-        },
-      });
-      expect(response).toBeUndefined();
-    });
-
-    it('returns a link from the first selected node to the second if there are no links between them', () => {
-      getLinksAsArray.mockReturnValue([]);
-      const response = getNonExistentLinkBetweenSelectedNodes({
-        nodeSelection: {
-          selectedNodes: [{ id: 'baz' }, { id: 'qux' }],
-        },
-      });
-      expect(response).toEqual({
-        source: 'baz',
-        target: 'qux',
       });
     });
   });

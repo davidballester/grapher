@@ -9,32 +9,15 @@ import {
   GRAPH_SET_NAME,
   createGraph,
   GRAPH_CREATE,
-  createNode,
-  GRAPH_CREATE_NODE,
-  createLink,
-  GRAPH_CREATE_LINK,
   GRAPH_LOAD,
   loadGraph,
   GRAPH_LOAD_SUCCESS,
   loadGraphSuccess,
-  deleteNode,
-  GRAPH_DELETE_NODE,
-  deleteLink,
-  GRAPH_DELETE_LINK,
-  editNode,
-  GRAPH_EDIT_NODE,
   GRAPH_DELETE,
   deleteGraph,
-  GRAPH_EDIT_LINK,
-  editLink,
   GRAPH_IMPORT_SUBGRAPH,
   importSubgraph,
   GRAPH_GROUPS_ADD,
-  GRAPH_GROUPS_REMOVE,
-  GRAPH_GROUPS_UPDATE,
-  addGroup,
-  removeGroup,
-  updateGroup,
 } from './graph.actions';
 
 describe('actions', () => {
@@ -100,77 +83,6 @@ describe('actions', () => {
     });
   });
 
-  describe(createNode.name, () => {
-    it('creates the action with the `GRAPH_CREATE_NODE` type', () => {
-      const action = createNode();
-      expect(action.type).toEqual(GRAPH_CREATE_NODE);
-    });
-
-    it('includes the payload provided', () => {
-      const expectedPayload = { foo: 'bar' };
-      const action = createNode(expectedPayload);
-      const payload = action.payload;
-      expect(payload).toMatchObject(expectedPayload);
-    });
-  });
-
-  describe('createLink', () => {
-    it('creates the action with the `GRAPH_CREATE_LINK` type', () => {
-      const action = createLink();
-      expect(action.type).toEqual(GRAPH_CREATE_LINK);
-    });
-
-    it('creates the payload provided', () => {
-      const expectedPayload = 'foo';
-      const action = createLink(expectedPayload);
-      const payload = action.payload;
-      expect(payload).toEqual(expectedPayload);
-    });
-  });
-
-  describe(deleteNode.name, () => {
-    it('creates the action with the `GRAPH_DELETE_NODE` type', () => {
-      const action = deleteNode();
-      expect(action.type).toEqual(GRAPH_DELETE_NODE);
-    });
-
-    it('creates the payload provided', () => {
-      const expectedPayload = 'foo';
-      const action = deleteNode(expectedPayload);
-      const payload = action.payload;
-      expect(payload).toEqual(expectedPayload);
-    });
-  });
-
-  describe(deleteLink.name, () => {
-    it('creates the action with the `GRAPH_DELETE_LINK` type', () => {
-      const action = deleteLink();
-      expect(action.type).toEqual(GRAPH_DELETE_LINK);
-    });
-
-    it('creates the payload provided', () => {
-      const expectedPayload = 'foo';
-      const action = deleteLink(expectedPayload);
-      const payload = action.payload;
-      expect(payload).toEqual(expectedPayload);
-    });
-  });
-
-  describe(editNode.name, () => {
-    it('creates the action with the `GRAPH_EDIT_NODE` type', () => {
-      const action = editNode();
-      expect(action.type).toEqual(GRAPH_EDIT_NODE);
-    });
-
-    it('creates the payload provided', () => {
-      const oldId = 'foo';
-      const node = { foo: 'bar' };
-      const action = editNode(oldId, node);
-      const payload = action.payload;
-      expect(payload).toEqual({ oldId, node });
-    });
-  });
-
   describe(deleteGraph.name, () => {
     it('creates the action with the `GRAPH_DELETE` type', () => {
       const action = deleteGraph();
@@ -181,19 +93,6 @@ describe('actions', () => {
       const payload = 'foo';
       const action = deleteGraph(payload);
       expect(action.payload).toEqual(payload);
-    });
-  });
-
-  describe(editLink.name, () => {
-    it('creates the action with the `GRAPH_EDIT_LINK` type', () => {
-      const action = editLink();
-      expect(action.type).toEqual(GRAPH_EDIT_LINK);
-    });
-
-    it('creates the action with the link provided as payload', () => {
-      const link = { foo: 'bar' };
-      const action = editLink(link);
-      expect(action.payload).toEqual(link);
     });
   });
 
@@ -209,53 +108,6 @@ describe('actions', () => {
       const groups = { baz: 'qux' };
       const action = importSubgraph(nodes, links, groups);
       expect(action.payload).toEqual({ nodes, links, groups });
-    });
-  });
-
-  describe(addGroup.name, () => {
-    it('creates the action with GRAPH_GROUPS_ADD type', () => {
-      const action = addGroup({});
-      expect(action.type).toEqual(GRAPH_GROUPS_ADD);
-    });
-
-    it('assigns a random ID to the payload', () => {
-      const action = addGroup({});
-      expect(action.payload).toEqual(
-        expect.objectContaining({
-          id: 'uuid',
-        })
-      );
-    });
-
-    it('spreads the given group into the payload', () => {
-      const group = { foo: 'bar' };
-      const action = addGroup(group);
-      expect(action.payload).toEqual(expect.objectContaining(group));
-    });
-  });
-
-  describe(removeGroup.name, () => {
-    it('creates the action with GRAPH_GROUPS_REMOVE type', () => {
-      const action = removeGroup('foo');
-      expect(action.type).toEqual(GRAPH_GROUPS_REMOVE);
-    });
-
-    it('creates the action with the given groupId as payload', () => {
-      const action = removeGroup('foo');
-      expect(action.payload).toEqual('foo');
-    });
-  });
-
-  describe(updateGroup.name, () => {
-    it('creates the action with GRAPH_GROUPS_UPDATE type', () => {
-      const action = updateGroup({});
-      expect(action.type).toEqual(GRAPH_GROUPS_UPDATE);
-    });
-
-    it('creates the action with the given group as payload', () => {
-      const group = { foo: 'bar' };
-      const action = updateGroup(group);
-      expect(action.payload).toEqual(group);
     });
   });
 });

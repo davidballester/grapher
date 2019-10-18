@@ -4,7 +4,6 @@ import { createShallow } from '@material-ui/core/test-utils';
 import Groups from './groups.component';
 import EmptyState from './components/empty-state.component';
 import GroupListItem from './components/group-list-item.component';
-import AddGroupListItem from './components/add-group-list-item.component';
 
 describe(Groups.name, () => {
   let shallow;
@@ -16,11 +15,6 @@ describe(Groups.name, () => {
   it('renders a list item per group', () => {
     const component = shallow(<Groups groups={[{ id: 'foo' }, { id: 'bar' }]} />);
     expect(component.find(GroupListItem).getElements()).toHaveLength(2);
-  });
-
-  it('renders an add button', () => {
-    const component = shallow(<Groups groups={[{ id: 'foo' }, { id: 'bar' }]} />);
-    expect(component.find(AddGroupListItem).getElements()).toHaveLength(1);
   });
 
   it('does not render the empty state if there are groups', () => {
@@ -36,10 +30,5 @@ describe(Groups.name, () => {
   it('renders the empty state if there are no groups', () => {
     const component = shallow(<Groups />);
     expect(component.find(EmptyState).getElements()).toHaveLength(1);
-  });
-
-  it('does not render an add button', () => {
-    const component = shallow(<Groups />);
-    expect(component.find(AddGroupListItem).getElements()).toHaveLength(0);
   });
 });

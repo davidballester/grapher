@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 
 import SelectedNodes from './selected-nodes.component';
 import { getSelectedNodes } from './node-selection.duck';
-import { openDialog, DIALOG_IDS } from '../../../../../../ducks/dialog.duck';
 
 function mapStateToProps(state) {
   return {
@@ -10,14 +9,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    openEditNode: (node) => dispatch(openDialog(DIALOG_IDS.EDIT_NODE, node)),
-    openConfirmDeleteNode: (nodeIds) => dispatch(openDialog(DIALOG_IDS.CONFIRM_DELETE_NODE, nodeIds)),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SelectedNodes);
+export default connect(mapStateToProps)(SelectedNodes);

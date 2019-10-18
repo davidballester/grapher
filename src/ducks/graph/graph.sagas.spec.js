@@ -6,20 +6,11 @@ import {
   setGraphName,
   GRAPH_SET_NAME,
   GRAPH_CREATE,
-  GRAPH_CREATE_NODE,
-  GRAPH_CREATE_LINK,
   GRAPH_LOAD,
   loadGraph,
   loadGraphSuccess,
-  GRAPH_DELETE_NODE,
-  GRAPH_DELETE_LINK,
-  GRAPH_EDIT_NODE,
   GRAPH_DELETE,
   deleteGraph,
-  GRAPH_EDIT_LINK,
-  GRAPH_GROUPS_ADD,
-  GRAPH_GROUPS_REMOVE,
-  GRAPH_GROUPS_UPDATE,
   GRAPH_IMPORT_SUBGRAPH,
 } from './graph.actions';
 import { saveGraph, loadGraphSaga, doLoadGraph, saveGraphSaga, deleteGraphSaga, doDeleteGraph } from './graph.sagas';
@@ -52,28 +43,10 @@ describe('graph', () => {
 
   describe('sagas', () => {
     describe(saveGraphSaga.name, () => {
-      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, `GRAPH_CREATE_NODE`, `GRAPH_CREATE_LINK`, `GRAPH_DELETE_NODE`, `GRAPH_DELETE_LINK`, `GRAPH_EDIT_NODE`, `GRAPH_EDIT_LINK`, GRAPH_GROUPS_ADD, GRAPH_GROUPS_REMOVE, GRAPH_GROUPS_UPDATE', async () => {
+      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, GRAPH_IMPORT_SUBGRAPH', async () => {
         const action = setGraphName('bar');
         const gen = cloneableGenerator(saveGraphSaga)(action);
-        expect(gen.next().value).toEqual(
-          takeLatest(
-            [
-              GRAPH_CREATE,
-              GRAPH_SET_NAME,
-              GRAPH_CREATE_NODE,
-              GRAPH_CREATE_LINK,
-              GRAPH_DELETE_NODE,
-              GRAPH_DELETE_LINK,
-              GRAPH_EDIT_NODE,
-              GRAPH_EDIT_LINK,
-              GRAPH_GROUPS_ADD,
-              GRAPH_GROUPS_REMOVE,
-              GRAPH_GROUPS_UPDATE,
-              GRAPH_IMPORT_SUBGRAPH,
-            ],
-            saveGraph
-          )
-        );
+        expect(gen.next().value).toEqual(takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_IMPORT_SUBGRAPH], saveGraph));
       });
     });
 
