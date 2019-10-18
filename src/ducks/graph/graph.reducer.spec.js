@@ -4,7 +4,7 @@ jest.mock('uuid/v4', () => ({
   default: () => 'uuid',
 }));
 
-import { setGraphName, createGraph, loadGraphSuccess, importSubgraph } from './graph.actions';
+import { setGraphName, createGraph, loadGraphSuccess, importSubgraph, setText } from './graph.actions';
 import reducer from './graph.reducer';
 
 describe('reducer', () => {
@@ -649,6 +649,17 @@ describe('reducer', () => {
           ],
         },
       });
+    });
+  });
+
+  describe('GRAPH_SET_TEXT', () => {
+    it('sets the `text` in the state to the payload of the given action', () => {
+      const initialState = {
+        text: undefined,
+      };
+      const action = setText('foo');
+      const state = reducer(initialState, action);
+      expect(state.text).toEqual('foo');
     });
   });
 });

@@ -6,6 +6,7 @@ export const GRAPH_LOAD = 'grapher/Graph/LOAD';
 export const GRAPH_LOAD_SUCCESS = 'grapher/Graph/LOAD_SUCCESS';
 export const GRAPH_DELETE = 'grapher/Graph/DELETE';
 export const GRAPH_IMPORT_SUBGRAPH = 'grapher/Graph/IMPORT_SUBGRAPH';
+export const GRAPH_SET_TEXT = 'grapher/Graph/SET_TEXT';
 
 export function setGraphName(id, name) {
   return {
@@ -56,5 +57,12 @@ export function importSubgraph(nodes = [], links = [], groups = []) {
       links,
       groups,
     },
+  };
+}
+
+export function setText(text) {
+  return {
+    type: GRAPH_SET_TEXT,
+    payload: text,
   };
 }

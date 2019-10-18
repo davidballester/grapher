@@ -17,7 +17,8 @@ import {
   deleteGraph,
   GRAPH_IMPORT_SUBGRAPH,
   importSubgraph,
-  GRAPH_GROUPS_ADD,
+  GRAPHS_SET_TEXT,
+  setText,
 } from './graph.actions';
 
 describe('actions', () => {
@@ -108,6 +109,19 @@ describe('actions', () => {
       const groups = { baz: 'qux' };
       const action = importSubgraph(nodes, links, groups);
       expect(action.payload).toEqual({ nodes, links, groups });
+    });
+  });
+
+  describe(setText.name, () => {
+    it('creates the action with the `GRAPH_SET_TEXT` type', () => {
+      const action = setText();
+      expect(action.type).toEqual(GRAPH_SET_TEXT);
+    });
+
+    it('creates the payload provided', () => {
+      const payload = 'foo';
+      const action = setText(payload);
+      expect(action.payload).toEqual(payload);
     });
   });
 });

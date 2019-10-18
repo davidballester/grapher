@@ -1,4 +1,4 @@
-import { GRAPH_SET_NAME, GRAPH_CREATE, GRAPH_LOAD_SUCCESS, GRAPH_IMPORT_SUBGRAPH } from './graph.actions';
+import { GRAPH_SET_NAME, GRAPH_CREATE, GRAPH_LOAD_SUCCESS, GRAPH_IMPORT_SUBGRAPH, GRAPH_SET_TEXT } from './graph.actions';
 
 const initialState = {
   id: '',
@@ -64,6 +64,7 @@ const initialState = {
     },
   },
   groups: {},
+  text: '',
 };
 
 export default function reducer(state = initialState, action) {
@@ -166,6 +167,13 @@ export default function reducer(state = initialState, action) {
           ...state.groups,
           ...groupsAsObject,
         },
+      };
+    }
+    case GRAPH_SET_TEXT: {
+      const text = action.payload;
+      return {
+        ...state,
+        text,
       };
     }
     default: {

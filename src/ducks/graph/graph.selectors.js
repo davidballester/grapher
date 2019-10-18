@@ -75,3 +75,7 @@ export const getGroupsAsArray = createSelector(
 function getOppositeLink(links, { source, target }) {
   return links.find(({ source: candidateSource, target: candidateTarget }) => candidateSource === target && candidateTarget === source);
 }
+
+export function getText(state) {
+  return graphSelector(state).text;
+}

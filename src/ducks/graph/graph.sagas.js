@@ -3,7 +3,7 @@ import { select, takeLatest, call, put } from 'redux-saga/effects';
 import graphService from '../../services/graph.service';
 import graphNamesService from '../../services/graph-names.service';
 import { graphSelector } from './graph.selectors';
-import { GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_LOAD, GRAPH_DELETE, loadGraphSuccess, GRAPH_IMPORT_SUBGRAPH } from './graph.actions';
+import { GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_LOAD, GRAPH_DELETE, loadGraphSuccess, GRAPH_IMPORT_SUBGRAPH, GRAPH_SET_TEXT } from './graph.actions';
 
 export function* saveGraph() {
   const graph = yield select(graphSelector);
@@ -12,7 +12,7 @@ export function* saveGraph() {
 }
 
 export function* saveGraphSaga() {
-  yield takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_IMPORT_SUBGRAPH], saveGraph);
+  yield takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_IMPORT_SUBGRAPH, GRAPH_SET_TEXT], saveGraph);
 }
 
 export function* doLoadGraph(action) {

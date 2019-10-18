@@ -12,6 +12,7 @@ import {
   GRAPH_DELETE,
   deleteGraph,
   GRAPH_IMPORT_SUBGRAPH,
+  GRAPH_SET_TEXT,
 } from './graph.actions';
 import { saveGraph, loadGraphSaga, doLoadGraph, saveGraphSaga, deleteGraphSaga, doDeleteGraph } from './graph.sagas';
 import { graphSelector } from './graph.selectors';
@@ -46,7 +47,7 @@ describe('graph', () => {
       it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, GRAPH_IMPORT_SUBGRAPH', async () => {
         const action = setGraphName('bar');
         const gen = cloneableGenerator(saveGraphSaga)(action);
-        expect(gen.next().value).toEqual(takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_IMPORT_SUBGRAPH], saveGraph));
+        expect(gen.next().value).toEqual(takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_IMPORT_SUBGRAPH, GRAPH_SET_TEXT], saveGraph));
       });
     });
 

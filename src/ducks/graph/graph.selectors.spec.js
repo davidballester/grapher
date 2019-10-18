@@ -18,6 +18,7 @@ import {
   getLinksIdsWithOpposite,
   getSerializedGraph,
   getGroupsAsArray,
+  getText,
 } from './graph.selectors';
 
 describe('selectors', () => {
@@ -278,6 +279,18 @@ describe('selectors', () => {
       };
       const groups = getGroupsAsArray(state);
       expect(groups).toEqual([{ bar: 'baz' }, { baz: 'qux' }]);
+    });
+  });
+
+  describe(getText.name, () => {
+    it('extracts `text` from the graph substate', () => {
+      const appState = {
+        graph: {
+          text: 'foo',
+        },
+      };
+      const text = getText(appState);
+      expect(text).toEqual('foo');
     });
   });
 });
