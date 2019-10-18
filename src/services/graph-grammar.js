@@ -11,7 +11,7 @@ Grapher {
       = pathWithSeparator+ path --multiplePaths
       | path --singlePath
 
-  pathWithSeparator = path ";"
+  pathWithSeparator = path separator
 
   path
       = partialPath+ node --partials
@@ -38,6 +38,8 @@ Grapher {
   identifier
       = identifier space identifier  --withBlanks
       | alnum+ --string
+      
+  separator = ";" | "\\n" | "\\r"
 
 }
 `;
