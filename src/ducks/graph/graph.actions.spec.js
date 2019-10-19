@@ -17,7 +17,7 @@ import {
   deleteGraph,
   GRAPH_IMPORT_SUBGRAPH,
   importSubgraph,
-  GRAPHS_SET_TEXT,
+  GRAPH_SET_TEXT,
   setText,
 } from './graph.actions';
 
