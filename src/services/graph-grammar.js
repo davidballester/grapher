@@ -3,6 +3,7 @@ import _flattenDeep from 'lodash/flattenDeep';
 import _omitBy from 'lodash/omitBy';
 import _isNil from 'lodash/isNil';
 import uuid from 'uuid/v4';
+import { red, purple, blue, green, yellow, orange, brown, grey } from '@material-ui/core/colors';
 
 const grammar = `
 Grapher {
@@ -32,11 +33,22 @@ Grapher {
       | "->" --forward
       | "<-" --backward
 
-  groups
-      = groups+ --multipleGroups
-      | group --singleGroup
+  groups = groups+ --multipleGroups
+    | group --singleGroup
       
-  group = ":" identifier
+  group = ":" identifier " " color --coloredGroup
+    | ":" identifier --uncoloredGroup
+  
+  color = "#red" --red
+    | "#purple" --purple
+    | "#blue" --blue
+    | "#green" --green
+    | "#yellow" --yellow
+    | "#orange" --orange
+    | "#brown" --brown
+    | "#grey" --grey
+    | "#" hexDigit hexDigit hexDigit hexDigit hexDigit hexDigit --sixHex
+    | "#" hexDigit hexDigit hexDigit --threeHex
 
   identifier
       = identifier space identifier  --withBlanks
@@ -147,12 +159,31 @@ class GraphGrammar {
         },
       ],
       groups_singleGroup: (group) => group.eval(),
-      group: (colon, identifier) => [
+      group_uncoloredGroup: (colon, identifier) => [
         {
           type: 'group',
           name: identifier.eval(),
         },
       ],
+      group_coloredGroup: (colon, identifier, space, color) => [
+        {
+          type: 'group',
+          name: identifier.eval(),
+          color: color.eval(),
+        },
+      ],
+      color_red: (text) => red['A700'],
+      color_purple: (text) => purple['A700'],
+      color_blue: (text) => blue['A700'],
+      color_green: (text) => green['A700'],
+      color_yellow: (text) => yellow['A700'],
+      color_orange: (text) => orange['A700'],
+      color_brown: (text) => brown['A700'],
+      color_grey: (text) => grey['A700'],
+      color_threeHex: (hashtag, hexA, hexB, hexC) => `#${hexA.sourceString}${hexB.sourceString}${hexC.sourceString}`,
+      color_sixHex: (hashtag, hexA, hexB, hexC, hexD, hexE, hexF) => {
+        return `#${hexA.sourceString}${hexB.sourceString}${hexC.sourceString}${hexD.sourceString}${hexE.sourceString}${hexF.sourceString}`;
+      },
       groups_multipleGroups: (groups) => _flattenDeep(groups.eval()),
       identifier_string: function(chars) {
         return this.sourceString;
@@ -180,6 +211,7 @@ const mapGroup = (group) => {
   return {
     id: uuid(),
     name: group.name,
+    color: group.color,
   };
 };
 

@@ -17,7 +17,7 @@ function Editor({ text, textError, setText, ...props }) {
     const messageText = message.substring(message.indexOf(':') + 1).trim();
     annotations = [
       {
-        row: parseInt(position[0]),
+        row: parseInt(position[0]) - 1,
         col: parseInt(position[1]),
         type: 'error',
         text: messageText,

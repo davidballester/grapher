@@ -1,4 +1,5 @@
 import { fail } from 'assert';
+import { red } from '@material-ui/core/colors';
 
 import graphGrammar from './graph-grammar';
 
@@ -30,6 +31,21 @@ describe('graph-grammar', () => {
 
     it('matches a single group', () => {
       const matchResult = graphGrammar.match(':foo');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches a single colored group that uses a primitive color', () => {
+      const matchResult = graphGrammar.match(':foo #red');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches a single colored group that uses a three digits hexadecimal color', () => {
+      const matchResult = graphGrammar.match(':foo #123');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches a single colored group that uses a six digits hexadecimal color', () => {
+      const matchResult = graphGrammar.match(':foo #123456');
       expect(matchResult.succeeded()).toBeTruthy();
     });
 
@@ -134,6 +150,51 @@ describe('graph-grammar', () => {
           {
             id: expect.anything(),
             name: 'foo',
+          },
+        ],
+      });
+    });
+
+    it('turns a single group with a primitive color into an object with a single group', () => {
+      const result = graphGrammar.eval(graphGrammar.match(':foo #red'));
+      expect(result).toEqual({
+        nodes: [],
+        links: [],
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'foo',
+            color: red['A700'],
+          },
+        ],
+      });
+    });
+
+    it('turns a single group with a three hexadecimal color into an object with a single group', () => {
+      const result = graphGrammar.eval(graphGrammar.match(':foo #123'));
+      expect(result).toEqual({
+        nodes: [],
+        links: [],
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'foo',
+            color: '#123',
+          },
+        ],
+      });
+    });
+
+    it('turns a single group with a six hexadecimal color into an object with a single group', () => {
+      const result = graphGrammar.eval(graphGrammar.match(':foo #123456'));
+      expect(result).toEqual({
+        nodes: [],
+        links: [],
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'foo',
+            color: '#123456',
           },
         ],
       });
