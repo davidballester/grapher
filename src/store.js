@@ -20,7 +20,6 @@ const reducer = combineReducers({
   dialog: dialogReducer,
   canvas: canvasReducer,
   graphImport: graphImportReducer,
-  subgraphCreator: subgraphCreatorReducer,
   onboarding: onboardingReducer,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -31,6 +30,5 @@ sagaMiddleware.run(navigateSaga);
 sagaMiddleware.run(deleteGraphSaga);
 sagaMiddleware.run(refreshSaga);
 sagaMiddleware.run(importGraphSaga);
-sagaMiddleware.run(importSubgraphSaga);
 sagaMiddleware.run(persistDismiss);
 sagaMiddleware.run(setTextSaga);
