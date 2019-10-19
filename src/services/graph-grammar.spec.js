@@ -28,6 +28,11 @@ describe('graph-grammar', () => {
       expect(matchResult.succeeded()).toBeTruthy();
     });
 
+    it('matches a single group', () => {
+      const matchResult = graphGrammar.match(':foo');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
     it('matches simple paths', () => {
       const matchResult = graphGrammar.match('(foo)->(bar)');
       expect(matchResult.succeeded()).toBeTruthy();
@@ -117,6 +122,20 @@ describe('graph-grammar', () => {
         ],
         links: [],
         groups: [],
+      });
+    });
+
+    it('turns a single group into an object with a single group', () => {
+      const result = graphGrammar.eval(graphGrammar.match(':foo'));
+      expect(result).toEqual({
+        nodes: [],
+        links: [],
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'foo',
+          },
+        ],
       });
     });
 

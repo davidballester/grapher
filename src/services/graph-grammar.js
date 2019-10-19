@@ -16,6 +16,7 @@ Grapher {
   path
       = partialPath+ node --partials
       | node --node
+      | group --group
 
   partialPath = node link
 
@@ -33,12 +34,14 @@ Grapher {
 
   groups
       = groups+ --multipleGroups
-      | ":" identifier --singleGroup
+      | group --singleGroup
+      
+  group = ":" identifier
 
   identifier
       = identifier space identifier  --withBlanks
       | alnum+ --string
-      
+
   separator = ";" | "\\n"+ | "\\r"+
 
 }
@@ -62,6 +65,7 @@ class GraphGrammar {
       pathWithSeparator: (path, separator) => path.eval(),
       path_partials: (partialPaths, node) => _flattenDeep([...partialPaths.eval(), node.eval()]),
       path_node: (node) => node.eval(),
+      path_group: (group) => group.eval(),
       partialPath: (node, link) => _flattenDeep([node.eval(), link.eval()]),
       node_nodeNoGroups: (open, identifier, close) => [
         {
@@ -142,7 +146,8 @@ class GraphGrammar {
           id: uuid(),
         },
       ],
-      groups_singleGroup: (colon, identifier) => [
+      groups_singleGroup: (group) => group.eval(),
+      group: (colon, identifier) => [
         {
           type: 'group',
           name: identifier.eval(),
