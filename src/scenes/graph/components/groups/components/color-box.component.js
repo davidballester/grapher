@@ -10,7 +10,6 @@ const styles = (theme) => ({
 });
 
 function ColorBox({ color = '#ccc', classes }) {
-  console.log(color);
   return <div className={classes.root} style={{ backgroundColor: color }} />;
 }
 

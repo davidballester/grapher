@@ -245,9 +245,9 @@ const mapEntities = (entities) => {
         [node.id]: {
           ...existingNode,
           ...node,
-          groups: [...existingGroups, ...node.groups].filter(
-            (item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index
-          ),
+          groups: [...existingGroups, ...node.groups]
+            .filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index)
+            .map(({ name }) => groups.find(({ name: existingGroupName }) => existingGroupName === name)),
         },
       };
     }, {});
@@ -276,9 +276,9 @@ const mapEntities = (entities) => {
         [sourceAndTargetId]: {
           ...existingLink,
           ...link,
-          groups: [...existingGroups, ...link.groups].filter(
-            (item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index
-          ),
+          groups: [...existingGroups, ...link.groups]
+            .filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index)
+            .map(({ name }) => groups.find(({ name: existingGroupName }) => existingGroupName === name)),
         },
       };
     }, {});

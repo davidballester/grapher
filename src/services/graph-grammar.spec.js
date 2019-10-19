@@ -621,5 +621,40 @@ describe('graph-grammar', () => {
         groups: expect.anything(),
       });
     });
+
+    it('preserves first color defined for a group', () => {
+      const result = graphGrammar.eval(graphGrammar.match(':foo #red;:foo #yellow'));
+      expect(result).toEqual({
+        nodes: expect.anything(),
+        links: expect.anything(),
+        groups: [
+          {
+            id: expect.anything(),
+            name: 'foo',
+            color: red['A700'],
+          },
+        ],
+      });
+    });
+
+    it('includes colors of groups in nodes', () => {
+      const result = graphGrammar.eval(graphGrammar.match(':foo #red;(bar:foo)'));
+      expect(result).toEqual({
+        nodes: [
+          {
+            id: 'bar',
+            groups: [
+              {
+                id: expect.anything(),
+                name: 'foo',
+                color: red['A700'],
+              },
+            ],
+          },
+        ],
+        links: expect.anything(),
+        groups: expect.anything(),
+      });
+    });
   });
 });

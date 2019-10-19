@@ -13,8 +13,8 @@ module.exports = {
         'nodes',
         'links',
         'graph',
-	'groups',
-	'canvas',
+        'groups',
+        'canvas',
       ],
     ]
   },
