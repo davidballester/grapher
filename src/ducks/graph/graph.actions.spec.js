@@ -15,10 +15,12 @@ import {
   loadGraphSuccess,
   GRAPH_DELETE,
   deleteGraph,
-  GRAPH_IMPORT_SUBGRAPH,
-  importSubgraph,
+  GRAPH_SET_CONTENTS,
+  setContents,
   GRAPH_SET_TEXT,
   setText,
+  GRAPH_SET_TEXT_ERROR,
+  setTextError,
 } from './graph.actions';
 
 describe('actions', () => {
@@ -97,17 +99,17 @@ describe('actions', () => {
     });
   });
 
-  describe(importSubgraph.name, () => {
-    it('creates the action with the `GRAPH_IMPORT_SUBGRAPH` type', () => {
-      const action = importSubgraph();
-      expect(action.type).toEqual(GRAPH_IMPORT_SUBGRAPH);
+  describe(setContents.name, () => {
+    it('creates the action with the `GRAPH_SET_CONTENTS` type', () => {
+      const action = setContents();
+      expect(action.type).toEqual(GRAPH_SET_CONTENTS);
     });
 
     it('creates the action with the nodes, links and groups provided as payload', () => {
       const nodes = { foo: 'bar' };
       const links = { bar: 'baz' };
       const groups = { baz: 'qux' };
-      const action = importSubgraph(nodes, links, groups);
+      const action = setContents(nodes, links, groups);
       expect(action.payload).toEqual({ nodes, links, groups });
     });
   });
@@ -122,6 +124,13 @@ describe('actions', () => {
       const payload = 'foo';
       const action = setText(payload);
       expect(action.payload).toEqual(payload);
+    });
+  });
+
+  describe(setTextError.name, () => {
+    it('creates the action with the GRAPH_SET_TEXT_ERROR type', () => {
+      const action = setTextError();
+      expect(action.type).toEqual(GRAPH_SET_TEXT_ERROR);
     });
   });
 });

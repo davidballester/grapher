@@ -1,5 +1,5 @@
 /* eslint-disable import/first */
-import { select, takeLatest, call, put } from 'redux-saga/effects';
+import { select, takeLatest, call, put, delay } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
 import {
@@ -11,10 +11,13 @@ import {
   loadGraphSuccess,
   GRAPH_DELETE,
   deleteGraph,
-  GRAPH_IMPORT_SUBGRAPH,
+  GRAPH_SET_CONTENTS,
   GRAPH_SET_TEXT,
+  setTextError,
+  setText,
+  setContents,
 } from './graph.actions';
-import { saveGraph, loadGraphSaga, doLoadGraph, saveGraphSaga, deleteGraphSaga, doDeleteGraph } from './graph.sagas';
+import { saveGraph, loadGraphSaga, doLoadGraph, saveGraphSaga, deleteGraphSaga, doDeleteGraph, setTextSaga, processText } from './graph.sagas';
 import { graphSelector } from './graph.selectors';
 
 jest.mock('../../services/graph.service', () => ({
@@ -44,10 +47,10 @@ describe('graph', () => {
 
   describe('sagas', () => {
     describe(saveGraphSaga.name, () => {
-      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, GRAPH_IMPORT_SUBGRAPH', async () => {
+      it('invokes take latest with `GRAPH_CREATE`, `GRAPH_SET_NAME`, GRAPH_SET_CONTENTS', async () => {
         const action = setGraphName('bar');
         const gen = cloneableGenerator(saveGraphSaga)(action);
-        expect(gen.next().value).toEqual(takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_IMPORT_SUBGRAPH, GRAPH_SET_TEXT], saveGraph));
+        expect(gen.next().value).toEqual(takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_SET_CONTENTS, GRAPH_SET_TEXT], saveGraph));
       });
     });
 
@@ -121,6 +124,40 @@ describe('graph', () => {
         let gen = cloneableGenerator(doDeleteGraph)(action);
         gen.next(); // remove graph
         expect(gen.next().value).toEqual(call([graphNamesService, 'removeGraphName'], 'foo'));
+      });
+    });
+
+    describe(setTextSaga.name, () => {
+      it('invokes take latest with GRAPH_SET_TEXT', () => {
+        const action = setText('foo');
+        const gen = cloneableGenerator(setTextSaga)(action);
+        expect(gen.next().value).toEqual(takeLatest([GRAPH_SET_TEXT], processText));
+      });
+    });
+
+    describe(processText.name, () => {
+      it('yields a delay', () => {
+        const action = { payload: 'foo' };
+        let gen = cloneableGenerator(processText)(action);
+        expect(gen.next().value).toEqual(delay(500));
+      });
+
+      it('puts setTextError if the result of match is not succeded', () => {
+        const action = { payload: 'foo' };
+        let gen = cloneableGenerator(processText)(action);
+        gen.next(); // delay
+        gen.next(); // match
+        expect(gen.next({ succeded: () => false }).value).toEqual(put(setTextError()));
+      });
+
+      it('puts setContents if the result of match is succeded with the contents returned from graphGrammar.eval', () => {
+        const action = { payload: 'foo' };
+        let gen = cloneableGenerator(processText)(action);
+        gen.next(); // delay
+        gen.next(); // match
+        gen.next({ succeded: () => true }); // eval
+        const results = { nodes: [{ id: 'foo' }], links: [{ id: 'bar' }], groups: [{ id: 'baz' }] };
+        expect(gen.next(results).value).toEqual(put(setContents(results.nodes, results.links, results.groups)));
       });
     });
   });

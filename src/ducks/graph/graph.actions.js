@@ -5,8 +5,9 @@ export const GRAPH_CREATE = 'grapher/Graph/CREATE';
 export const GRAPH_LOAD = 'grapher/Graph/LOAD';
 export const GRAPH_LOAD_SUCCESS = 'grapher/Graph/LOAD_SUCCESS';
 export const GRAPH_DELETE = 'grapher/Graph/DELETE';
-export const GRAPH_IMPORT_SUBGRAPH = 'grapher/Graph/IMPORT_SUBGRAPH';
+export const GRAPH_SET_CONTENTS = 'grapher/Graph/SET_CONTENTS';
 export const GRAPH_SET_TEXT = 'grapher/Graph/SET_TEXT';
+export const GRAPH_SET_TEXT_ERROR = 'grapher/Graph/SET_TEXT_ERROR';
 
 export function setGraphName(id, name) {
   return {
@@ -49,9 +50,9 @@ export function deleteGraph(id) {
   };
 }
 
-export function importSubgraph(nodes = [], links = [], groups = []) {
+export function setContents(nodes = [], links = [], groups = []) {
   return {
-    type: GRAPH_IMPORT_SUBGRAPH,
+    type: GRAPH_SET_CONTENTS,
     payload: {
       nodes,
       links,
@@ -64,5 +65,11 @@ export function setText(text) {
   return {
     type: GRAPH_SET_TEXT,
     payload: text,
+  };
+}
+
+export function setTextError() {
+  return {
+    type: GRAPH_SET_TEXT_ERROR,
   };
 }

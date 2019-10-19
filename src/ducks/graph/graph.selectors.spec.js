@@ -19,6 +19,7 @@ import {
   getSerializedGraph,
   getGroupsAsArray,
   getText,
+  getTextError,
 } from './graph.selectors';
 
 describe('selectors', () => {
@@ -291,6 +292,18 @@ describe('selectors', () => {
       };
       const text = getText(appState);
       expect(text).toEqual('foo');
+    });
+  });
+
+  describe(getTextError.name, () => {
+    it('extracts textError from the graph substate', () => {
+      const appState = {
+        graph: {
+          textError: true,
+        },
+      };
+      const textError = getTextError(appState);
+      expect(textError).toEqual(true);
     });
   });
 });

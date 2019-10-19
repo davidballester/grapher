@@ -1,4 +1,4 @@
-import { GRAPH_SET_NAME, GRAPH_CREATE, GRAPH_LOAD_SUCCESS, GRAPH_IMPORT_SUBGRAPH, GRAPH_SET_TEXT } from './graph.actions';
+import { GRAPH_SET_NAME, GRAPH_CREATE, GRAPH_LOAD_SUCCESS, GRAPH_SET_CONTENTS, GRAPH_SET_TEXT, GRAPH_SET_TEXT_ERROR } from './graph.actions';
 
 const initialState = {
   id: '',
@@ -65,6 +65,7 @@ const initialState = {
   },
   groups: {},
   text: '',
+  textError: false,
 };
 
 export default function reducer(state = initialState, action) {
@@ -92,81 +93,13 @@ export default function reducer(state = initialState, action) {
         ...action.payload,
       };
     }
-    case GRAPH_IMPORT_SUBGRAPH: {
-      const { nodes, links } = action.payload;
-      let { groups } = action.payload;
-
-      // Use existing groups for groups based on name
-      groups = groups.map((group) => {
-        const existingGroup = Object.values(state.groups).find(({ name }) => name === group.name);
-        return !!existingGroup ? existingGroup : group;
-      });
-
-      const groupsAsObject = groups.reduce(
-        (obj, group) => ({
-          ...obj,
-          [group.id]: group,
-        }),
-        {}
-      );
-      const nodesAsObject = nodes
-        .map((node) => {
-          const existingNode = state.nodes[node.id] || {};
-          // Use groups from the existing groups and merge them with current ones, if any
-          const nodeGroups = [
-            ...(existingNode.groups || []),
-            ...(node.groups || []).map((group) => groups.find(({ name }) => name === group.name)),
-          ].filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index);
-          return {
-            ...existingNode,
-            ...node,
-            groups: nodeGroups,
-          };
-        })
-        .reduce(
-          (obj, node) => ({
-            ...obj,
-            [node.id]: node,
-          }),
-          {}
-        );
-      const linksAsObject = links
-        .map((link) => {
-          const existingLink = Object.values(state.links).find(({ source, target }) => source === link.source && target === link.target) || {};
-          // Use groups from the existing groups and merge them with current ones, if any
-          const linkGroups = [
-            ...(existingLink.groups || []),
-            ...(link.groups || []).map((group) => groups.find(({ name }) => name === group.name)),
-          ].filter((item, index, groups) => groups.findIndex((candidate) => candidate.name === item.name) === index);
-          return {
-            ...existingLink,
-            ...link,
-            groups: linkGroups,
-            id: existingLink.id || link.id,
-          };
-        })
-        .reduce(
-          (obj, link) => ({
-            ...obj,
-            [link.id]: link,
-          }),
-          {}
-        );
-
+    case GRAPH_SET_CONTENTS: {
+      const { nodes, links, groups } = action.payload;
       return {
         ...state,
-        nodes: {
-          ...state.nodes,
-          ...nodesAsObject,
-        },
-        links: {
-          ...state.links,
-          ...linksAsObject,
-        },
-        groups: {
-          ...state.groups,
-          ...groupsAsObject,
-        },
+        nodes: nodes.reduce((nodesMap, node) => ({ ...nodesMap, [node.id]: node }), {}),
+        links: links.reduce((linksMap, link) => ({ ...linksMap, [link.id]: link }), {}),
+        groups: groups.reduce((groupsMap, group) => ({ ...groupsMap, [group.id]: group }), {}),
       };
     }
     case GRAPH_SET_TEXT: {
@@ -174,6 +107,13 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         text,
+        textError: false,
+      };
+    }
+    case GRAPH_SET_TEXT_ERROR: {
+      return {
+        ...state,
+        textError: true,
       };
     }
     default: {

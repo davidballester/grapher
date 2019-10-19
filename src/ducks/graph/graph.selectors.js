@@ -79,3 +79,7 @@ function getOppositeLink(links, { source, target }) {
 export function getText(state) {
   return graphSelector(state).text;
 }
+
+export function getTextError(state) {
+  return graphSelector(state).textError;
+}

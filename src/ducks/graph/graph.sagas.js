@@ -1,9 +1,20 @@
-import { select, takeLatest, call, put } from 'redux-saga/effects';
+import { select, takeLatest, call, put, delay } from 'redux-saga/effects';
 
 import graphService from '../../services/graph.service';
 import graphNamesService from '../../services/graph-names.service';
 import { graphSelector } from './graph.selectors';
-import { GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_LOAD, GRAPH_DELETE, loadGraphSuccess, GRAPH_IMPORT_SUBGRAPH, GRAPH_SET_TEXT } from './graph.actions';
+import {
+  GRAPH_CREATE,
+  GRAPH_SET_NAME,
+  GRAPH_LOAD,
+  GRAPH_DELETE,
+  loadGraphSuccess,
+  GRAPH_SET_CONTENTS,
+  GRAPH_SET_TEXT,
+  setTextError,
+  setContents,
+} from './graph.actions';
+import graphGrammar from '../../services/graph-grammar';
 
 export function* saveGraph() {
   const graph = yield select(graphSelector);
@@ -12,7 +23,7 @@ export function* saveGraph() {
 }
 
 export function* saveGraphSaga() {
-  yield takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_IMPORT_SUBGRAPH, GRAPH_SET_TEXT], saveGraph);
+  yield takeLatest([GRAPH_CREATE, GRAPH_SET_NAME, GRAPH_SET_CONTENTS, GRAPH_SET_TEXT], saveGraph);
 }
 
 export function* doLoadGraph(action) {
@@ -32,4 +43,20 @@ export function* doDeleteGraph({ payload: graphId }) {
 
 export function* deleteGraphSaga() {
   yield takeLatest([GRAPH_DELETE], doDeleteGraph);
+}
+
+export function* processText({ payload: text }) {
+  yield delay(500);
+  const matchResult = yield call([graphGrammar, 'match'], text);
+  if (!matchResult.succeded()) {
+    yield put(setTextError());
+  } else {
+    const contents = yield call([graphGrammar, 'eval'], text);
+    const { nodes, links, groups } = contents;
+    yield put(setContents(nodes, links, groups));
+  }
+}
+
+export function* setTextSaga() {
+  yield takeLatest([GRAPH_SET_TEXT], processText);
 }
