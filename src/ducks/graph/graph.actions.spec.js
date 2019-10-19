@@ -132,5 +132,11 @@ describe('actions', () => {
       const action = setTextError();
       expect(action.type).toEqual(GRAPH_SET_TEXT_ERROR);
     });
+
+    it('creates the payload provided', () => {
+      const payload = 'foo';
+      const action = setTextError(payload);
+      expect(action.payload).toEqual(payload);
+    });
   });
 });

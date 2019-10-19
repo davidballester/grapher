@@ -142,12 +142,13 @@ describe('graph', () => {
         expect(gen.next().value).toEqual(delay(500));
       });
 
-      it('puts setTextError if the result of match is not succeeded', () => {
+      it('puts setTextError if the result of match is not succeeded with the result of graphGrammar.match', () => {
         const action = { payload: 'foo' };
         let gen = cloneableGenerator(processText)(action);
         gen.next(); // delay
         gen.next(); // match
-        expect(gen.next({ succeeded: () => false }).value).toEqual(put(setTextError()));
+        const matchResult = { succeeded: () => false };
+        expect(gen.next(matchResult).value).toEqual(put(setTextError(matchResult)));
       });
 
       it('puts setContents if the result of match is succeeded with the contents returned from graphGrammar.eval', () => {

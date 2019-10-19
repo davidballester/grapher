@@ -127,24 +127,24 @@ describe('reducer', () => {
       expect(state.text).toEqual('foo');
     });
 
-    it('sets the textError in the state to false', () => {
+    it('sets the textError in the state to undefined', () => {
       const initialState = {
         textError: true,
       };
       const action = setText('foo');
       const state = reducer(initialState, action);
-      expect(state.textError).toEqual(false);
+      expect(state.textError).toEqual(undefined);
     });
   });
 
   describe('GRAPH_SET_TEXT_ERROR', () => {
-    it('sets the textError in the state to true', () => {
+    it('sets the textError in the state to the payload of the action', () => {
       const initialState = {
         textError: false,
       };
-      const action = setTextError();
+      const action = setTextError('foo');
       const state = reducer(initialState, action);
-      expect(state.textError).toEqual(true);
+      expect(state.textError).toEqual('foo');
     });
   });
 });

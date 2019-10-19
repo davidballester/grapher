@@ -65,7 +65,7 @@ const initialState = {
   },
   groups: {},
   text: '',
-  textError: false,
+  textError: undefined,
 };
 
 export default function reducer(state = initialState, action) {
@@ -107,13 +107,13 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         text,
-        textError: false,
+        textError: undefined,
       };
     }
     case GRAPH_SET_TEXT_ERROR: {
       return {
         ...state,
-        textError: true,
+        textError: action.payload,
       };
     }
     default: {

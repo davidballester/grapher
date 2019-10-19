@@ -49,7 +49,7 @@ export function* processText({ payload: text }) {
   yield delay(500);
   const matchResult = yield call([graphGrammar, 'match'], text);
   if (!matchResult.succeeded()) {
-    yield put(setTextError());
+    yield put(setTextError(matchResult));
   } else {
     const contents = yield call([graphGrammar, 'eval'], matchResult);
     const { nodes, links, groups } = contents;

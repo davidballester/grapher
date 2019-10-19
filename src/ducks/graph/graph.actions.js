@@ -68,8 +68,9 @@ export function setText(text) {
   };
 }
 
-export function setTextError() {
+export function setTextError(error) {
   return {
     type: GRAPH_SET_TEXT_ERROR,
+    payload: error,
   };
 }
