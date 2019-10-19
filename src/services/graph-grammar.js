@@ -39,7 +39,7 @@ Grapher {
       = identifier space identifier  --withBlanks
       | alnum+ --string
       
-  separator = ";" | "\\n" | "\\r"
+  separator = ";" | "\\n"+ | "\\r"+
 
 }
 `;

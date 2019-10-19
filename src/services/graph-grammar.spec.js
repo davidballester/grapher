@@ -87,6 +87,13 @@ describe('graph-grammar', () => {
       const matchResult = graphGrammar.match('(foo)-[:baz:qux quux]->(corge);(bar);(foo)-[baz]->(bar)');
       expect(matchResult.succeeded()).toBeTruthy();
     });
+
+    it('matches a list of paths and nodes separated by line breaks', () => {
+      const matchResult = graphGrammar.match(`(foo)-[:baz:qux quux]->(corge)
+
+(bar);(foo)-[baz]->(bar)`);
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
   });
 
   describe('#eval', () => {
