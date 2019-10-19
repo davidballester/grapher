@@ -48,10 +48,10 @@ export function* deleteGraphSaga() {
 export function* processText({ payload: text }) {
   yield delay(500);
   const matchResult = yield call([graphGrammar, 'match'], text);
-  if (!matchResult.succeded()) {
+  if (!matchResult.succeeded()) {
     yield put(setTextError());
   } else {
-    const contents = yield call([graphGrammar, 'eval'], text);
+    const contents = yield call([graphGrammar, 'eval'], matchResult);
     const { nodes, links, groups } = contents;
     yield put(setContents(nodes, links, groups));
   }

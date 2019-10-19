@@ -142,20 +142,20 @@ describe('graph', () => {
         expect(gen.next().value).toEqual(delay(500));
       });
 
-      it('puts setTextError if the result of match is not succeded', () => {
+      it('puts setTextError if the result of match is not succeeded', () => {
         const action = { payload: 'foo' };
         let gen = cloneableGenerator(processText)(action);
         gen.next(); // delay
         gen.next(); // match
-        expect(gen.next({ succeded: () => false }).value).toEqual(put(setTextError()));
+        expect(gen.next({ succeeded: () => false }).value).toEqual(put(setTextError()));
       });
 
-      it('puts setContents if the result of match is succeded with the contents returned from graphGrammar.eval', () => {
+      it('puts setContents if the result of match is succeeded with the contents returned from graphGrammar.eval', () => {
         const action = { payload: 'foo' };
         let gen = cloneableGenerator(processText)(action);
         gen.next(); // delay
         gen.next(); // match
-        gen.next({ succeded: () => true }); // eval
+        gen.next({ succeeded: () => true }); // eval
         const results = { nodes: [{ id: 'foo' }], links: [{ id: 'bar' }], groups: [{ id: 'baz' }] };
         expect(gen.next(results).value).toEqual(put(setContents(results.nodes, results.links, results.groups)));
       });
