@@ -9,7 +9,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Introduction from './components/introduction.component';
 import AddNodesAndLinks from './components/add-nodes-and-links.component';
 import Groups from './components/groups.component';
-import TextEditor from './components/text-editor.component';
 import Title from './components/title.component';
 
 const styles = (theme) => ({
@@ -28,6 +27,8 @@ const styles = (theme) => ({
   },
 });
 
+const steps = 3;
+
 const Onboarding = ({ open, dismiss, classes }) => {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -45,15 +46,14 @@ const Onboarding = ({ open, dismiss, classes }) => {
       <Introduction hidden={activeStep !== 0} className={classes.step} />
       <AddNodesAndLinks hidden={activeStep !== 1} className={classes.step} />
       <Groups hidden={activeStep !== 2} className={classes.step} />
-      <TextEditor hidden={activeStep !== 3} className={classes.step} />
       <MobileStepper
         variant="dots"
-        steps={4}
+        steps={steps}
         position="static"
         activeStep={activeStep}
         className={classes.stepper}
         nextButton={
-          <Button size="small" onClick={handleNext} disabled={activeStep === 3}>
+          <Button size="small" onClick={handleNext} disabled={activeStep === steps - 1}>
             Next
             <KeyboardArrowRight />
           </Button>

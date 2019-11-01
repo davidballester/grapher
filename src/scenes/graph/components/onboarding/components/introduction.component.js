@@ -14,7 +14,7 @@ const styles = (theme) => ({
 
 const Introduction = ({ hidden, className, classes }) => (
   <Box hidden={hidden} className={className}>
-    <p>Grapher is a tool to create graphs. That's it!</p>
+    <p>Grapher is a tool to write down graphs. That's it!</p>
     <p>
       Start off by adding some nodes and link them to one another. Then, assign groups to them and color each group to reveal patterns in your graph.
     </p>
