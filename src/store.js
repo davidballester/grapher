@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
 import graphListReducer from './scenes/graph-list/graph-list.duck';
-import graphReducer, { saveGraphSaga, loadGraphSaga, deleteGraphSaga, setTextSaga } from './ducks/graph';
+import graphReducer, { saveGraphSaga, loadGraphSaga, deleteGraphSaga, setTextSaga, createSampleGraphSaga } from './ducks/graph';
 import nodeSelectionReducer from './scenes/graph/components/selection/components/nodes/node-selection.duck';
 import linkSelectionReducer from './scenes/graph/components/selection/components/links/link-selection.duck';
 import { navigateSaga } from './ducks/navigation.duck';
@@ -32,3 +32,4 @@ sagaMiddleware.run(refreshSaga);
 sagaMiddleware.run(importGraphSaga);
 sagaMiddleware.run(persistDismiss);
 sagaMiddleware.run(setTextSaga);
+sagaMiddleware.run(createSampleGraphSaga);

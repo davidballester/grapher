@@ -12,7 +12,7 @@ Grapher {
       = pathWithSeparator+ path --multiplePaths
       | path --singlePath
 
-  pathWithSeparator = path separator
+  pathWithSeparator = separator? path separator
 
   path
       = partialPath+ node --partials
@@ -74,7 +74,7 @@ class GraphGrammar {
         const entities = path.eval();
         return mapEntities(entities);
       },
-      pathWithSeparator: (path, separator) => path.eval(),
+      pathWithSeparator: (firstSeparator, path, separator) => path.eval(),
       path_partials: (partialPaths, node) => _flattenDeep([...partialPaths.eval(), node.eval()]),
       path_node: (node) => node.eval(),
       path_group: (group) => group.eval(),
@@ -194,7 +194,7 @@ class GraphGrammar {
     });
   }
 
-  match(string) {
+  match(string = '') {
     return this.grammar.match(string);
   }
 
@@ -288,3 +288,29 @@ const mapEntities = (entities) => {
     groups,
   };
 };
+
+export const sampleGraph = `:King #red
+:Queen #purple
+:Wizard #blue
+:Antagonist #grey
+:Knight #green
+
+:family
+:lovers
+
+(Arthur:King)
+(Guinevere:Queen)
+(Merlin:Wizard)
+(Mordred:Antagonist)
+(Lancelot:Knight)
+(Galahad:Knight)
+(Lamorak:Knight)
+(Bors:Knight)
+
+(Arthur)-[:lovers]->(Guinevere)<-[:lovers]-(Lancelot)
+(Arthur)-[:family]->(Mordred)
+(Lancelot)-[:family]->(Galahad)
+(Arthur)->(Merlin)
+(Lancelot)->(Arthur)<-(Galahad)->(Lamorak)
+(Lamorak)->(Arthur)<-(Bors)
+(Lancelot)-[:family]->(Bors)`;

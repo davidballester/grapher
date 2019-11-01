@@ -13,8 +13,9 @@ import {
   GRAPH_SET_TEXT,
   setTextError,
   setContents,
+  setText,
 } from './graph.actions';
-import graphGrammar from '../../services/graph-grammar';
+import graphGrammar, { sampleGraph } from '../../services/graph-grammar';
 
 export function* saveGraph() {
   const graph = yield select(graphSelector);
@@ -59,4 +60,14 @@ export function* processText({ payload: text }) {
 
 export function* setTextSaga() {
   yield takeLatest([GRAPH_SET_TEXT], processText);
+}
+
+export function* createSampleGraph({ payload: { includeSampleGraph } }) {
+  if (includeSampleGraph) {
+    yield put(setText(sampleGraph));
+  }
+}
+
+export function* createSampleGraphSaga() {
+  yield takeLatest([GRAPH_CREATE], createSampleGraph);
 }

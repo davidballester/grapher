@@ -51,6 +51,12 @@ describe('actions', () => {
       expect(action.payload).toMatchObject(expectedGraph);
     });
 
+    it('includes the includeSampleGraph flag as provided', () => {
+      const expectedGraph = { foo: 'bar', includeSampleGraph: true };
+      const action = createGraph(expectedGraph, true);
+      expect(action.payload).toMatchObject(expectedGraph);
+    });
+
     it('includes an uuid as id, regardless of the contents of the payload', () => {
       const action = createGraph({ id: 'foo' });
       const payload = action.payload;

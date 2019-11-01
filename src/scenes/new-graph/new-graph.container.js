@@ -12,7 +12,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
-    saveNewGraph: (graphName) => dispatch(createGraph({ name: graphName })),
+    saveNewGraph: (graphName, includeSampleGraph) => dispatch(createGraph({ name: graphName }, includeSampleGraph)),
     openGraphList: () => dispatch(openGraphList()),
     cancelNewGraph: () => dispatch(openGraphList()),
   };

@@ -5,6 +5,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import Navbar from '../../components/navbar';
 
@@ -12,17 +14,17 @@ function isGraphNameValid(newGraphName) {
   return !!newGraphName.trim();
 }
 
-function submit(newGraphName, setError, saveNewGraph) {
+function submit(newGraphName, includeSampleGraph, setError, saveNewGraph) {
   if (!isGraphNameValid(newGraphName)) {
     setError(true);
   } else {
     setError(false);
-    saveNewGraph(newGraphName);
+    saveNewGraph(newGraphName, includeSampleGraph);
   }
 }
 
 export default function NewGraph({ title, saveNewGraph, cancelNewGraph, openGraphList }) {
-  const [newGraphName, setNewGraphName] = useState('');
+  const [formData, setFormData] = useState({ graphName: '', includeSampleGraph: true });
   const [error, setError] = useState(false);
   return (
     <>
@@ -32,11 +34,30 @@ export default function NewGraph({ title, saveNewGraph, cancelNewGraph, openGrap
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            submit(newGraphName, setError, saveNewGraph);
+            submit(formData.graphName, formData.includeSampleGraph, setError, saveNewGraph);
           }}
         >
           <DialogContent>
-            <TextField error={error} label="Graph name" onChange={(event) => setNewGraphName(event.target.value)} value={newGraphName} />
+            <div>
+              <TextField
+                error={error}
+                label="Graph name"
+                onChange={(event) => setFormData({ ...formData, graphName: event.target.value })}
+                value={formData.graphName}
+              />
+            </div>
+            <div>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={formData.includeSampleGraph}
+                    onChange={() => setFormData({ ...formData, includeSampleGraph: !formData.includeSampleGraph })}
+                    value="checkedA"
+                  />
+                }
+                label="Include sample data"
+              />
+            </div>
           </DialogContent>
           <DialogActions>
             <Button onClick={cancelNewGraph} className="cancel" type="button">

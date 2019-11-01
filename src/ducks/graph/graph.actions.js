@@ -19,11 +19,12 @@ export function setGraphName(id, name) {
   };
 }
 
-export function createGraph(graph) {
+export function createGraph(graph, includeSampleGraph) {
   return {
     type: GRAPH_CREATE,
     payload: {
       ...graph,
+      includeSampleGraph,
       id: uuid(),
     },
   };

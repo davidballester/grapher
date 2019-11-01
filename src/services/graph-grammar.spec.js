@@ -1,7 +1,7 @@
 import { fail } from 'assert';
 import { red } from '@material-ui/core/colors';
 
-import graphGrammar from './graph-grammar';
+import graphGrammar, { sampleGraph } from './graph-grammar';
 
 jest.mock('uuid/v4', () => ({
   __esModule: true,
@@ -655,6 +655,13 @@ describe('graph-grammar', () => {
         links: expect.anything(),
         groups: expect.anything(),
       });
+    });
+  });
+
+  describe('sampleGraph', () => {
+    it('is valid', () => {
+      const matchResult = graphGrammar.match(sampleGraph);
+      expect(matchResult.succeeded()).toBeTruthy();
     });
   });
 });
