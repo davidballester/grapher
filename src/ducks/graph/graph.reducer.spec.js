@@ -55,6 +55,7 @@ describe('reducer', () => {
         groups: {
           baz: {},
         },
+        text: 'foo',
       };
       const expectedState = {
         id: 'uuid',
@@ -62,6 +63,7 @@ describe('reducer', () => {
         nodes: {},
         links: {},
         groups: {},
+        text: '',
       };
       const action = createGraph({});
       const state = reducer(initialState, action);
