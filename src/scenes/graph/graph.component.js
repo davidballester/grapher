@@ -10,13 +10,14 @@ import EditGraph from './components/edit-graph';
 import Export from './components/export';
 import Onboarding from './components/onboarding';
 import GraphLarge from './components/graph-large.component';
+import GraphSmall from './components/graph-small.component';
 
 export default function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, classes }) {
   if (!!graphId && graphId !== loadedGraphId) {
     loadGraph(graphId);
   }
   const theme = useTheme();
-  const bigScreen = useMediaQuery(theme.breakpoints.up('sm'));
+  const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
   return (
     <>
       <Navbar title={graphName} onBack={openGraphList}>
@@ -27,6 +28,7 @@ export default function Graph({ graphId, graphName, loadedGraphId, loadGraph, op
       <Export />
       <Onboarding />
       {bigScreen && <GraphLarge />}
+      {!bigScreen && <GraphSmall />}
     </>
   );
 }

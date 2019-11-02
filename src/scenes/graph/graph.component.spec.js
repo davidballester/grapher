@@ -9,7 +9,7 @@ describe(Graph.name, () => {
 
   beforeEach(() => {
     loadGraph = jest.fn();
-    shallow = createShallow({ dive: true });
+    shallow = createShallow();
   });
 
   afterEach(() => {
