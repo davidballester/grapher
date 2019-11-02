@@ -10,9 +10,6 @@ import Canvas from '../../../components/canvas';
 
 const styles = () => ({
   canvas: {
-    position: 'absolute',
-    top: '64px',
-    left: 0,
     width: '100%',
     height: 'calc(100vh - 64px)',
   },
@@ -36,21 +33,25 @@ const styles = () => ({
   selectedItems: {
     width: '100%',
   },
+  rightPanel: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+  },
 });
 
 function GraphLarge({ classes }) {
   return (
     <>
-      <Canvas className={classes.canvas} />
       <Grid container classes={{ root: classes.grid }}>
-        <Grid item lg={4} sm={4} xs={12} className={classes.panel}>
+        <Grid item md={4} className={classes.panel}>
           <Box className={classes.panelContent} padding={0} height="100%">
             <Editor height="100%" width="100%" />
           </Box>
         </Grid>
-        <Grid item lg={5} sm={4} xs={12} />
-        <Grid item lg={3} sm={4} xs={12}>
-          <Box display="flex" alignItems="flex-end" className={classes.panel}>
+        <Grid item md={8}>
+          <Canvas className={classes.canvas} />
+          <Box display="flex" alignItems="flex-end" className={classes.rightPanel}>
             <Box className={classes.panelContent} padding={3}>
               <SelectedItems className={classes.selectedItems} />
               <Groups />
