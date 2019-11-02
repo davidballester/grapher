@@ -13,10 +13,10 @@ const styles = {
   },
 };
 
-function Navbar({ title, onBack, classes, children }) {
+function Navbar({ title, onBack, classes, children, additionalToolbars }) {
   return (
     <>
-      <AppBar>
+      <AppBar position="sticky">
         <Toolbar>
           {!!onBack && <BackButton onBack={onBack} />}
           <Typography className={classes.title} variant="h6" color="inherit">
@@ -24,8 +24,8 @@ function Navbar({ title, onBack, classes, children }) {
           </Typography>
           {children}
         </Toolbar>
+        {additionalToolbars}
       </AppBar>
-      <Toolbar />
     </>
   );
 }
@@ -35,6 +35,7 @@ Navbar.propTypes = {
   onBack: PropTypes.func,
   classes: PropTypes.any,
   children: PropTypes.any,
+  additionalToolbars: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]),
 };
 
 export default withStyles(styles)(Navbar);

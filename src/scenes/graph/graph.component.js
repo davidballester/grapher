@@ -4,8 +4,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 
 import ConfirmDeletes from './components/confirm-deletes';
-import Navbar from '../../components/navbar';
-import ActionsMenu from './components/actions-menu';
 import EditGraph from './components/edit-graph';
 import Export from './components/export';
 import Onboarding from './components/onboarding';
@@ -20,15 +18,12 @@ export default function Graph({ graphId, graphName, loadedGraphId, loadGraph, op
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
   return (
     <>
-      <Navbar title={graphName} onBack={openGraphList}>
-        <ActionsMenu />
-      </Navbar>
       <ConfirmDeletes />
       <EditGraph />
       <Export />
       <Onboarding />
-      {bigScreen && <GraphLarge />}
-      {!bigScreen && <GraphSmall />}
+      {bigScreen && <GraphLarge graphName={graphName} openGraphList={openGraphList} />}
+      {!bigScreen && <GraphSmall graphName={graphName} openGraphList={openGraphList} />}
     </>
   );
 }

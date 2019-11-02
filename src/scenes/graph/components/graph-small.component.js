@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import { withStyles } from '@material-ui/core/styles';
 
+import Navbar from '../../../components/navbar';
+import ActionsMenu from './actions-menu';
 import Editor from './editor';
 import Canvas from '../../../components/canvas';
 
@@ -28,17 +29,28 @@ function a11yProps(index) {
   };
 }
 
-function GraphSmall({ classes }) {
+function GraphSmall({ graphName, openGraphList, classes }) {
   const [value, setValue] = useState(0);
 
   return (
     <>
-      <AppBar position="static">
-        <Tabs value={value} onChange={(event, newValue) => setValue(newValue)} aria-label="editor and graph view in separate tabs">
-          <Tab label="Editor" {...a11yProps(0)} />
-          <Tab label="Graph view" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
+      <Navbar
+        title={graphName}
+        onBack={openGraphList}
+        additionalToolbars={
+          <Tabs
+            value={value}
+            onChange={(event, newValue) => setValue(newValue)}
+            aria-label="editor and graph view in separate tabs"
+            variant="fullWidth"
+          >
+            <Tab label="Editor" {...a11yProps(0)} />
+            <Tab label="Graph view" {...a11yProps(1)} />
+          </Tabs>
+        }
+      >
+        <ActionsMenu />
+      </Navbar>
       <Box
         role="tabpanel"
         display={value === 0 ? 'block' : 'none'}
@@ -46,7 +58,7 @@ function GraphSmall({ classes }) {
         aria-labelledby="simple-tab-0"
         className={classes.tabContent}
       >
-        {value === 0 && <Editor height="100%" width="100%" />}
+        <Editor height="100%" width="100%" />
       </Box>
       <Box
         role="tabpanel"

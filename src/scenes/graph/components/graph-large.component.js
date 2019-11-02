@@ -3,6 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import { Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
+import Navbar from '../../../components/navbar';
+import ActionsMenu from './actions-menu';
 import Editor from './editor';
 import Groups from './groups';
 import SelectedItems from './selection';
@@ -40,9 +42,12 @@ const styles = () => ({
   },
 });
 
-function GraphLarge({ classes }) {
+function GraphLarge({ classes, openGraphList, graphName }) {
   return (
     <>
+      <Navbar title={graphName} onBack={openGraphList}>
+        <ActionsMenu />
+      </Navbar>
       <Grid container classes={{ root: classes.grid }}>
         <Grid item md={4} className={classes.panel}>
           <Box className={classes.panelContent} padding={0} height="100%">
