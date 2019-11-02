@@ -1,13 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 import { renderNode, getNodeColor } from './services/node-renderer.service';
 import { getLinkColor } from './services/link-renderer.service';
 
-const updateDimensions = (setDimensions, containerRef) => {
+const updateDimensions = (setDimensions, containerRef, defaultWidth) => {
   const headerHeight = window.innerWidth < 600 ? 60 : 70;
   setDimensions({
-    width: containerRef.current.clientWidth,
+    width: defaultWidth ? window.innerWidth : containerRef.current.clientWidth,
     height: window.innerHeight - headerHeight,
   });
 };
@@ -27,6 +29,7 @@ export default ({
   deselectLink,
   openNewNode,
   className,
+  defaultWidth = false,
 }) => {
   const forceGraphRef = useRef(null);
   const containerRef = useRef(null);
@@ -40,23 +43,26 @@ export default ({
   // Manage resizing of the canvas
   const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
   useEffect(() => {
-    updateDimensions(setDimensions, containerRef);
-    const resize = () => updateDimensions(setDimensions, containerRef);
+    updateDimensions(setDimensions, containerRef, defaultWidth);
+    const resize = () => updateDimensions(setDimensions, containerRef, defaultWidth);
     window.addEventListener('resize', resize);
     return () => window.removeEventListener('resize', resize);
-  }, []);
+  }, [defaultWidth]);
+
+  const theme = useTheme();
+  const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
 
   // Manage zoom
   const [zoom, setZoom] = useState(undefined);
   useEffect(() => {
-    if (!!forceGraphRef.current.zoom) {
-      const newZoom = forceGraphRef.current.zoom();
+    if (bigScreen && !!forceGraphRef.current.zoom) {
       if (!zoom) {
+        const newZoom = forceGraphRef.current.zoom();
         forceGraphRef.current.zoom(newZoom * 5);
         setZoom(newZoom);
       }
     }
-  }, [zoom]);
+  }, [zoom, bigScreen]);
 
   // Manage links
   const [linksGraphData, setLinksGraphData] = useState([]);
