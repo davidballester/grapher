@@ -2,6 +2,7 @@ export const DIALOG_IDS = {
   EDIT_GRAPH: 'editgraph',
   CONFIRM_DELETE_GRAPH: 'confirmdeletegraph',
   EXPORT_GRAPH: 'exportgraph',
+  NEW_GRAPH: 'newgraph',
 };
 
 export const DIALOG_OPEN = 'grapher/EditGraph/OPEN';

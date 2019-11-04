@@ -7,19 +7,12 @@ import { ROUTES } from '../constants';
 
 // Actions
 export const GRAPH_IMPORT_OPEN = 'grapher/Navigation/GRAPH_IMPORT_OPEN';
-export const NEW_GRAPH_OPEN = 'grapher/Navigation/NEW_GRAPH_OPEN';
 export const GRAPH_OPEN = 'grapher/Navigation/GRAPH_OPEN';
 export const GRAPH_LIST_OPEN = 'grapher/Navigation/GRAPH_LIST_OPEN';
 
 export function openImportGraph() {
   return {
     type: GRAPH_IMPORT_OPEN,
-  };
-}
-
-export function openNewGraph() {
-  return {
-    type: NEW_GRAPH_OPEN,
   };
 }
 
@@ -39,10 +32,6 @@ export function openGraphList() {
 // Sagas
 export function* navigate({ type, payload }) {
   switch (type) {
-    case NEW_GRAPH_OPEN: {
-      yield call([history, 'push'], ROUTES.NEW_GRAPH);
-      break;
-    }
     case GRAPH_LIST_OPEN:
     case GRAPH_DELETE: {
       yield call([history, 'push'], ROUTES.BASE);
@@ -71,5 +60,5 @@ export function* navigate({ type, payload }) {
 }
 
 export function* navigateSaga() {
-  yield takeLatest([NEW_GRAPH_OPEN, GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_OPEN, GRAPH_IMPORT_SUCCESS], navigate);
+  yield takeLatest([GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_OPEN, GRAPH_IMPORT_SUCCESS], navigate);
 }
