@@ -151,6 +151,11 @@ describe('graph-grammar', () => {
 `);
       expect(matchResult.succeeded()).toBeTruthy();
     });
+
+    it('matches a lonely comment', () => {
+      const matchResult = graphGrammar.match('# This is a random comment');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
   });
 
   describe('#eval', () => {

@@ -11,6 +11,7 @@ Grapher {
   paths
       = pathWithSeparator+ path --multiplePaths
       | path --singlePath
+      | comment
 
   pathWithSeparator = separator? path separator
 
