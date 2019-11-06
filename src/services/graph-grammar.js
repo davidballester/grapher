@@ -54,7 +54,7 @@ Grapher {
       = identifier space identifier  --withBlanks
       | alnum+ --string
 
-  separator = ";" | "\\n"+ | "\\r"+
+  separator = ";" | "\\n"+
 
 }
 `;
@@ -195,6 +195,8 @@ class GraphGrammar {
   }
 
   match(string = '') {
+    string = string.replace(/( )*# (.*)(?!\\n)/gi, ''); // Remove comments before line breaks
+    string = string.replace(/( )*# (.*)(?!$)/gi, '\n'); // Remove trailing comments
     return this.grammar.match(string);
   }
 
@@ -289,15 +291,18 @@ const mapEntities = (entities) => {
   };
 };
 
-export const sampleGraph = `:King #red
+export const sampleGraph = `# First, we define groups to assign them colors
+:King #red
 :Queen #purple
 :Wizard #blue
 :Antagonist #grey
 :Knight #green
 
+# These are normal groups, but we'll use them for links, which have no coloring
 :family
 :lovers
 
+# Now, nodes. You do not need to define nodes independently, but it's a good way to assign them groups and later just use them by name.
 (Arthur:King)
 (Guinevere:Queen)
 (Merlin:Wizard)
@@ -307,6 +312,7 @@ export const sampleGraph = `:King #red
 (Lamorak:Knight)
 (Bors:Knight)
 
+# And throw in some paths between your nodes
 (Arthur)-[:lovers]->(Guinevere)<-[:lovers]-(Lancelot)
 (Arthur)-[:family]->(Mordred)
 (Lancelot)-[:family]->(Galahad)
