@@ -15,8 +15,11 @@ Grapher {
   pathWithSeparator = separator? path separator
 
   path
-      = partialPath+ node --partials
+      = partialPath+ node spaces comment --partialsWithComment
+      | partialPath+ node --partials
+      | node spaces comment --nodeWithComment
       | node --node
+      | group spaces comment --groupWithComment
       | group --group
 
   partialPath = node link
@@ -54,7 +57,10 @@ Grapher {
       = identifier space identifier  --withBlanks
       | alnum+ --string
 
-  separator = ";" | "\\n"+ | "\\r"+
+  separator = ";" | "\\n"+
+  
+  comment = "#" ~"\\n" any* --endOfLineComment
+      | "#" ~end any* --endOfInputComment
 
 }
 `;
@@ -76,8 +82,11 @@ class GraphGrammar {
       },
       pathWithSeparator: (firstSeparator, path, separator) => path.eval(),
       path_partials: (partialPaths, node) => _flattenDeep([...partialPaths.eval(), node.eval()]),
+      path_partialsWithComment: (partialPaths, node, spaces, comment) => _flattenDeep([...partialPaths.eval(), node.eval()]),
       path_node: (node) => node.eval(),
+      path_nodeWithComment: (node, spaces, comment) => node.eval(),
       path_group: (group) => group.eval(),
+      path_groupWithComment: (group, spaces, comment) => group.eval(),
       partialPath: (node, link) => _flattenDeep([node.eval(), link.eval()]),
       node_nodeNoGroups: (open, identifier, close) => [
         {

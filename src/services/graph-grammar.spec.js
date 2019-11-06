@@ -115,6 +115,42 @@ describe('graph-grammar', () => {
 (bar);(foo)-[baz]->(bar)`);
       expect(matchResult.succeeded()).toBeTruthy();
     });
+
+    it('matches a node with a comment', () => {
+      const matchResult = graphGrammar.match('(foo) # This is a random comment');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches a node with a comment separated by multiple spaces', () => {
+      const matchResult = graphGrammar.match('(foo)   # This is a random comment');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches a group with a comment', () => {
+      const matchResult = graphGrammar.match(':foo #red # This is a random comment');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches a group with a comment separated by multiple spaces', () => {
+      const matchResult = graphGrammar.match(':foo #fafafa   # This is a random comment');
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches a complex path with a comment', () => {
+      const matchResult = graphGrammar.match(`(foo)-[:baz:qux quux]->(corge)
+
+(bar);(foo)-[baz]->(bar) # This is a random comment
+`);
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
+
+    it('matches a complex path with a comment separated by multiple spaces', () => {
+      const matchResult = graphGrammar.match(`(foo)-[:baz:qux quux]->(corge)
+
+(bar);(foo)-[baz]->(bar)    # This is a random comment
+`);
+      expect(matchResult.succeeded()).toBeTruthy();
+    });
   });
 
   describe('#eval', () => {
