@@ -83,3 +83,7 @@ export function getText(state) {
 export function getTextError(state) {
   return graphSelector(state).textError;
 }
+
+export function getLoadError(state) {
+  return graphSelector(state).loadError;
+}

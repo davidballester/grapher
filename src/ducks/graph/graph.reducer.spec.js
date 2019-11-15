@@ -4,7 +4,7 @@ jest.mock('uuid/v4', () => ({
   default: () => 'uuid',
 }));
 
-import { setGraphName, createGraph, loadGraphSuccess, setContents, setText, setTextError } from './graph.actions';
+import { setGraphName, createGraph, loadGraphSuccess, loadGraphError, setContents, setText, setTextError } from './graph.actions';
 import reducer from './graph.reducer';
 
 describe('reducer', () => {
@@ -67,7 +67,14 @@ describe('reducer', () => {
       };
       const action = createGraph({});
       const state = reducer(initialState, action);
-      expect(state).toEqual(expectedState);
+      expect(state).toEqual(expect.objectContaining(expectedState));
+    });
+
+    it('sets the loadError flag to false', () => {
+      const initialState = { loadError: true };
+      const action = createGraph({});
+      const state = reducer(initialState, action);
+      expect(state.loadError).toBeFalsy();
     });
   });
 
@@ -83,9 +90,26 @@ describe('reducer', () => {
       };
       const action = loadGraphSuccess(graph);
       const state = reducer(initialState, action);
-      expect(state).toEqual({
-        ...graph,
-      });
+      expect(state).toEqual(
+        expect.objectContaining({
+          ...graph,
+        })
+      );
+    });
+
+    it('sets the loadError flag to false', () => {
+      const initialState = { loadError: true };
+      const action = loadGraphSuccess({});
+      const state = reducer(initialState, action);
+      expect(state.loadError).toBeFalsy();
+    });
+  });
+
+  describe('GRAPH_LOAD_ERROR', () => {
+    it('sets the loadError flag to true', () => {
+      const action = loadGraphError();
+      const state = reducer({}, action);
+      expect(state.loadError).toBeTruthy();
     });
   });
 
