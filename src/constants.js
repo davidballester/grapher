@@ -3,5 +3,4 @@ export const ROUTES = {
   BASE: '/',
   GRAPHS: '/graphs',
   GRAPH: '/graphs/:graphId',
-  IMPORT_GRAPH: '/import',
 };
