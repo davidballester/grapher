@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 
 import Graph from './graph.component';
-import { loadGraph, getId, getName } from '../../ducks/graph';
+import { loadGraph, getId, getName, getLoadError } from '../../ducks/graph';
 import { openGraphList } from '../../ducks/navigation.duck';
 
 function mapStateToProps(state, ownProps) {
@@ -11,6 +11,7 @@ function mapStateToProps(state, ownProps) {
     graphId: ownProps.match.params.graphId,
     loadedGraphId: getId(state),
     graphName: getName(state),
+    loadError: getLoadError(state),
   };
 }
 
