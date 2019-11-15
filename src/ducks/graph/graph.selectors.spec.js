@@ -76,6 +76,11 @@ describe('selectors', () => {
       const nodes = getNodesAsArray(appState);
       expect(nodes).toEqual([node1, node2, node3]);
     });
+
+    it('returns an empty array if the state contains no nodes', () => {
+      const nodes = getNodesAsArray({ graph: {} });
+      expect(nodes).toEqual([]);
+    });
   });
 
   describe('getLinksAsArray', () => {
@@ -104,6 +109,11 @@ describe('selectors', () => {
       };
       const links = getLinksAsArray(appState);
       expect(links).toEqual([link1, link2, link3]);
+    });
+
+    it('returns an empty array if the state contains no links', () => {
+      const links = getLinksAsArray({ graph: {} });
+      expect(links).toEqual([]);
     });
   });
 
