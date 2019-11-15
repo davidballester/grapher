@@ -2,12 +2,12 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
-jest.mock('../../services/graph.service', () => ({
+jest.mock('../../../services/graph.service', () => ({
   deserializeGraph: jest.fn(),
 }));
 
-import graphService from '../../services/graph.service';
-import { createGraph } from '../../ducks/graph';
+import graphService from '../../../services/graph.service';
+import { createGraph } from '../../../ducks/graph';
 
 import reducer, {
   GRAPH_IMPORT,

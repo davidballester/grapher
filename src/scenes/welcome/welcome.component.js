@@ -15,6 +15,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import NewGraphDialog from './new-graph';
 import GraphCard from './graph-card';
 import NewGraphCard from './new-graph-card';
+import Import from './graph-import';
 
 const styles = (theme) => ({
   main: {
@@ -27,9 +28,14 @@ const styles = (theme) => ({
     textAlign: 'center',
     margin: theme.spacing(3),
   },
+  button: {
+    display: 'block',
+    margin: 'auto',
+    marginBottom: theme.spacing(1),
+  },
 });
 
-function Welcome({ openNewGraph, openGraph, graphNames, classes }) {
+function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, classes }) {
   const theme = useTheme();
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -54,8 +60,11 @@ function Welcome({ openNewGraph, openGraph, graphNames, classes }) {
           browser or exporte them in JSON format so you can import them into a different browser.
         </Typography>
         <div className={classes.buttonContainer}>
-          <Button variant="contained" color="primary" onClick={openNewGraph}>
+          <Button variant="contained" color="primary" onClick={openNewGraph} className={classes.button}>
             Get started
+          </Button>
+          <Button color="primary" onClick={openImportGraph} className={classes.button}>
+            Import graph
           </Button>
         </div>
         <GridList cellHeight={320} cols={bigScreen ? 3 : 2} className={classes.graphList}>
@@ -70,6 +79,7 @@ function Welcome({ openNewGraph, openGraph, graphNames, classes }) {
         </GridList>
       </Container>
       <NewGraphDialog />
+      <Import />
     </>
   );
 }

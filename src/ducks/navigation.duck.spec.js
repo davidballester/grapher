@@ -3,7 +3,7 @@ import { takeLatest, call } from 'redux-saga/effects';
 import { cloneableGenerator } from '@redux-saga/testing-utils';
 
 import { GRAPH_CREATE, GRAPH_DELETE } from './graph';
-import { GRAPH_IMPORT_SUCCESS } from '../scenes/graph-import/graph-import.duck';
+import { GRAPH_IMPORT_SUCCESS } from '../scenes/welcome/graph-import/graph-import.duck';
 import { ROUTES } from '../constants';
 
 jest.mock('../services/history.service', () => ({
@@ -14,27 +14,10 @@ jest.mock('../services/history.service', () => ({
 }));
 
 import history from '../services/history.service';
-import {
-  navigateSaga,
-  navigate,
-  openImportGraph,
-  GRAPH_IMPORT_OPEN,
-  openNewGraph,
-  GRAPH_OPEN,
-  openGraph,
-  GRAPH_LIST_OPEN,
-  openGraphList,
-} from './navigation.duck';
+import { navigateSaga, navigate, GRAPH_OPEN, openGraph, GRAPH_LIST_OPEN, openGraphList } from './navigation.duck';
 
 describe('navigation', () => {
   describe('actions', () => {
-    describe(openImportGraph.name, () => {
-      it('creates the action with the `GRAPH_IMPORT_OPEN` type', () => {
-        const action = openImportGraph();
-        expect(action.type).toEqual(GRAPH_IMPORT_OPEN);
-      });
-    });
-
     describe(openGraph.name, () => {
       it('creates the action with the `GRAPH_OPEN` type', () => {
         const action = openGraph();
@@ -60,9 +43,7 @@ describe('navigation', () => {
     describe(navigateSaga.name, () => {
       it('invokes take latest with `GRAPH_LIST_OPEN`, `GRAPH_OPEN`, `GRAPH_CREATE`, `GRAPH_DELETE`', () => {
         const gen = cloneableGenerator(navigateSaga)({});
-        expect(gen.next().value).toEqual(
-          takeLatest([GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_OPEN, GRAPH_IMPORT_SUCCESS], navigate)
-        );
+        expect(gen.next().value).toEqual(takeLatest([GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_SUCCESS], navigate));
       });
     });
 
@@ -85,11 +66,6 @@ describe('navigation', () => {
       it(`pushes '${ROUTES.BASE}' to 'history' if a 'GRAPH_DELETE' action is received`, () => {
         const gen = cloneableGenerator(navigate)({ type: GRAPH_DELETE });
         expect(gen.next().value).toEqual(call([history, 'push'], ROUTES.BASE));
-      });
-
-      it(`pushes '${ROUTES.IMPORT_GRAPH}' to 'history' if a 'GRAPH_IMPORT_OPEN' action is received`, () => {
-        const gen = cloneableGenerator(navigate)({ type: GRAPH_IMPORT_OPEN });
-        expect(gen.next().value).toEqual(call([history, 'push'], ROUTES.IMPORT_GRAPH));
       });
 
       it(`pushes '${ROUTES.GRAPH}' to 'history' if a 'GRAPH_IMPORT_SUCCESS' action is received`, () => {

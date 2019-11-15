@@ -1,20 +1,14 @@
-import { takeLatest, call } from 'redux-saga/effects';
+import { takeLatest, call, put } from 'redux-saga/effects';
 
 import history from '../services/history.service';
 import { GRAPH_CREATE, GRAPH_DELETE } from './graph';
-import { GRAPH_IMPORT_SUCCESS } from '../scenes/graph-import/graph-import.duck';
+import { GRAPH_IMPORT_SUCCESS } from '../scenes/welcome/graph-import/graph-import.duck';
 import { ROUTES } from '../constants';
+import { closeDialog, DIALOG_IDS } from './dialog.duck';
 
 // Actions
-export const GRAPH_IMPORT_OPEN = 'grapher/Navigation/GRAPH_IMPORT_OPEN';
 export const GRAPH_OPEN = 'grapher/Navigation/GRAPH_OPEN';
 export const GRAPH_LIST_OPEN = 'grapher/Navigation/GRAPH_LIST_OPEN';
-
-export function openImportGraph() {
-  return {
-    type: GRAPH_IMPORT_OPEN,
-  };
-}
 
 export function openGraph(id) {
   return {
@@ -45,12 +39,9 @@ export function* navigate({ type, payload }) {
       yield call([history, 'push'], `${ROUTES.GRAPHS}/${payload.id}`);
       break;
     }
-    case GRAPH_IMPORT_OPEN: {
-      yield call([history, 'push'], ROUTES.IMPORT_GRAPH);
-      break;
-    }
     case GRAPH_IMPORT_SUCCESS: {
       yield call([history, 'push'], `${ROUTES.GRAPHS}/${payload.id}`);
+      yield put(closeDialog(DIALOG_IDS.IMPORT_GRAPH));
       break;
     }
     default: {
@@ -60,5 +51,5 @@ export function* navigate({ type, payload }) {
 }
 
 export function* navigateSaga() {
-  yield takeLatest([GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_OPEN, GRAPH_IMPORT_SUCCESS], navigate);
+  yield takeLatest([GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_SUCCESS], navigate);
 }

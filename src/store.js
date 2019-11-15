@@ -8,7 +8,7 @@ import linkSelectionReducer from './scenes/graph/components/selection/components
 import { navigateSaga } from './ducks/navigation.duck';
 import dialogReducer from './ducks/dialog.duck';
 import canvasReducer, { refreshSaga } from './components/canvas/canvas.duck';
-import graphImportReducer, { importGraphSaga } from './scenes/graph-import/graph-import.duck';
+import graphImportReducer, { importGraphSaga } from './scenes/welcome/graph-import/graph-import.duck';
 import onboardingReducer, { persistDismiss } from './scenes/graph/components/onboarding/onboarding.duck';
 
 const sagaMiddleware = createSagaMiddleware();
