@@ -7,6 +7,7 @@ import { createGraph } from '../../ducks/graph';
 export const GRAPH_IMPORT = 'grapher/GraphImport/IMPORT';
 export const GRAPH_IMPORT_SUCCESS = 'grapher/GraphImport/IMPORT_SUCCESS';
 export const GRAPH_IMPORT_FAILURE = 'grapher/GraphImport/IMPORT_FAILURE';
+export const GRAPH_IMPORT_CLEAR = 'grapher/GraphImport/IMPORT_CLEAR';
 
 const initialState = {
   errors: [],
@@ -27,6 +28,12 @@ export default function reducer(state = initialState, action) {
       };
     }
     case GRAPH_IMPORT: {
+      return {
+        ...state,
+        errors: [],
+      };
+    }
+    case GRAPH_IMPORT_CLEAR: {
       return {
         ...state,
         errors: [],
@@ -56,6 +63,12 @@ export function importGraphFailure(errors) {
   return {
     type: GRAPH_IMPORT_FAILURE,
     payload: errors,
+  };
+}
+
+export function importGraphClear() {
+  return {
+    type: GRAPH_IMPORT_CLEAR,
   };
 }
 

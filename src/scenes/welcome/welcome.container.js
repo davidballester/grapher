@@ -15,6 +15,7 @@ function mapDispatchToProps(dispatch) {
   return {
     openNewGraph: () => dispatch(openDialog(DIALOG_IDS.NEW_GRAPH)),
     openGraph: (graphId) => dispatch(openGraph(graphId)),
+    openImportGraph: () => dispatch(openDialog(DIALOG_IDS.IMPORT_GRAPH)),
   };
 }
 

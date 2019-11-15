@@ -15,6 +15,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import NewGraphDialog from './new-graph';
 import GraphCard from './graph-card';
 import NewGraphCard from './new-graph-card';
+import Import from '../graph-import';
 
 const styles = (theme) => ({
   main: {
@@ -29,7 +30,7 @@ const styles = (theme) => ({
   },
 });
 
-function Welcome({ openNewGraph, openGraph, graphNames, classes }) {
+function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, classes }) {
   const theme = useTheme();
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -57,6 +58,9 @@ function Welcome({ openNewGraph, openGraph, graphNames, classes }) {
           <Button variant="contained" color="primary" onClick={openNewGraph}>
             Get started
           </Button>
+          <Button color="primary" onClick={openImportGraph}>
+            Import graph
+          </Button>
         </div>
         <GridList cellHeight={320} cols={bigScreen ? 3 : 2} className={classes.graphList}>
           {graphNames.map(([graphId, graphName]) => (
@@ -70,6 +74,7 @@ function Welcome({ openNewGraph, openGraph, graphNames, classes }) {
         </GridList>
       </Container>
       <NewGraphDialog />
+      <Import />
     </>
   );
 }

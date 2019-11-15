@@ -3,6 +3,7 @@ export const DIALOG_IDS = {
   CONFIRM_DELETE_GRAPH: 'confirmdeletegraph',
   EXPORT_GRAPH: 'exportgraph',
   NEW_GRAPH: 'newgraph',
+  IMPORT_GRAPH: 'importgraph',
 };
 
 export const DIALOG_OPEN = 'grapher/EditGraph/OPEN';

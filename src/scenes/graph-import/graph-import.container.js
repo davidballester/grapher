@@ -1,26 +1,23 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import Import from './graph-import.component';
-import { importGraph, getErrors } from './graph-import.duck';
-import { openGraphList } from '../../ducks/navigation.duck';
+import { importGraph, getErrors, importGraphClear } from './graph-import.duck';
+import { getIsOpen, closeDialog, DIALOG_IDS } from '../../ducks/dialog.duck';
 
 function mapStateToProps(state) {
   return {
     errors: getErrors(state),
+    isOpen: getIsOpen(state, DIALOG_IDS.IMPORT_GRAPH),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    ...bindActionCreators(
-      {
-        importGraph,
-        openGraphList,
-      },
-      dispatch
-    ),
-    close: () => dispatch(openGraphList()),
+    importGraph: (serializedGraph) => dispatch(importGraph(serializedGraph)),
+    close: () => {
+      dispatch(closeDialog(DIALOG_IDS.IMPORT_GRAPH));
+      dispatch(importGraphClear());
+    },
   };
 }
 

@@ -20,12 +20,6 @@ describe(Import.name, () => {
     expect(component).toBeDefined();
   });
 
-  it('renders the dialog open', () => {
-    const component = shallow(<Import importGraph={importGraph} close={close} />).dive();
-    const dialog = component.find(Dialog).getElement();
-    expect(dialog.props.open).toEqual(true);
-  });
-
   it('invokes the close prop if the button of the form is clicked', () => {
     const component = shallow(<Import importGraph={importGraph} close={close} />).dive();
     component.find('[type="button"]').simulate('click');
