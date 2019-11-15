@@ -15,7 +15,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import NewGraphDialog from './new-graph';
 import GraphCard from './graph-card';
 import NewGraphCard from './new-graph-card';
-import Import from '../graph-import';
+import Import from './graph-import';
 
 const styles = (theme) => ({
   main: {

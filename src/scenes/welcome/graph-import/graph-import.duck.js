@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import graphService from '../../services/graph.service';
-import { createGraph } from '../../ducks/graph';
+import graphService from '../../../services/graph.service';
+import { createGraph } from '../../../ducks/graph';
 
 export const GRAPH_IMPORT = 'grapher/GraphImport/IMPORT';
 export const GRAPH_IMPORT_SUCCESS = 'grapher/GraphImport/IMPORT_SUCCESS';

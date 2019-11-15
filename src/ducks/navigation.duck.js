@@ -2,7 +2,7 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 
 import history from '../services/history.service';
 import { GRAPH_CREATE, GRAPH_DELETE } from './graph';
-import { GRAPH_IMPORT_SUCCESS } from '../scenes/graph-import/graph-import.duck';
+import { GRAPH_IMPORT_SUCCESS } from '../scenes/welcome/graph-import/graph-import.duck';
 import { ROUTES } from '../constants';
 import { closeDialog, DIALOG_IDS } from './dialog.duck';
 
