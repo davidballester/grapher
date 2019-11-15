@@ -4,6 +4,7 @@ export const GRAPH_SET_NAME = 'grapher/Graph/SET_NAME';
 export const GRAPH_CREATE = 'grapher/Graph/CREATE';
 export const GRAPH_LOAD = 'grapher/Graph/LOAD';
 export const GRAPH_LOAD_SUCCESS = 'grapher/Graph/LOAD_SUCCESS';
+export const GRAPH_LOAD_ERROR = 'grapher/Graph/LOAD_ERROR';
 export const GRAPH_DELETE = 'grapher/Graph/DELETE';
 export const GRAPH_SET_CONTENTS = 'grapher/Graph/SET_CONTENTS';
 export const GRAPH_SET_TEXT = 'grapher/Graph/SET_TEXT';
@@ -41,6 +42,12 @@ export function loadGraphSuccess(graph) {
   return {
     type: GRAPH_LOAD_SUCCESS,
     payload: graph,
+  };
+}
+
+export function loadGraphError() {
+  return {
+    type: GRAPH_LOAD_ERROR,
   };
 }
 

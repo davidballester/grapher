@@ -2,6 +2,7 @@ import React from 'react';
 import { createShallow } from '@material-ui/core/test-utils';
 
 import Graph from './graph.component';
+import NotFound from './components/not-found.component';
 
 describe(Graph.name, () => {
   let shallow;
@@ -34,5 +35,10 @@ describe(Graph.name, () => {
   it('invokes `loadGraph` with `graphId`', () => {
     shallow(<Graph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'bar'} />);
     expect(loadGraph).toHaveBeenCalledWith('foo');
+  });
+
+  it('returns the NotFound component if the loadError prop is true', () => {
+    const component = shallow(<Graph loadGraph={loadGraph} graphId={'foo'} loadedGraphId={'bar'} loadError={true} />);
+    expect(component.find(NotFound).getElement()).toBeDefined();
   });
 });

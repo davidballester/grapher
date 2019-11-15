@@ -15,11 +15,11 @@ export function getName(state) {
 }
 
 function getNodes(state) {
-  return graphSelector(state).nodes;
+  return graphSelector(state).nodes || {};
 }
 
 export function getLinks(state) {
-  return graphSelector(state).links;
+  return graphSelector(state).links || {};
 }
 
 export function getLinkById(state, linkId) {
@@ -64,7 +64,7 @@ export const getSerializedGraph = createSelector(
 
 const getGroups = createSelector(
   graphSelector,
-  (graph) => graph.groups
+  (graph) => graph.groups || []
 );
 
 export const getGroupsAsArray = createSelector(
@@ -82,4 +82,8 @@ export function getText(state) {
 
 export function getTextError(state) {
   return graphSelector(state).textError;
+}
+
+export function getLoadError(state) {
+  return graphSelector(state).loadError;
 }

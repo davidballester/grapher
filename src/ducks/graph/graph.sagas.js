@@ -9,6 +9,7 @@ import {
   GRAPH_LOAD,
   GRAPH_DELETE,
   loadGraphSuccess,
+  loadGraphError,
   GRAPH_SET_CONTENTS,
   GRAPH_SET_TEXT,
   setTextError,
@@ -30,7 +31,11 @@ export function* saveGraphSaga() {
 export function* doLoadGraph(action) {
   const graphId = action.payload;
   const graph = yield call([graphService, 'readGraph'], graphId);
-  yield put(loadGraphSuccess(graph));
+  if (graph) {
+    yield put(loadGraphSuccess(graph));
+  } else {
+    yield put(loadGraphError());
+  }
 }
 
 export function* loadGraphSaga() {

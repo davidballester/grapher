@@ -9,13 +9,20 @@ import Export from './components/export';
 import Onboarding from './components/onboarding';
 import GraphLarge from './components/graph-large.component';
 import GraphSmall from './components/graph-small.component';
+import NotFound from './components/not-found.component';
 
-export default function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, classes }) {
+export default function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, loadError }) {
+  const theme = useTheme();
+  const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
+
+  if (loadError) {
+    return <NotFound />;
+  }
+
   if (!!graphId && graphId !== loadedGraphId) {
     loadGraph(graphId);
   }
-  const theme = useTheme();
-  const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
     <>
       <ConfirmDeletes />

@@ -9,6 +9,7 @@ import {
   GRAPH_LOAD,
   loadGraph,
   loadGraphSuccess,
+  loadGraphError,
   GRAPH_DELETE,
   deleteGraph,
   GRAPH_SET_CONTENTS,
@@ -96,11 +97,17 @@ describe('graph', () => {
         expect(gen.next().value).toEqual(call([graphService, 'readGraph'], action.payload));
       });
 
-      it('puts a `loadGraphSuccess` action with the graph returned by `readGraph`', () => {
+      it('puts a `loadGraphSuccess` action with the graph returned by `readGraph` if there is such a graph', () => {
         const graph = { foo: 'bar' };
         const gen = cloneableGenerator(doLoadGraph)(action);
         gen.next();
         expect(gen.next(graph).value).toEqual(put(loadGraphSuccess(graph)));
+      });
+
+      it('puts a loadGraphError action if there is no graph read', () => {
+        const gen = cloneableGenerator(doLoadGraph)(action);
+        gen.next();
+        expect(gen.next(undefined).value).toEqual(put(loadGraphError()));
       });
     });
 
