@@ -28,6 +28,11 @@ const styles = (theme) => ({
     textAlign: 'center',
     margin: theme.spacing(3),
   },
+  button: {
+    display: 'block',
+    margin: 'auto',
+    marginBottom: theme.spacing(1),
+  },
 });
 
 function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, classes }) {
@@ -55,10 +60,10 @@ function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, classes
           browser or exporte them in JSON format so you can import them into a different browser.
         </Typography>
         <div className={classes.buttonContainer}>
-          <Button variant="contained" color="primary" onClick={openNewGraph}>
+          <Button variant="contained" color="primary" onClick={openNewGraph} className={classes.button}>
             Get started
           </Button>
-          <Button color="primary" onClick={openImportGraph}>
+          <Button color="primary" onClick={openImportGraph} className={classes.button}>
             Import graph
           </Button>
         </div>
