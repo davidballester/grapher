@@ -41,6 +41,7 @@ function Editor({ text, textError, setText, ...props }) {
         tabSize: 2,
       }}
       annotations={annotations}
+      wrapEnabled={true}
       {...props}
     />
   );
