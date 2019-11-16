@@ -30,10 +30,21 @@ export function renderLink(link, ctx, globalScale) {
   }
 }
 
-export function getLabelPosition(link) {
+function getLabelPosition(link) {
   const { source, target } = link;
+  if (source.id === target.id) {
+    return getSelfLinkPosition(link);
+  }
   return {
     x: (source.x + target.x) / 2,
     y: (source.y + target.y) / 2,
+  };
+}
+
+function getSelfLinkPosition(link) {
+  const { source } = link;
+  return {
+    x: source.x + 5,
+    y: source.y - 10,
   };
 }
