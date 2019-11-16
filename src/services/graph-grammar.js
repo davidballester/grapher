@@ -312,10 +312,10 @@ export const sampleGraph = `# First, we define groups to assign them colors
 (Bors:Knight)
 
 # And throw in some paths between your nodes
-(Arthur)-[:lovers]->(Guinevere)<-[:lovers]-(Lancelot)
-(Arthur)-[:family]->(Mordred)
+(Arthur)-[:lovers]->(Guinevere)<-[this will bring trouble:lovers]-(Lancelot)
+(Arthur)-[a troubled family:family]->(Mordred)
 (Lancelot)-[:family]->(Galahad)
 (Arthur)->(Merlin)
 (Lancelot)->(Arthur)<-(Galahad)->(Lamorak)
 (Lamorak)->(Arthur)<-(Bors)
-(Lancelot)-[:family]->(Bors)`;
+(Lancelot)-[his cousin I believe:family]->(Bors)`;
