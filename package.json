@@ -7,6 +7,7 @@
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "4.0.0-alpha.16",
     "@material-ui/styles": "^4.5.2",
+    "bezier-js": "2.4.4",
     "clx": "1.0.0",
     "color": "^3.1.2",
     "enzyme": "3.9.0",
