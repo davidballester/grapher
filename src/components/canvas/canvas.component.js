@@ -163,7 +163,7 @@ export default ({
           }
         }}
         linkCanvasObjectMode={() => 'after'}
-        linkCanvasObject={renderLink}
+        linkCanvasObject={(link, ctx, globalScale) => renderLink(link, ctx, globalScale, linksGraphData)}
       />
     </div>
   );
