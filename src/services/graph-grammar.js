@@ -259,11 +259,10 @@ const mapEntities = (entities) => {
     .map(([entity, index]) => {
       const source = entity.direction === 'back' ? nodesAndLinks[index + 1].id : nodesAndLinks[index - 1].id;
       const target = entity.direction === 'back' ? nodesAndLinks[index - 1].id : nodesAndLinks[index + 1].id;
-      const label = entity.label || `${source}-${target}`;
       const linkGroups = (entity.groups || []).map(({ name }) => groups.find(({ name: candidateName }) => candidateName === name));
       return {
         id: entity.id,
-        label,
+        label: entity.label,
         source,
         target,
         groups: linkGroups,
