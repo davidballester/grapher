@@ -17,3 +17,23 @@ export function getLinkColor(link) {
     return grey['300'];
   }
 }
+
+export function renderLink(link, ctx, globalScale) {
+  if (!!link.label) {
+    const fontSize = globalScale * 0.8;
+    ctx.font = `${fontSize}px Sans-Serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#666';
+    const { x, y } = getLabelPosition(link);
+    ctx.fillText(link.label, x, y);
+  }
+}
+
+export function getLabelPosition(link) {
+  const { source, target } = link;
+  return {
+    x: (source.x + target.x) / 2,
+    y: (source.y + target.y) / 2,
+  };
+}

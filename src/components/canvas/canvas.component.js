@@ -4,7 +4,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 
 import { renderNode, getNodeColor } from './services/node-renderer.service';
-import { getLinkColor } from './services/link-renderer.service';
+import { renderLink, getLinkColor } from './services/link-renderer.service';
 
 const updateDimensions = (setDimensions, containerRef, defaultWidth) => {
   const headerHeight = window.innerWidth < 600 ? 60 : 70;
@@ -162,6 +162,8 @@ export default ({
             selectLink(originalLink);
           }
         }}
+        linkCanvasObjectMode={() => 'after'}
+        linkCanvasObject={renderLink}
       />
     </div>
   );
