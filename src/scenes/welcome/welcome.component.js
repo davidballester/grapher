@@ -1,9 +1,6 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -16,6 +13,7 @@ import NewGraphDialog from './new-graph';
 import GraphCard from './graph-card';
 import NewGraphCard from './new-graph-card';
 import Import from './graph-import';
+import Authentication from './authentication';
 
 const styles = (theme) => ({
   main: {
@@ -23,6 +21,9 @@ const styles = (theme) => ({
   },
   text: {
     marginTop: theme.spacing(3),
+  },
+  rightAppBarContent: {
+    marginRight: theme.spacing(2),
   },
   buttonContainer: {
     textAlign: 'center',
@@ -44,11 +45,9 @@ function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, classes
       <AppBar position="sticky">
         <Toolbar disableGutters>
           <div style={{ flex: 1 }} />
-          <Tooltip title="GitHub repository">
-            <IconButton href="https://github.com/davidballester/grapher" color="inherit">
-              <GitHubIcon />
-            </IconButton>
-          </Tooltip>
+          <div className={classes.rightAppBarContent}>
+            <Authentication />
+          </div>
         </Toolbar>
       </AppBar>
       <Container>
