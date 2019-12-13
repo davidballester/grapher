@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 
 import useGoogleAuth from '../../../hooks/use-google-auth';
+import LoggedInPopover from '../logged-in-popover';
 
-export default function Authentication({ setAuth, unsetAuth, isSignedIn, imageUrl }) {
-  const { signIn, signOut } = useGoogleAuth(({ name, imageUrl }) => setAuth(name, imageUrl));
+export default function Authentication({ setAuth, isSignedIn, imageUrl }) {
+  const useGoogleAuthCallback = useCallback(({ name, imageUrl }) => setAuth(name, imageUrl), [setAuth]);
+  const { signIn } = useGoogleAuth(useGoogleAuthCallback);
   if (!isSignedIn) {
     return (
       <SignInButton
@@ -23,15 +23,7 @@ export default function Authentication({ setAuth, unsetAuth, isSignedIn, imageUr
       />
     );
   }
-  return (
-    <SignedInButton
-      imageUrl={imageUrl}
-      onSignOut={async () => {
-        await signOut();
-        unsetAuth();
-      }}
-    />
-  );
+  return <SignedInButton imageUrl={imageUrl} />;
 }
 
 function SignInButton({ onSignIn }) {
@@ -42,29 +34,14 @@ function SignInButton({ onSignIn }) {
   );
 }
 
-function SignedInButton({ imageUrl, onSignOut }) {
+function SignedInButton({ imageUrl }) {
   const [anchorEl, setAnchorEl] = useState(undefined);
   return (
     <>
       <IconButton onClick={(event) => setAnchorEl(event.currentTarget)}>
         <Avatar src={imageUrl} />
       </IconButton>
-      <LoggedInMenu anchorEl={anchorEl} handleClose={() => setAnchorEl(undefined)} onSignOut={onSignOut} />
+      <LoggedInPopover anchorEl={anchorEl} handleClose={() => setAnchorEl(undefined)} />
     </>
-  );
-}
-
-function LoggedInMenu({ anchorEl, handleClose, onSignOut }) {
-  return (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={!!anchorEl}
-      onClose={handleClose}
-    >
-      <MenuItem onClick={onSignOut}>Sign out</MenuItem>
-    </Menu>
   );
 }

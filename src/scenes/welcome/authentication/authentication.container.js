@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import Authentication from './authentication.component';
-import { setAuth, unsetAuth, isSignedIn, getImageUrl } from '../../../ducks/auth.duck';
+import { setAuth, isSignedIn, getImageUrl } from '../../../ducks/auth.duck';
 
 function mapStateToProps(state) {
   return {
@@ -13,7 +13,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setAuth: (name, imageUrl) => dispatch(setAuth(name, imageUrl)),
-    unsetAuth: () => dispatch(unsetAuth()),
   };
 }
 
