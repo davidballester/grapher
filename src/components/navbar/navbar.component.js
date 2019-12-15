@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 import BackButton from './components/back-button.component';
+import Authentication from '../authentication';
 
 const styles = {
   title: {
@@ -22,6 +23,7 @@ function Navbar({ title, onBack, classes, children, additionalToolbars }) {
           <Typography className={classes.title} variant="h6" color="inherit">
             {title}
           </Typography>
+          <Authentication />
           {children}
         </Toolbar>
         {additionalToolbars}
