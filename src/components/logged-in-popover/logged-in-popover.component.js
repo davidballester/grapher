@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import { useTheme } from '@material-ui/core/styles';
 
-import { ROUTES } from '../../../constants';
+import { ROUTES } from '../../constants';
 
 export default function LoggedInMenu({ imageUrl, name, anchorEl, handleClose, unsetAuth }) {
   const theme = useTheme();

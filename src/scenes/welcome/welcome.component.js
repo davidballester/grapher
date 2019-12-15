@@ -19,7 +19,7 @@ import NewGraphDialog from './new-graph';
 import GraphCard from './graph-card';
 import NewGraphCard from './new-graph-card';
 import Import from './graph-import';
-import Authentication from './authentication';
+import Authentication from '../../components/authentication';
 import { ROUTES } from '../../constants';
 
 const styles = (theme) => ({

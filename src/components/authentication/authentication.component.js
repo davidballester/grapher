@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 
-import useGoogleAuth from '../../../hooks/use-google-auth';
+import useGoogleAuth from '../../hooks/use-google-auth';
 import LoggedInPopover from '../logged-in-popover';
 
 export default function Authentication({ setAuth, isSignedIn, imageUrl }) {

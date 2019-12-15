@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import LoggedInPopover from './logged-in-popover.component';
-import { getImageUrl, getName, unsetAuth } from '../../../ducks/auth.duck';
+import { getImageUrl, getName, unsetAuth } from '../../ducks/auth.duck';
 
 function mapStateToProps(state) {
   return {

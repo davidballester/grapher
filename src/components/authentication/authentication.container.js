@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import Authentication from './authentication.component';
-import { setAuth, isSignedIn, getImageUrl } from '../../../ducks/auth.duck';
+import { setAuth, isSignedIn, getImageUrl } from '../../ducks/auth.duck';
 
 function mapStateToProps(state) {
   return {
