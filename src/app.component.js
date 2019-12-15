@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import Graph from './scenes/graph';
 import { ROUTES } from './constants';
 import Welcome from './scenes/welcome';
+import PrivacyPolicy from './scenes/privacy-policy';
 
 export class App extends Component {
   render() {
@@ -18,6 +19,7 @@ export class App extends Component {
         </Helmet>
         <Route path={[ROUTES.BASE, ROUTES.GRAPHS]} exact render={() => <Welcome />} />
         <Route path={ROUTES.GRAPH} exact render={() => <Graph key="Graph" />} />
+        <Route path={ROUTES.PRIVACY_POLICY} exact render={() => <PrivacyPolicy />} />
       </React.Fragment>
     );
   }

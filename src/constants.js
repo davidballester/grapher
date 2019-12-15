@@ -3,4 +3,5 @@ export const ROUTES = {
   BASE: '/',
   GRAPHS: '/graphs',
   GRAPH: '/graphs/:graphId',
+  PRIVACY_POLICY: '/privacy-policy',
 };
