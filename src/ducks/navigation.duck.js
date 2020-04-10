@@ -5,6 +5,7 @@ import { GRAPH_CREATE, GRAPH_DELETE } from './graph';
 import { GRAPH_IMPORT_SUCCESS } from '../scenes/welcome/graph-import/graph-import.duck';
 import { ROUTES } from '../constants';
 import { closeDialog, DIALOG_IDS } from './dialog.duck';
+import { AUTH_UNSET } from './auth.duck';
 
 // Actions
 export const GRAPH_OPEN = 'grapher/Navigation/GRAPH_OPEN';
@@ -44,6 +45,10 @@ export function* navigate({ type, payload }) {
       yield put(closeDialog(DIALOG_IDS.IMPORT_GRAPH));
       break;
     }
+    case AUTH_UNSET: {
+      yield call([history, 'push'], ROUTES.BASE);
+      break;
+    }
     default: {
       break;
     }
@@ -51,5 +56,5 @@ export function* navigate({ type, payload }) {
 }
 
 export function* navigateSaga() {
-  yield takeLatest([GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_SUCCESS], navigate);
+  yield takeLatest([GRAPH_LIST_OPEN, GRAPH_OPEN, GRAPH_CREATE, GRAPH_DELETE, GRAPH_IMPORT_SUCCESS, AUTH_UNSET], navigate);
 }
