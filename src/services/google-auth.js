@@ -1,28 +1,3 @@
-import { useState, useEffect } from 'react';
-
-export default function useGoogleAuth(onSignedIn) {
-  const [googleAuth, setGoogleAuth] = useState(undefined);
-  useEffect(() => {
-    initializeGoogleAuth(onSignedIn, setGoogleAuth);
-  }, [onSignedIn]);
-
-  const signIn = async () => {
-    try {
-      const result = await googleAuth.signIn();
-      const basicProfile = result.getBasicProfile();
-      return getDataFromProfile(basicProfile);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const signOut = async () => {
-    await googleAuth.signOut();
-  };
-
-  return { signIn, signOut };
-}
-
 function getDataFromProfile(basicProfile) {
   return {
     name: basicProfile.getName(),
@@ -30,7 +5,7 @@ function getDataFromProfile(basicProfile) {
   };
 }
 
-function initializeGoogleAuth(onSignedIn, setGoogleAuth) {
+export function initializeGoogleAuth(onSignedIn, setGoogleAuth) {
   if (!window.gapi) {
     setTimeout(() => initializeGoogleAuth(onSignedIn, setGoogleAuth), 100);
     return;
@@ -45,4 +20,18 @@ function initializeGoogleAuth(onSignedIn, setGoogleAuth) {
     }
     setGoogleAuth(newGoogleAuth);
   });
+}
+
+export async function signIn(googleAuth) {
+  try {
+    const result = await googleAuth.signIn();
+    const basicProfile = result.getBasicProfile();
+    return getDataFromProfile(basicProfile);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function signOut(googleAuth) {
+  await googleAuth.signOut();
 }

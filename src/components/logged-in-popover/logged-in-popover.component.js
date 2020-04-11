@@ -11,8 +11,9 @@ import Link from '@material-ui/core/Link';
 import { useTheme } from '@material-ui/core/styles';
 
 import { ROUTES } from '../../constants';
+import { signOut } from '../../services/google-auth';
 
-export default function LoggedInMenu({ imageUrl, name, anchorEl, handleClose, unsetAuth }) {
+export default function LoggedInMenu({ imageUrl, name, googleAuth, anchorEl, handleClose, unsetAuth }) {
   const theme = useTheme();
   return (
     <Popover
@@ -33,9 +34,10 @@ export default function LoggedInMenu({ imageUrl, name, anchorEl, handleClose, un
       <Box textAlign="center" padding={2}>
         <Button
           variant="outlined"
-          onClick={() => {
-            unsetAuth();
+          onClick={async () => {
             handleClose();
+            unsetAuth();
+            await signOut(googleAuth);
           }}
         >
           Sign out

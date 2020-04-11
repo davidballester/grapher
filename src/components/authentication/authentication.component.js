@@ -1,20 +1,23 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 
-import useGoogleAuth from '../../hooks/use-google-auth';
+import { initializeGoogleAuth, signIn } from '../../services/google-auth';
 import LoggedInPopover from '../logged-in-popover';
 
-export default function Authentication({ setAuth, isSignedIn, imageUrl }) {
-  const useGoogleAuthCallback = useCallback(({ name, imageUrl }) => setAuth(name, imageUrl), [setAuth]);
-  const { signIn } = useGoogleAuth(useGoogleAuthCallback);
+export default function Authentication({ setAuth, setGoogleAuth, isSignedIn, imageUrl, googleAuth }) {
+  useEffect(() => {
+    if (!googleAuth) {
+      initializeGoogleAuth(({ name, imageUrl }) => setAuth(name, imageUrl), setGoogleAuth);
+    }
+  }, [googleAuth, setAuth, setGoogleAuth]);
   if (!isSignedIn) {
     return (
       <SignInButton
         onSignIn={async () => {
-          const profile = await signIn();
+          const profile = await signIn(googleAuth);
           if (!!profile) {
             const { name, imageUrl } = profile;
             setAuth(name, imageUrl);
