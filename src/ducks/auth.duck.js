@@ -1,4 +1,4 @@
-export const GOOGLE_AUTH_SET = 'grapher/Auth/GOOGLE_AUTH_SET';
+export const AUTH_SET_PROVIDER = 'grapher/Auth/AUTH_SET_PROVIDER';
 export const AUTH_SET = 'grapher/Auth/SET';
 export const AUTH_UNSET = 'grapher/Auth/UNSET';
 
@@ -8,11 +8,11 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case GOOGLE_AUTH_SET: {
-      const { googleAuth } = action.payload;
+    case AUTH_SET_PROVIDER: {
+      const { authProvider } = action.payload;
       return {
         ...state,
-        googleAuth,
+        authProvider,
       };
     }
     case AUTH_SET: {
@@ -38,11 +38,11 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export function setGoogleAuth(googleAuth) {
+export function setAuthProvider(authProvider) {
   return {
-    type: GOOGLE_AUTH_SET,
+    type: AUTH_SET_PROVIDER,
     payload: {
-      googleAuth,
+      authProvider,
     },
   };
 }
@@ -79,6 +79,6 @@ export function getImageUrl(state) {
   return authSelector(state).imageUrl;
 }
 
-export function getGoogleAuth(state) {
-  return authSelector(state).googleAuth;
+export function getAuthProvider(state) {
+  return authSelector(state).authProvider;
 }

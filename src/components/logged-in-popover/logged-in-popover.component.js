@@ -13,7 +13,7 @@ import { useTheme } from '@material-ui/core/styles';
 import { ROUTES } from '../../constants';
 import { signOut } from '../../services/google-auth';
 
-export default function LoggedInMenu({ imageUrl, name, googleAuth, anchorEl, handleClose, unsetAuth }) {
+export default function LoggedInMenu({ imageUrl, name, authProvider, anchorEl, handleClose, unsetAuth }) {
   const theme = useTheme();
   return (
     <Popover
@@ -37,7 +37,7 @@ export default function LoggedInMenu({ imageUrl, name, googleAuth, anchorEl, han
           onClick={async () => {
             handleClose();
             unsetAuth();
-            await signOut(googleAuth);
+            await signOut(authProvider);
           }}
         >
           Sign out

@@ -4,20 +4,20 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 
-import { initializeGoogleAuth, signIn } from '../../services/google-auth';
+import { initializeAuthProvider, signIn } from '../../services/google-auth';
 import LoggedInPopover from '../logged-in-popover';
 
-export default function Authentication({ setAuth, setGoogleAuth, isSignedIn, imageUrl, googleAuth }) {
+export default function Authentication({ setAuth, setAuthProvider, isSignedIn, imageUrl, authProvider }) {
   useEffect(() => {
-    if (!googleAuth) {
-      initializeGoogleAuth(({ name, imageUrl }) => setAuth(name, imageUrl), setGoogleAuth);
+    if (!authProvider) {
+      initializeAuthProvider(({ name, imageUrl }) => setAuth(name, imageUrl), setAuthProvider);
     }
-  }, [googleAuth, setAuth, setGoogleAuth]);
+  }, [authProvider, setAuth, setAuthProvider]);
   if (!isSignedIn) {
     return (
       <SignInButton
         onSignIn={async () => {
-          const profile = await signIn(googleAuth);
+          const profile = await signIn(authProvider);
           if (!!profile) {
             const { name, imageUrl } = profile;
             setAuth(name, imageUrl);
