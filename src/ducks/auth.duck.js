@@ -16,10 +16,11 @@ export default function reducer(state = initialState, action) {
       };
     }
     case AUTH_SET: {
-      const { name, imageUrl } = action.payload;
+      const { id, name, imageUrl } = action.payload;
       return {
         ...state,
         signedIn: true,
+        id,
         name,
         imageUrl,
       };
@@ -28,6 +29,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         signedIn: false,
+        id: undefined,
         name: undefined,
         imageUrl: undefined,
       };
@@ -47,10 +49,11 @@ export function setAuthProvider(authProvider) {
   };
 }
 
-export function setAuth(name, imageUrl) {
+export function setAuth(id, name, imageUrl) {
   return {
     type: AUTH_SET,
     payload: {
+      id,
       name,
       imageUrl,
     },
@@ -81,4 +84,8 @@ export function getImageUrl(state) {
 
 export function getAuthProvider(state) {
   return authSelector(state).authProvider;
+}
+
+export function getId(state) {
+  return authSelector(state).id;
 }

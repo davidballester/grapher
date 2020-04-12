@@ -13,7 +13,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setAuth: (name, imageUrl) => dispatch(setAuth(name, imageUrl)),
+    setAuth: (id, name, imageUrl) => dispatch(setAuth(id, name, imageUrl)),
     setAuthProvider: (authProvider) => dispatch(setAuthProvider(authProvider)),
   };
 }

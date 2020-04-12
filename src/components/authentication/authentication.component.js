@@ -10,7 +10,7 @@ import LoggedInPopover from '../logged-in-popover';
 export default function Authentication({ setAuth, setAuthProvider, isSignedIn, imageUrl, authProvider }) {
   useEffect(() => {
     if (!authProvider) {
-      initializeAuthProvider(({ name, imageUrl }) => setAuth(name, imageUrl), setAuthProvider);
+      initializeAuthProvider(({ id, name, imageUrl }) => setAuth(id, name, imageUrl), setAuthProvider);
     }
   }, [authProvider, setAuth, setAuthProvider]);
   if (!isSignedIn) {
@@ -19,8 +19,8 @@ export default function Authentication({ setAuth, setAuthProvider, isSignedIn, i
         onSignIn={async () => {
           const profile = await signIn(authProvider);
           if (!!profile) {
-            const { name, imageUrl } = profile;
-            setAuth(name, imageUrl);
+            const { id, name, imageUrl } = profile;
+            setAuth(id, name, imageUrl);
           }
         }}
       />

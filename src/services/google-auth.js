@@ -8,6 +8,7 @@ let onAuthStateChangedUnsubscribe;
 
 function getUserData(user) {
   return {
+    id: user.uid,
     name: user.displayName,
     imageUrl: user.photoURL,
   };
