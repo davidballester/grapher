@@ -1,12 +1,28 @@
+import { select, takeLatest, call, put } from 'redux-saga/effects';
 import { createSelector } from 'reselect';
 import entries from 'lodash/entries';
 
 import graphNamesService from '../../services/graph-names.service';
 import { GRAPH_SET_NAME, GRAPH_CREATE, GRAPH_DELETE } from '../../ducks/graph';
+import { getId, AUTH_SET, AUTH_UNSET } from '../../ducks/auth.duck';
 
-const initialState = graphNamesService.getGraphNames();
+export const WELCOME_READ_NAMES = 'grapher/Welcome/READ_NAMES';
+export const WELCOME_READ_NAMES_SUCCESS = 'grapher/Welcome/READ_NAMES_SUCCESS';
 
-export default function reducer(state = initialState, action) {
+export function readNames() {
+  return {
+    type: WELCOME_READ_NAMES,
+  };
+}
+
+export function readNamesSuccess(names) {
+  return {
+    type: WELCOME_READ_NAMES_SUCCESS,
+    payload: names,
+  };
+}
+
+export default function reducer(state = {}, action) {
   switch (action.type) {
     case GRAPH_CREATE: {
       const { id, name } = action.payload;
@@ -28,6 +44,10 @@ export default function reducer(state = initialState, action) {
         [id]: name,
       };
     }
+    case WELCOME_READ_NAMES_SUCCESS: {
+      const names = action.payload;
+      return names || {};
+    }
     default: {
       return state;
     }
@@ -42,3 +62,21 @@ export const getGraphNamesAsArray = createSelector(
   getGraphNames,
   (graphNames) => entries(graphNames)
 );
+
+export function* doReadGraphNames() {
+  const userId = yield select(getId);
+  const names = yield call([graphNamesService, 'getGraphNames'], userId);
+  yield put(readNamesSuccess(names));
+}
+
+export function* readGraphNamesSaga() {
+  yield takeLatest([WELCOME_READ_NAMES], doReadGraphNames);
+}
+
+export function* doLogInSaga() {
+  yield put(readNames());
+}
+
+export function* authChangeSaga() {
+  yield takeLatest([AUTH_SET, AUTH_UNSET], doLogInSaga);
+}

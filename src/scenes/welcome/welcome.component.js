@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 
 import { Link as RouterLink } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
@@ -49,9 +49,12 @@ const styles = (theme) => ({
   },
 });
 
-function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, classes }) {
+function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, readNames, classes }) {
   const theme = useTheme();
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
+  useEffect(() => {
+    readNames();
+  }, [readNames]);
 
   return (
     <>

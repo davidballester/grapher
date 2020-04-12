@@ -1,24 +1,57 @@
 import { validate } from 'jsonschema';
+import _pickBy from 'lodash/pickBy';
+import _isArray from 'lodash/isArray';
+import _isObject from 'lodash/isObject';
+import firebase from 'firebase/app';
+import 'firebase/database';
+
 import graphJsonSchema from './graph-schema';
 
 export const GRAPH_STORAGE_PREFIX = 'grapher/services/graphs/';
 
 export class GraphService {
-  saveGraph(graph) {
-    const { id } = graph;
-    const graphStorageKey = this.getGraphStorageKey(id);
-    localStorage.setItem(graphStorageKey, JSON.stringify(graph));
+  saveGraph(userId, graph) {
+    const { id: graphId } = graph;
+    if (!userId) {
+      const graphStorageKey = this.getGraphStorageKey(graphId);
+      localStorage.setItem(graphStorageKey, JSON.stringify(graph));
+    }
+    if (!!userId) {
+      const graphWithoutUndefines = this.removeNilProperties(graph);
+      firebase
+        .database()
+        .ref(`users/${userId}/${graphId}`)
+        .set(graphWithoutUndefines)
+        .catch(console.error);
+    }
   }
 
-  readGraph(id) {
-    const graphStorageKey = this.getGraphStorageKey(id);
-    const graph = localStorage.getItem(graphStorageKey);
-    return JSON.parse(graph);
+  readGraph(userId, graphId) {
+    if (!userId) {
+      const graphStorageKey = this.getGraphStorageKey(graphId);
+      const graph = localStorage.getItem(graphStorageKey);
+      return JSON.parse(graph);
+    }
+    return firebase
+      .database()
+      .ref(`users/${userId}/${graphId}`)
+      .once('value')
+      .then((snapshot) => snapshot.val())
+      .catch(console.error);
   }
 
-  removeGraph(id) {
-    const graphStorageKey = this.getGraphStorageKey(id);
-    localStorage.removeItem(graphStorageKey);
+  removeGraph(userId, graphId) {
+    if (!userId) {
+      const graphStorageKey = this.getGraphStorageKey(graphId);
+      localStorage.removeItem(graphStorageKey);
+    }
+    if (!!userId) {
+      firebase
+        .database()
+        .ref(`users/${userId}/${graphId}`)
+        .remove()
+        .catch(console.error);
+    }
   }
 
   getGraphStorageKey(id) {
@@ -42,6 +75,22 @@ export class GraphService {
       return { errors };
     }
     return { graph };
+  }
+
+  removeNilProperties(obj) {
+    if (_isArray(obj)) {
+      return obj.map((item) => this.removeNilProperties(item));
+    }
+    if (_isObject(obj)) {
+      const cleanObj = _pickBy(obj, (x) => x !== undefined && x !== null);
+      Object.keys(cleanObj).forEach((key) => {
+        const value = cleanObj[key];
+        const cleanValue = this.removeNilProperties(value);
+        cleanObj[key] = cleanValue;
+      });
+      return cleanObj;
+    }
+    return obj;
   }
 }
 

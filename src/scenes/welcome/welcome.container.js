@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import Welcome from './welcome.component';
 import { openDialog, DIALOG_IDS } from '../../ducks/dialog.duck';
-import { getGraphNamesAsArray } from './welcome.duck';
+import { getGraphNamesAsArray, readNames } from './welcome.duck';
 import { openGraph } from '../../ducks/navigation.duck';
 
 function mapStateToProps(state) {
@@ -16,6 +16,7 @@ function mapDispatchToProps(dispatch) {
     openNewGraph: () => dispatch(openDialog(DIALOG_IDS.NEW_GRAPH)),
     openGraph: (graphId) => dispatch(openGraph(graphId)),
     openImportGraph: () => dispatch(openDialog(DIALOG_IDS.IMPORT_GRAPH)),
+    readNames: () => dispatch(readNames()),
   };
 }
 

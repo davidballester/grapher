@@ -17,11 +17,13 @@ import {
   setText,
 } from './graph.actions';
 import graphGrammar, { sampleGraph } from '../../services/graph-grammar';
+import { getId } from '../../ducks/auth.duck';
 
 export function* saveGraph() {
   const graph = yield select(graphSelector);
-  yield call([graphService, 'saveGraph'], graph);
-  yield call([graphNamesService, 'saveGraphName'], graph.id, graph.name);
+  const userId = yield select(getId);
+  yield call([graphService, 'saveGraph'], userId, graph);
+  yield call([graphNamesService, 'saveGraphName'], userId, graph.id, graph.name);
 }
 
 export function* saveGraphSaga() {
@@ -30,7 +32,8 @@ export function* saveGraphSaga() {
 
 export function* doLoadGraph(action) {
   const graphId = action.payload;
-  const graph = yield call([graphService, 'readGraph'], graphId);
+  const userId = yield select(getId);
+  const graph = yield call([graphService, 'readGraph'], userId, graphId);
   if (graph) {
     yield put(loadGraphSuccess(graph));
   } else {
@@ -43,8 +46,9 @@ export function* loadGraphSaga() {
 }
 
 export function* doDeleteGraph({ payload: graphId }) {
-  yield call([graphService, 'removeGraph'], graphId);
-  yield call([graphNamesService, 'removeGraphName'], graphId);
+  const userId = yield select(getId);
+  yield call([graphService, 'removeGraph'], userId, graphId);
+  yield call([graphNamesService, 'removeGraphName'], userId, graphId);
 }
 
 export function* deleteGraphSaga() {
