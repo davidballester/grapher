@@ -3,7 +3,21 @@ jest.mock('jsonschema', () => ({
   validate: jest.fn(),
 }));
 
+jest.mock('firebase', () => ({
+  __esModule: true,
+  default: () => ({
+    database: () => ({
+      ref: () => ({
+        once: () => Promise.resolve(),
+        set: () => Promise.resolve(),
+        remove: () => Promise.resolve(),
+      }),
+    }),
+  }),
+}));
+
 import { validate } from 'jsonschema';
+import firebase from 'firebase/app';
 
 import graphService, { GRAPH_STORAGE_PREFIX } from './graph.service';
 
@@ -20,45 +34,115 @@ describe('graphService', () => {
 
   describe('#saveGraph', () => {
     let setItemSpy;
+    let refSpy;
+    let setSpy;
 
     beforeEach(() => {
       setItemSpy = jest.spyOn(localStorage, 'setItem');
+      setSpy = jest.fn().mockResolvedValue(Promise.resolve());
+      refSpy = jest.fn().mockReturnValue({ set: setSpy });
+      jest.spyOn(firebase, 'database').mockReturnValue({
+        ref: refSpy,
+      });
     });
 
     it(`saves a stringified version of the graph under \`${GRAPH_STORAGE_PREFIX}\` + graph id`, () => {
-      graphService.saveGraph(graph);
+      graphService.saveGraph(undefined, graph);
       expect(setItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.id}`, JSON.stringify(graph));
+    });
+
+    it('stores the graph into the user path', () => {
+      graphService.saveGraph('kingarthur', graph);
+      expect(refSpy).toHaveBeenCalledWith('users/kingarthur/foo');
+    });
+
+    it('stores a version of the graph without undefines', () => {
+      graph = {
+        ...graph,
+        foo: undefined,
+        baz: [
+          {
+            qux: undefined,
+          },
+        ],
+        qux: {
+          quux: undefined,
+        },
+      };
+      graphService.saveGraph('kingarthur', graph);
+      expect(setSpy).toHaveBeenCalledWith({
+        ...graph,
+        baz: [{}],
+        qux: {},
+      });
     });
   });
 
   describe('#readGraph', () => {
     let getItemSpy;
+    let refSpy;
+    let onceSpy;
 
     beforeEach(() => {
       getItemSpy = jest.spyOn(localStorage, 'getItem').mockReturnValue(JSON.stringify(graph));
+      const snapshot = {
+        val: () => graph,
+      };
+      onceSpy = jest.fn().mockResolvedValue(Promise.resolve(snapshot));
+      refSpy = jest.fn().mockReturnValue({ once: onceSpy });
+      jest.spyOn(firebase, 'database').mockReturnValue({
+        ref: refSpy,
+      });
     });
 
     it(`reads from the local storage the record under \`${GRAPH_STORAGE_PREFIX}\` + graph id`, () => {
-      graphService.readGraph(graph.id);
+      graphService.readGraph(undefined, graph.id);
       expect(getItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.id}`);
     });
 
     it(`returns the parsed value of the store record under \`${GRAPH_STORAGE_PREFIX}\` + graph id`, () => {
-      const returnedGraph = graphService.readGraph(graph.id);
+      const returnedGraph = graphService.readGraph(undefined, graph.id);
+      expect(returnedGraph).toEqual(graph);
+    });
+
+    it('reads the graph from the user path', () => {
+      graphService.readGraph('kingarthur', graph.id);
+      expect(refSpy).toHaveBeenCalledWith('users/kingarthur/foo');
+    });
+
+    it('returns the snapshot value', async () => {
+      const returnedGraph = await graphService.readGraph('kingarthur', graph.id);
       expect(returnedGraph).toEqual(graph);
     });
   });
 
   describe('#removeGraph', () => {
     let removeItemSpy;
+    let removeSpy;
+    let refSpy;
 
     beforeEach(() => {
       removeItemSpy = jest.spyOn(localStorage, 'removeItem');
+      removeSpy = jest.fn().mockResolvedValue(Promise.resolve());
+      refSpy = jest.fn().mockReturnValue({ remove: removeSpy });
+      jest.spyOn(firebase, 'database').mockReturnValue({
+        ref: refSpy,
+      });
     });
 
     it(`removes from the local storage the record under \`${GRAPH_STORAGE_PREFIX}\` + graph id`, () => {
-      graphService.removeGraph(graph.id);
+      graphService.removeGraph(undefined, graph.id);
       expect(removeItemSpy).toHaveBeenCalledWith(`${GRAPH_STORAGE_PREFIX}${graph.id}`);
+    });
+
+    it('removes the graph from the user path', () => {
+      graphService.removeGraph('kingarthur', graph.id);
+      expect(refSpy).toHaveBeenCalledWith('users/kingarthur/foo');
+    });
+
+    it('removes the graph from firebase', () => {
+      graphService.removeGraph('kingarthur', graph.id);
+      expect(removeSpy).toHaveBeenCalled();
     });
   });
 
