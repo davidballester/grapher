@@ -14,6 +14,7 @@ import Box from '@material-ui/core/Box';
 import { withStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import Zoom from '@material-ui/core/Zoom';
 
 import NewGraphDialog from './new-graph';
 import GraphCard from './graph-card';
@@ -84,14 +85,18 @@ function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, readNam
             </Button>
           </div>
           <GridList cellHeight={320} cols={bigScreen ? 3 : 2} className={classes.graphList}>
-            {graphNames.map(([graphId, graphName]) => (
-              <GridListTile key={graphId} cols={1}>
-                <GraphCard graphId={graphId} graphName={graphName} onOpen={() => openGraph(graphId)} />
-              </GridListTile>
+            {graphNames.map(([graphId, graphName], index) => (
+              <Zoom key={graphId} in={true} style={{ transitionDelay: `${index * 250 + 250}ms` }}>
+                <GridListTile cols={1}>
+                  <GraphCard graphId={graphId} graphName={graphName} onOpen={() => openGraph(graphId)} />
+                </GridListTile>
+              </Zoom>
             ))}
-            <GridListTile key="new" cols={1}>
-              <NewGraphCard onClick={openNewGraph} />
-            </GridListTile>
+            <Zoom in={true} style={{ transitionDelay: `${graphNames.length * 250 + 250}ms` }}>
+              <GridListTile key="new" cols={1}>
+                <NewGraphCard onClick={openNewGraph} />
+              </GridListTile>
+            </Zoom>
           </GridList>
         </main>
         <Box marginTop={4} component="footer">
