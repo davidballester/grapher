@@ -99,7 +99,7 @@ function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, readNam
             </Zoom>
           </GridList>
         </main>
-        <Box marginTop={4} component="footer">
+        <Box marginTop={4} paddingBottom={4} component="footer">
           <Divider />
           <Box display="flex" marginTop={4}>
             <Link
