@@ -14,7 +14,8 @@ const styles = (theme) => ({
   cardMedia: {
     height: 140,
     position: 'relative',
-    background: theme.palette.grey[200],
+    background: theme.palette.primary.light,
+    color: theme.palette.text.primary,
   },
   addIconContainer: {
     display: 'flex',
