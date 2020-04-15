@@ -3,7 +3,11 @@ import _flattenDeep from 'lodash/flattenDeep';
 import _omitBy from 'lodash/omitBy';
 import _isNil from 'lodash/isNil';
 import uuid from 'uuid/v4';
-import { red, purple, blue, green, yellow, orange, brown, grey } from '@material-ui/core/colors';
+import * as colors from '@material-ui/core/colors';
+
+const colorNames = Object.keys(colors)
+  .filter((color) => color !== 'common')
+  .sort((color1, color2) => color1.length - color2.length);
 
 const grammar = `
 Grapher {
@@ -39,14 +43,7 @@ Grapher {
   group = ":" identifier " " color --coloredGroup
     | ":" identifier --uncoloredGroup
   
-  color = "#red" --red
-    | "#purple" --purple
-    | "#blue" --blue
-    | "#green" --green
-    | "#yellow" --yellow
-    | "#orange" --orange
-    | "#brown" --brown
-    | "#grey" --grey
+  color = ${colorNames.map((color) => `"#${color}" --${color}`).join('\n    | ')}
     | "#" hexDigit hexDigit hexDigit hexDigit hexDigit hexDigit --sixHex
     | "#" hexDigit hexDigit hexDigit --threeHex
 
@@ -65,6 +62,11 @@ class GraphGrammar {
 
   async initialize() {
     this.grammar = ohm.grammar(grammar);
+    const colorRules = {};
+    colorNames.forEach((colorName) => {
+      const color = colors[colorName];
+      colorRules[`color_${colorName}`] = (text) => color['A700'] || color['500'];
+    });
     this.semantics = this.grammar.createSemantics().addOperation('eval', {
       paths_multiplePaths: (pathWithSeparators, path) => {
         const entities = _flattenDeep([...pathWithSeparators.eval(), ...path.eval()]);
@@ -172,14 +174,7 @@ class GraphGrammar {
           color: color.eval(),
         },
       ],
-      color_red: (text) => red['A700'],
-      color_purple: (text) => purple['A700'],
-      color_blue: (text) => blue['A700'],
-      color_green: (text) => green['A700'],
-      color_yellow: (text) => yellow['A700'],
-      color_orange: (text) => orange['A700'],
-      color_brown: (text) => brown['A700'],
-      color_grey: (text) => grey['A700'],
+      ...colorRules,
       color_threeHex: (hashtag, hexA, hexB, hexC) => `#${hexA.sourceString}${hexB.sourceString}${hexC.sourceString}`,
       color_sixHex: (hashtag, hexA, hexB, hexC, hexD, hexE, hexF) => {
         return `#${hexA.sourceString}${hexB.sourceString}${hexC.sourceString}${hexD.sourceString}${hexE.sourceString}${hexF.sourceString}`;
