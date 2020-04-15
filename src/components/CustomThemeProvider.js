@@ -1,14 +1,31 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { purple, amber } from '@material-ui/core/colors';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { purple, amber, indigo } from '@material-ui/core/colors';
 
-const theme = createMuiTheme({
+const darkTheme = createMuiTheme({
   palette: {
+    type: 'dark',
+    primary: amber,
+    secondary: indigo,
+  },
+});
+
+const lightTheme = createMuiTheme({
+  palette: {
+    type: 'light',
     primary: purple,
     secondary: amber,
   },
 });
 
 export default function CustomThemeProvider({ children }) {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const theme = useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline>{children}</CssBaseline>
+    </ThemeProvider>
+  );
 }
