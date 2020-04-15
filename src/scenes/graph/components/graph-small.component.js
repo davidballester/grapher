@@ -43,6 +43,7 @@ function GraphSmall({ graphName, openGraphList, classes }) {
             onChange={(event, newValue) => setValue(newValue)}
             aria-label="editor and graph view in separate tabs"
             variant="fullWidth"
+            indicatorColor="secondary"
           >
             <Tab label="Editor" {...a11yProps(0)} />
             <Tab label="Graph view" {...a11yProps(1)} />
