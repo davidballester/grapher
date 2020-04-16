@@ -133,13 +133,13 @@ export default ({
         width={dimensions.width}
         height={dimensions.height}
         enableNodeDrag={true}
-        nodeCanvasObject={renderNode}
+        nodeCanvasObject={(node, ctx, globalScale) => renderNode(node, ctx, globalScale, theme)}
         nodeLabel="id"
-        nodeColor={getNodeColor}
+        nodeColor={(node) => getNodeColor(node, theme)}
         nodeCanvasObjectMode={() => 'before'}
         linkDirectionalArrowLength={5}
         linkDirectionalArrowRelPos={1}
-        linkColor={getLinkColor}
+        linkColor={(link) => getLinkColor(link, theme)}
         linkWidth={3}
         linkDirectionalParticles={4}
         linkDirectionalParticleWidth={(link) => (link.selected ? 4 : 0)}
@@ -163,7 +163,7 @@ export default ({
           }
         }}
         linkCanvasObjectMode={() => 'after'}
-        linkCanvasObject={(link, ctx, globalScale) => renderLink(link, ctx, globalScale, linksGraphData)}
+        linkCanvasObject={(link, ctx, globalScale) => renderLink(link, ctx, globalScale, linksGraphData, theme)}
       />
     </div>
   );

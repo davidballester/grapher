@@ -1,9 +1,7 @@
-import orange from '@material-ui/core/colors/orange';
-import grey from '@material-ui/core/colors/grey';
 import _get from 'lodash/get';
 import { default as Bezier } from 'bezier-js';
 
-export function getLinkColor(link) {
+export function getLinkColor(link, theme) {
   const groupColor = _get(link, 'groups[0].color');
   if (!!groupColor) {
     return groupColor;
@@ -11,22 +9,31 @@ export function getLinkColor(link) {
 
   const { selected = false, artificial = false } = link;
   if (selected) {
-    return orange['A200'];
+    return _get(theme, 'palette.primary.light');
   } else if (artificial) {
-    return 'rgba(0, 0, 0, 0)';
+    return _get(theme, 'palette.background.default');
   } else {
-    return grey['300'];
+    return _get(theme, 'palette.text.secondary');
   }
 }
 
-export function renderLink(link, ctx, globalScale, links) {
+export function renderLink(link, ctx, globalScale, links, theme) {
   if (!!link.label) {
-    const fontSize = globalScale * 0.8;
+    const fontSize = globalScale * 0.6;
     ctx.font = `${fontSize}px Sans-Serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#666';
     const { x, y } = getLabelPosition(link, links);
+    let { width: rectWidth } = ctx.measureText(link.label);
+    rectWidth += fontSize / 2;
+    const rectHeight = fontSize * 1.2;
+
+    ctx.beginPath();
+    ctx.rect(x - rectWidth / 2, y - rectHeight / 2, rectWidth, rectHeight);
+    ctx.fillStyle = _get(theme, 'palette.background.paper');
+    ctx.fill();
+
+    ctx.fillStyle = _get(theme, 'palette.text.secondary');
     ctx.fillText(link.label, x, y);
   }
 }

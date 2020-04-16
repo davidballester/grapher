@@ -1,24 +1,27 @@
-import blue from '@material-ui/core/colors/blue';
 import * as color from 'color';
+import _lget from 'lodash/get';
 
-export function getNodeColor(node) {
-  const nodeColor = node.color;
-  return nodeColor || blue['A200'];
+export function getNodeColor(node, theme) {
+  const nodeColor = node.color || _lget(theme, 'palette.secondary.light');
+  return color(nodeColor)
+    .alpha(1.0)
+    .hex();
 }
 
-export function renderNode(node, ctx, globalScale) {
-  if (node.selected) {
-    renderSelectedCircle(node, ctx);
-  }
+export function renderNode(node, ctx, globalScale, theme) {
   renderGroups(node, ctx);
-  renderLabel(node, ctx, globalScale);
+  if (node.selected) {
+    renderSelectedCircle(node, ctx, theme);
+  }
+  renderLabel(node, ctx, globalScale, theme);
 }
 
-function renderSelectedCircle(node, ctx) {
+function renderSelectedCircle(node, ctx, theme) {
   ctx.save();
-  const nodeColor = getNodeColor(node);
+  const nodeColor = getNodeColor(node, theme);
   const circleColor = color(nodeColor)
     .lighten(0.4)
+    .alpha(1.0)
     .hex();
   const radius = (node.groups || []).length > 0 ? 7 : 6;
   ctx.strokeStyle = circleColor;
@@ -29,12 +32,12 @@ function renderSelectedCircle(node, ctx) {
   ctx.restore();
 }
 
-function renderLabel(node, ctx, globalScale) {
+function renderLabel(node, ctx, globalScale, theme) {
   const fontSize = globalScale;
   ctx.font = `${fontSize}px Sans-Serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillStyle = '#000';
+  ctx.fillStyle = theme.palette.text.secondary;
   ctx.fillText(node.id, node.x, node.y + 8);
 }
 
