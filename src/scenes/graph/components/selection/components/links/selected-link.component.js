@@ -13,8 +13,12 @@ const styles = (theme) => ({
   },
 });
 
+function isEmpty(link) {
+  return !link.lable && !(link.groups || []).length && !link.description;
+}
+
 function SelectedLink({ link, className, classes }) {
-  if (!link) {
+  if (!link || isEmpty(link)) {
     return null;
   }
 
@@ -41,7 +45,6 @@ function SelectedLink({ link, className, classes }) {
 SelectedLink.propTypes = {
   link: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
   }),
   className: PropTypes.string,
 };
