@@ -290,7 +290,7 @@ export const sampleGraph = `# First, we define groups to assign them colors
 :Queen #purple
 :Wizard #blue
 :Antagonist #grey
-:Knight #green
+:Knight #amber
 
 # These are normal groups, but we'll use them for links, which have no coloring
 :family
