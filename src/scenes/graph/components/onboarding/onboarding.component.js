@@ -29,7 +29,7 @@ const styles = (theme) => ({
 
 const steps = 3;
 
-const Onboarding = ({ open, dismiss, classes }) => {
+const Onboarding = ({ open, dismiss, isDarkMode, classes }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -43,9 +43,9 @@ const Onboarding = ({ open, dismiss, classes }) => {
   return (
     <Dialog open={open}>
       <Title onClose={dismiss}>Welcome to Grapher!</Title>
-      <Introduction hidden={activeStep !== 0} className={classes.step} />
+      <Introduction hidden={activeStep !== 0} className={classes.step} isDarkMode={isDarkMode} />
       <AddNodesAndLinks hidden={activeStep !== 1} className={classes.step} />
-      <Groups hidden={activeStep !== 2} className={classes.step} />
+      <Groups hidden={activeStep !== 2} className={classes.step} isDarkMode={isDarkMode} />
       <MobileStepper
         variant="dots"
         steps={steps}

@@ -76,8 +76,8 @@ function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, readNam
             Welcome to Grapher
           </Typography>
           <Typography component="p" variant="body1" align="center" className={classes.text}>
-            Write graphs down using a simple notation. Group together nodes and links and color groups to reveal patterns. Save your graphs in your
-            browser or exporte them in JSON format so you can import them into a different browser.
+            Write graphs using a simple notation. Group together nodes and links and color groups to reveal patterns. Save your graphs in your browser
+            or log in with your Google account to have them available everywhere!
           </Typography>
           <div className={classes.buttonContainer}>
             <Button variant="contained" color="primary" onClick={openNewGraph} className={classes.button}>

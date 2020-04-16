@@ -53,7 +53,7 @@
           "$id": "#/properties/links/properties/mario-luigi",
           "type": "object",
           "title": "The Mario-luigi Schema",
-          "required": ["id", "label", "source", "target"],
+          "required": ["id", "source", "target"],
           "properties": {
             "id": {
               "$id": "#/properties/links/properties/mario-luigi/properties/id",
