@@ -5,3 +5,7 @@ body {
 div:focus {
   outline: none;
 }
+
+* {
+  transition: color, background-color 100ms ease-in;
+}

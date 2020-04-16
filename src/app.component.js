@@ -6,7 +6,7 @@ import Graph from './scenes/graph';
 import { ROUTES } from './constants';
 import Welcome from './scenes/welcome';
 import PrivacyPolicy from './scenes/privacy-policy';
-import CustomThemeProvider from './components/CustomThemeProvider';
+import CustomThemeProvider from './components/custom-theme-provider';
 
 export function App() {
   return (

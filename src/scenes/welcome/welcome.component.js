@@ -22,6 +22,7 @@ import NewGraphCard from './new-graph-card';
 import Import from './graph-import';
 import Authentication from '../../components/authentication';
 import { ROUTES } from '../../constants';
+import ThemeToggler from '../../components/theme-toggler';
 
 const styles = (theme) => ({
   container: {
@@ -38,6 +39,7 @@ const styles = (theme) => ({
   },
   rightAppBarContent: {
     marginRight: theme.spacing(2),
+    display: 'flex',
   },
   buttonContainer: {
     textAlign: 'center',
@@ -63,6 +65,7 @@ function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, readNam
         <Toolbar disableGutters>
           <div style={{ flex: 1 }} />
           <div className={classes.rightAppBarContent}>
+            <ThemeToggler />
             <Authentication />
           </div>
         </Toolbar>

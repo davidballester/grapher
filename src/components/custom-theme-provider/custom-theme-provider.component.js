@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { purple, amber, brown } from '@material-ui/core/colors';
 
 const darkTheme = createMuiTheme({
@@ -20,9 +19,8 @@ const lightTheme = createMuiTheme({
   },
 });
 
-export default function CustomThemeProvider({ children }) {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const theme = useMemo(() => (prefersDarkMode ? darkTheme : lightTheme), [prefersDarkMode]);
+export default function CustomThemeProvider({ isDarkMode, children }) {
+  const theme = useMemo(() => (isDarkMode ? darkTheme : lightTheme), [isDarkMode]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline>{children}</CssBaseline>
