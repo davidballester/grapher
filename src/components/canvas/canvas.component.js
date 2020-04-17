@@ -7,7 +7,7 @@ import { renderNode, getNodeColor } from './services/node-renderer.service';
 import { renderLink, getLinkColor } from './services/link-renderer.service';
 
 const updateDimensions = (setDimensions, containerRef, defaultWidth) => {
-  const headerHeight = window.innerWidth < 600 ? 60 : 70;
+  const headerHeight = window.innerWidth < 600 ? 90 : 100;
   setDimensions({
     width: defaultWidth ? window.innerWidth : containerRef.current.clientWidth,
     height: window.innerHeight - headerHeight,
