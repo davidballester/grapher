@@ -14,7 +14,7 @@ const styles = (theme) => ({
 });
 
 function isEmpty(link) {
-  return !link.lable && !(link.groups || []).length && !link.description;
+  return !link.label && !(link.groups || []).length && !link.description;
 }
 
 function SelectedLink({ link, className, classes }) {
