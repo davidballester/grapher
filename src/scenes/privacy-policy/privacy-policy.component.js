@@ -45,205 +45,239 @@ export default function PrivacyPolicy() {
           </Typography>
         </Toolbar>
       </AppBar>
+
       <Container component="article">
         <section>
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            David Ballester Mena built the Grapher app as an Open Source app. This SERVICE is provided by David Ballester Mena at no cost and is
-            intended for use as is.
+            At Grapher, accessible from https://grapher.tech, one of our main priorities is the privacy of our visitors. This Privacy Policy document
+            contains types of information that is collected and recorded by Grapher and how we use it.
           </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone
-            decided to use my Service.
+            If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
           </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal
-            Information that I collect is used for providing and improving the Service. I will not use or share your information with anyone except as
-            described in this Privacy Policy.
-          </Typography>
-
-          <Typography component="p" variant="body1" className={classes.paragraph}>
-            The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at Grapher unless
-            otherwise defined in this Privacy Policy.
+            This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that
+            they shared and/or collect in Grapher. This policy is not applicable to any information collected offline or via channels other than this
+            website.
           </Typography>
         </section>
-
         <section>
-          <header className={classes.header}>
-            <Typography component="h2" variant="h4">
-              Information Collection and Use
-            </Typography>
-          </header>
-
-          <Typography component="p" variant="body1" className={classes.paragraph}>
-            For a better experience, while using our Service, I may require you to provide us with certain personally identifiable information,
-            including but not limited to Graphs created with the app. The information that I request will be retained on your device and is not
-            collected by me in any way.
+          <Typography component="h2" variant="h4">
+            Consent
           </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            The app does use third party services that may collect information used to identify you.
-          </Typography>
-
-          <Typography component="p" variant="body1" className={classes.paragraph}>
-            Link to privacy policy of third party service providers used by the app
+            By using our website, you hereby consent to our Privacy Policy and agree to its terms.
           </Typography>
         </section>
-
         <section>
-          <header className={classes.header}>
-            <Typography component="h2" variant="h4">
-              Log Data
-            </Typography>
-          </header>
+          <Typography component="h2" variant="h4">
+            Information we collect
+          </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            I want to inform you that whenever you use my Service, in a case of an error in the app I collect data and information (through third
-            party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol (“IP”) address,
-            device name, operating system version, the configuration of the app when utilizing my Service, the time and date of your use of the
-            Service, and other statistics.
+            The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the
+            point we ask you to provide your personal information.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            If you contact us directly, we may receive additional information about you such as your name, email address, phone number, the contents
+            of the message and/or attachments you may send us, and any other information you may choose to provide.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            When you register for an Account, we may ask for your contact information, including items such as name, company name, address, email
+            address, and telephone number.
           </Typography>
         </section>
-
         <section>
-          <header className={classes.header}>
-            <Typography component="h2" variant="h4">
-              Cookies
-            </Typography>
-          </header>
-
-          <Typography component="p" variant="body1" className={classes.paragraph}>
-            Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from
-            the websites that you visit and are stored on your device's internal memory.
+          <Typography component="h2" variant="h4">
+            How we use your information
           </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            This Service does not use these “cookies” explicitly. However, the app may use third party code and libraries that use “cookies” to
-            collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is
-            being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.
-          </Typography>
-        </section>
-
-        <section>
-          <header className={classes.header}>
-            <Typography component="h2" variant="h4">
-              Service Providers
-            </Typography>
-          </header>
-
-          <Typography component="p" variant="body1" className={classes.paragraph}>
-            I may employ third-party companies and individuals due to the following reasons:
+            We use the information we collect in various ways, including to:
           </Typography>
 
           <ul>
             <li>
               <Typography component="p" variant="body1" className={classes.paragraph}>
-                To facilitate our Service;
+                Provide, operate, and maintain our webste
               </Typography>
             </li>
             <li>
               <Typography component="p" variant="body1" className={classes.paragraph}>
-                To provide the Service on our behalf;
+                Improve, personalize, and expand our webste
               </Typography>
             </li>
             <li>
               <Typography component="p" variant="body1" className={classes.paragraph}>
-                To perform Service-related services; or
+                Understand and analyze how you use our webste
               </Typography>
             </li>
             <li>
               <Typography component="p" variant="body1" className={classes.paragraph}>
-                To assist us in analyzing how our Service is used.
+                Develop new products, services, features, and functionality
               </Typography>
             </li>
             <li>
               <Typography component="p" variant="body1" className={classes.paragraph}>
-                I want to inform users of this Service that these third parties have access to your Personal Information. The reason is to perform the
-                tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.
+                Communicate with you, either directly or through one of our partners, including for customer service, to provide you with updates and
+                other information relating to the webste, and for marketing and promotional purposes
+              </Typography>
+            </li>
+            <li>
+              <Typography component="p" variant="body1" className={classes.paragraph}>
+                Send you emails
+              </Typography>
+            </li>
+            <li>
+              <Typography component="p" variant="body1" className={classes.paragraph}>
+                Find and prevent fraud
               </Typography>
             </li>
           </ul>
         </section>
-
         <section>
-          <header className={classes.header}>
-            <Typography component="h2" variant="h4">
-              Security
-            </Typography>
-          </header>
+          <Typography component="h2" variant="h4">
+            Log Files
+          </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            I value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it.
-            But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and I cannot
-            guarantee its absolute security.
+            Grapher follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this
+            and a part of hosting services' analytics. The information collected by log files include internet protocol (IP) addresses, browser type,
+            Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any
+            information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking
+            users' movement on the website, and gathering demographic information.
           </Typography>
         </section>
-
         <section>
-          <header className={classes.header}>
-            <Typography component="h2" variant="h4">
-              Links to Other Sites
-            </Typography>
-          </header>
+          <Typography component="h2" variant="h4">
+            Cookies and Web Beacons
+          </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these
-            external sites are not operated by me. Therefore, I strongly advise you to review the Privacy Policy of these websites. I have no control
-            over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.
+            Like any other website, Grapher uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages
+            on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page
+            content based on visitors' browser type and/or other information.
+          </Typography>
+
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            For more general information on cookies, please read{' '}
+            <Link href="https://www.cookieconsent.com/what-are-cookies/">"What Are Cookies"</Link>.
           </Typography>
         </section>
-
         <section>
-          <header className={classes.header}>
-            <Typography component="h2" variant="h4">
-              Children’s Privacy
-            </Typography>
-          </header>
+          <Typography component="h2" variant="h4">
+            Advertising Partners Privacy Policies
+          </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            These Services do not address anyone under the age of 13. I do not knowingly collect personally identifiable information from children
-            under 13. In the case I discover that a child under 13 has provided me with personal information, I immediately delete this from our
-            servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact me so
-            that I will be able to do necessary actions.
+            You may consult this list to find the Privacy Policy for each of the advertising partners of Grapher.
+          </Typography>
+
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective
+            advertisements and links that appear on Grapher, which are sent directly to users' browser. They automatically receive your IP address
+            when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the
+            advertising content that you see on websites that you visit.
+          </Typography>
+
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            Note that Grapher has no access to or control over these cookies that are used by third-party advertisers.
           </Typography>
         </section>
-
         <section>
-          <header className={classes.header}>
-            <Typography component="h2" variant="h4">
-              Changes to This Privacy Policy
-            </Typography>
-          </header>
+          <Typography component="h2" variant="h4">
+            Third Party Privacy Policies
+          </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            I may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will notify
-            you of any changes by posting the new Privacy Policy on this page. These changes are effective immediately after they are posted on this
-            page.
+            Grapher's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy
+            Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to
+            opt-out of certain options. You may find a complete list of these Privacy Policies and their links here: Privacy Policy Links.
+          </Typography>
+
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            You can choose to disable cookies through your individual browser options. To know more detailed information about cookie management with
+            specific web browsers, it can be found at the browsers' respective websites.
           </Typography>
         </section>
-
         <section>
-          <header className={classes.header}>
-            <Typography component="h2" variant="h4">
-              Contact Us
-            </Typography>
-          </header>
-
-          <Typography component="p" variant="body1" className={classes.paragraph}>
-            If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at{' '}
-            <Link href="mailto:davidballestermena@gmail.com" target="_blank">
-              davidballestermena@gmail.com
-            </Link>
-            .
+          <Typography component="h2" variant="h4">
+            CCPA Privacy Rights (Do Not Sell My Personal Information)
           </Typography>
 
           <Typography component="p" variant="body1" className={classes.paragraph}>
-            This privacy policy page was created at{' '}
-            <Link href="privacypolicytemplate.net" target="_blank">
-              privacypolicytemplate.net
-            </Link>{' '}
-            and modified/generated by App Privacy Policy Generator
+            Under the CCPA, among other rights, California consumers have the right to:
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            Request that a business that collects a consumer's personal data disclose the categories and specific pieces of personal data that a
+            business has collected about consumers.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            Request that a business delete any personal data about the consumer that a business has collected.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            Request that a business that sells a consumer's personal data, not sell the consumer's personal data.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us.
+          </Typography>
+        </section>
+        <section>
+          <Typography component="h2" variant="h4">
+            GDPR Data Protection Rights
+          </Typography>
+
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            We would like to make sure you are fully aware of all of your data protection rights. Every user is entitled to the following:
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            The right to access – You have the right to request copies of your personal data. We may charge you a small fee for this service.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            The right to rectification – You have the right to request that we correct any information you believe is inaccurate. You also have the
+            right to request that we complete the information you believe is incomplete.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            The right to erasure – You have the right to request that we erase your personal data, under certain conditions.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            The right to restrict processing – You have the right to request that we restrict the processing of your personal data, under certain
+            conditions.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            The right to object to processing – You have the right to object to our processing of your personal data, under certain conditions.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            The right to data portability – You have the right to request that we transfer the data that we have collected to another organization, or
+            directly to you, under certain conditions.
+          </Typography>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us.
+          </Typography>
+        </section>
+        <section>
+          <Typography component="h2" variant="h4">
+            Children's Information
+          </Typography>
+
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe,
+            participate in, and/or monitor and guide their online activity.
+          </Typography>
+
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            Grapher does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child
+            provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to
+            promptly remove such information from our records.
+          </Typography>
+        </section>
+        <section>
+          <Typography component="p" variant="body1" className={classes.paragraph}>
+            Our Privacy Policy was created with the help of the <Link href="https://www.privacypolicygenerator.info">Privacy Policy Generator</Link>{' '}
+            and the <Link href="https://www.privacypolicyonline.com/privacy-policy-template/">Privacy Policy Template</Link>.
           </Typography>
         </section>
       </Container>
