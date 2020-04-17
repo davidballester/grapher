@@ -46,7 +46,9 @@ export default function CustomThemeProvider({ isDarkMode, children }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline>
-        <div className={classes.customScroll}>{children}</div>
+        <div id="css-root" className={classes.customScroll}>
+          {children}
+        </div>
       </CssBaseline>
     </ThemeProvider>
   );

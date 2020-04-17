@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
@@ -15,6 +14,7 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 import './graph-import.component.css';
+import CustomDialog from '../../../components/CustomDialog';
 
 const styles = (theme) => {
   return {
@@ -44,7 +44,7 @@ function Import({ isOpen, errors = [], close, importGraph, classes }) {
     </ListItem>
   ));
   return (
-    <Dialog open={isOpen}>
+    <CustomDialog open={isOpen}>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -90,7 +90,7 @@ function Import({ isOpen, errors = [], close, importGraph, classes }) {
           </Button>
         </DialogActions>
       </form>
-    </Dialog>
+    </CustomDialog>
   );
 }
 

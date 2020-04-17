@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 
+import CustomDialog from '../../../../../../components/CustomDialog';
+
 function ConfirmDeleteGraph({ isOpen, graphName, graphId, deleteGraph, cancel }) {
   return (
-    <Dialog open={isOpen}>
+    <CustomDialog open={isOpen}>
       <DialogTitle>Delete {graphName}?</DialogTitle>
       <DialogContent>
         <DialogContentText>You are about to delete this graph: {graphName}</DialogContentText>
@@ -22,7 +23,7 @@ function ConfirmDeleteGraph({ isOpen, graphName, graphId, deleteGraph, cancel })
           Delete
         </Button>
       </DialogActions>
-    </Dialog>
+    </CustomDialog>
   );
 }
 

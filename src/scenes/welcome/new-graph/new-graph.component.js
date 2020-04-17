@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+
+import CustomDialog from '../../../components/CustomDialog';
 
 function isGraphNameValid(newGraphName) {
   return !!newGraphName.trim();
@@ -25,7 +26,7 @@ export default function NewGraph({ isOpen, saveNewGraph, cancelNewGraph }) {
   const [formData, setFormData] = useState({ graphName: '', includeSampleGraph: true });
   const [error, setError] = useState(false);
   return (
-    <Dialog open={isOpen}>
+    <CustomDialog open={isOpen}>
       <DialogTitle>Create new graph</DialogTitle>
       <form
         onSubmit={(event) => {
@@ -64,6 +65,6 @@ export default function NewGraph({ isOpen, saveNewGraph, cancelNewGraph }) {
           </Button>
         </DialogActions>
       </form>
-    </Dialog>
+    </CustomDialog>
   );
 }

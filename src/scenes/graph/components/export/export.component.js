@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
@@ -11,10 +10,11 @@ import 'brace/mode/javascript';
 import 'brace/theme/monokai';
 
 import DownloadButton from './components/download-button.component';
+import CustomDialog from '../../../../components/CustomDialog';
 
 function Export({ isOpen, graphName, serializedGraph, close }) {
   return (
-    <Dialog open={isOpen}>
+    <CustomDialog open={isOpen}>
       <DialogTitle>Export</DialogTitle>
       <DialogContent>
         <AceEditor
@@ -43,7 +43,7 @@ function Export({ isOpen, graphName, serializedGraph, close }) {
           Done
         </Button>
       </DialogActions>
-    </Dialog>
+    </CustomDialog>
   );
 }
 

@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
 import { TextField } from 'formik-material-ui';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+
+import CustomDialog from '../../../../components/CustomDialog';
 
 function EditGraph({ isOpen, graphId, graphName, setGraphName, cancelEditGraph }) {
   const initialValues = {
@@ -19,7 +20,7 @@ function EditGraph({ isOpen, graphId, graphName, setGraphName, cancelEditGraph }
   });
 
   return (
-    <Dialog open={isOpen}>
+    <CustomDialog open={isOpen}>
       <DialogTitle>Edit graph {graphName}</DialogTitle>
       <Formik
         initialValues={initialValues}
@@ -41,7 +42,7 @@ function EditGraph({ isOpen, graphId, graphName, setGraphName, cancelEditGraph }
           </Form>
         )}
       />
-    </Dialog>
+    </CustomDialog>
   );
 }
 

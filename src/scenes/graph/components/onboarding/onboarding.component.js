@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Dialog from '@material-ui/core/Dialog';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -10,6 +9,7 @@ import Introduction from './components/introduction.component';
 import AddNodesAndLinks from './components/add-nodes-and-links.component';
 import Groups from './components/groups.component';
 import Title from './components/title.component';
+import CustomDialog from '../../../../components/CustomDialog';
 
 const styles = (theme) => ({
   stepper: {
@@ -41,7 +41,7 @@ const Onboarding = ({ open, dismiss, isDarkMode, classes }) => {
   };
 
   return (
-    <Dialog open={open}>
+    <CustomDialog open={open}>
       <Title onClose={dismiss}>Welcome to Grapher!</Title>
       <Introduction hidden={activeStep !== 0} className={classes.step} isDarkMode={isDarkMode} />
       <AddNodesAndLinks hidden={activeStep !== 1} className={classes.step} />
@@ -65,7 +65,7 @@ const Onboarding = ({ open, dismiss, isDarkMode, classes }) => {
           </Button>
         }
       />
-    </Dialog>
+    </CustomDialog>
   );
 };
 

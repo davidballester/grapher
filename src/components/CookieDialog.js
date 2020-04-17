@@ -1,6 +1,5 @@
 import React, { useState, forwardRef } from 'react';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -9,13 +8,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
 import { ROUTES } from '../constants';
+import CustomDialog from './CustomDialog';
 
 const storageKey = 'grapher/cookiedialog/accepted';
 
 export default function CookieDialog() {
   const [open, setOpen] = useState(localStorage.getItem(storageKey) !== 'true');
   return (
-    <Dialog open={open} aria-labelledby="cookie-dialog-title" aria-describedby="cookie-dialog-description">
+    <CustomDialog open={open} aria-labelledby="cookie-dialog-title" aria-describedby="cookie-dialog-description">
       <DialogTitle id="cookie-dialog-title">Do you accept our cookies policy?</DialogTitle>
       <DialogContent>
         <DialogContentText id="cookie-dialog-description">
@@ -42,6 +42,6 @@ export default function CookieDialog() {
           Agree
         </Button>
       </DialogActions>
-    </Dialog>
+    </CustomDialog>
   );
 }
