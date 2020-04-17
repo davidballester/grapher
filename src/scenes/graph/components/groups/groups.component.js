@@ -9,9 +9,8 @@ import List from '@material-ui/core/List';
 
 import EmptyState from './components/empty-state.component';
 import GroupListItem from './components/group-list-item.component';
-import { customScroll } from '../../../../utils/styles';
 
-const styles = (theme) => ({
+const styles = {
   root: {
     width: '100%',
     '&.Mui-expanded': {
@@ -23,9 +22,9 @@ const styles = (theme) => ({
   },
   content: {
     maxHeight: '30vh',
-    ...customScroll(theme),
+    overflow: 'auto',
   },
-});
+};
 
 function Groups({ groups = [], classes = {} }) {
   const [expanded, setExpanded] = useState(true);
@@ -49,4 +48,4 @@ function Groups({ groups = [], classes = {} }) {
   );
 }
 
-export default withStyles(styles, { withTheme: true })(Groups);
+export default withStyles(styles)(Groups);
