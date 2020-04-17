@@ -9,6 +9,7 @@ import List from '@material-ui/core/List';
 
 import EmptyState from './components/empty-state.component';
 import GroupListItem from './components/group-list-item.component';
+import { customScroll } from '../../../../utils/styles';
 
 const styles = (theme) => ({
   root: {
@@ -22,20 +23,7 @@ const styles = (theme) => ({
   },
   content: {
     maxHeight: '30vh',
-    overflow: 'auto',
-    'scrollbar-width': 'thin',
-    'scrollbar-color': `${theme.palette.text.primary} ${theme.palette.background.paper}`,
-    '&::-webkit-scrollbar': {
-      width: 11,
-    },
-    '&::-webkit-scrollbar-track': {
-      background: theme.palette.background.paper,
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: theme.palette.text.primary,
-      borderRadius: 6,
-      border: `3px solid ${theme.palette.background.paper}`,
-    },
+    ...customScroll(theme),
   },
 });
 
