@@ -10,6 +10,7 @@ import Onboarding from './components/onboarding';
 import GraphLarge from './components/graph-large.component';
 import GraphSmall from './components/graph-small.component';
 import NotFound from './components/not-found.component';
+import CookieDialog from '../../components/CookieDialog';
 
 export default function Graph({ graphId, graphName, loadedGraphId, loadGraph, openGraphList, loadError }) {
   const theme = useTheme();
@@ -25,6 +26,7 @@ export default function Graph({ graphId, graphName, loadedGraphId, loadGraph, op
 
   return (
     <>
+      <CookieDialog />
       <ConfirmDeletes />
       <EditGraph />
       <Export />

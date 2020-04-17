@@ -4,4 +4,5 @@ export const ROUTES = {
   GRAPHS: '/graphs',
   GRAPH: '/graphs/:graphId',
   PRIVACY_POLICY: '/privacy-policy',
+  COOKIE_POLICY: '/cookie-policy',
 };

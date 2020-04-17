@@ -23,6 +23,7 @@ import Import from './graph-import';
 import Authentication from '../../components/authentication';
 import { ROUTES } from '../../constants';
 import ThemeToggler from '../../components/theme-toggler';
+import CookieDialog from '../../components/CookieDialog';
 
 const styles = (theme) => ({
   container: {
@@ -61,6 +62,7 @@ function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, readNam
 
   return (
     <>
+      <CookieDialog />
       <AppBar position="sticky">
         <Toolbar disableGutters>
           <div style={{ flex: 1 }} />
@@ -105,15 +107,26 @@ function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, readNam
         <Box marginTop={4} paddingBottom={4} component="footer">
           <Divider />
           <Box display="flex" marginTop={4}>
-            <Link
-              variant="body2"
-              component={forwardRef((props, ref) => (
-                <RouterLink to={ROUTES.PRIVACY_POLICY} {...props} ref={ref} />
-              ))}
-              style={{ flexGrow: 1 }}
-            >
-              Privacy policy
-            </Link>
+            <Box flexGrow={1} display="flex">
+              <Box marginRight={1}>
+                <Link
+                  variant="body2"
+                  component={forwardRef((props, ref) => (
+                    <RouterLink to={ROUTES.PRIVACY_POLICY} {...props} ref={ref} />
+                  ))}
+                >
+                  Privacy policy
+                </Link>
+              </Box>
+              <Link
+                variant="body2"
+                component={forwardRef((props, ref) => (
+                  <RouterLink to={ROUTES.COOKIE_POLICY} {...props} ref={ref} />
+                ))}
+              >
+                Cookie policy
+              </Link>
+            </Box>
             <Box>
               <Link href="https://github.com/davidballester/grapher" color="inherit" target="_blank">
                 <GitHubIcon />
