@@ -64,16 +64,4 @@ describe(NewGraph.name, () => {
       .onSubmit(submitEvent);
     expect(saveNewGraph).toHaveBeenCalledWith(input);
   });
-
-  it('sets the dialog `open` prop to `true` if isOpen is true', () => {
-    const component = shallow(<NewGraph isOpen={true} cancelNewGraph={cancelNewGraph} saveNewGraph={saveNewGraph} />);
-    const dialog = component.find(Dialog).getElement();
-    expect(dialog.props.open).toBeTruthy();
-  });
-
-  it('sets the dialog `open` prop to `false` if isOpen is false', () => {
-    const component = shallow(<NewGraph isOpen={false} cancelNewGraph={cancelNewGraph} saveNewGraph={saveNewGraph} />);
-    const dialog = component.find(Dialog).getElement();
-    expect(dialog.props.open).toBeFalsy();
-  });
 });
