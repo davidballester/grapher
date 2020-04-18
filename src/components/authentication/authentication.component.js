@@ -13,7 +13,7 @@ export default function Authentication({ setAuth, setAuthProvider, isSignedIn, i
   const [error, setError] = useState(false);
   useEffect(() => {
     if (!authProvider) {
-      initializeAuthProvider(({ id, name, imageUrl }) => setAuth(id, name, imageUrl), setAuthProvider);
+      initializeAuthProvider(({ id, name, imageUrl }) => setAuth(id, name, imageUrl), setAuth, setAuthProvider);
     }
   }, [authProvider, setAuth, setAuthProvider]);
   if (!isSignedIn) {

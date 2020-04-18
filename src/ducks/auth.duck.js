@@ -4,6 +4,7 @@ export const AUTH_UNSET = 'grapher/Auth/UNSET';
 
 const initialState = {
   signedIn: false,
+  initialized: false,
 };
 
 export default function reducer(state = initialState, action) {
@@ -19,7 +20,8 @@ export default function reducer(state = initialState, action) {
       const { id, name, imageUrl } = action.payload;
       return {
         ...state,
-        signedIn: true,
+        initialized: true,
+        signedIn: !!id,
         id,
         name,
         imageUrl,
@@ -88,4 +90,8 @@ export function getAuthProvider(state) {
 
 export function getId(state) {
   return authSelector(state).id;
+}
+
+export function isInitialized(state) {
+  return authSelector(state).initialized;
 }

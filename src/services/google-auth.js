@@ -14,7 +14,7 @@ function getUserData(user) {
   };
 }
 
-export function initializeAuthProvider(onUserLoggedIn, setAuthProvider) {
+export function initializeAuthProvider(onUserLoggedIn, onUserNotLoggedIn, setAuthProvider) {
   const authProvider = new firebase.auth.GoogleAuthProvider();
   authProvider.addScope('https://www.googleapis.com/auth/firebase.database');
   setAuthProvider(authProvider);
@@ -22,6 +22,8 @@ export function initializeAuthProvider(onUserLoggedIn, setAuthProvider) {
   onAuthStateChangedUnsubscribe = firebase.auth().onAuthStateChanged((currentUser) => {
     if (!!currentUser) {
       onUserLoggedIn(getUserData(currentUser));
+    } else {
+      onUserNotLoggedIn();
     }
   });
 }
