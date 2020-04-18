@@ -102,6 +102,7 @@ function GraphCards({ show, graphNames, openNewGraph, openGraph, className }) {
 }
 
 function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, isAuthInitialized, classes }) {
+  const displaySkeletons = !isAuthInitialized || !graphNames;
   return (
     <>
       <CookieDialog />
@@ -131,9 +132,9 @@ function Welcome({ openNewGraph, openGraph, graphNames, openImportGraph, isAuthI
               Import graph
             </Button>
           </div>
-          <SkeletonGraphs show={!isAuthInitialized} className={classes.graphList} />
+          <SkeletonGraphs show={displaySkeletons} className={classes.graphList} />
           <GraphCards
-            show={isAuthInitialized}
+            show={!displaySkeletons}
             graphNames={graphNames}
             openGraph={openGraph}
             openNewGraph={openNewGraph}

@@ -22,7 +22,7 @@ export function readNamesSuccess(names) {
   };
 }
 
-export default function reducer(state = {}, action) {
+export default function reducer(state = null, action) {
   switch (action.type) {
     case GRAPH_CREATE: {
       const { id, name } = action.payload;
@@ -60,7 +60,7 @@ export function getGraphNames(state) {
 
 export const getGraphNamesAsArray = createSelector(
   getGraphNames,
-  (graphNames) => entries(graphNames)
+  (graphNames) => (!!graphNames ? entries(graphNames) : undefined)
 );
 
 export function* doReadGraphNames() {
