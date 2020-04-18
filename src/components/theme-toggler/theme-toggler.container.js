@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 
 import ThemeToggler from './theme-toggler.component';
-import { toggleTheme, initializeTheme, isDarkMode } from '../../ducks/theme-toggler.duck';
+import { toggleTheme, initializeTheme, isDarkMode, isInitialized } from '../../ducks/theme-toggler.duck';
 
 function mapStateToProps(state) {
   return {
     isDarkMode: isDarkMode(state),
+    isInitialized: isInitialized(state),
   };
 }
 

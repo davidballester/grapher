@@ -3,6 +3,7 @@ export const THEME_INITIALIZE = 'grapher/Theme/INITIALIZE';
 
 const initialState = {
   darkMode: undefined,
+  initialized: false,
 };
 
 export default function reducer(state = initialState, action) {
@@ -11,6 +12,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         darkMode: action.payload,
+        initialized: true,
       };
     }
     case THEME_TOGGLE: {
@@ -40,4 +42,8 @@ export function initializeTheme(darkMode) {
 
 export function isDarkMode(state) {
   return state.theme.darkMode;
+}
+
+export function isInitialized(state) {
+  return state.theme.initialized;
 }
