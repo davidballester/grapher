@@ -51,7 +51,10 @@ Grapher {
       = identifier space identifier  --withBlanks
       | alnum+ --string
 
-  separator = ";" | "\\n"+
+  separator = ";" separator ?
+    | "\\n"+ separator? 
+    | "\\r"+ separator? 
+    | "/" separator?
 
 }
 `;
